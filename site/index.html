@@ -6,7 +6,7 @@
   <title>dsh-recommend · DSH 插件排行</title>
   <link rel="stylesheet" href="./style.css">
 </head>
-<body>
+<body class="home-page">
   <header>
     <h1>🐋 dsh-recommend <span class="tag">DSH 插件透明排行</span></h1>
     <p class="meta" id="meta">加载中…</p>
@@ -39,17 +39,15 @@
 
     <!-- 右侧精选认证栏：经 issue 审核通过的插件（无认证插件时自动隐藏） -->
     <aside class="layout-side">
-      <section id="certified-carousel" class="cert-carousel" hidden>
+      <section id="certified-showcase" class="cert-showcase" hidden>
         <div class="cert-head">
-          <span class="cert-title">🏅 精选认证</span>
-          <span class="cert-sub">经 issue 审核 · 随机展示</span>
+          <div>
+            <span class="cert-title"><span class="cert-title-icon" aria-hidden="true">🏅</span>精选认证</span>
+            <p class="cert-sub">经 issue 审核的优质插件</p>
+          </div>
+          <span class="cert-count" id="cert-count"></span>
         </div>
-        <div class="cert-track-wrap">
-          <button type="button" class="cert-arrow" id="cert-prev" aria-label="上一个" hidden>‹</button>
-          <div class="cert-track" id="cert-track"></div>
-          <button type="button" class="cert-arrow" id="cert-next" aria-label="下一个" hidden>›</button>
-        </div>
-        <div class="cert-dots" id="cert-dots"></div>
+        <div class="cert-list" id="cert-list"></div>
       </section>
     </aside>
   </main>

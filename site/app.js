@@ -1,4 +1,4 @@
-/* dsh-recommend 静态站：零构建，直接消费 data/registry.json + data/history.json + data/badges/index.json */
+/* dsh-recommend 静态站：零构建，直接消费 data/registry.json + data/history.json */
 
 const SIGNAL_LABELS = { maintenance: '维护性', popularity: '热度', quality: '质量', ecosystem: '生态' }
 const SIGNAL_ORDER = ['maintenance', 'popularity', 'quality', 'ecosystem']
@@ -17,8 +17,6 @@ function formatTime(iso) {
 
 let doc = null // { meta, plugins }（registry）
 let history = null // { days: [...] }（每日快照）
-let badges = null // { entries: { [fullName]: { file, message, color } } }
-let badgeBase = 'https://img.shields.io/endpoint?url='
 
 const PAGE_SIZE = 50 // 每页条数
 let page = 1 // 当前页（1 起）
@@ -47,14 +45,6 @@ function siteLink(p) {
 /** 安装命令。 */
 function installCmd(p) {
   return `dsh plugin --profile web add github:${p.fullName}`
-}
-
-/** 徽章 URL（README 可挂）。 */
-function badgeUrl(p) {
-  if (!badges?.entries?.[p.fullName]) return null
-  return badgeBase + encodeURIComponent(
-    `https://raw.githubusercontent.com/zp-home/dsh-recommend/main/data/badges/${badges.entries[p.fullName].file}`,
-  )
 }
 
 /** 近 N 天综合分序列（按日期升序）。 */
@@ -104,109 +94,54 @@ async function load() {
   } catch (err) {
     document.getElementById('meta').textContent = `加载失败：${err.message}（先跑 node scripts/sync.mjs 生成数据）`
   }
-  // 历史趋势与徽章索引：可选，失败不阻塞榜单
+  // 历史趋势：可选，失败不阻塞榜单
   try {
     history = await fetch('../data/history.json').then((r) => r.json())
   } catch { history = null }
-  try {
-    badges = await fetch('../data/badges/index.json').then((r) => r.json())
-  } catch { badges = null }
   renderCertified()
   render()
 }
 
-/* ===== 精选认证轮播 ===== */
+/* ===== 精选认证侧栏 ===== */
 
-let certIndex = 0 // 当前轮播下标
-let certTimer = null // 自动轮播定时器
-
-/** 渲染「精选认证」轮播区：随机顺序展示 certified 插件。无认证插件时隐藏整区。 */
+/** 渲染「精选认证」推荐列表。无认证插件时隐藏整区。 */
 function renderCertified() {
-  const wrap = document.getElementById('certified-carousel')
-  const track = document.getElementById('cert-track')
-  const dots = document.getElementById('cert-dots')
-  const prev = document.getElementById('cert-prev')
-  const next = document.getElementById('cert-next')
-  if (!wrap || !track) return
+  const wrap = document.getElementById('certified-showcase')
+  const list = document.getElementById('cert-list')
+  const count = document.getElementById('cert-count')
+  if (!wrap || !list) return
 
-  const certified = (doc?.plugins ?? []).filter((p) => p.certified && !p.excluded)
+  const certified = (doc?.plugins ?? [])
+    .filter((p) => p.certified && !p.excluded)
+    .sort((a, b) => b.score - a.score)
   if (certified.length === 0) {
     wrap.hidden = true
     return
   }
-  // 有认证插件：显示轮播区（HTML 初始带 hidden，必须显式移除）
   wrap.hidden = false
+  if (count) count.textContent = `${certified.length} 个`
 
-  // 随机打乱顺序，让每次刷新展示不同优先
-  const order = certified
-    .map((p) => ({ p, r: Math.random() }))
-    .sort((a, b) => a.r - b.r)
-    .map((x) => x.p)
-
-  // 构建卡片
-  track.innerHTML = order.map((p, i) => {
+  list.innerHTML = certified.map((p) => {
     const tier = scoreTier(p.score)
-    const site = siteLink(p)
-    const scoreColor = tier === 'gold' ? '#f5c518' : tier === 'accent' ? 'var(--accent)' : 'var(--muted)'
     return `
-      <div class="cert-card" role="group" aria-label="${esc(p.fullName)}">
-        <div class="cert-card-main">
-          <span class="cert-rank">🏅</span>
+      <article class="cert-card">
+        <div class="cert-card-head">
           <div class="cert-info">
-            <a class="cert-name" href="${esc(p.url)}" target="_blank" rel="noopener" title="${esc(p.fullName)}">${esc(p.fullName)}</a>
-            <span class="cert-cat">${esc(p.category ?? '')}</span>
+            <span class="cert-label">${esc(p.category || '精选插件')}</span>
+            <a class="cert-name" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.fullName)}</a>
           </div>
-          <span class="cert-score" style="color:${scoreColor}">${p.score.toFixed(3)}</span>
+          <span class="cert-mark" aria-hidden="true">✓</span>
         </div>
         ${p.description ? `<p class="cert-desc">${esc(p.description)}</p>` : ''}
-        <div class="cert-foot">
-          <span class="cert-stars">★ ${p.stars}</span>
-          <a class="act star" href="${esc(p.url)}" target="_blank" rel="noopener" title="打开仓库">⭐ Star</a>
-          ${site}
-          <span class="cert-badge">🏅 精选认证</span>
+        <div class="cert-stats">
+          <span><b>★ ${p.stars}</b> Stars</span>
+          <span><b class="num ${tier}">${p.score.toFixed(3)}</b> 综合分</span>
         </div>
-      </div>`
+        <a class="cert-open" href="${esc(p.url)}" target="_blank" rel="noopener">
+          查看仓库 <span aria-hidden="true">↗</span>
+        </a>
+      </article>`
   }).join('')
-
-  // 指示点
-  dots.innerHTML = order.map((_, i) =>
-    `<button type="button" class="cert-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="第 ${i + 1} 个"></button>`,
-  ).join('')
-
-  certIndex = 0
-  updateCert()
-
-  // 单卡时隐藏箭头与自动轮播
-  const single = order.length <= 1
-  prev.hidden = single
-  next.hidden = single
-  dots.hidden = single
-  if (single) return
-
-  // 自动轮播（6 秒）
-  clearInterval(certTimer)
-  certTimer = setInterval(() => {
-    certIndex = (certIndex + 1) % order.length
-    updateCert()
-  }, 6000)
-
-  prev.onclick = () => { certIndex = (certIndex - 1 + order.length) % order.length; updateCert() }
-  next.onclick = () => { certIndex = (certIndex + 1) % order.length; updateCert() }
-  dots.querySelectorAll('.cert-dot').forEach((d) => {
-    d.onclick = () => { certIndex = Number(d.dataset.i); updateCert() }
-  })
-}
-
-/** 切换轮播：高亮当前卡与指示点，滚动到可见位置。 */
-function updateCert() {
-  const cards = document.querySelectorAll('#cert-track .cert-card')
-  const dots = document.querySelectorAll('#cert-dots .cert-dot')
-  cards.forEach((c, i) => c.classList.toggle('active', i === certIndex))
-  dots.forEach((d, i) => d.classList.toggle('active', i === certIndex))
-  const active = cards[certIndex]
-  if (active && active.scrollIntoView) {
-    active.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' })
-  }
 }
 
 
@@ -256,7 +191,6 @@ function render() {
   const rows = all.slice(start, start + PAGE_SIZE)
 
   const list = document.getElementById('list')
-  const topScore = rows[0]?.score ?? 0
   list.replaceChildren()
   for (const [i, p] of rows.entries()) {
     const tier = scoreTier(p.score)
@@ -273,14 +207,12 @@ function render() {
       : ''
     const repoLabel = `github.com/${esc(p.fullName)}`
     const site = siteLink(p)
-    const badge = badgeUrl(p)
-    // 被排除（占位/WIP）仓库不引导 Star / 安装 / 徽章，避免把用户导去空仓库
+    // 被排除（占位/WIP）仓库不引导 Star / 安装，避免把用户导去空仓库
     const actions = p.excluded ? '' : `
       <div class="actions">
         <a class="act star" href="${esc(p.url)}" target="_blank" rel="noopener" title="打开仓库，点右上角 ⭐ Star 支持作者 —— 免费，却是对作者最好的感谢">⭐ Star 支持作者</a>
         ${site}
         <button type="button" class="act copy" data-cmd="${esc(installCmd(p))}" title="复制安装命令：dsh plugin --profile web add github:${esc(p.fullName)}">复制安装命令</button>
-        ${badge ? `<button type="button" class="act badge" data-badge="${esc(badge)}" title="复制 README 徽章链接">复制徽章</button>` : ''}
       </div>`
     const details = `
       <details class="details">
@@ -311,7 +243,6 @@ function render() {
       </div>
       ${p.description ? `<p class="desc">${esc(p.description)}</p>` : ''}
       <div class="foot">
-        <span class="bar"><i class="${tier}" style="width:${Math.round((p.score / (topScore || 1)) * 100)}%"></i></span>
         <span class="pills">${pills}</span>
         ${trend}
       </div>
@@ -320,12 +251,9 @@ function render() {
     list.append(el)
   }
 
-  // 复制按钮事件（安装命令 / 徽章链接）
+  // 复制安装命令按钮事件
   list.querySelectorAll('button.copy').forEach((btn) => {
     btn.addEventListener('click', () => { void copyText(btn.dataset.cmd, btn) })
-  })
-  list.querySelectorAll('button.badge').forEach((btn) => {
-    btn.addEventListener('click', () => { void copyText(btn.dataset.badge, btn) })
   })
 
   // 分页控制
