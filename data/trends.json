@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-08-15T14:52:27.172Z",
+    "generatedAt": "2026-08-15T16:55:06.211Z",
     "historyStart": "2026-08-15",
     "historyDays": 1,
     "windows": [
@@ -12,11 +12,11 @@
   },
   "trends": [
     {
-      "fullName": "zhu1090093659/dsh-web-ui",
+      "fullName": "ccch1mneyyy/dsh-TUI",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 2515,
+        "stars": 1225,
         "score": 1,
         "rank": 1,
         "certified": false,
@@ -42,16 +42,16 @@
       },
       "direction": "new",
       "sparkline": [
-        2515
+        1225
       ]
     },
     {
-      "fullName": "ccch1mneyyy/dsh-TUI",
+      "fullName": "zhu1090093659/dsh-web-ui",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1176,
-        "score": 1,
+        "stars": 2613,
+        "score": 0.9999,
         "rank": 2,
         "certified": false,
         "npmWeekly": null,
@@ -76,15 +76,15 @@
       },
       "direction": "new",
       "sparkline": [
-        1176
+        2613
       ]
     },
     {
-      "fullName": "strukto-ai/mirage",
+      "fullName": "liustack/modlens",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 3441,
+        "stars": 1833,
         "score": 0.9999,
         "rank": 3,
         "certified": false,
@@ -110,7 +110,7 @@
       },
       "direction": "new",
       "sparkline": [
-        3441
+        1833
       ]
     },
     {
@@ -118,7 +118,7 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1097,
+        "stars": 1189,
         "score": 0.9999,
         "rank": 4,
         "certified": false,
@@ -144,16 +144,16 @@
       },
       "direction": "new",
       "sparkline": [
-        1097
+        1189
       ]
     },
     {
-      "fullName": "GanyuanRan/Aegis",
+      "fullName": "strukto-ai/mirage",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1019,
-        "score": 0.9988,
+        "stars": 3443,
+        "score": 0.9998,
         "rank": 5,
         "certified": false,
         "npmWeekly": null,
@@ -178,16 +178,16 @@
       },
       "direction": "new",
       "sparkline": [
-        1019
+        3443
       ]
     },
     {
-      "fullName": "liustack/modlens",
+      "fullName": "GanyuanRan/Aegis",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1765,
-        "score": 0.9985,
+        "stars": 1024,
+        "score": 0.9987,
         "rank": 6,
         "certified": false,
         "npmWeekly": null,
@@ -212,7 +212,7 @@
       },
       "direction": "new",
       "sparkline": [
-        1765
+        1024
       ]
     },
     {
@@ -221,7 +221,7 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 588,
-        "score": 0.9768,
+        "score": 0.9766,
         "rank": 7,
         "certified": false,
         "npmWeekly": null,
@@ -254,8 +254,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 415,
-        "score": 0.9617,
+        "stars": 416,
+        "score": 0.9616,
         "rank": 8,
         "certified": false,
         "npmWeekly": null,
@@ -280,7 +280,7 @@
       },
       "direction": "new",
       "sparkline": [
-        415
+        416
       ]
     },
     {
@@ -289,7 +289,7 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 414,
-        "score": 0.9612,
+        "score": 0.961,
         "rank": 9,
         "certified": false,
         "npmWeekly": null,
@@ -322,8 +322,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 414,
-        "score": 0.9602,
+        "stars": 421,
+        "score": 0.9607,
         "rank": 10,
         "certified": false,
         "npmWeekly": null,
@@ -348,7 +348,7 @@
       },
       "direction": "new",
       "sparkline": [
-        414
+        421
       ]
     },
     {
@@ -356,8 +356,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 399,
-        "score": 0.959,
+        "stars": 404,
+        "score": 0.9607,
         "rank": 11,
         "certified": false,
         "npmWeekly": null,
@@ -382,16 +382,16 @@
       },
       "direction": "new",
       "sparkline": [
-        399
+        404
       ]
     },
     {
-      "fullName": "anywhere-labs/deepseek-harness-desktop",
+      "fullName": "dsh-market/dsh-market",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 4872,
-        "score": 0.9398,
+        "stars": 266,
+        "score": 0.9426,
         "rank": 12,
         "certified": false,
         "npmWeekly": null,
@@ -416,16 +416,16 @@
       },
       "direction": "new",
       "sparkline": [
-        4872
+        266
       ]
     },
     {
-      "fullName": "dsh-market/dsh-market",
+      "fullName": "anywhere-labs/deepseek-harness-desktop",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 233,
-        "score": 0.9365,
+        "stars": 5373,
+        "score": 0.94,
         "rank": 13,
         "certified": false,
         "npmWeekly": null,
@@ -450,7 +450,7 @@
       },
       "direction": "new",
       "sparkline": [
-        233
+        5373
       ]
     },
     {
@@ -458,8 +458,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 204,
-        "score": 0.9293,
+        "stars": 213,
+        "score": 0.931,
         "rank": 14,
         "certified": false,
         "npmWeekly": null,
@@ -484,7 +484,7 @@
       },
       "direction": "new",
       "sparkline": [
-        204
+        213
       ]
     },
     {
@@ -492,8 +492,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 186,
-        "score": 0.9271,
+        "stars": 188,
+        "score": 0.9276,
         "rank": 15,
         "certified": false,
         "npmWeekly": null,
@@ -518,16 +518,16 @@
       },
       "direction": "new",
       "sparkline": [
-        186
+        188
       ]
     },
     {
-      "fullName": "huiliyi37/dsh-tianshu-tui",
+      "fullName": "vlln/whale-girl",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 155,
-        "score": 0.9192,
+        "stars": 167,
+        "score": 0.9224,
         "rank": 16,
         "certified": false,
         "npmWeekly": null,
@@ -552,7 +552,75 @@
       },
       "direction": "new",
       "sparkline": [
-        155
+        167
+      ]
+    },
+    {
+      "fullName": "huiliyi37/dsh-tianshu-tui",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 159,
+        "score": 0.9201,
+        "rank": 17,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        159
+      ]
+    },
+    {
+      "fullName": "Lum1104/dsh-browser",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 154,
+        "score": 0.919,
+        "rank": 18,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        154
       ]
     },
     {
@@ -561,8 +629,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 153,
-        "score": 0.9185,
-        "rank": 17,
+        "score": 0.9186,
+        "rank": 19,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -590,80 +658,12 @@
       ]
     },
     {
-      "fullName": "vlln/whale-girl",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 162,
-        "score": 0.9173,
-        "rank": 18,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        162
-      ]
-    },
-    {
-      "fullName": "Lum1104/dsh-browser",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 143,
-        "score": 0.9158,
-        "rank": 19,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        143
-      ]
-    },
-    {
       "fullName": "Small-tailqwq/dsh-deep-whale",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 852,
-        "score": 0.9126,
+        "stars": 882,
+        "score": 0.914,
         "rank": 20,
         "certified": false,
         "npmWeekly": null,
@@ -688,7 +688,7 @@
       },
       "direction": "new",
       "sparkline": [
-        852
+        882
       ]
     },
     {
@@ -696,8 +696,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 119,
-        "score": 0.9079,
+        "stars": 134,
+        "score": 0.913,
         "rank": 21,
         "certified": true,
         "npmWeekly": null,
@@ -722,7 +722,41 @@
       },
       "direction": "new",
       "sparkline": [
-        119
+        134
+      ]
+    },
+    {
+      "fullName": "Nagi-ovo/dsh-visualize",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 112,
+        "score": 0.9052,
+        "rank": 22,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        112
       ]
     },
     {
@@ -731,8 +765,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 104,
-        "score": 0.9013,
-        "rank": 22,
+        "score": 0.9012,
+        "rank": 23,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -760,46 +794,12 @@
       ]
     },
     {
-      "fullName": "Nagi-ovo/dsh-visualize",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 101,
-        "score": 0.8996,
-        "rank": 23,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        101
-      ]
-    },
-    {
       "fullName": "omdsh-dev/dsh-genui",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 101,
-        "score": 0.8995,
+        "stars": 104,
+        "score": 0.9006,
         "rank": 24,
         "certified": false,
         "npmWeekly": null,
@@ -824,7 +824,7 @@
       },
       "direction": "new",
       "sparkline": [
-        101
+        104
       ]
     },
     {
@@ -832,9 +832,43 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 89,
-        "score": 0.8942,
+        "stars": 94,
+        "score": 0.8977,
         "rank": 25,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        94
+      ]
+    },
+    {
+      "fullName": "csyangwen/dsh-memory-evolve",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 89,
+        "score": 0.8932,
+        "rank": 26,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -862,13 +896,13 @@
       ]
     },
     {
-      "fullName": "csyangwen/dsh-memory-evolve",
+      "fullName": "ChisaAlter/Deepseek-Harness-Desktop",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 86,
-        "score": 0.8919,
-        "rank": 26,
+        "stars": 84,
+        "score": 0.8924,
+        "rank": 27,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -892,17 +926,85 @@
       },
       "direction": "new",
       "sparkline": [
-        86
+        84
       ]
     },
     {
-      "fullName": "ChisaAlter/Deepseek-Harness-Desktop",
+      "fullName": "NanmiCoder/dsh-agent-teams",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 327,
+        "score": 0.8914,
+        "rank": 28,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        327
+      ]
+    },
+    {
+      "fullName": "ZSeven-W/dsh-openpencil",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 80,
+        "score": 0.8887,
+        "rank": 29,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        80
+      ]
+    },
+    {
+      "fullName": "taxueseek/argo",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 81,
-        "score": 0.891,
-        "rank": 27,
+        "score": 0.8873,
+        "rank": 30,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -930,113 +1032,11 @@
       ]
     },
     {
-      "fullName": "NanmiCoder/dsh-agent-teams",
+      "fullName": "Q00/ouroboros",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 319,
-        "score": 0.8902,
-        "rank": 28,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        319
-      ]
-    },
-    {
-      "fullName": "ZSeven-W/dsh-openpencil",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 77,
-        "score": 0.8872,
-        "rank": 29,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        77
-      ]
-    },
-    {
-      "fullName": "taxueseek/argo",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 78,
-        "score": 0.8858,
-        "rank": 30,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        78
-      ]
-    },
-    {
-      "fullName": "nexu-io/open-design",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 86767,
+        "stars": 5417,
         "score": 0.88,
         "rank": 31,
         "certified": false,
@@ -1062,7 +1062,7 @@
       },
       "direction": "new",
       "sparkline": [
-        86767
+        5417
       ]
     },
     {
@@ -1070,8 +1070,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 2501,
-        "score": 0.8799,
+        "stars": 2528,
+        "score": 0.88,
         "rank": 32,
         "certified": false,
         "npmWeekly": null,
@@ -1096,7 +1096,41 @@
       },
       "direction": "new",
       "sparkline": [
-        2501
+        2528
+      ]
+    },
+    {
+      "fullName": "nexu-io/open-design",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 86833,
+        "score": 0.8799,
+        "rank": 33,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        86833
       ]
     },
     {
@@ -1105,8 +1139,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 66,
-        "score": 0.8799,
-        "rank": 33,
+        "score": 0.8797,
+        "rank": 34,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1138,42 +1172,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1341,
-        "score": 0.8781,
-        "rank": 34,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        1341
-      ]
-    },
-    {
-      "fullName": "titanwings/colleague-skill",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 22356,
-        "score": 0.8761,
+        "stars": 1345,
+        "score": 0.8779,
         "rank": 35,
         "certified": false,
         "npmWeekly": null,
@@ -1198,16 +1198,16 @@
       },
       "direction": "new",
       "sparkline": [
-        22356
+        1345
       ]
     },
     {
-      "fullName": "Anionex/agent-vision-toolkit",
+      "fullName": "titanwings/colleague-skill",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 889,
-        "score": 0.8734,
+        "stars": 22413,
+        "score": 0.876,
         "rank": 36,
         "certified": false,
         "npmWeekly": null,
@@ -1232,7 +1232,7 @@
       },
       "direction": "new",
       "sparkline": [
-        889
+        22413
       ]
     },
     {
@@ -1240,8 +1240,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 57,
-        "score": 0.8732,
+        "stars": 59,
+        "score": 0.8745,
         "rank": 37,
         "certified": false,
         "npmWeekly": null,
@@ -1266,16 +1266,16 @@
       },
       "direction": "new",
       "sparkline": [
-        57
+        59
       ]
     },
     {
-      "fullName": "foryourhealth111-pixel/Vibe-Skills",
+      "fullName": "Anionex/agent-vision-toolkit",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 2806,
-        "score": 0.8724,
+        "stars": 900,
+        "score": 0.8737,
         "rank": 38,
         "certified": false,
         "npmWeekly": null,
@@ -1300,7 +1300,7 @@
       },
       "direction": "new",
       "sparkline": [
-        2806
+        900
       ]
     },
     {
@@ -1308,8 +1308,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 51,
-        "score": 0.8713,
+        "stars": 53,
+        "score": 0.8727,
         "rank": 39,
         "certified": false,
         "npmWeekly": null,
@@ -1334,17 +1334,51 @@
       },
       "direction": "new",
       "sparkline": [
-        51
+        53
       ]
     },
     {
-      "fullName": "Anionex/dsh-turn-rewind",
+      "fullName": "foryourhealth111-pixel/Vibe-Skills",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 2809,
+        "score": 0.8722,
+        "rank": 40,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        2809
+      ]
+    },
+    {
+      "fullName": "Sanqi-normal/dsh-webui-market-plugin",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 50,
-        "score": 0.8688,
-        "rank": 40,
+        "score": 0.8707,
+        "rank": 41,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1372,13 +1406,13 @@
       ]
     },
     {
-      "fullName": "btspoony/mstar-harness",
+      "fullName": "Anionex/dsh-turn-rewind",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 46,
-        "score": 0.8671,
-        "rank": 41,
+        "stars": 52,
+        "score": 0.8703,
+        "rank": 42,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1402,17 +1436,17 @@
       },
       "direction": "new",
       "sparkline": [
-        46
+        52
       ]
     },
     {
-      "fullName": "Sanqi-normal/dsh-webui-market-plugin",
+      "fullName": "btspoony/mstar-harness",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 46,
-        "score": 0.8667,
-        "rank": 42,
+        "score": 0.8672,
+        "rank": 43,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1444,42 +1478,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 47,
-        "score": 0.8643,
-        "rank": 43,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        47
-      ]
-    },
-    {
-      "fullName": "omdsh-dev/dsh-open-in-vscode",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 45,
-        "score": 0.8625,
+        "stars": 49,
+        "score": 0.8659,
         "rank": 44,
         "certified": false,
         "npmWeekly": null,
@@ -1504,16 +1504,16 @@
       },
       "direction": "new",
       "sparkline": [
-        45
+        49
       ]
     },
     {
-      "fullName": "bowenliang123/dsh-context",
+      "fullName": "ningbainb/deepseek-harness-desktop",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 40,
-        "score": 0.8601,
+        "stars": 44,
+        "score": 0.8652,
         "rank": 45,
         "certified": false,
         "npmWeekly": null,
@@ -1538,16 +1538,16 @@
       },
       "direction": "new",
       "sparkline": [
-        40
+        44
       ]
     },
     {
-      "fullName": "vlln/plugin-registry",
+      "fullName": "PC2005-cloud/dsh-pet",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 42,
-        "score": 0.8594,
+        "stars": 44,
+        "score": 0.8647,
         "rank": 46,
         "certified": false,
         "npmWeekly": null,
@@ -1572,16 +1572,16 @@
       },
       "direction": "new",
       "sparkline": [
-        42
+        44
       ]
     },
     {
-      "fullName": "PC2005-cloud/dsh-pet",
+      "fullName": "omdsh-dev/dsh-open-in-vscode",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 38,
-        "score": 0.8587,
+        "stars": 46,
+        "score": 0.8633,
         "rank": 47,
         "certified": false,
         "npmWeekly": null,
@@ -1606,16 +1606,16 @@
       },
       "direction": "new",
       "sparkline": [
-        38
+        46
       ]
     },
     {
-      "fullName": "titanwings/dsh-automation",
+      "fullName": "bowenliang123/dsh-context",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 39,
-        "score": 0.8576,
+        "stars": 41,
+        "score": 0.861,
         "rank": 48,
         "certified": false,
         "npmWeekly": null,
@@ -1640,7 +1640,75 @@
       },
       "direction": "new",
       "sparkline": [
-        39
+        41
+      ]
+    },
+    {
+      "fullName": "vlln/plugin-registry",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 43,
+        "score": 0.8603,
+        "rank": 49,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        43
+      ]
+    },
+    {
+      "fullName": "titanwings/dsh-automation",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 41,
+        "score": 0.8596,
+        "rank": 50,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        41
       ]
     },
     {
@@ -1649,8 +1717,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 878,
-        "score": 0.8568,
-        "rank": 49,
+        "score": 0.8567,
+        "rank": 51,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1678,13 +1746,13 @@
       ]
     },
     {
-      "fullName": "nutshellai-tech/mobius",
+      "fullName": "Nwflower/dsh-chat-import",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 562,
-        "score": 0.854,
-        "rank": 50,
+        "stars": 35,
+        "score": 0.855,
+        "rank": 52,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1708,17 +1776,85 @@
       },
       "direction": "new",
       "sparkline": [
-        562
+        35
       ]
     },
     {
-      "fullName": "Han-1413141/dsh-cost-meter",
+      "fullName": "nutshellai-tech/mobius",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 563,
+        "score": 0.854,
+        "rank": 53,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        563
+      ]
+    },
+    {
+      "fullName": "Ychris12138/dsh-usage-stats",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 33,
+        "score": 0.8526,
+        "rank": 54,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        33
+      ]
+    },
+    {
+      "fullName": "like-study1/Oh-My-DSH",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 32,
         "score": 0.8516,
-        "rank": 51,
+        "rank": 55,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1746,148 +1882,12 @@
       ]
     },
     {
-      "fullName": "like-study1/Oh-My-DSH",
+      "fullName": "oil-oil/dsh-vision",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 31,
-        "score": 0.8505,
-        "rank": 52,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        31
-      ]
-    },
-    {
-      "fullName": "Nwflower/dsh-chat-import",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 31,
-        "score": 0.85,
-        "rank": 53,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        31
-      ]
-    },
-    {
-      "fullName": "bruc3van/dsh-desktop",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 30,
-        "score": 0.8491,
-        "rank": 54,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        30
-      ]
-    },
-    {
-      "fullName": "Ychris12138/dsh-usage-stats",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 30,
-        "score": 0.8487,
-        "rank": 55,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        30
-      ]
-    },
-    {
-      "fullName": "adoresever/graph-memory",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 516,
-        "score": 0.8485,
+        "stars": 34,
+        "score": 0.8515,
         "rank": 56,
         "certified": false,
         "npmWeekly": null,
@@ -1912,16 +1912,16 @@
       },
       "direction": "new",
       "sparkline": [
-        516
+        34
       ]
     },
     {
-      "fullName": "oil-oil/dsh-vision",
+      "fullName": "bruc3van/dsh-desktop",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 31,
-        "score": 0.8477,
+        "score": 0.8504,
         "rank": 57,
         "certified": false,
         "npmWeekly": null,
@@ -1950,13 +1950,81 @@
       ]
     },
     {
+      "fullName": "Han-1413141/dsh-cost-meter",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 31,
+        "score": 0.8504,
+        "rank": 58,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        31
+      ]
+    },
+    {
+      "fullName": "adoresever/graph-memory",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 516,
+        "score": 0.8484,
+        "rank": 59,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        516
+      ]
+    },
+    {
       "fullName": "lhh010/dsh-ui-whale",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 30,
-        "score": 0.8452,
-        "rank": 58,
+        "score": 0.845,
+        "rank": 60,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1984,13 +2052,47 @@
       ]
     },
     {
+      "fullName": "whyihaveyou/dsh-suite",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 27,
+        "score": 0.8446,
+        "rank": 61,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        27
+      ]
+    },
+    {
       "fullName": "omdsh-dev/dsh-data-agent",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 27,
-        "score": 0.8447,
-        "rank": 59,
+        "score": 0.8445,
+        "rank": 62,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2022,9 +2124,9 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 451,
-        "score": 0.8443,
-        "rank": 60,
+        "stars": 452,
+        "score": 0.8442,
+        "rank": 63,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2048,7 +2150,7 @@
       },
       "direction": "new",
       "sparkline": [
-        451
+        452
       ]
     },
     {
@@ -2057,8 +2159,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 27,
-        "score": 0.8435,
-        "rank": 61,
+        "score": 0.8433,
+        "rank": 64,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2091,8 +2193,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 26,
-        "score": 0.8429,
-        "rank": 62,
+        "score": 0.8427,
+        "rank": 65,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2125,8 +2227,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 27,
-        "score": 0.8421,
-        "rank": 63,
+        "score": 0.8419,
+        "rank": 66,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2154,13 +2256,47 @@
       ]
     },
     {
+      "fullName": "openma-ai/deepseek-harness-tui",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 25,
+        "score": 0.8415,
+        "rank": 67,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        25
+      ]
+    },
+    {
       "fullName": "Ikalus1988/MisakaNet",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 410,
         "score": 0.8414,
-        "rank": 64,
+        "rank": 68,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2188,13 +2324,47 @@
       ]
     },
     {
-      "fullName": "whyihaveyou/dsh-suite",
+      "fullName": "awesome-dsh-plugin/dsh-find-plugin",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 26,
+        "score": 0.8409,
+        "rank": 69,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        26
+      ]
+    },
+    {
+      "fullName": "vlln/dsh-navbar",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 24,
-        "score": 0.8397,
-        "rank": 65,
+        "score": 0.8398,
+        "rank": 70,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2227,8 +2397,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 23,
-        "score": 0.8378,
-        "rank": 66,
+        "score": 0.8376,
+        "rank": 71,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2261,8 +2431,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 381,
-        "score": 0.8376,
-        "rank": 67,
+        "score": 0.8374,
+        "rank": 72,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2290,182 +2460,12 @@
       ]
     },
     {
-      "fullName": "omdsh-dev/dsh-custom-tool",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 24,
-        "score": 0.836,
-        "rank": 68,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        24
-      ]
-    },
-    {
-      "fullName": "awesome-dsh-plugin/dsh-find-plugin",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 23,
-        "score": 0.836,
-        "rank": 69,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        23
-      ]
-    },
-    {
       "fullName": "yyyyukari/dsh-plugin-workshop",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 22,
-        "score": 0.8358,
-        "rank": 70,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        22
-      ]
-    },
-    {
-      "fullName": "zhaoolee/notes",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 142,
-        "score": 0.8354,
-        "rank": 71,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        142
-      ]
-    },
-    {
-      "fullName": "william-jin-cmu/dsh-vision",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 24,
-        "score": 0.8349,
-        "rank": 72,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        24
-      ]
-    },
-    {
-      "fullName": "vlln/dsh-navbar",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
         "stars": 23,
-        "score": 0.8341,
+        "score": 0.8374,
         "rank": 73,
         "certified": false,
         "npmWeekly": null,
@@ -2494,12 +2494,12 @@
       ]
     },
     {
-      "fullName": "HuanLinOTO/dsh-plugin-mineru",
+      "fullName": "omdsh-dev/dsh-custom-tool",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 21,
-        "score": 0.8335,
+        "stars": 24,
+        "score": 0.8358,
         "rank": 74,
         "certified": false,
         "npmWeekly": null,
@@ -2524,7 +2524,109 @@
       },
       "direction": "new",
       "sparkline": [
-        21
+        24
+      ]
+    },
+    {
+      "fullName": "zhaoolee/notes",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 142,
+        "score": 0.8352,
+        "rank": 75,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        142
+      ]
+    },
+    {
+      "fullName": "HuanLinOTO/dsh-plugin-mineru",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 22,
+        "score": 0.8352,
+        "rank": 76,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        22
+      ]
+    },
+    {
+      "fullName": "william-jin-cmu/dsh-vision",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 24,
+        "score": 0.8348,
+        "rank": 77,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        24
       ]
     },
     {
@@ -2533,8 +2635,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 21,
-        "score": 0.8321,
-        "rank": 75,
+        "score": 0.832,
+        "rank": 78,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2567,8 +2669,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 20,
-        "score": 0.8319,
-        "rank": 76,
+        "score": 0.8318,
+        "rank": 79,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2601,8 +2703,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 19,
-        "score": 0.8295,
-        "rank": 77,
+        "score": 0.83,
+        "rank": 80,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2634,9 +2736,9 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 328,
-        "score": 0.8291,
-        "rank": 78,
+        "stars": 330,
+        "score": 0.8292,
+        "rank": 81,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2660,7 +2762,41 @@
       },
       "direction": "new",
       "sparkline": [
-        328
+        330
+      ]
+    },
+    {
+      "fullName": "HsiangNianian/dsh-auto-continue",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 18,
+        "score": 0.8278,
+        "rank": 82,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        18
       ]
     },
     {
@@ -2669,8 +2805,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 18,
-        "score": 0.826,
-        "rank": 79,
+        "score": 0.8258,
+        "rank": 83,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2702,9 +2838,9 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 301,
-        "score": 0.8256,
-        "rank": 80,
+        "stars": 303,
+        "score": 0.8257,
+        "rank": 84,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2728,7 +2864,41 @@
       },
       "direction": "new",
       "sparkline": [
-        301
+        303
+      ]
+    },
+    {
+      "fullName": "omdsh-dev/dsh-lark",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 17,
+        "score": 0.8252,
+        "rank": 85,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        17
       ]
     },
     {
@@ -2737,8 +2907,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 18,
-        "score": 0.825,
-        "rank": 81,
+        "score": 0.8248,
+        "rank": 86,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2771,8 +2941,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 17,
-        "score": 0.8247,
-        "rank": 82,
+        "score": 0.8246,
+        "rank": 87,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2805,8 +2975,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 18,
-        "score": 0.8239,
-        "rank": 83,
+        "score": 0.8238,
+        "rank": 88,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2839,8 +3009,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 17,
-        "score": 0.8226,
-        "rank": 84,
+        "score": 0.8225,
+        "rank": 89,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2868,13 +3038,47 @@
       ]
     },
     {
-      "fullName": "HsiangNianian/dsh-auto-continue",
+      "fullName": "william-jin-cmu/dsh-stickers",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 17,
+        "score": 0.8205,
+        "rank": 90,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        17
+      ]
+    },
+    {
+      "fullName": "SnowCrescenter-tech/dsh-milestone",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 15,
-        "score": 0.8203,
-        "rank": 85,
+        "score": 0.8174,
+        "rank": 91,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2899,40 +3103,6 @@
       "direction": "new",
       "sparkline": [
         15
-      ]
-    },
-    {
-      "fullName": "william-jin-cmu/dsh-stickers",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 16,
-        "score": 0.8182,
-        "rank": 86,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        16
       ]
     },
     {
@@ -2941,8 +3111,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 15,
-        "score": 0.8175,
-        "rank": 87,
+        "score": 0.8173,
+        "rank": 92,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2970,13 +3140,13 @@
       ]
     },
     {
-      "fullName": "SnowCrescenter-tech/dsh-milestone",
+      "fullName": "Awu12277/dsh-stock-watch",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 14,
-        "score": 0.8148,
-        "rank": 88,
+        "score": 0.8168,
+        "rank": 93,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3004,81 +3174,47 @@
       ]
     },
     {
-      "fullName": "paean-ai/deeptide",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 1057,
-        "score": 0.813,
-        "rank": 89,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        1057
-      ]
-    },
-    {
-      "fullName": "ZRui-C/dsh-computer-use",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 13,
-        "score": 0.8129,
-        "rank": 90,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        13
-      ]
-    },
-    {
       "fullName": "Ghost011118/dsh-balance-meter",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
+        "stars": 14,
+        "score": 0.8147,
+        "rank": 94,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        14
+      ]
+    },
+    {
+      "fullName": "UNLINEARITY/dsh-code",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
         "stars": 13,
-        "score": 0.8118,
-        "rank": 91,
+        "score": 0.8146,
+        "rank": 95,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3110,144 +3246,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 12,
-        "score": 0.8113,
-        "rank": 92,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        12
-      ]
-    },
-    {
-      "fullName": "Mars-Sea/dsh-commandcode-provider",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 12,
-        "score": 0.811,
-        "rank": 93,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        12
-      ]
-    },
-    {
-      "fullName": "hikariming/dshfind",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 80,
-        "score": 0.8108,
-        "rank": 94,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        80
-      ]
-    },
-    {
-      "fullName": "dhicoc/dsh-reverse-skill",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 12,
-        "score": 0.8108,
-        "rank": 95,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        12
-      ]
-    },
-    {
-      "fullName": "flymysql/dsh-remote",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 12,
-        "score": 0.8105,
+        "stars": 13,
+        "score": 0.8146,
         "rank": 96,
         "certified": false,
         "npmWeekly": null,
@@ -3272,16 +3272,16 @@
       },
       "direction": "new",
       "sparkline": [
-        12
+        13
       ]
     },
     {
-      "fullName": "Make0209/dsh-usage-stats",
+      "fullName": "dhicoc/dsh-reverse-skill",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 12,
-        "score": 0.8095,
+        "stars": 13,
+        "score": 0.8139,
         "rank": 97,
         "certified": false,
         "npmWeekly": null,
@@ -3306,16 +3306,16 @@
       },
       "direction": "new",
       "sparkline": [
-        12
+        13
       ]
     },
     {
-      "fullName": "openma-ai/open-managed-agents",
+      "fullName": "mexiaosqwq/dsh-web-mobile",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 236,
-        "score": 0.809,
+        "stars": 13,
+        "score": 0.8138,
         "rank": 98,
         "certified": false,
         "npmWeekly": null,
@@ -3340,18 +3340,18 @@
       },
       "direction": "new",
       "sparkline": [
-        236
+        13
       ]
     },
     {
-      "fullName": "zp-home/dsh-recommend",
+      "fullName": "flymysql/dsh-remote",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 11,
-        "score": 0.8079,
+        "stars": 13,
+        "score": 0.8135,
         "rank": 99,
-        "certified": true,
+        "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
       },
@@ -3374,16 +3374,16 @@
       },
       "direction": "new",
       "sparkline": [
-        11
+        13
       ]
     },
     {
-      "fullName": "linenxi-ctrl/dsh-vision",
+      "fullName": "paean-ai/deeptide",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 11,
-        "score": 0.8079,
+        "stars": 1061,
+        "score": 0.8129,
         "rank": 100,
         "certified": false,
         "npmWeekly": null,
@@ -3408,18 +3408,18 @@
       },
       "direction": "new",
       "sparkline": [
-        11
+        1061
       ]
     }
   ],
   "rankings": {
     "starsGain7d": [
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2515,
+          "stars": 1225,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -3445,16 +3445,16 @@
         },
         "direction": "new",
         "sparkline": [
-          2515
+          1225
         ]
       },
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1176,
-          "score": 1,
+          "stars": 2613,
+          "score": 0.9999,
           "rank": 2,
           "certified": false,
           "npmWeekly": null,
@@ -3479,15 +3479,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1176
+          2613
         ]
       },
       {
-        "fullName": "strukto-ai/mirage",
+        "fullName": "liustack/modlens",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3441,
+          "stars": 1833,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -3513,7 +3513,7 @@
         },
         "direction": "new",
         "sparkline": [
-          3441
+          1833
         ]
       },
       {
@@ -3521,7 +3521,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1097,
+          "stars": 1189,
           "score": 0.9999,
           "rank": 4,
           "certified": false,
@@ -3547,16 +3547,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1097
+          1189
         ]
       },
       {
-        "fullName": "GanyuanRan/Aegis",
+        "fullName": "strukto-ai/mirage",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1019,
-          "score": 0.9988,
+          "stars": 3443,
+          "score": 0.9998,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -3581,16 +3581,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1019
+          3443
         ]
       },
       {
-        "fullName": "liustack/modlens",
+        "fullName": "GanyuanRan/Aegis",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1765,
-          "score": 0.9985,
+          "stars": 1024,
+          "score": 0.9987,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -3615,7 +3615,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1765
+          1024
         ]
       },
       {
@@ -3624,7 +3624,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 588,
-          "score": 0.9768,
+          "score": 0.9766,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -3657,8 +3657,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 415,
-          "score": 0.9617,
+          "stars": 416,
+          "score": 0.9616,
           "rank": 8,
           "certified": false,
           "npmWeekly": null,
@@ -3683,7 +3683,7 @@
         },
         "direction": "new",
         "sparkline": [
-          415
+          416
         ]
       },
       {
@@ -3692,7 +3692,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 414,
-          "score": 0.9612,
+          "score": 0.961,
           "rank": 9,
           "certified": false,
           "npmWeekly": null,
@@ -3725,8 +3725,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 414,
-          "score": 0.9602,
+          "stars": 421,
+          "score": 0.9607,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -3751,7 +3751,7 @@
         },
         "direction": "new",
         "sparkline": [
-          414
+          421
         ]
       },
       {
@@ -3759,8 +3759,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 399,
-          "score": 0.959,
+          "stars": 404,
+          "score": 0.9607,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -3785,16 +3785,16 @@
         },
         "direction": "new",
         "sparkline": [
-          399
+          404
         ]
       },
       {
-        "fullName": "anywhere-labs/deepseek-harness-desktop",
+        "fullName": "dsh-market/dsh-market",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4872,
-          "score": 0.9398,
+          "stars": 266,
+          "score": 0.9426,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -3819,16 +3819,16 @@
         },
         "direction": "new",
         "sparkline": [
-          4872
+          266
         ]
       },
       {
-        "fullName": "dsh-market/dsh-market",
+        "fullName": "anywhere-labs/deepseek-harness-desktop",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 233,
-          "score": 0.9365,
+          "stars": 5373,
+          "score": 0.94,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -3853,7 +3853,7 @@
         },
         "direction": "new",
         "sparkline": [
-          233
+          5373
         ]
       },
       {
@@ -3861,8 +3861,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 204,
-          "score": 0.9293,
+          "stars": 213,
+          "score": 0.931,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -3887,7 +3887,7 @@
         },
         "direction": "new",
         "sparkline": [
-          204
+          213
         ]
       },
       {
@@ -3895,8 +3895,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 186,
-          "score": 0.9271,
+          "stars": 188,
+          "score": 0.9276,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -3921,16 +3921,16 @@
         },
         "direction": "new",
         "sparkline": [
-          186
+          188
         ]
       },
       {
-        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "fullName": "vlln/whale-girl",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 155,
-          "score": 0.9192,
+          "stars": 167,
+          "score": 0.9224,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -3955,7 +3955,75 @@
         },
         "direction": "new",
         "sparkline": [
-          155
+          167
+        ]
+      },
+      {
+        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 159,
+          "score": 0.9201,
+          "rank": 17,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          159
+        ]
+      },
+      {
+        "fullName": "Lum1104/dsh-browser",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 154,
+          "score": 0.919,
+          "rank": 18,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          154
         ]
       },
       {
@@ -3964,8 +4032,8 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9185,
-          "rank": 17,
+          "score": 0.9186,
+          "rank": 19,
           "certified": false,
           "npmWeekly": null,
           "npmMonthly": null
@@ -3993,80 +4061,12 @@
         ]
       },
       {
-        "fullName": "vlln/whale-girl",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 162,
-          "score": 0.9173,
-          "rank": 18,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          162
-        ]
-      },
-      {
-        "fullName": "Lum1104/dsh-browser",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 143,
-          "score": 0.9158,
-          "rank": 19,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          143
-        ]
-      },
-      {
         "fullName": "Small-tailqwq/dsh-deep-whale",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 852,
-          "score": 0.9126,
+          "stars": 882,
+          "score": 0.914,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -4091,17 +4091,17 @@
         },
         "direction": "new",
         "sparkline": [
-          852
+          882
         ]
       }
     ],
     "starsGain30d": [
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2515,
+          "stars": 1225,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -4127,16 +4127,16 @@
         },
         "direction": "new",
         "sparkline": [
-          2515
+          1225
         ]
       },
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1176,
-          "score": 1,
+          "stars": 2613,
+          "score": 0.9999,
           "rank": 2,
           "certified": false,
           "npmWeekly": null,
@@ -4161,15 +4161,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1176
+          2613
         ]
       },
       {
-        "fullName": "strukto-ai/mirage",
+        "fullName": "liustack/modlens",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3441,
+          "stars": 1833,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -4195,7 +4195,7 @@
         },
         "direction": "new",
         "sparkline": [
-          3441
+          1833
         ]
       },
       {
@@ -4203,7 +4203,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1097,
+          "stars": 1189,
           "score": 0.9999,
           "rank": 4,
           "certified": false,
@@ -4229,16 +4229,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1097
+          1189
         ]
       },
       {
-        "fullName": "GanyuanRan/Aegis",
+        "fullName": "strukto-ai/mirage",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1019,
-          "score": 0.9988,
+          "stars": 3443,
+          "score": 0.9998,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -4263,16 +4263,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1019
+          3443
         ]
       },
       {
-        "fullName": "liustack/modlens",
+        "fullName": "GanyuanRan/Aegis",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1765,
-          "score": 0.9985,
+          "stars": 1024,
+          "score": 0.9987,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -4297,7 +4297,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1765
+          1024
         ]
       },
       {
@@ -4306,7 +4306,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 588,
-          "score": 0.9768,
+          "score": 0.9766,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -4339,8 +4339,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 415,
-          "score": 0.9617,
+          "stars": 416,
+          "score": 0.9616,
           "rank": 8,
           "certified": false,
           "npmWeekly": null,
@@ -4365,7 +4365,7 @@
         },
         "direction": "new",
         "sparkline": [
-          415
+          416
         ]
       },
       {
@@ -4374,7 +4374,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 414,
-          "score": 0.9612,
+          "score": 0.961,
           "rank": 9,
           "certified": false,
           "npmWeekly": null,
@@ -4407,8 +4407,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 414,
-          "score": 0.9602,
+          "stars": 421,
+          "score": 0.9607,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -4433,7 +4433,7 @@
         },
         "direction": "new",
         "sparkline": [
-          414
+          421
         ]
       },
       {
@@ -4441,8 +4441,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 399,
-          "score": 0.959,
+          "stars": 404,
+          "score": 0.9607,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -4467,16 +4467,16 @@
         },
         "direction": "new",
         "sparkline": [
-          399
+          404
         ]
       },
       {
-        "fullName": "anywhere-labs/deepseek-harness-desktop",
+        "fullName": "dsh-market/dsh-market",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4872,
-          "score": 0.9398,
+          "stars": 266,
+          "score": 0.9426,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -4501,16 +4501,16 @@
         },
         "direction": "new",
         "sparkline": [
-          4872
+          266
         ]
       },
       {
-        "fullName": "dsh-market/dsh-market",
+        "fullName": "anywhere-labs/deepseek-harness-desktop",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 233,
-          "score": 0.9365,
+          "stars": 5373,
+          "score": 0.94,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -4535,7 +4535,7 @@
         },
         "direction": "new",
         "sparkline": [
-          233
+          5373
         ]
       },
       {
@@ -4543,8 +4543,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 204,
-          "score": 0.9293,
+          "stars": 213,
+          "score": 0.931,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -4569,7 +4569,7 @@
         },
         "direction": "new",
         "sparkline": [
-          204
+          213
         ]
       },
       {
@@ -4577,8 +4577,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 186,
-          "score": 0.9271,
+          "stars": 188,
+          "score": 0.9276,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -4603,16 +4603,16 @@
         },
         "direction": "new",
         "sparkline": [
-          186
+          188
         ]
       },
       {
-        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "fullName": "vlln/whale-girl",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 155,
-          "score": 0.9192,
+          "stars": 167,
+          "score": 0.9224,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -4637,7 +4637,75 @@
         },
         "direction": "new",
         "sparkline": [
-          155
+          167
+        ]
+      },
+      {
+        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 159,
+          "score": 0.9201,
+          "rank": 17,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          159
+        ]
+      },
+      {
+        "fullName": "Lum1104/dsh-browser",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 154,
+          "score": 0.919,
+          "rank": 18,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          154
         ]
       },
       {
@@ -4646,8 +4714,8 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9185,
-          "rank": 17,
+          "score": 0.9186,
+          "rank": 19,
           "certified": false,
           "npmWeekly": null,
           "npmMonthly": null
@@ -4675,80 +4743,12 @@
         ]
       },
       {
-        "fullName": "vlln/whale-girl",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 162,
-          "score": 0.9173,
-          "rank": 18,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          162
-        ]
-      },
-      {
-        "fullName": "Lum1104/dsh-browser",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 143,
-          "score": 0.9158,
-          "rank": 19,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          143
-        ]
-      },
-      {
         "fullName": "Small-tailqwq/dsh-deep-whale",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 852,
-          "score": 0.9126,
+          "stars": 882,
+          "score": 0.914,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -4773,17 +4773,17 @@
         },
         "direction": "new",
         "sparkline": [
-          852
+          882
         ]
       }
     ],
     "starsGain90d": [
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2515,
+          "stars": 1225,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -4809,16 +4809,16 @@
         },
         "direction": "new",
         "sparkline": [
-          2515
+          1225
         ]
       },
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1176,
-          "score": 1,
+          "stars": 2613,
+          "score": 0.9999,
           "rank": 2,
           "certified": false,
           "npmWeekly": null,
@@ -4843,15 +4843,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1176
+          2613
         ]
       },
       {
-        "fullName": "strukto-ai/mirage",
+        "fullName": "liustack/modlens",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3441,
+          "stars": 1833,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -4877,7 +4877,7 @@
         },
         "direction": "new",
         "sparkline": [
-          3441
+          1833
         ]
       },
       {
@@ -4885,7 +4885,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1097,
+          "stars": 1189,
           "score": 0.9999,
           "rank": 4,
           "certified": false,
@@ -4911,16 +4911,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1097
+          1189
         ]
       },
       {
-        "fullName": "GanyuanRan/Aegis",
+        "fullName": "strukto-ai/mirage",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1019,
-          "score": 0.9988,
+          "stars": 3443,
+          "score": 0.9998,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -4945,16 +4945,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1019
+          3443
         ]
       },
       {
-        "fullName": "liustack/modlens",
+        "fullName": "GanyuanRan/Aegis",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1765,
-          "score": 0.9985,
+          "stars": 1024,
+          "score": 0.9987,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -4979,7 +4979,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1765
+          1024
         ]
       },
       {
@@ -4988,7 +4988,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 588,
-          "score": 0.9768,
+          "score": 0.9766,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -5021,8 +5021,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 415,
-          "score": 0.9617,
+          "stars": 416,
+          "score": 0.9616,
           "rank": 8,
           "certified": false,
           "npmWeekly": null,
@@ -5047,7 +5047,7 @@
         },
         "direction": "new",
         "sparkline": [
-          415
+          416
         ]
       },
       {
@@ -5056,7 +5056,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 414,
-          "score": 0.9612,
+          "score": 0.961,
           "rank": 9,
           "certified": false,
           "npmWeekly": null,
@@ -5089,8 +5089,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 414,
-          "score": 0.9602,
+          "stars": 421,
+          "score": 0.9607,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -5115,7 +5115,7 @@
         },
         "direction": "new",
         "sparkline": [
-          414
+          421
         ]
       },
       {
@@ -5123,8 +5123,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 399,
-          "score": 0.959,
+          "stars": 404,
+          "score": 0.9607,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -5149,16 +5149,16 @@
         },
         "direction": "new",
         "sparkline": [
-          399
+          404
         ]
       },
       {
-        "fullName": "anywhere-labs/deepseek-harness-desktop",
+        "fullName": "dsh-market/dsh-market",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4872,
-          "score": 0.9398,
+          "stars": 266,
+          "score": 0.9426,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -5183,16 +5183,16 @@
         },
         "direction": "new",
         "sparkline": [
-          4872
+          266
         ]
       },
       {
-        "fullName": "dsh-market/dsh-market",
+        "fullName": "anywhere-labs/deepseek-harness-desktop",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 233,
-          "score": 0.9365,
+          "stars": 5373,
+          "score": 0.94,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -5217,7 +5217,7 @@
         },
         "direction": "new",
         "sparkline": [
-          233
+          5373
         ]
       },
       {
@@ -5225,8 +5225,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 204,
-          "score": 0.9293,
+          "stars": 213,
+          "score": 0.931,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -5251,7 +5251,7 @@
         },
         "direction": "new",
         "sparkline": [
-          204
+          213
         ]
       },
       {
@@ -5259,8 +5259,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 186,
-          "score": 0.9271,
+          "stars": 188,
+          "score": 0.9276,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -5285,16 +5285,16 @@
         },
         "direction": "new",
         "sparkline": [
-          186
+          188
         ]
       },
       {
-        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "fullName": "vlln/whale-girl",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 155,
-          "score": 0.9192,
+          "stars": 167,
+          "score": 0.9224,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -5319,7 +5319,75 @@
         },
         "direction": "new",
         "sparkline": [
-          155
+          167
+        ]
+      },
+      {
+        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 159,
+          "score": 0.9201,
+          "rank": 17,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          159
+        ]
+      },
+      {
+        "fullName": "Lum1104/dsh-browser",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 154,
+          "score": 0.919,
+          "rank": 18,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          154
         ]
       },
       {
@@ -5328,8 +5396,8 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9185,
-          "rank": 17,
+          "score": 0.9186,
+          "rank": 19,
           "certified": false,
           "npmWeekly": null,
           "npmMonthly": null
@@ -5357,80 +5425,12 @@
         ]
       },
       {
-        "fullName": "vlln/whale-girl",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 162,
-          "score": 0.9173,
-          "rank": 18,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          162
-        ]
-      },
-      {
-        "fullName": "Lum1104/dsh-browser",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 143,
-          "score": 0.9158,
-          "rank": 19,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          143
-        ]
-      },
-      {
         "fullName": "Small-tailqwq/dsh-deep-whale",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 852,
-          "score": 0.9126,
+          "stars": 882,
+          "score": 0.914,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -5455,7 +5455,7 @@
         },
         "direction": "new",
         "sparkline": [
-          852
+          882
         ]
       }
     ],
@@ -5463,11 +5463,11 @@
     "downloads30d": [],
     "newlyListed": [
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2515,
+          "stars": 1225,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -5493,16 +5493,16 @@
         },
         "direction": "new",
         "sparkline": [
-          2515
+          1225
         ]
       },
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1176,
-          "score": 1,
+          "stars": 2613,
+          "score": 0.9999,
           "rank": 2,
           "certified": false,
           "npmWeekly": null,
@@ -5527,15 +5527,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1176
+          2613
         ]
       },
       {
-        "fullName": "strukto-ai/mirage",
+        "fullName": "liustack/modlens",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3441,
+          "stars": 1833,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -5561,7 +5561,7 @@
         },
         "direction": "new",
         "sparkline": [
-          3441
+          1833
         ]
       },
       {
@@ -5569,7 +5569,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1097,
+          "stars": 1189,
           "score": 0.9999,
           "rank": 4,
           "certified": false,
@@ -5595,16 +5595,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1097
+          1189
         ]
       },
       {
-        "fullName": "GanyuanRan/Aegis",
+        "fullName": "strukto-ai/mirage",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1019,
-          "score": 0.9988,
+          "stars": 3443,
+          "score": 0.9998,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -5629,16 +5629,16 @@
         },
         "direction": "new",
         "sparkline": [
-          1019
+          3443
         ]
       },
       {
-        "fullName": "liustack/modlens",
+        "fullName": "GanyuanRan/Aegis",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1765,
-          "score": 0.9985,
+          "stars": 1024,
+          "score": 0.9987,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -5663,7 +5663,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1765
+          1024
         ]
       },
       {
@@ -5672,7 +5672,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 588,
-          "score": 0.9768,
+          "score": 0.9766,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -5705,8 +5705,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 415,
-          "score": 0.9617,
+          "stars": 416,
+          "score": 0.9616,
           "rank": 8,
           "certified": false,
           "npmWeekly": null,
@@ -5731,7 +5731,7 @@
         },
         "direction": "new",
         "sparkline": [
-          415
+          416
         ]
       },
       {
@@ -5740,7 +5740,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 414,
-          "score": 0.9612,
+          "score": 0.961,
           "rank": 9,
           "certified": false,
           "npmWeekly": null,
@@ -5773,8 +5773,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 414,
-          "score": 0.9602,
+          "stars": 421,
+          "score": 0.9607,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -5799,7 +5799,7 @@
         },
         "direction": "new",
         "sparkline": [
-          414
+          421
         ]
       },
       {
@@ -5807,8 +5807,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 399,
-          "score": 0.959,
+          "stars": 404,
+          "score": 0.9607,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -5833,16 +5833,16 @@
         },
         "direction": "new",
         "sparkline": [
-          399
+          404
         ]
       },
       {
-        "fullName": "anywhere-labs/deepseek-harness-desktop",
+        "fullName": "dsh-market/dsh-market",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4872,
-          "score": 0.9398,
+          "stars": 266,
+          "score": 0.9426,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -5867,16 +5867,16 @@
         },
         "direction": "new",
         "sparkline": [
-          4872
+          266
         ]
       },
       {
-        "fullName": "dsh-market/dsh-market",
+        "fullName": "anywhere-labs/deepseek-harness-desktop",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 233,
-          "score": 0.9365,
+          "stars": 5373,
+          "score": 0.94,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -5901,7 +5901,7 @@
         },
         "direction": "new",
         "sparkline": [
-          233
+          5373
         ]
       },
       {
@@ -5909,8 +5909,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 204,
-          "score": 0.9293,
+          "stars": 213,
+          "score": 0.931,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -5935,7 +5935,7 @@
         },
         "direction": "new",
         "sparkline": [
-          204
+          213
         ]
       },
       {
@@ -5943,8 +5943,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 186,
-          "score": 0.9271,
+          "stars": 188,
+          "score": 0.9276,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -5969,16 +5969,16 @@
         },
         "direction": "new",
         "sparkline": [
-          186
+          188
         ]
       },
       {
-        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "fullName": "vlln/whale-girl",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 155,
-          "score": 0.9192,
+          "stars": 167,
+          "score": 0.9224,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -6003,7 +6003,75 @@
         },
         "direction": "new",
         "sparkline": [
-          155
+          167
+        ]
+      },
+      {
+        "fullName": "huiliyi37/dsh-tianshu-tui",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 159,
+          "score": 0.9201,
+          "rank": 17,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          159
+        ]
+      },
+      {
+        "fullName": "Lum1104/dsh-browser",
+        "firstSeen": "2026-08-15",
+        "lastSeen": "2026-08-15",
+        "current": {
+          "stars": 154,
+          "score": 0.919,
+          "rank": 18,
+          "certified": false,
+          "npmWeekly": null,
+          "npmMonthly": null
+        },
+        "deltas": {
+          "7d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "30d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          },
+          "90d": {
+            "stars": 0,
+            "score": 0,
+            "rank": 0
+          }
+        },
+        "direction": "new",
+        "sparkline": [
+          154
         ]
       },
       {
@@ -6012,8 +6080,8 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9185,
-          "rank": 17,
+          "score": 0.9186,
+          "rank": 19,
           "certified": false,
           "npmWeekly": null,
           "npmMonthly": null
@@ -6041,80 +6109,12 @@
         ]
       },
       {
-        "fullName": "vlln/whale-girl",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 162,
-          "score": 0.9173,
-          "rank": 18,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          162
-        ]
-      },
-      {
-        "fullName": "Lum1104/dsh-browser",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 143,
-          "score": 0.9158,
-          "rank": 19,
-          "certified": false,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          143
-        ]
-      },
-      {
         "fullName": "Small-tailqwq/dsh-deep-whale",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 852,
-          "score": 0.9126,
+          "stars": 882,
+          "score": 0.914,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -6139,7 +6139,7 @@
         },
         "direction": "new",
         "sparkline": [
-          852
+          882
         ]
       }
     ],
@@ -6149,8 +6149,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 119,
-          "score": 0.9079,
+          "stars": 134,
+          "score": 0.913,
           "rank": 21,
           "certified": true,
           "npmWeekly": null,
@@ -6175,41 +6175,7 @@
         },
         "direction": "new",
         "sparkline": [
-          119
-        ]
-      },
-      {
-        "fullName": "zp-home/dsh-recommend",
-        "firstSeen": "2026-08-15",
-        "lastSeen": "2026-08-15",
-        "current": {
-          "stars": 11,
-          "score": 0.8079,
-          "rank": 99,
-          "certified": true,
-          "npmWeekly": null,
-          "npmMonthly": null
-        },
-        "deltas": {
-          "7d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "30d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          },
-          "90d": {
-            "stars": 0,
-            "score": 0,
-            "rank": 0
-          }
-        },
-        "direction": "new",
-        "sparkline": [
-          11
+          134
         ]
       }
     ]
