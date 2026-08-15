@@ -51,7 +51,10 @@ function rowHtml(t, rank, meta, withSpark) {
       <div class="row-top">
         <span class="rank accent">#${rank + 1}</span>
         <div class="name">
-          <a href="https://github.com/${esc(t.fullName)}" target="_blank" rel="noopener">${esc(t.fullName)}${certified}</a>
+          <div class="name-title">
+            <a class="repo-name" href="https://github.com/${esc(t.fullName)}" target="_blank" rel="noopener">${esc(t.fullName)}</a>
+            ${certified}
+          </div>
           <span class="repo-addr">github.com/${esc(t.fullName)}</span>
         </div>
         ${withSpark ? `<span class="spark-cell">${sparkline(t.sparkline)}</span>` : ''}

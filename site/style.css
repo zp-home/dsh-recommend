@@ -149,6 +149,7 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
 .rank.accent { background: var(--pink); }
 .rank.dim { background: #e8e1d3; }
 .name { display: flex; flex: 1; flex-direction: column; gap: 2px; min-width: 0; }
+.name-title { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .name a {
   overflow: hidden;
   color: var(--ink);
@@ -158,6 +159,7 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.name-title .repo-name { flex: 1 1 auto; min-width: 0; }
 .name a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .name .repo-addr {
   color: var(--muted);
@@ -272,6 +274,7 @@ footer { margin-top: 28px; border-top: 2px solid var(--border); color: var(--ink
   vertical-align: middle;
   white-space: nowrap;
 }
+.name-title .badge-cert { flex: 0 0 auto; margin-left: 0; }
 
 .tabs { margin: 16px 0 20px; }
 .panel { display: block; }

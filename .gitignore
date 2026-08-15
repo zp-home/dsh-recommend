@@ -13,3 +13,7 @@ node_modules/
 Thumbs.db
 .idea/
 .vscode/
+
+# 浏览器测试残留（Playwright 等）
+.playwright-cli/
+output/

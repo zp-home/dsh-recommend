@@ -28,15 +28,15 @@
 
 ### 1️⃣ 网页版排行（不用安装）
 
-👉 打开 **https://zp-home.github.io/dsh-recommend/site/** —— 卡片式排行榜：前三名奖牌、四维信号徽章、🏅 精选认证，支持搜索 / 分类筛选 / 四种排序（综合分 / 热度 / 最近更新 / 最新发布）、分页浏览、详情展开（主题标签 / 许可证 / 发布时间 / 深扫状态）、近 N 天**综合分走势图**、一键复制**安装命令**与 **README 徽章**链接。
+👉 打开 **https://zp-home.github.io/dsh-recommend/site/** —— Neo-Brutalism 高对比排行榜：醒目的前三名奖牌、四维信号分数与 🏅 精选认证，支持搜索 / 分类筛选 / 四种排序（综合分 / 热度 / 最近更新 / 最新发布）、分页浏览、详情展开（主题标签 / 许可证 / 发布时间 / 深扫状态）、近 N 天**综合分走势图**，以及一键复制**安装命令**。
 
 🏆 **发展排行榜**（独立页面）：**https://zp-home.github.io/dsh-recommend/site/rankings.html** —— star 增长最快（7/30/90 天）、排名上升最快、npm 下载量最多、本周新上榜、精选认证，每条带增长曲线 sparkline。
 
 **📸 效果预览：**
 
-![排行榜静态站 1](docs/images/site-1.png)
+![Neo-Brutalism 风格的 DSH 插件综合榜首页](docs/images/site-1.png)
 
-![排行榜静态站 2](docs/images/site-2.png)
+![Neo-Brutalism 风格的 DSH 插件发展排行榜](docs/images/site-2.png)
 
 也可以直接看原始数据：[`data/rankings.json`](data/rankings.json)（每 2 小时自动更新）、[`data/history.json`](data/history.json)（每日趋势快照）、[`data/trends.json`](data/trends.json)（派生发展榜）。
 
@@ -87,7 +87,7 @@ node scripts/smoke.mjs           # 管道纯函数冒烟测试
 
 ## 🛡 插件作者：挂一个分数徽章
 
-榜单前 200 名每 2 小时自动生成 shields 徽章（`data/badges/<owner>__<name>.json`）。在你的 README 里放一行（静态站/设置页有「复制徽章」按钮可直接拿链接）：
+榜单前 200 名每 2 小时自动生成 shields 徽章（`data/badges/<owner>__<name>.json`）。将下面这行中的 `<owner>__<name>` 替换为你的 GitHub 仓库路径即可：
 
 ```md
 [![dsh score](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fzp-home%2Fdsh-recommend%2Fmain%2Fdata%2Fbadges%2F<owner>__<name>.json)](https://github.com/zp-home/dsh-recommend)
