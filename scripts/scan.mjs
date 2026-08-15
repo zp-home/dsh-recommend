@@ -78,7 +78,8 @@ export async function scanRepo(owner, name) {
     try {
       const pkg = await ghJson(`${GITHUB_API}/repos/${owner}/${name}/contents/package.json`)
       const text = Buffer.from(pkg.content ?? '', 'base64').toString('utf8')
-      const json = JSON.parse(text)
+      // 个别仓库的 package.json 带 UTF-8 BOM（U+FEFF），JSON.parse 会失败——先剥离
+      const json = JSON.parse(text.replace(/^\uFEFF/, ''))
       signals.hasDshManifest = typeof json.dsh === 'object' && json.dsh !== null
       const deps = { ...(json.dependencies ?? {}), ...(json.devDependencies ?? {}), ...(json.peerDependencies ?? {}) }
       signals.deepseekDepCount = Object.keys(deps).filter((k) => k.startsWith('@deepseek-ai/')).length

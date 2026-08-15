@@ -26,4 +26,7 @@ jobs:
           git config user.email "actions@github.com"
           git add data/ CHANGELOG.md docs/reports/
           git diff --cached --quiet && echo "无数据变化" || git commit -m "data: 生态同步 $(date -u +%Y-%m-%dT%H:%M)Z"
+          # 并发保护：全量重算耗时 10-15 分钟，期间可能有其他提交进 main，
+          # 直接 push 会 non-fast-forward 失败。先 rebase 远端再推，自动合并。
+          git pull --rebase origin main || (echo "rebase 冲突，重跑一次管道" && git rebase --abort && exit 1)
           git push
