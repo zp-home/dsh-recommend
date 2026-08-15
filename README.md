@@ -102,6 +102,17 @@ node scripts/smoke.mjs           # 管道纯函数冒烟测试
 
 认证是**展示层激励，不改变评分**（评分公式始终保持透明可复算）。审核标准：可正常安装（dsh.bundle 或 repository-plugin）、有实际功能、README 完善、维护活跃。
 
+## 📨 针对性邀请开发者（维护者运营工具）
+
+生态里大量优质插件**已被自动收录但从未主动提交认证**。`scripts/invite.mjs` 从 registry 自动筛出高价值未认证插件，分层生成邀请清单与个性化话术：
+
+```sh
+node scripts/invite.mjs              # 生成 docs/invites.md（全部目标）
+node scripts/invite.mjs --tier 1     # 只生成 Tier 1（头部标杆 ★≥800）
+```
+
+分层：**Tier 1** 头部标杆（★≥800）· **Tier 2** 优质活跃（★≥100 且 30 天活跃）· **Tier 3** 潜力新星（★≥30 且 score≥0.6 且活跃）。清单含每个插件的真实数据（星级/分数/分类/活跃度）与**已预填数据的邀请话术**，复制即用——在作者仓库的 issue / discussion 留言，或邮件联系。
+
 ## 📊 当前数据
 
 - 全量抓取 **2200+** 个 `dsh-plugin` 话题仓库；排除占位/空仓库/官方本体/非插件后 **1900+** 个上榜（具体见 `data/meta.json`）
