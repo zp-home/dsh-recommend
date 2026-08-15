@@ -111,8 +111,102 @@ async function load() {
   try {
     badges = await fetch('../data/badges/index.json').then((r) => r.json())
   } catch { badges = null }
+  renderCertified()
   render()
 }
+
+/* ===== 精选认证轮播 ===== */
+
+let certIndex = 0 // 当前轮播下标
+let certTimer = null // 自动轮播定时器
+
+/** 渲染「精选认证」轮播区：随机顺序展示 certified 插件。无认证插件时隐藏整区。 */
+function renderCertified() {
+  const wrap = document.getElementById('certified-carousel')
+  const track = document.getElementById('cert-track')
+  const dots = document.getElementById('cert-dots')
+  const prev = document.getElementById('cert-prev')
+  const next = document.getElementById('cert-next')
+  if (!wrap || !track) return
+
+  const certified = (doc?.plugins ?? []).filter((p) => p.certified && !p.excluded)
+  if (certified.length === 0) {
+    wrap.hidden = true
+    return
+  }
+
+  // 随机打乱顺序，让每次刷新展示不同优先
+  const order = certified
+    .map((p) => ({ p, r: Math.random() }))
+    .sort((a, b) => a.r - b.r)
+    .map((x) => x.p)
+
+  // 构建卡片
+  track.innerHTML = order.map((p, i) => {
+    const tier = scoreTier(p.score)
+    const site = siteLink(p)
+    const scoreColor = tier === 'gold' ? '#f5c518' : tier === 'accent' ? 'var(--accent)' : 'var(--muted)'
+    return `
+      <div class="cert-card" role="group" aria-label="${esc(p.fullName)}">
+        <div class="cert-card-main">
+          <span class="cert-rank">🏅</span>
+          <div class="cert-info">
+            <a class="cert-name" href="${esc(p.url)}" target="_blank" rel="noopener" title="${esc(p.fullName)}">${esc(p.fullName)}</a>
+            <span class="cert-cat">${esc(p.category ?? '')}</span>
+          </div>
+          <span class="cert-score" style="color:${scoreColor}">${p.score.toFixed(3)}</span>
+        </div>
+        ${p.description ? `<p class="cert-desc">${esc(p.description)}</p>` : ''}
+        <div class="cert-foot">
+          <span class="cert-stars">★ ${p.stars}</span>
+          <a class="act star" href="${esc(p.url)}" target="_blank" rel="noopener" title="打开仓库">⭐ Star</a>
+          ${site}
+          <span class="cert-badge">🏅 精选认证</span>
+        </div>
+      </div>`
+  }).join('')
+
+  // 指示点
+  dots.innerHTML = order.map((_, i) =>
+    `<button type="button" class="cert-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="第 ${i + 1} 个"></button>`,
+  ).join('')
+
+  certIndex = 0
+  updateCert()
+
+  // 单卡时隐藏箭头与自动轮播
+  const single = order.length <= 1
+  prev.hidden = single
+  next.hidden = single
+  dots.hidden = single
+  if (single) return
+
+  // 自动轮播（6 秒）
+  clearInterval(certTimer)
+  certTimer = setInterval(() => {
+    certIndex = (certIndex + 1) % order.length
+    updateCert()
+  }, 6000)
+
+  prev.onclick = () => { certIndex = (certIndex - 1 + order.length) % order.length; updateCert() }
+  next.onclick = () => { certIndex = (certIndex + 1) % order.length; updateCert() }
+  dots.querySelectorAll('.cert-dot').forEach((d) => {
+    d.onclick = () => { certIndex = Number(d.dataset.i); updateCert() }
+  })
+}
+
+/** 切换轮播：高亮当前卡与指示点，滚动到可见位置。 */
+function updateCert() {
+  const cards = document.querySelectorAll('#cert-track .cert-card')
+  const dots = document.querySelectorAll('#cert-dots .cert-dot')
+  cards.forEach((c, i) => c.classList.toggle('active', i === certIndex))
+  dots.forEach((d, i) => d.classList.toggle('active', i === certIndex))
+  const active = cards[certIndex]
+  if (active && active.scrollIntoView) {
+    active.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' })
+  }
+}
+
 
 function currentRows() {
   const q = document.getElementById('search').value.toLowerCase()

@@ -18,6 +18,20 @@
   </header>
 
   <main>
+    <!-- 精选认证轮播：通过 issue 审核的插件独立展示（无认证插件时自动隐藏） -->
+    <section id="certified-carousel" class="cert-carousel" hidden>
+      <div class="cert-head">
+        <span class="cert-title">🏅 精选认证</span>
+        <span class="cert-sub">经 issue 审核通过的优质插件 · 随机展示</span>
+      </div>
+      <div class="cert-track-wrap">
+        <button type="button" class="cert-arrow" id="cert-prev" aria-label="上一个" hidden>‹</button>
+        <div class="cert-track" id="cert-track"></div>
+        <button type="button" class="cert-arrow" id="cert-next" aria-label="下一个" hidden>›</button>
+      </div>
+      <div class="cert-dots" id="cert-dots"></div>
+    </section>
+
     <section class="controls">
       <input id="search" type="search" placeholder="搜索名称 / 描述 / 分类…">
       <select id="view">
