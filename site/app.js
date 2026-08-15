@@ -134,6 +134,8 @@ function renderCertified() {
     wrap.hidden = true
     return
   }
+  // 有认证插件：显示轮播区（HTML 初始带 hidden，必须显式移除）
+  wrap.hidden = false
 
   // 随机打乱顺序，让每次刷新展示不同优先
   const order = certified
