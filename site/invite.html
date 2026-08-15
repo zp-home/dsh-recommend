@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>邀请收录 · dsh-recommend</title>
+<style>
+  :root {
+    --bg: #fff4d8; --paper: #fffdf5; --ink: #171717;
+    --muted: #5f5a4f; --dim: #756f62;
+    --yellow: #ffd84d; --pink: #ff9bcf; --blue: #83caff; --mint: #b8f36a; --orange: #ff9d54;
+    --border: #171717; --shadow: 4px 4px 0 var(--ink); --shadow-sm: 2px 2px 0 var(--ink);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 "Avenir Next","PingFang SC","Microsoft YaHei",sans-serif; }
+  .page { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border: 2px solid var(--border); border-radius: 4px; background: var(--yellow); box-shadow: var(--shadow-sm); font-size: 13px; font-weight: 800; }
+  h1 { font-size: 34px; font-weight: 900; line-height: 1.2; margin: 18px 0 10px; }
+  .lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; }
+  .card { background: var(--paper); border: 2px solid var(--border); border-radius: 6px; box-shadow: var(--shadow); padding: 22px 24px; margin-bottom: 18px; }
+  .card h2 { font-size: 18px; margin: 0 0 12px; display: flex; align-items: center; gap: 8px; }
+  .card ul { margin: 0; padding-left: 20px; }
+  .card li { margin-bottom: 8px; }
+  .card li b { font-weight: 800; }
+  .cta { display: block; text-align: center; background: var(--pink); color: var(--ink); border: 2px solid var(--border); border-radius: 6px; box-shadow: var(--shadow); padding: 14px 20px; font-size: 17px; font-weight: 800; text-decoration: none; margin: 24px 0 12px; transition: transform .1s ease, box-shadow .1s ease; }
+  .cta:hover { transform: translate(2px,2px); box-shadow: none; }
+  .cta-small { display: inline-block; font-size: 14px; padding: 10px 18px; background: var(--mint); }
+  .note { font-size: 13px; color: var(--dim); text-align: center; margin-top: 14px; }
+  .search { display: flex; gap: 8px; margin-top: 14px; }
+  .search input { flex: 1; padding: 10px 14px; font-size: 15px; border: 2px solid var(--border); border-radius: 4px; background: #fff; color: var(--ink); outline: none; }
+  .search input:focus { box-shadow: var(--shadow-sm); }
+  .search button { padding: 10px 18px; font-size: 15px; font-weight: 700; border: 2px solid var(--border); border-radius: 4px; background: var(--blue); cursor: pointer; }
+  .hint { font-size: 13px; color: var(--dim); margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <span class="badge">🐋 dsh-recommend · DSH 插件生态榜</span>
+  <h1>你的插件，值得被更多人看到</h1>
+  <p class="lead">我们邀请每一位 DSH 插件作者，把作品收录进生态排行榜，获得真实曝光。</p>
+
+  <div class="card">
+    <h2>📦 收录后你能获得</h2>
+    <ul>
+      <li><b>榜单曝光</b>：你的插件出现在综合榜 / 分类榜，被 DSH 用户浏览</li>
+      <li><b>🏅 精选认证</b>：审核通过后获得认证徽章，首页右侧推荐位展示</li>
+      <li><b>README 徽章</b>：可挂到你的仓库，分数与排名自动更新</li>
+      <li><b>发展追踪</b>：star 增长 / 排名变化曲线（7/30/90 天）</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🔍 先看看你的插件在不在榜</h2>
+    <div class="search">
+      <input id="q" type="text" placeholder="输入插件名 / 作者名，如 dsh-vision-router">
+      <button id="go" type="button">查找</button>
+    </div>
+    <p class="hint">没找到？说明还没被自动收录——直接提交即可。</p>
+  </div>
+
+  <a class="cta" href="https://github.com/zp-home/dsh-recommend/issues/new?template=submit-plugin.yml" target="_blank" rel="noopener">🚀 提交收录（1 分钟）</a>
+  <a class="cta cta-small" href="./index.html" target="_blank" rel="noopener">先看看排行榜 →</a>
+  <p class="note">收录 ≠ 安全背书。提交即代表你的插件已打 dsh-plugin 话题、有 README 与许可证。</p>
+</div>
+<script>
+document.getElementById('go').addEventListener('click', () => {
+  const q = document.getElementById('q').value.trim()
+  if (!q) return
+  window.open('./index.html?q=' + encodeURIComponent(q), '_blank')
+})
+document.getElementById('q').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('go').click()
+})
+</script>
+</body>
+</html>

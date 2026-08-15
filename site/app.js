@@ -98,6 +98,15 @@ async function load() {
   try {
     history = await fetch('../data/history.json').then((r) => r.json())
   } catch { history = null }
+  // 支持 ?q= 查询参数（邀请落地页「查找插件」跳转用）：自动填入搜索框并筛选
+  const urlQ = new URLSearchParams(location.search).get('q')
+  if (urlQ) {
+    const searchInput = document.getElementById('search')
+    if (searchInput) {
+      searchInput.value = urlQ
+      document.getElementById('count').textContent = `正在查找「${urlQ}」…`
+    }
+  }
   renderCertified()
   render()
 }
