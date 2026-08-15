@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAt": "2026-08-15T14:09:39.084Z",
+    "generatedAt": "2026-08-15T14:52:27.172Z",
     "historyStart": "2026-08-15",
     "historyDays": 1,
     "windows": [
@@ -12,11 +12,11 @@
   },
   "trends": [
     {
-      "fullName": "ccch1mneyyy/dsh-TUI",
+      "fullName": "zhu1090093659/dsh-web-ui",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1155,
+        "stars": 2515,
         "score": 1,
         "rank": 1,
         "certified": false,
@@ -42,15 +42,15 @@
       },
       "direction": "new",
       "sparkline": [
-        1155
+        2515
       ]
     },
     {
-      "fullName": "omdsh-dev/DSH-better-sidebar",
+      "fullName": "ccch1mneyyy/dsh-TUI",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1065,
+        "stars": 1176,
         "score": 1,
         "rank": 2,
         "certified": false,
@@ -76,7 +76,7 @@
       },
       "direction": "new",
       "sparkline": [
-        1065
+        1176
       ]
     },
     {
@@ -84,7 +84,7 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 3440,
+        "stars": 3441,
         "score": 0.9999,
         "rank": 3,
         "certified": false,
@@ -110,16 +110,16 @@
       },
       "direction": "new",
       "sparkline": [
-        3440
+        3441
       ]
     },
     {
-      "fullName": "zhu1090093659/dsh-web-ui",
+      "fullName": "omdsh-dev/DSH-better-sidebar",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 2483,
-        "score": 0.9998,
+        "stars": 1097,
+        "score": 0.9999,
         "rank": 4,
         "certified": false,
         "npmWeekly": null,
@@ -144,7 +144,7 @@
       },
       "direction": "new",
       "sparkline": [
-        2483
+        1097
       ]
     },
     {
@@ -152,8 +152,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1018,
-        "score": 0.9989,
+        "stars": 1019,
+        "score": 0.9988,
         "rank": 5,
         "certified": false,
         "npmWeekly": null,
@@ -178,7 +178,7 @@
       },
       "direction": "new",
       "sparkline": [
-        1018
+        1019
       ]
     },
     {
@@ -186,8 +186,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1736,
-        "score": 0.9986,
+        "stars": 1765,
+        "score": 0.9985,
         "rank": 6,
         "certified": false,
         "npmWeekly": null,
@@ -212,7 +212,7 @@
       },
       "direction": "new",
       "sparkline": [
-        1736
+        1765
       ]
     },
     {
@@ -220,8 +220,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 586,
-        "score": 0.9767,
+        "stars": 588,
+        "score": 0.9768,
         "rank": 7,
         "certified": false,
         "npmWeekly": null,
@@ -246,7 +246,7 @@
       },
       "direction": "new",
       "sparkline": [
-        586
+        588
       ]
     },
     {
@@ -288,7 +288,7 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 413,
+        "stars": 414,
         "score": 0.9612,
         "rank": 9,
         "certified": false,
@@ -314,7 +314,7 @@
       },
       "direction": "new",
       "sparkline": [
-        413
+        414
       ]
     },
     {
@@ -322,8 +322,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 409,
-        "score": 0.9597,
+        "stars": 414,
+        "score": 0.9602,
         "rank": 10,
         "certified": false,
         "npmWeekly": null,
@@ -348,7 +348,7 @@
       },
       "direction": "new",
       "sparkline": [
-        409
+        414
       ]
     },
     {
@@ -356,8 +356,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 396,
-        "score": 0.9587,
+        "stars": 399,
+        "score": 0.959,
         "rank": 11,
         "certified": false,
         "npmWeekly": null,
@@ -382,7 +382,7 @@
       },
       "direction": "new",
       "sparkline": [
-        396
+        399
       ]
     },
     {
@@ -390,8 +390,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 4663,
-        "score": 0.9399,
+        "stars": 4872,
+        "score": 0.9398,
         "rank": 12,
         "certified": false,
         "npmWeekly": null,
@@ -416,7 +416,7 @@
       },
       "direction": "new",
       "sparkline": [
-        4663
+        4872
       ]
     },
     {
@@ -424,8 +424,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 218,
-        "score": 0.9337,
+        "stars": 233,
+        "score": 0.9365,
         "rank": 13,
         "certified": false,
         "npmWeekly": null,
@@ -450,7 +450,7 @@
       },
       "direction": "new",
       "sparkline": [
-        218
+        233
       ]
     },
     {
@@ -458,8 +458,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 198,
-        "score": 0.9281,
+        "stars": 204,
+        "score": 0.9293,
         "rank": 14,
         "certified": false,
         "npmWeekly": null,
@@ -484,7 +484,7 @@
       },
       "direction": "new",
       "sparkline": [
-        198
+        204
       ]
     },
     {
@@ -492,8 +492,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 184,
-        "score": 0.9267,
+        "stars": 186,
+        "score": 0.9271,
         "rank": 15,
         "certified": false,
         "npmWeekly": null,
@@ -518,7 +518,7 @@
       },
       "direction": "new",
       "sparkline": [
-        184
+        186
       ]
     },
     {
@@ -526,8 +526,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 153,
-        "score": 0.9187,
+        "stars": 155,
+        "score": 0.9192,
         "rank": 16,
         "certified": false,
         "npmWeekly": null,
@@ -552,7 +552,7 @@
       },
       "direction": "new",
       "sparkline": [
-        153
+        155
       ]
     },
     {
@@ -561,7 +561,7 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 153,
-        "score": 0.9186,
+        "score": 0.9185,
         "rank": 17,
         "certified": false,
         "npmWeekly": null,
@@ -594,8 +594,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 160,
-        "score": 0.9168,
+        "stars": 162,
+        "score": 0.9173,
         "rank": 18,
         "certified": false,
         "npmWeekly": null,
@@ -620,7 +620,7 @@
       },
       "direction": "new",
       "sparkline": [
-        160
+        162
       ]
     },
     {
@@ -628,8 +628,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 139,
-        "score": 0.9143,
+        "stars": 143,
+        "score": 0.9158,
         "rank": 19,
         "certified": false,
         "npmWeekly": null,
@@ -654,7 +654,7 @@
       },
       "direction": "new",
       "sparkline": [
-        139
+        143
       ]
     },
     {
@@ -662,8 +662,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 833,
-        "score": 0.9117,
+        "stars": 852,
+        "score": 0.9126,
         "rank": 20,
         "certified": false,
         "npmWeekly": null,
@@ -688,7 +688,7 @@
       },
       "direction": "new",
       "sparkline": [
-        833
+        852
       ]
     },
     {
@@ -696,8 +696,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 111,
-        "score": 0.9049,
+        "stars": 119,
+        "score": 0.9079,
         "rank": 21,
         "certified": true,
         "npmWeekly": null,
@@ -722,7 +722,7 @@
       },
       "direction": "new",
       "sparkline": [
-        111
+        119
       ]
     },
     {
@@ -731,7 +731,7 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 104,
-        "score": 0.9014,
+        "score": 0.9013,
         "rank": 22,
         "certified": false,
         "npmWeekly": null,
@@ -764,8 +764,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 100,
-        "score": 0.8992,
+        "stars": 101,
+        "score": 0.8996,
         "rank": 23,
         "certified": false,
         "npmWeekly": null,
@@ -790,7 +790,7 @@
       },
       "direction": "new",
       "sparkline": [
-        100
+        101
       ]
     },
     {
@@ -798,8 +798,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 99,
-        "score": 0.8987,
+        "stars": 101,
+        "score": 0.8995,
         "rank": 24,
         "certified": false,
         "npmWeekly": null,
@@ -824,7 +824,7 @@
       },
       "direction": "new",
       "sparkline": [
-        99
+        101
       ]
     },
     {
@@ -862,13 +862,47 @@
       ]
     },
     {
+      "fullName": "csyangwen/dsh-memory-evolve",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 86,
+        "score": 0.8919,
+        "rank": 26,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        86
+      ]
+    },
+    {
       "fullName": "ChisaAlter/Deepseek-Harness-Desktop",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 81,
-        "score": 0.8911,
-        "rank": 26,
+        "score": 0.891,
+        "rank": 27,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -896,46 +930,12 @@
       ]
     },
     {
-      "fullName": "csyangwen/dsh-memory-evolve",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 82,
-        "score": 0.89,
-        "rank": 27,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        82
-      ]
-    },
-    {
       "fullName": "NanmiCoder/dsh-agent-teams",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 311,
-        "score": 0.8892,
+        "stars": 319,
+        "score": 0.8902,
         "rank": 28,
         "certified": false,
         "npmWeekly": null,
@@ -960,7 +960,7 @@
       },
       "direction": "new",
       "sparkline": [
-        311
+        319
       ]
     },
     {
@@ -968,43 +968,9 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 74,
-        "score": 0.8856,
-        "rank": 29,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        74
-      ]
-    },
-    {
-      "fullName": "taxueseek/argo",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
         "stars": 77,
-        "score": 0.8853,
-        "rank": 30,
+        "score": 0.8872,
+        "rank": 29,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1032,12 +998,46 @@
       ]
     },
     {
+      "fullName": "taxueseek/argo",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 78,
+        "score": 0.8858,
+        "rank": 30,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        78
+      ]
+    },
+    {
       "fullName": "nexu-io/open-design",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 86740,
-        "score": 0.8799,
+        "stars": 86767,
+        "score": 0.88,
         "rank": 31,
         "certified": false,
         "npmWeekly": null,
@@ -1062,7 +1062,7 @@
       },
       "direction": "new",
       "sparkline": [
-        86740
+        86767
       ]
     },
     {
@@ -1070,7 +1070,7 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 2493,
+        "stars": 2501,
         "score": 0.8799,
         "rank": 32,
         "certified": false,
@@ -1096,7 +1096,7 @@
       },
       "direction": "new",
       "sparkline": [
-        2493
+        2501
       ]
     },
     {
@@ -1138,7 +1138,7 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 1340,
+        "stars": 1341,
         "score": 0.8781,
         "rank": 34,
         "certified": false,
@@ -1164,7 +1164,7 @@
       },
       "direction": "new",
       "sparkline": [
-        1340
+        1341
       ]
     },
     {
@@ -1172,8 +1172,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 22336,
-        "score": 0.8762,
+        "stars": 22356,
+        "score": 0.8761,
         "rank": 35,
         "certified": false,
         "npmWeekly": null,
@@ -1198,7 +1198,7 @@
       },
       "direction": "new",
       "sparkline": [
-        22336
+        22356
       ]
     },
     {
@@ -1206,8 +1206,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 887,
-        "score": 0.8733,
+        "stars": 889,
+        "score": 0.8734,
         "rank": 36,
         "certified": false,
         "npmWeekly": null,
@@ -1232,7 +1232,7 @@
       },
       "direction": "new",
       "sparkline": [
-        887
+        889
       ]
     },
     {
@@ -1240,8 +1240,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 56,
-        "score": 0.8725,
+        "stars": 57,
+        "score": 0.8732,
         "rank": 37,
         "certified": false,
         "npmWeekly": null,
@@ -1266,7 +1266,7 @@
       },
       "direction": "new",
       "sparkline": [
-        56
+        57
       ]
     },
     {
@@ -1274,7 +1274,7 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 2804,
+        "stars": 2806,
         "score": 0.8724,
         "rank": 38,
         "certified": false,
@@ -1300,7 +1300,7 @@
       },
       "direction": "new",
       "sparkline": [
-        2804
+        2806
       ]
     },
     {
@@ -1308,8 +1308,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 50,
-        "score": 0.8705,
+        "stars": 51,
+        "score": 0.8713,
         "rank": 39,
         "certified": false,
         "npmWeekly": null,
@@ -1334,7 +1334,7 @@
       },
       "direction": "new",
       "sparkline": [
-        50
+        51
       ]
     },
     {
@@ -1343,7 +1343,7 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 50,
-        "score": 0.8689,
+        "score": 0.8688,
         "rank": 40,
         "certified": false,
         "npmWeekly": null,
@@ -1377,8 +1377,42 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 46,
-        "score": 0.8672,
+        "score": 0.8671,
         "rank": 41,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        46
+      ]
+    },
+    {
+      "fullName": "Sanqi-normal/dsh-webui-market-plugin",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 46,
+        "score": 0.8667,
+        "rank": 42,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1411,8 +1445,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 47,
-        "score": 0.8644,
-        "rank": 42,
+        "score": 0.8643,
+        "rank": 43,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1440,13 +1474,13 @@
       ]
     },
     {
-      "fullName": "Sanqi-normal/dsh-webui-market-plugin",
+      "fullName": "omdsh-dev/dsh-open-in-vscode",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 42,
-        "score": 0.8629,
-        "rank": 43,
+        "stars": 45,
+        "score": 0.8625,
+        "rank": 44,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1470,7 +1504,7 @@
       },
       "direction": "new",
       "sparkline": [
-        42
+        45
       ]
     },
     {
@@ -1479,8 +1513,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 40,
-        "score": 0.8602,
-        "rank": 44,
+        "score": 0.8601,
+        "rank": 45,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1508,13 +1542,13 @@
       ]
     },
     {
-      "fullName": "omdsh-dev/dsh-open-in-vscode",
+      "fullName": "vlln/plugin-registry",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 42,
-        "score": 0.8596,
-        "rank": 45,
+        "score": 0.8594,
+        "rank": 46,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1548,7 +1582,7 @@
       "current": {
         "stars": 38,
         "score": 0.8587,
-        "rank": 46,
+        "rank": 47,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1581,8 +1615,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 39,
-        "score": 0.8577,
-        "rank": 47,
+        "score": 0.8576,
+        "rank": 48,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1610,13 +1644,13 @@
       ]
     },
     {
-      "fullName": "vlln/plugin-registry",
+      "fullName": "freestylefly/wesight",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 40,
-        "score": 0.8574,
-        "rank": 48,
+        "stars": 878,
+        "score": 0.8568,
+        "rank": 49,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1640,7 +1674,7 @@
       },
       "direction": "new",
       "sparkline": [
-        40
+        878
       ]
     },
     {
@@ -1649,8 +1683,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 562,
-        "score": 0.8541,
-        "rank": 49,
+        "score": 0.854,
+        "rank": 50,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1678,46 +1712,12 @@
       ]
     },
     {
-      "fullName": "like-study1/Oh-My-DSH",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 31,
-        "score": 0.8504,
-        "rank": 50,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        31
-      ]
-    },
-    {
       "fullName": "Han-1413141/dsh-cost-meter",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 31,
-        "score": 0.8503,
+        "stars": 32,
+        "score": 0.8516,
         "rank": 51,
         "certified": false,
         "npmWeekly": null,
@@ -1742,7 +1742,143 @@
       },
       "direction": "new",
       "sparkline": [
+        32
+      ]
+    },
+    {
+      "fullName": "like-study1/Oh-My-DSH",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 31,
+        "score": 0.8505,
+        "rank": 52,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
         31
+      ]
+    },
+    {
+      "fullName": "Nwflower/dsh-chat-import",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 31,
+        "score": 0.85,
+        "rank": 53,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        31
+      ]
+    },
+    {
+      "fullName": "bruc3van/dsh-desktop",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 30,
+        "score": 0.8491,
+        "rank": 54,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        30
+      ]
+    },
+    {
+      "fullName": "Ychris12138/dsh-usage-stats",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 30,
+        "score": 0.8487,
+        "rank": 55,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        30
       ]
     },
     {
@@ -1751,8 +1887,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 516,
-        "score": 0.8486,
-        "rank": 52,
+        "score": 0.8485,
+        "rank": 56,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -1780,148 +1916,12 @@
       ]
     },
     {
-      "fullName": "bruc3van/dsh-desktop",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 29,
-        "score": 0.8477,
-        "rank": 53,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        29
-      ]
-    },
-    {
-      "fullName": "Ychris12138/dsh-usage-stats",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 29,
-        "score": 0.8473,
-        "rank": 54,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        29
-      ]
-    },
-    {
-      "fullName": "Nwflower/dsh-chat-import",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 29,
-        "score": 0.8473,
-        "rank": 55,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        29
-      ]
-    },
-    {
       "fullName": "oil-oil/dsh-vision",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 30,
-        "score": 0.8464,
-        "rank": 56,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        30
-      ]
-    },
-    {
-      "fullName": "lhh010/dsh-ui-whale",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 30,
-        "score": 0.8452,
+        "stars": 31,
+        "score": 0.8477,
         "rank": 57,
         "certified": false,
         "npmWeekly": null,
@@ -1946,16 +1946,16 @@
       },
       "direction": "new",
       "sparkline": [
-        30
+        31
       ]
     },
     {
-      "fullName": "mnemon-dev/mnemon",
+      "fullName": "lhh010/dsh-ui-whale",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 449,
-        "score": 0.8442,
+        "stars": 30,
+        "score": 0.8452,
         "rank": 58,
         "certified": false,
         "npmWeekly": null,
@@ -1980,7 +1980,109 @@
       },
       "direction": "new",
       "sparkline": [
-        449
+        30
+      ]
+    },
+    {
+      "fullName": "omdsh-dev/dsh-data-agent",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 27,
+        "score": 0.8447,
+        "rank": 59,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        27
+      ]
+    },
+    {
+      "fullName": "mnemon-dev/mnemon",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 451,
+        "score": 0.8443,
+        "rank": 60,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        451
+      ]
+    },
+    {
+      "fullName": "omdsh-dev/dsh-mnemon",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 27,
+        "score": 0.8435,
+        "rank": 61,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        27
       ]
     },
     {
@@ -1989,8 +2091,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 26,
-        "score": 0.843,
-        "rank": 59,
+        "score": 0.8429,
+        "rank": 62,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2023,8 +2125,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 27,
-        "score": 0.8422,
-        "rank": 60,
+        "score": 0.8421,
+        "rank": 63,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2052,47 +2154,13 @@
       ]
     },
     {
-      "fullName": "omdsh-dev/dsh-mnemon",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 26,
-        "score": 0.842,
-        "rank": 61,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        26
-      ]
-    },
-    {
       "fullName": "Ikalus1988/MisakaNet",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 410,
-        "score": 0.8413,
-        "rank": 62,
+        "score": 0.8414,
+        "rank": 64,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2120,47 +2188,13 @@
       ]
     },
     {
-      "fullName": "omdsh-dev/dsh-data-agent",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 25,
-        "score": 0.8398,
-        "rank": 63,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        25
-      ]
-    },
-    {
       "fullName": "whyihaveyou/dsh-suite",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 23,
-        "score": 0.838,
-        "rank": 64,
+        "stars": 24,
+        "score": 0.8397,
+        "rank": 65,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2184,7 +2218,7 @@
       },
       "direction": "new",
       "sparkline": [
-        23
+        24
       ]
     },
     {
@@ -2193,8 +2227,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 23,
-        "score": 0.8379,
-        "rank": 65,
+        "score": 0.8378,
+        "rank": 66,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2228,7 +2262,7 @@
       "current": {
         "stars": 381,
         "score": 0.8376,
-        "rank": 66,
+        "rank": 67,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2262,7 +2296,7 @@
       "current": {
         "stars": 24,
         "score": 0.836,
-        "rank": 67,
+        "rank": 68,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2296,7 +2330,7 @@
       "current": {
         "stars": 23,
         "score": 0.836,
-        "rank": 68,
+        "rank": 69,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2324,13 +2358,47 @@
       ]
     },
     {
+      "fullName": "yyyyukari/dsh-plugin-workshop",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 22,
+        "score": 0.8358,
+        "rank": 70,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        22
+      ]
+    },
+    {
       "fullName": "zhaoolee/notes",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 142,
-        "score": 0.8355,
-        "rank": 69,
+        "score": 0.8354,
+        "rank": 71,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2358,80 +2426,12 @@
       ]
     },
     {
-      "fullName": "vlln/dsh-navbar",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 23,
-        "score": 0.8342,
-        "rank": 70,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        23
-      ]
-    },
-    {
       "fullName": "william-jin-cmu/dsh-vision",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 23,
-        "score": 0.8332,
-        "rank": 71,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        23
-      ]
-    },
-    {
-      "fullName": "the-beating-light-of-the-nail/dsh-meme-hub",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 20,
-        "score": 0.832,
+        "stars": 24,
+        "score": 0.8349,
         "rank": 72,
         "certified": false,
         "npmWeekly": null,
@@ -2456,16 +2456,16 @@
       },
       "direction": "new",
       "sparkline": [
-        20
+        24
       ]
     },
     {
-      "fullName": "yyyyukari/dsh-plugin-workshop",
+      "fullName": "vlln/dsh-navbar",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 20,
-        "score": 0.8319,
+        "stars": 23,
+        "score": 0.8341,
         "rank": 73,
         "certified": false,
         "npmWeekly": null,
@@ -2490,7 +2490,7 @@
       },
       "direction": "new",
       "sparkline": [
-        20
+        23
       ]
     },
     {
@@ -2498,8 +2498,8 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 20,
-        "score": 0.8315,
+        "stars": 21,
+        "score": 0.8335,
         "rank": 74,
         "certified": false,
         "npmWeekly": null,
@@ -2524,7 +2524,7 @@
       },
       "direction": "new",
       "sparkline": [
-        20
+        21
       ]
     },
     {
@@ -2532,9 +2532,43 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 20,
-        "score": 0.8302,
+        "stars": 21,
+        "score": 0.8321,
         "rank": 75,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        21
+      ]
+    },
+    {
+      "fullName": "the-beating-light-of-the-nail/dsh-meme-hub",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 20,
+        "score": 0.8319,
+        "rank": 76,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2567,8 +2601,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 19,
-        "score": 0.8296,
-        "rank": 76,
+        "score": 0.8295,
+        "rank": 77,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2600,9 +2634,9 @@
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
-        "stars": 327,
-        "score": 0.829,
-        "rank": 77,
+        "stars": 328,
+        "score": 0.8291,
+        "rank": 78,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2626,7 +2660,7 @@
       },
       "direction": "new",
       "sparkline": [
-        327
+        328
       ]
     },
     {
@@ -2635,8 +2669,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 18,
-        "score": 0.8261,
-        "rank": 78,
+        "score": 0.826,
+        "rank": 79,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2669,8 +2703,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 301,
-        "score": 0.8257,
-        "rank": 79,
+        "score": 0.8256,
+        "rank": 80,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2698,13 +2732,47 @@
       ]
     },
     {
+      "fullName": "omdsh-dev/dsh-plugin-check",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 18,
+        "score": 0.825,
+        "rank": 81,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        18
+      ]
+    },
+    {
       "fullName": "hellodigua/dsh-emoji",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 17,
-        "score": 0.8248,
-        "rank": 80,
+        "score": 0.8247,
+        "rank": 82,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2737,8 +2805,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 18,
-        "score": 0.824,
-        "rank": 81,
+        "score": 0.8239,
+        "rank": 83,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2771,42 +2839,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 17,
-        "score": 0.8227,
-        "rank": 82,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        17
-      ]
-    },
-    {
-      "fullName": "omdsh-dev/dsh-plugin-check",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 17,
-        "score": 0.8227,
-        "rank": 83,
+        "score": 0.8226,
+        "rank": 84,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2840,7 +2874,7 @@
       "current": {
         "stars": 15,
         "score": 0.8203,
-        "rank": 84,
+        "rank": 85,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2874,7 +2908,7 @@
       "current": {
         "stars": 16,
         "score": 0.8182,
-        "rank": 85,
+        "rank": 86,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2907,8 +2941,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 15,
-        "score": 0.8176,
-        "rank": 86,
+        "score": 0.8175,
+        "rank": 87,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2942,7 +2976,7 @@
       "current": {
         "stars": 14,
         "score": 0.8148,
-        "rank": 87,
+        "rank": 88,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -2975,8 +3009,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 1057,
-        "score": 0.8131,
-        "rank": 88,
+        "score": 0.813,
+        "rank": 89,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3004,13 +3038,47 @@
       ]
     },
     {
+      "fullName": "ZRui-C/dsh-computer-use",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 13,
+        "score": 0.8129,
+        "rank": 90,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        13
+      ]
+    },
+    {
       "fullName": "Ghost011118/dsh-balance-meter",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 13,
-        "score": 0.8119,
-        "rank": 89,
+        "score": 0.8118,
+        "rank": 91,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3043,8 +3111,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 12,
-        "score": 0.8114,
-        "rank": 90,
+        "score": 0.8113,
+        "rank": 92,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3077,42 +3145,8 @@
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 12,
-        "score": 0.8111,
-        "rank": 91,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        12
-      ]
-    },
-    {
-      "fullName": "dhicoc/dsh-reverse-skill",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 12,
-        "score": 0.8109,
-        "rank": 92,
+        "score": 0.811,
+        "rank": 93,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3146,7 +3180,7 @@
       "current": {
         "stars": 80,
         "score": 0.8108,
-        "rank": 93,
+        "rank": 94,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3174,13 +3208,47 @@
       ]
     },
     {
+      "fullName": "dhicoc/dsh-reverse-skill",
+      "firstSeen": "2026-08-15",
+      "lastSeen": "2026-08-15",
+      "current": {
+        "stars": 12,
+        "score": 0.8108,
+        "rank": 95,
+        "certified": false,
+        "npmWeekly": null,
+        "npmMonthly": null
+      },
+      "deltas": {
+        "7d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "30d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        },
+        "90d": {
+          "stars": 0,
+          "score": 0,
+          "rank": 0
+        }
+      },
+      "direction": "new",
+      "sparkline": [
+        12
+      ]
+    },
+    {
       "fullName": "flymysql/dsh-remote",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 12,
         "score": 0.8105,
-        "rank": 94,
+        "rank": 96,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3214,7 +3282,7 @@
       "current": {
         "stars": 12,
         "score": 0.8095,
-        "rank": 95,
+        "rank": 97,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3248,7 +3316,7 @@
       "current": {
         "stars": 236,
         "score": 0.809,
-        "rank": 96,
+        "rank": 98,
         "certified": false,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3282,7 +3350,7 @@
       "current": {
         "stars": 11,
         "score": 0.8079,
-        "rank": 97,
+        "rank": 99,
         "certified": true,
         "npmWeekly": null,
         "npmMonthly": null
@@ -3310,80 +3378,12 @@
       ]
     },
     {
-      "fullName": "UNLINEARITY/dsh-code",
+      "fullName": "linenxi-ctrl/dsh-vision",
       "firstSeen": "2026-08-15",
       "lastSeen": "2026-08-15",
       "current": {
         "stars": 11,
         "score": 0.8079,
-        "rank": 98,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        11
-      ]
-    },
-    {
-      "fullName": "Lixiaoyiao/deepseek-harness-action",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 11,
-        "score": 0.8074,
-        "rank": 99,
-        "certified": false,
-        "npmWeekly": null,
-        "npmMonthly": null
-      },
-      "deltas": {
-        "7d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "30d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        },
-        "90d": {
-          "stars": 0,
-          "score": 0,
-          "rank": 0
-        }
-      },
-      "direction": "new",
-      "sparkline": [
-        11
-      ]
-    },
-    {
-      "fullName": "ZRui-C/dsh-computer-use",
-      "firstSeen": "2026-08-15",
-      "lastSeen": "2026-08-15",
-      "current": {
-        "stars": 11,
-        "score": 0.8062,
         "rank": 100,
         "certified": false,
         "npmWeekly": null,
@@ -3415,11 +3415,11 @@
   "rankings": {
     "starsGain7d": [
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1155,
+          "stars": 2515,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -3445,15 +3445,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1155
+          2515
         ]
       },
       {
-        "fullName": "omdsh-dev/DSH-better-sidebar",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1065,
+          "stars": 1176,
           "score": 1,
           "rank": 2,
           "certified": false,
@@ -3479,7 +3479,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1065
+          1176
         ]
       },
       {
@@ -3487,7 +3487,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3440,
+          "stars": 3441,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -3513,16 +3513,16 @@
         },
         "direction": "new",
         "sparkline": [
-          3440
+          3441
         ]
       },
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "omdsh-dev/DSH-better-sidebar",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2483,
-          "score": 0.9998,
+          "stars": 1097,
+          "score": 0.9999,
           "rank": 4,
           "certified": false,
           "npmWeekly": null,
@@ -3547,7 +3547,7 @@
         },
         "direction": "new",
         "sparkline": [
-          2483
+          1097
         ]
       },
       {
@@ -3555,8 +3555,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1018,
-          "score": 0.9989,
+          "stars": 1019,
+          "score": 0.9988,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -3581,7 +3581,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1018
+          1019
         ]
       },
       {
@@ -3589,8 +3589,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1736,
-          "score": 0.9986,
+          "stars": 1765,
+          "score": 0.9985,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -3615,7 +3615,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1736
+          1765
         ]
       },
       {
@@ -3623,8 +3623,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 586,
-          "score": 0.9767,
+          "stars": 588,
+          "score": 0.9768,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -3649,7 +3649,7 @@
         },
         "direction": "new",
         "sparkline": [
-          586
+          588
         ]
       },
       {
@@ -3691,7 +3691,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 413,
+          "stars": 414,
           "score": 0.9612,
           "rank": 9,
           "certified": false,
@@ -3717,7 +3717,7 @@
         },
         "direction": "new",
         "sparkline": [
-          413
+          414
         ]
       },
       {
@@ -3725,8 +3725,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 409,
-          "score": 0.9597,
+          "stars": 414,
+          "score": 0.9602,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -3751,7 +3751,7 @@
         },
         "direction": "new",
         "sparkline": [
-          409
+          414
         ]
       },
       {
@@ -3759,8 +3759,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 396,
-          "score": 0.9587,
+          "stars": 399,
+          "score": 0.959,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -3785,7 +3785,7 @@
         },
         "direction": "new",
         "sparkline": [
-          396
+          399
         ]
       },
       {
@@ -3793,8 +3793,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4663,
-          "score": 0.9399,
+          "stars": 4872,
+          "score": 0.9398,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -3819,7 +3819,7 @@
         },
         "direction": "new",
         "sparkline": [
-          4663
+          4872
         ]
       },
       {
@@ -3827,8 +3827,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 218,
-          "score": 0.9337,
+          "stars": 233,
+          "score": 0.9365,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -3853,7 +3853,7 @@
         },
         "direction": "new",
         "sparkline": [
-          218
+          233
         ]
       },
       {
@@ -3861,8 +3861,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 198,
-          "score": 0.9281,
+          "stars": 204,
+          "score": 0.9293,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -3887,7 +3887,7 @@
         },
         "direction": "new",
         "sparkline": [
-          198
+          204
         ]
       },
       {
@@ -3895,8 +3895,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 184,
-          "score": 0.9267,
+          "stars": 186,
+          "score": 0.9271,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -3921,7 +3921,7 @@
         },
         "direction": "new",
         "sparkline": [
-          184
+          186
         ]
       },
       {
@@ -3929,8 +3929,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 153,
-          "score": 0.9187,
+          "stars": 155,
+          "score": 0.9192,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -3955,7 +3955,7 @@
         },
         "direction": "new",
         "sparkline": [
-          153
+          155
         ]
       },
       {
@@ -3964,7 +3964,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9186,
+          "score": 0.9185,
           "rank": 17,
           "certified": false,
           "npmWeekly": null,
@@ -3997,8 +3997,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 160,
-          "score": 0.9168,
+          "stars": 162,
+          "score": 0.9173,
           "rank": 18,
           "certified": false,
           "npmWeekly": null,
@@ -4023,7 +4023,7 @@
         },
         "direction": "new",
         "sparkline": [
-          160
+          162
         ]
       },
       {
@@ -4031,8 +4031,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 139,
-          "score": 0.9143,
+          "stars": 143,
+          "score": 0.9158,
           "rank": 19,
           "certified": false,
           "npmWeekly": null,
@@ -4057,7 +4057,7 @@
         },
         "direction": "new",
         "sparkline": [
-          139
+          143
         ]
       },
       {
@@ -4065,8 +4065,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 833,
-          "score": 0.9117,
+          "stars": 852,
+          "score": 0.9126,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -4091,17 +4091,17 @@
         },
         "direction": "new",
         "sparkline": [
-          833
+          852
         ]
       }
     ],
     "starsGain30d": [
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1155,
+          "stars": 2515,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -4127,15 +4127,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1155
+          2515
         ]
       },
       {
-        "fullName": "omdsh-dev/DSH-better-sidebar",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1065,
+          "stars": 1176,
           "score": 1,
           "rank": 2,
           "certified": false,
@@ -4161,7 +4161,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1065
+          1176
         ]
       },
       {
@@ -4169,7 +4169,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3440,
+          "stars": 3441,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -4195,16 +4195,16 @@
         },
         "direction": "new",
         "sparkline": [
-          3440
+          3441
         ]
       },
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "omdsh-dev/DSH-better-sidebar",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2483,
-          "score": 0.9998,
+          "stars": 1097,
+          "score": 0.9999,
           "rank": 4,
           "certified": false,
           "npmWeekly": null,
@@ -4229,7 +4229,7 @@
         },
         "direction": "new",
         "sparkline": [
-          2483
+          1097
         ]
       },
       {
@@ -4237,8 +4237,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1018,
-          "score": 0.9989,
+          "stars": 1019,
+          "score": 0.9988,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -4263,7 +4263,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1018
+          1019
         ]
       },
       {
@@ -4271,8 +4271,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1736,
-          "score": 0.9986,
+          "stars": 1765,
+          "score": 0.9985,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -4297,7 +4297,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1736
+          1765
         ]
       },
       {
@@ -4305,8 +4305,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 586,
-          "score": 0.9767,
+          "stars": 588,
+          "score": 0.9768,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -4331,7 +4331,7 @@
         },
         "direction": "new",
         "sparkline": [
-          586
+          588
         ]
       },
       {
@@ -4373,7 +4373,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 413,
+          "stars": 414,
           "score": 0.9612,
           "rank": 9,
           "certified": false,
@@ -4399,7 +4399,7 @@
         },
         "direction": "new",
         "sparkline": [
-          413
+          414
         ]
       },
       {
@@ -4407,8 +4407,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 409,
-          "score": 0.9597,
+          "stars": 414,
+          "score": 0.9602,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -4433,7 +4433,7 @@
         },
         "direction": "new",
         "sparkline": [
-          409
+          414
         ]
       },
       {
@@ -4441,8 +4441,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 396,
-          "score": 0.9587,
+          "stars": 399,
+          "score": 0.959,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -4467,7 +4467,7 @@
         },
         "direction": "new",
         "sparkline": [
-          396
+          399
         ]
       },
       {
@@ -4475,8 +4475,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4663,
-          "score": 0.9399,
+          "stars": 4872,
+          "score": 0.9398,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -4501,7 +4501,7 @@
         },
         "direction": "new",
         "sparkline": [
-          4663
+          4872
         ]
       },
       {
@@ -4509,8 +4509,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 218,
-          "score": 0.9337,
+          "stars": 233,
+          "score": 0.9365,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -4535,7 +4535,7 @@
         },
         "direction": "new",
         "sparkline": [
-          218
+          233
         ]
       },
       {
@@ -4543,8 +4543,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 198,
-          "score": 0.9281,
+          "stars": 204,
+          "score": 0.9293,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -4569,7 +4569,7 @@
         },
         "direction": "new",
         "sparkline": [
-          198
+          204
         ]
       },
       {
@@ -4577,8 +4577,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 184,
-          "score": 0.9267,
+          "stars": 186,
+          "score": 0.9271,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -4603,7 +4603,7 @@
         },
         "direction": "new",
         "sparkline": [
-          184
+          186
         ]
       },
       {
@@ -4611,8 +4611,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 153,
-          "score": 0.9187,
+          "stars": 155,
+          "score": 0.9192,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -4637,7 +4637,7 @@
         },
         "direction": "new",
         "sparkline": [
-          153
+          155
         ]
       },
       {
@@ -4646,7 +4646,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9186,
+          "score": 0.9185,
           "rank": 17,
           "certified": false,
           "npmWeekly": null,
@@ -4679,8 +4679,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 160,
-          "score": 0.9168,
+          "stars": 162,
+          "score": 0.9173,
           "rank": 18,
           "certified": false,
           "npmWeekly": null,
@@ -4705,7 +4705,7 @@
         },
         "direction": "new",
         "sparkline": [
-          160
+          162
         ]
       },
       {
@@ -4713,8 +4713,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 139,
-          "score": 0.9143,
+          "stars": 143,
+          "score": 0.9158,
           "rank": 19,
           "certified": false,
           "npmWeekly": null,
@@ -4739,7 +4739,7 @@
         },
         "direction": "new",
         "sparkline": [
-          139
+          143
         ]
       },
       {
@@ -4747,8 +4747,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 833,
-          "score": 0.9117,
+          "stars": 852,
+          "score": 0.9126,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -4773,17 +4773,17 @@
         },
         "direction": "new",
         "sparkline": [
-          833
+          852
         ]
       }
     ],
     "starsGain90d": [
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1155,
+          "stars": 2515,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -4809,15 +4809,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1155
+          2515
         ]
       },
       {
-        "fullName": "omdsh-dev/DSH-better-sidebar",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1065,
+          "stars": 1176,
           "score": 1,
           "rank": 2,
           "certified": false,
@@ -4843,7 +4843,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1065
+          1176
         ]
       },
       {
@@ -4851,7 +4851,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3440,
+          "stars": 3441,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -4877,16 +4877,16 @@
         },
         "direction": "new",
         "sparkline": [
-          3440
+          3441
         ]
       },
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "omdsh-dev/DSH-better-sidebar",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2483,
-          "score": 0.9998,
+          "stars": 1097,
+          "score": 0.9999,
           "rank": 4,
           "certified": false,
           "npmWeekly": null,
@@ -4911,7 +4911,7 @@
         },
         "direction": "new",
         "sparkline": [
-          2483
+          1097
         ]
       },
       {
@@ -4919,8 +4919,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1018,
-          "score": 0.9989,
+          "stars": 1019,
+          "score": 0.9988,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -4945,7 +4945,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1018
+          1019
         ]
       },
       {
@@ -4953,8 +4953,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1736,
-          "score": 0.9986,
+          "stars": 1765,
+          "score": 0.9985,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -4979,7 +4979,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1736
+          1765
         ]
       },
       {
@@ -4987,8 +4987,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 586,
-          "score": 0.9767,
+          "stars": 588,
+          "score": 0.9768,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -5013,7 +5013,7 @@
         },
         "direction": "new",
         "sparkline": [
-          586
+          588
         ]
       },
       {
@@ -5055,7 +5055,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 413,
+          "stars": 414,
           "score": 0.9612,
           "rank": 9,
           "certified": false,
@@ -5081,7 +5081,7 @@
         },
         "direction": "new",
         "sparkline": [
-          413
+          414
         ]
       },
       {
@@ -5089,8 +5089,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 409,
-          "score": 0.9597,
+          "stars": 414,
+          "score": 0.9602,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -5115,7 +5115,7 @@
         },
         "direction": "new",
         "sparkline": [
-          409
+          414
         ]
       },
       {
@@ -5123,8 +5123,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 396,
-          "score": 0.9587,
+          "stars": 399,
+          "score": 0.959,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -5149,7 +5149,7 @@
         },
         "direction": "new",
         "sparkline": [
-          396
+          399
         ]
       },
       {
@@ -5157,8 +5157,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4663,
-          "score": 0.9399,
+          "stars": 4872,
+          "score": 0.9398,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -5183,7 +5183,7 @@
         },
         "direction": "new",
         "sparkline": [
-          4663
+          4872
         ]
       },
       {
@@ -5191,8 +5191,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 218,
-          "score": 0.9337,
+          "stars": 233,
+          "score": 0.9365,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -5217,7 +5217,7 @@
         },
         "direction": "new",
         "sparkline": [
-          218
+          233
         ]
       },
       {
@@ -5225,8 +5225,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 198,
-          "score": 0.9281,
+          "stars": 204,
+          "score": 0.9293,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -5251,7 +5251,7 @@
         },
         "direction": "new",
         "sparkline": [
-          198
+          204
         ]
       },
       {
@@ -5259,8 +5259,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 184,
-          "score": 0.9267,
+          "stars": 186,
+          "score": 0.9271,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -5285,7 +5285,7 @@
         },
         "direction": "new",
         "sparkline": [
-          184
+          186
         ]
       },
       {
@@ -5293,8 +5293,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 153,
-          "score": 0.9187,
+          "stars": 155,
+          "score": 0.9192,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -5319,7 +5319,7 @@
         },
         "direction": "new",
         "sparkline": [
-          153
+          155
         ]
       },
       {
@@ -5328,7 +5328,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9186,
+          "score": 0.9185,
           "rank": 17,
           "certified": false,
           "npmWeekly": null,
@@ -5361,8 +5361,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 160,
-          "score": 0.9168,
+          "stars": 162,
+          "score": 0.9173,
           "rank": 18,
           "certified": false,
           "npmWeekly": null,
@@ -5387,7 +5387,7 @@
         },
         "direction": "new",
         "sparkline": [
-          160
+          162
         ]
       },
       {
@@ -5395,8 +5395,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 139,
-          "score": 0.9143,
+          "stars": 143,
+          "score": 0.9158,
           "rank": 19,
           "certified": false,
           "npmWeekly": null,
@@ -5421,7 +5421,7 @@
         },
         "direction": "new",
         "sparkline": [
-          139
+          143
         ]
       },
       {
@@ -5429,8 +5429,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 833,
-          "score": 0.9117,
+          "stars": 852,
+          "score": 0.9126,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -5455,7 +5455,7 @@
         },
         "direction": "new",
         "sparkline": [
-          833
+          852
         ]
       }
     ],
@@ -5463,11 +5463,11 @@
     "downloads30d": [],
     "newlyListed": [
       {
-        "fullName": "ccch1mneyyy/dsh-TUI",
+        "fullName": "zhu1090093659/dsh-web-ui",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1155,
+          "stars": 2515,
           "score": 1,
           "rank": 1,
           "certified": false,
@@ -5493,15 +5493,15 @@
         },
         "direction": "new",
         "sparkline": [
-          1155
+          2515
         ]
       },
       {
-        "fullName": "omdsh-dev/DSH-better-sidebar",
+        "fullName": "ccch1mneyyy/dsh-TUI",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1065,
+          "stars": 1176,
           "score": 1,
           "rank": 2,
           "certified": false,
@@ -5527,7 +5527,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1065
+          1176
         ]
       },
       {
@@ -5535,7 +5535,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 3440,
+          "stars": 3441,
           "score": 0.9999,
           "rank": 3,
           "certified": false,
@@ -5561,16 +5561,16 @@
         },
         "direction": "new",
         "sparkline": [
-          3440
+          3441
         ]
       },
       {
-        "fullName": "zhu1090093659/dsh-web-ui",
+        "fullName": "omdsh-dev/DSH-better-sidebar",
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 2483,
-          "score": 0.9998,
+          "stars": 1097,
+          "score": 0.9999,
           "rank": 4,
           "certified": false,
           "npmWeekly": null,
@@ -5595,7 +5595,7 @@
         },
         "direction": "new",
         "sparkline": [
-          2483
+          1097
         ]
       },
       {
@@ -5603,8 +5603,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1018,
-          "score": 0.9989,
+          "stars": 1019,
+          "score": 0.9988,
           "rank": 5,
           "certified": false,
           "npmWeekly": null,
@@ -5629,7 +5629,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1018
+          1019
         ]
       },
       {
@@ -5637,8 +5637,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 1736,
-          "score": 0.9986,
+          "stars": 1765,
+          "score": 0.9985,
           "rank": 6,
           "certified": false,
           "npmWeekly": null,
@@ -5663,7 +5663,7 @@
         },
         "direction": "new",
         "sparkline": [
-          1736
+          1765
         ]
       },
       {
@@ -5671,8 +5671,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 586,
-          "score": 0.9767,
+          "stars": 588,
+          "score": 0.9768,
           "rank": 7,
           "certified": false,
           "npmWeekly": null,
@@ -5697,7 +5697,7 @@
         },
         "direction": "new",
         "sparkline": [
-          586
+          588
         ]
       },
       {
@@ -5739,7 +5739,7 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 413,
+          "stars": 414,
           "score": 0.9612,
           "rank": 9,
           "certified": false,
@@ -5765,7 +5765,7 @@
         },
         "direction": "new",
         "sparkline": [
-          413
+          414
         ]
       },
       {
@@ -5773,8 +5773,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 409,
-          "score": 0.9597,
+          "stars": 414,
+          "score": 0.9602,
           "rank": 10,
           "certified": false,
           "npmWeekly": null,
@@ -5799,7 +5799,7 @@
         },
         "direction": "new",
         "sparkline": [
-          409
+          414
         ]
       },
       {
@@ -5807,8 +5807,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 396,
-          "score": 0.9587,
+          "stars": 399,
+          "score": 0.959,
           "rank": 11,
           "certified": false,
           "npmWeekly": null,
@@ -5833,7 +5833,7 @@
         },
         "direction": "new",
         "sparkline": [
-          396
+          399
         ]
       },
       {
@@ -5841,8 +5841,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 4663,
-          "score": 0.9399,
+          "stars": 4872,
+          "score": 0.9398,
           "rank": 12,
           "certified": false,
           "npmWeekly": null,
@@ -5867,7 +5867,7 @@
         },
         "direction": "new",
         "sparkline": [
-          4663
+          4872
         ]
       },
       {
@@ -5875,8 +5875,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 218,
-          "score": 0.9337,
+          "stars": 233,
+          "score": 0.9365,
           "rank": 13,
           "certified": false,
           "npmWeekly": null,
@@ -5901,7 +5901,7 @@
         },
         "direction": "new",
         "sparkline": [
-          218
+          233
         ]
       },
       {
@@ -5909,8 +5909,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 198,
-          "score": 0.9281,
+          "stars": 204,
+          "score": 0.9293,
           "rank": 14,
           "certified": false,
           "npmWeekly": null,
@@ -5935,7 +5935,7 @@
         },
         "direction": "new",
         "sparkline": [
-          198
+          204
         ]
       },
       {
@@ -5943,8 +5943,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 184,
-          "score": 0.9267,
+          "stars": 186,
+          "score": 0.9271,
           "rank": 15,
           "certified": false,
           "npmWeekly": null,
@@ -5969,7 +5969,7 @@
         },
         "direction": "new",
         "sparkline": [
-          184
+          186
         ]
       },
       {
@@ -5977,8 +5977,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 153,
-          "score": 0.9187,
+          "stars": 155,
+          "score": 0.9192,
           "rank": 16,
           "certified": false,
           "npmWeekly": null,
@@ -6003,7 +6003,7 @@
         },
         "direction": "new",
         "sparkline": [
-          153
+          155
         ]
       },
       {
@@ -6012,7 +6012,7 @@
         "lastSeen": "2026-08-15",
         "current": {
           "stars": 153,
-          "score": 0.9186,
+          "score": 0.9185,
           "rank": 17,
           "certified": false,
           "npmWeekly": null,
@@ -6045,8 +6045,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 160,
-          "score": 0.9168,
+          "stars": 162,
+          "score": 0.9173,
           "rank": 18,
           "certified": false,
           "npmWeekly": null,
@@ -6071,7 +6071,7 @@
         },
         "direction": "new",
         "sparkline": [
-          160
+          162
         ]
       },
       {
@@ -6079,8 +6079,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 139,
-          "score": 0.9143,
+          "stars": 143,
+          "score": 0.9158,
           "rank": 19,
           "certified": false,
           "npmWeekly": null,
@@ -6105,7 +6105,7 @@
         },
         "direction": "new",
         "sparkline": [
-          139
+          143
         ]
       },
       {
@@ -6113,8 +6113,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 833,
-          "score": 0.9117,
+          "stars": 852,
+          "score": 0.9126,
           "rank": 20,
           "certified": false,
           "npmWeekly": null,
@@ -6139,7 +6139,7 @@
         },
         "direction": "new",
         "sparkline": [
-          833
+          852
         ]
       }
     ],
@@ -6149,8 +6149,8 @@
         "firstSeen": "2026-08-15",
         "lastSeen": "2026-08-15",
         "current": {
-          "stars": 111,
-          "score": 0.9049,
+          "stars": 119,
+          "score": 0.9079,
           "rank": 21,
           "certified": true,
           "npmWeekly": null,
@@ -6175,7 +6175,7 @@
         },
         "direction": "new",
         "sparkline": [
-          111
+          119
         ]
       },
       {
@@ -6185,7 +6185,7 @@
         "current": {
           "stars": 11,
           "score": 0.8079,
-          "rank": 97,
+          "rank": 99,
           "certified": true,
           "npmWeekly": null,
           "npmMonthly": null
