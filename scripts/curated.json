@@ -12,6 +12,11 @@
       "issue": 5,
       "approvedAt": "2026-08-15",
       "npmPackage": "dsh-recommend"
+    },
+    {
+      "fullName": "beiyege-01/dsh-voice-ai-girlfriend",
+      "issue": 7,
+      "approvedAt": "2026-08-15"
     }
   ]
 }
