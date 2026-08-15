@@ -44,7 +44,7 @@ let doc = null // data/trends.json
 let activePanel = 'stars7'
 
 function rowHtml(t, rank, meta, withSpark) {
-  const certified = t.current?.certified ? '<span class="badge-cert" title="精选认证（issue 审核通过）">🏅</span>' : ''
+  const certified = t.current?.certified ? '<span class="badge-cert" title="精选认证（issue 审核通过）" aria-label="精选认证">🏅 精选</span>' : ''
   const value = meta.value(t)
   return `
     <article class="row">

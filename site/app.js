@@ -232,7 +232,7 @@ function render() {
       <div class="row-top">
         <span class="rank ${tier}">${medal}</span>
         <div class="name">
-          <a href="${esc(p.url)}" target="_blank" rel="noopener" title="${esc(p.fullName)}">${esc(p.fullName)}${p.certified ? '<span class="badge-cert" title="精选认证（issue 审核通过）">🏅</span>' : ''}${p.excluded ? `<span class="reason">${esc(p.excluded)}</span>` : ''}</a>
+          <a href="${esc(p.url)}" target="_blank" rel="noopener" title="${esc(p.fullName)}">${esc(p.fullName)}${p.certified ? '<span class="badge-cert" title="精选认证（issue 审核通过）" aria-label="精选认证">🏅 精选</span>' : ''}${p.excluded ? `<span class="reason">${esc(p.excluded)}</span>` : ''}</a>
           ${p.category ? `<span class="cat">${esc(p.category)}</span>` : ''}
           <a class="repo-addr" href="${esc(p.url)}" target="_blank" rel="noopener" title="仓库地址（打开即可 Star）">${repoLabel}</a>
         </div>
