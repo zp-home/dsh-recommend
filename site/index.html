@@ -17,36 +17,41 @@
     </nav>
   </header>
 
-  <main>
-    <!-- 精选认证轮播：通过 issue 审核的插件独立展示（无认证插件时自动隐藏） -->
-    <section id="certified-carousel" class="cert-carousel" hidden>
-      <div class="cert-head">
-        <span class="cert-title">🏅 精选认证</span>
-        <span class="cert-sub">经 issue 审核通过的优质插件 · 随机展示</span>
-      </div>
-      <div class="cert-track-wrap">
-        <button type="button" class="cert-arrow" id="cert-prev" aria-label="上一个" hidden>‹</button>
-        <div class="cert-track" id="cert-track"></div>
-        <button type="button" class="cert-arrow" id="cert-next" aria-label="下一个" hidden>›</button>
-      </div>
-      <div class="cert-dots" id="cert-dots"></div>
-    </section>
+  <main class="layout">
+    <!-- 主榜单列 -->
+    <div class="layout-main">
+      <section class="controls">
+        <input id="search" type="search" placeholder="搜索名称 / 描述 / 分类…">
+        <select id="view">
+          <option value="score">按综合分</option>
+          <option value="stars">按热度（★）</option>
+          <option value="updated">按最近更新</option>
+          <option value="newest">按最新发布</option>
+        </select>
+        <select id="category"><option value="">全部分类</option></select>
+        <label class="toggle"><input type="checkbox" id="showExcluded"> 显示被排除仓库</label>
+      </section>
 
-    <section class="controls">
-      <input id="search" type="search" placeholder="搜索名称 / 描述 / 分类…">
-      <select id="view">
-        <option value="score">按综合分</option>
-        <option value="stars">按热度（★）</option>
-        <option value="updated">按最近更新</option>
-        <option value="newest">按最新发布</option>
-      </select>
-      <select id="category"><option value="">全部分类</option></select>
-      <label class="toggle"><input type="checkbox" id="showExcluded"> 显示被排除仓库</label>
-    </section>
+      <div id="list" class="list"></div>
+      <div id="pager" class="pager"></div>
+      <p class="meta" id="count"></p>
+    </div>
 
-    <div id="list" class="list"></div>
-    <div id="pager" class="pager"></div>
-    <p class="meta" id="count"></p>
+    <!-- 右侧精选认证栏：经 issue 审核通过的插件（无认证插件时自动隐藏） -->
+    <aside class="layout-side">
+      <section id="certified-carousel" class="cert-carousel" hidden>
+        <div class="cert-head">
+          <span class="cert-title">🏅 精选认证</span>
+          <span class="cert-sub">经 issue 审核 · 随机展示</span>
+        </div>
+        <div class="cert-track-wrap">
+          <button type="button" class="cert-arrow" id="cert-prev" aria-label="上一个" hidden>‹</button>
+          <div class="cert-track" id="cert-track"></div>
+          <button type="button" class="cert-arrow" id="cert-next" aria-label="下一个" hidden>›</button>
+        </div>
+        <div class="cert-dots" id="cert-dots"></div>
+      </section>
+    </aside>
   </main>
 
   <footer>
