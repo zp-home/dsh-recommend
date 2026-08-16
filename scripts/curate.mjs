@@ -54,16 +54,56 @@ export async function addCurated(fullName, issueNumber, npmPackage = null) {
   return entry
 }
 
+/**
+ * 从 issue body（GitHub 表单渲染的 Markdown）提取仓库地址与 npm 包名。
+ * 替代 bash grep：规避 bash 正则引擎差异与反引号命令注入（issue 正文可能含
+ * `dsh.bundle` 等反引号内容，bash 展开时会执行命令）。
+ * @param body - issue body 原文。
+ * @returns { fullName: string, npmPackage: string | null }
+ */
+export function parseIssueBody(body) {
+  const text = String(body ?? '')
+  // 仓库地址：github.com/owner/name 或 github:owner/name（取首个）
+  const repoMatch = text.match(/github\.com\/([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)/)
+    || text.match(/github:([A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)/)
+  const fullName = repoMatch ? repoMatch[1].replace(/[)#.,;]/g, '') : ''
+  // npm 包名：表单字段后「反引号包裹」或「换行后短行」的值；
+  // 排除含空格/斜杠路径/命令样式的（如 `dsh plugin add ...`）
+  let npmPackage = null
+  const npmField = text.match(/(?:npm\s*包名|npm\s*package)[^\n`]*\s*`([^`\n]+)`|(?:npm\s*包名|npm\s*package)[^\n]*\n\s*([A-Za-z0-9@_.-]+(?:\/[A-Za-z0-9_.-]+)?)\s*(?:\n|$)/i)
+  if (npmField) {
+    const candidate = (npmField[1] ?? npmField[2] ?? '').trim()
+    // 只接受合法 npm 包名；拒绝含空格/反引号/命令样式（如 `dsh plugin add ...`）
+    if (/^@?[A-Za-z0-9_.-]+(\/[A-Za-z0-9_.-]+)?$/.test(candidate)) npmPackage = candidate
+  }
+  return { fullName, npmPackage }
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const argv = process.argv.slice(2)
   const repoIndex = argv.indexOf('--repo')
   const issueIndex = argv.indexOf('--issue')
   const npmIndex = argv.indexOf('--npm')
+  const bodyIndex = argv.indexOf('--body')
   const repo = repoIndex >= 0 ? argv[repoIndex + 1] : ''
   const issue = issueIndex >= 0 ? argv[issueIndex + 1] : ''
   const npm = npmIndex >= 0 ? argv[npmIndex + 1] : null
+  let body = bodyIndex >= 0 ? argv[bodyIndex + 1] : null
+
+  // --body 模式：从 issue body 直接解析（workflow 传入，替代 bash 正则提取）
+  if (body !== null) {
+    const parsed = parseIssueBody(body)
+    if (!parsed.fullName) {
+      console.error('未在 issue body 中找到仓库地址，跳过')
+      process.exit(0)
+    }
+    const entry = await addCurated(parsed.fullName, issue, parsed.npmPackage)
+    console.log(entry ? `已收录精选：${entry.fullName}（issue #${entry.issue ?? '?'}）` : `已存在，跳过：${parsed.fullName}`)
+    process.exit(0)
+  }
+
   if (!repo) {
-    console.error('用法：node scripts/curate.mjs --repo owner/name --issue 123 [--npm dsh-xxx]')
+    console.error('用法：node scripts/curate.mjs --repo owner/name --issue 123 [--npm dsh-xxx] | --body "<issue body>" --issue 123')
     process.exit(2)
   }
   const entry = await addCurated(repo, issue, npm)

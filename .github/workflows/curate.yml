@@ -1,6 +1,12 @@
 # 精选认证：issue 打上 approved 标签 → 自动收录进 scripts/curated.json。
 # 触发条件：任意 issue 被标记 approved（维护者审核通过后手动打的标签）。
 # 收录结果在下次 sync（每 2 小时）时被 score.mjs 读取，插件获得 certified 标记与 🏅 徽章。
+#
+# 安全说明（2026-08-16 修复）：
+# 早期版本用 bash grep 从 issue body 提取仓库/npm，但 issue 正文可能含反引号内容
+# （如 `dsh.bundle`、`dsh plugin add ...`），bash 展开 $NPM 时会触发命令注入
+# （"dsh: command not found"）。现改为经环境变量把整个 body 传给 node 解析
+# （scripts/curate.mjs 的 parseIssueBody），彻底规避 bash 正则与命令展开。
 name: curate
 on:
   issues:
@@ -15,22 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 从 issue body 提取仓库地址与 npm 包名并收录
-        run: |
-          BODY="${{ github.event.issue.body }}"
-          # 仓库地址：issue 模板的 GitHub 仓库地址输入框
-          REPO=$(echo "$BODY" | grep -oE 'github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+' | head -1 | sed 's|github.com/||')
-          # npm 包名：issue 模板的 npm 包名输入框（可能为空）
-          NPM=$(echo "$BODY" | grep -oE '(npm 包名|npm package)[^`\n]*`[^`]+`' | head -1 | sed -E 's/.*`([^`]+)`.*/\1/')
-          if [ -z "$REPO" ]; then
-            echo "未在 issue body 中找到仓库地址，跳过" >&2
-            exit 0
-          fi
-          if [ -n "$NPM" ]; then
-            node scripts/curate.mjs --repo "$REPO" --issue "${{ github.event.issue.number }}" --npm "$NPM"
-          else
-            node scripts/curate.mjs --repo "$REPO" --issue "${{ github.event.issue.number }}"
-          fi
+      - name: 从 issue body 解析并收录
+        run: node scripts/curate.mjs --body "$ISSUE_BODY" --issue "${{ github.event.issue.number }}"
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
       - name: 提交变更
         run: |
           git config user.name "dsh-recommend bot"
