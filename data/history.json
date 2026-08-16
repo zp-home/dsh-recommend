@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updatedAt": "2026-08-16T19:01:43.733Z"
+    "updatedAt": "2026-08-16T20:52:09.800Z"
   },
   "days": [
     {
@@ -713,112 +713,112 @@
     },
     {
       "date": "2026-08-16",
-      "total": 4022,
-      "ranked": 3498,
-      "excluded": 524,
+      "total": 4023,
+      "ranked": 3495,
+      "excluded": 528,
       "top": [
         {
-          "fullName": "anywhere-labs/deepseek-harness-desktop",
+          "fullName": "ccch1mneyyy/dsh-TUI",
           "rank": 1,
           "score": 1,
-          "stars": 8761,
+          "stars": 1535,
           "category": "🛠 基础设施"
         },
         {
-          "fullName": "ccch1mneyyy/dsh-TUI",
+          "fullName": "anywhere-labs/deepseek-harness-desktop",
           "rank": 2,
-          "score": 1,
-          "stars": 1533,
+          "score": 0.9999,
+          "stars": 8798,
           "category": "🛠 基础设施"
         },
         {
-          "fullName": "volcengine/OpenViking",
+          "fullName": "strukto-ai/mirage",
           "rank": 3,
           "score": 0.9999,
-          "stars": 28652,
+          "stars": 3470,
           "category": null
         },
         {
-          "fullName": "omdsh-dev/DSH-better-sidebar",
+          "fullName": "volcengine/OpenViking",
           "rank": 4,
-          "score": 0.9999,
-          "stars": 1615,
-          "category": "🔌 单插件"
+          "score": 0.9997,
+          "stars": 28655,
+          "category": null
         },
         {
           "fullName": "zhu1090093659/dsh-web-ui",
           "rank": 5,
-          "score": 0.9998,
-          "stars": 3387,
+          "score": 0.9997,
+          "stars": 3404,
           "category": "🧰 插件集"
         },
         {
           "fullName": "liustack/modlens",
           "rank": 6,
-          "score": 0.9998,
-          "stars": 2347,
+          "score": 0.9997,
+          "stars": 2358,
           "category": null
         },
         {
-          "fullName": "strukto-ai/mirage",
+          "fullName": "omdsh-dev/DSH-better-sidebar",
           "rank": 7,
-          "score": 0.9995,
-          "stars": 3468,
-          "category": null
+          "score": 0.9997,
+          "stars": 1622,
+          "category": "🔌 单插件"
         },
         {
           "fullName": "GanyuanRan/Aegis",
           "rank": 8,
-          "score": 0.9989,
+          "score": 0.9988,
           "stars": 1024,
           "category": null
         },
         {
           "fullName": "sandbaseai/sandbase-harness",
           "rank": 9,
-          "score": 0.9753,
-          "stars": 599,
+          "score": 0.9752,
+          "stars": 600,
           "category": null
         },
         {
           "fullName": "dsh-market/dsh-market",
           "rank": 10,
-          "score": 0.9739,
-          "stars": 549,
+          "score": 0.9746,
+          "stars": 560,
           "category": null
         },
         {
           "fullName": "Anionex/dsh-vision-toolkit",
           "rank": 11,
-          "score": 0.9715,
-          "stars": 518,
+          "score": 0.9717,
+          "stars": 522,
           "category": "🔌 单插件"
         },
         {
           "fullName": "Nagi-ovo/dsh-ads",
           "rank": 12,
           "score": 0.9637,
-          "stars": 455,
+          "stars": 456,
           "category": "🔌 单插件"
         },
         {
           "fullName": "ysr666/dsh-vision-router",
           "rank": 13,
-          "score": 0.9624,
-          "stars": 420,
+          "score": 0.9632,
+          "stars": 428,
           "category": null
         },
         {
           "fullName": "superdesigndev/treg",
           "rank": 14,
-          "score": 0.9622,
-          "stars": 426,
+          "score": 0.9621,
+          "stars": 427,
           "category": null
         },
         {
           "fullName": "superdesigndev/superdesign-skill",
           "rank": 15,
-          "score": 0.9597,
+          "score": 0.9595,
           "stars": 421,
           "category": null
         },
@@ -832,98 +832,98 @@
         {
           "fullName": "hairyf/deepseek-harness-desktop",
           "rank": 17,
-          "score": 0.9447,
+          "score": 0.9446,
           "stars": 280,
           "category": "🛠 基础设施"
         },
         {
           "fullName": "omdsh-dev/dsh-at-file",
           "rank": 18,
-          "score": 0.942,
+          "score": 0.9418,
           "stars": 264,
           "category": null
         },
         {
           "fullName": "hust-open-atom-club/oh-dsh",
           "rank": 19,
-          "score": 0.9331,
+          "score": 0.933,
           "stars": 215,
           "category": null
         },
         {
           "fullName": "Lum1104/dsh-browser",
           "rank": 20,
-          "score": 0.9294,
+          "score": 0.9293,
           "stars": 198,
           "category": "🛠 基础设施"
         },
         {
           "fullName": "huiliyi37/dsh-tianshu-tui",
           "rank": 21,
-          "score": 0.9278,
+          "score": 0.9276,
           "stars": 192,
           "category": null
         },
         {
           "fullName": "vlln/whale-girl",
           "rank": 22,
-          "score": 0.9268,
+          "score": 0.9266,
           "stars": 194,
           "category": "🔌 单插件"
         },
         {
           "fullName": "Small-tailqwq/dsh-deep-whale",
           "rank": 23,
-          "score": 0.919,
-          "stars": 1082,
+          "score": 0.9188,
+          "stars": 1087,
           "category": "🧰 插件集"
         },
         {
           "fullName": "Nagi-ovo/dsh-visualize",
           "rank": 24,
-          "score": 0.9185,
+          "score": 0.9183,
           "stars": 160,
           "category": "🔌 单插件"
         },
         {
           "fullName": "tinqiao-oss/engramory",
           "rank": 25,
-          "score": 0.9183,
+          "score": 0.9181,
           "stars": 154,
           "category": null
         },
         {
           "fullName": "omdsh-dev/dsh-genui",
           "rank": 26,
-          "score": 0.9145,
-          "stars": 139,
+          "score": 0.9146,
+          "stars": 140,
           "category": "🔌 单插件"
         },
         {
           "fullName": "Nagi-ovo/dsh-find-plugins",
           "rank": 27,
-          "score": 0.9085,
+          "score": 0.9084,
           "stars": 127,
           "category": "🎓 技能"
         },
         {
           "fullName": "liustack/modsearch",
           "rank": 28,
-          "score": 0.9047,
+          "score": 0.9045,
           "stars": 111,
           "category": null
         },
         {
           "fullName": "csyangwen/dsh-memory-evolve",
           "rank": 29,
-          "score": 0.9036,
+          "score": 0.9035,
           "stars": 119,
           "category": "🔌 单插件"
         },
         {
           "fullName": "bowenliang123/dsh-context",
           "rank": 30,
-          "score": 0.9031,
+          "score": 0.903,
           "stars": 107,
           "category": null
         },
@@ -931,251 +931,251 @@
           "fullName": "NanmiCoder/dsh-agent-teams",
           "rank": 31,
           "score": 0.9012,
-          "stars": 412,
+          "stars": 413,
           "category": null
         },
         {
           "fullName": "ChisaAlter/Deepseek-Harness-Desktop",
           "rank": 32,
-          "score": 0.9003,
+          "score": 0.9001,
           "stars": 100,
           "category": "🛠 基础设施"
         },
         {
           "fullName": "ZSeven-W/dsh-openpencil",
           "rank": 33,
-          "score": 0.8999,
+          "score": 0.8997,
           "stars": 99,
           "category": "🔌 单插件"
         },
         {
           "fullName": "Vladimir-Human/humanizer-ru",
           "rank": 34,
-          "score": 0.8993,
+          "score": 0.8992,
           "stars": 100,
           "category": null
         },
         {
           "fullName": "bradeGithub/DSH-Plugins-Marketplace",
           "rank": 35,
-          "score": 0.8943,
-          "stars": 87,
+          "score": 0.8948,
+          "stars": 88,
           "category": null
         },
         {
           "fullName": "taxueseek/argo",
           "rank": 36,
-          "score": 0.8902,
-          "stars": 91,
+          "score": 0.8905,
+          "stars": 92,
+          "category": null
+        },
+        {
+          "fullName": "Vladimir-Human/ru-marketplace-mcp",
+          "rank": 37,
+          "score": 0.8805,
+          "stars": 64,
           "category": null
         },
         {
           "fullName": "Anionex/dsh-turn-rewind",
-          "rank": 37,
-          "score": 0.8812,
+          "rank": 38,
+          "score": 0.8803,
+          "stars": 63,
+          "category": "🔌 单插件"
+        },
+        {
+          "fullName": "omdsh-dev/dsh-annotation",
+          "rank": 39,
+          "score": 0.88,
           "stars": 64,
           "category": "🔌 单插件"
         },
         {
-          "fullName": "Vladimir-Human/ru-marketplace-mcp",
-          "rank": 38,
-          "score": 0.8806,
-          "stars": 64,
-          "category": null
-        },
-        {
-          "fullName": "nexu-io/open-design",
-          "rank": 39,
-          "score": 0.8799,
-          "stars": 87438,
-          "category": null
-        },
-        {
-          "fullName": "whiteguo233/OpenBiliClaw",
+          "fullName": "Q00/ouroboros",
           "rank": 40,
           "score": 0.8799,
-          "stars": 2729,
-          "category": null
-        },
-        {
-          "fullName": "Q00/ouroboros",
-          "rank": 41,
-          "score": 0.8798,
           "stars": 5466,
           "category": null
         },
         {
-          "fullName": "amruthpillai/reactive-resume",
+          "fullName": "whiteguo233/OpenBiliClaw",
+          "rank": 41,
+          "score": 0.8798,
+          "stars": 2730,
+          "category": null
+        },
+        {
+          "fullName": "nexu-io/open-design",
           "rank": 42,
           "score": 0.8797,
-          "stars": 40557,
+          "stars": 87460,
+          "category": null
+        },
+        {
+          "fullName": "amruthpillai/reactive-resume",
+          "rank": 43,
+          "score": 0.8795,
+          "stars": 40559,
           "category": null
         },
         {
           "fullName": "ningbainb/deepseek-harness-desktop",
-          "rank": 43,
-          "score": 0.8796,
+          "rank": 44,
+          "score": 0.8794,
           "stars": 62,
           "category": "🛠 基础设施"
         },
         {
-          "fullName": "omdsh-dev/dsh-annotation",
-          "rank": 44,
-          "score": 0.8794,
-          "stars": 63,
-          "category": "🔌 单插件"
-        },
-        {
           "fullName": "Sanqi-normal/dsh-webui-market-plugin",
           "rank": 45,
-          "score": 0.8786,
-          "stars": 63,
-          "category": null
-        },
-        {
-          "fullName": "Jayden-X-L/forkprobe",
-          "rank": 46,
-          "score": 0.8776,
-          "stars": 66,
+          "score": 0.8791,
+          "stars": 64,
           "category": null
         },
         {
           "fullName": "PC2005-cloud/dsh-pet",
-          "rank": 47,
-          "score": 0.877,
-          "stars": 58,
+          "rank": 46,
+          "score": 0.8778,
+          "stars": 59,
           "category": "🔌 单插件"
+        },
+        {
+          "fullName": "Jayden-X-L/forkprobe",
+          "rank": 47,
+          "score": 0.8774,
+          "stars": 66,
+          "category": null
         },
         {
           "fullName": "Anionex/agent-vision-toolkit",
           "rank": 48,
-          "score": 0.8768,
+          "score": 0.8767,
           "stars": 946,
           "category": null
         },
         {
           "fullName": "omdsh-dev/dsh-mnemon",
           "rank": 49,
-          "score": 0.876,
+          "score": 0.8758,
           "stars": 57,
           "category": "🔌 单插件"
         },
         {
           "fullName": "hyhmrright/brooks-lint",
           "rank": 50,
-          "score": 0.8758,
+          "score": 0.8756,
           "stars": 1361,
           "category": null
         },
         {
-          "fullName": "omdsh-dev/dsh_workflow",
+          "fullName": "Devin-AXIS/deepseek-design",
           "rank": 51,
           "score": 0.8752,
+          "stars": 56,
+          "category": null
+        },
+        {
+          "fullName": "omdsh-dev/dsh_workflow",
+          "rank": 52,
+          "score": 0.8751,
           "stars": 63,
           "category": "未分类"
         },
         {
           "fullName": "titanwings/colleague-skill",
-          "rank": 52,
-          "score": 0.8739,
-          "stars": 22793,
+          "rank": 53,
+          "score": 0.8737,
+          "stars": 22796,
           "category": null
         },
         {
           "fullName": "lire1131/dsh-undo-plugin",
-          "rank": 53,
-          "score": 0.8725,
-          "stars": 53,
-          "category": null
-        },
-        {
-          "fullName": "Devin-AXIS/deepseek-design",
           "rank": 54,
-          "score": 0.8722,
-          "stars": 52,
+          "score": 0.8724,
+          "stars": 53,
           "category": null
         },
         {
           "fullName": "omdsh-dev/dsh-notification",
           "rank": 55,
-          "score": 0.8721,
+          "score": 0.872,
           "stars": 53,
           "category": null
         },
         {
           "fullName": "Han-1413141/dsh-cost-meter",
           "rank": 56,
-          "score": 0.8705,
+          "score": 0.8703,
           "stars": 51,
           "category": null
         },
         {
           "fullName": "foryourhealth111-pixel/Vibe-Skills",
           "rank": 57,
-          "score": 0.8702,
-          "stars": 2844,
+          "score": 0.87,
+          "stars": 2846,
           "category": null
         },
         {
           "fullName": "Ychris12138/dsh-usage-stats",
           "rank": 58,
-          "score": 0.8697,
+          "score": 0.8695,
           "stars": 49,
           "category": null
         },
         {
           "fullName": "oil-oil/dsh-vision",
           "rank": 59,
-          "score": 0.8682,
+          "score": 0.8681,
           "stars": 53,
           "category": "🔌 单插件"
         },
         {
           "fullName": "btspoony/mstar-harness",
           "rank": 60,
-          "score": 0.867,
+          "score": 0.8671,
           "stars": 46,
           "category": null
         },
         {
           "fullName": "bruc3van/dsh-desktop",
           "rank": 61,
-          "score": 0.8669,
+          "score": 0.8668,
           "stars": 46,
           "category": "🛠 基础设施"
         },
         {
           "fullName": "Nwflower/dsh-chat-import",
           "rank": 62,
-          "score": 0.8669,
+          "score": 0.8668,
           "stars": 46,
           "category": null
         },
         {
           "fullName": "omdsh-dev/dsh-open-in-vscode",
           "rank": 63,
-          "score": 0.8661,
+          "score": 0.866,
           "stars": 46,
           "category": null
         },
         {
           "fullName": "vlln/plugin-registry",
           "rank": 64,
-          "score": 0.8646,
+          "score": 0.8645,
           "stars": 50,
           "category": "🛠 基础设施"
         },
         {
           "fullName": "like-study1/Oh-My-DSH",
           "rank": 65,
-          "score": 0.8621,
+          "score": 0.862,
           "stars": 41,
           "category": "🧰 插件集"
         },
         {
           "fullName": "titanwings/dsh-automation",
           "rank": 66,
-          "score": 0.8614,
+          "score": 0.8613,
           "stars": 45,
           "category": null
         },
@@ -1187,233 +1187,233 @@
           "category": null
         },
         {
-          "fullName": "freestylefly/wesight",
+          "fullName": "Mars-Sea/dsh-commandcode-provider",
           "rank": 68,
-          "score": 0.8547,
+          "score": 0.8552,
+          "stars": 35,
+          "category": null
+        },
+        {
+          "fullName": "freestylefly/wesight",
+          "rank": 69,
+          "score": 0.8546,
           "stars": 879,
           "category": null
         },
         {
           "fullName": "whiteguo233/dsh-openbiliclaw",
-          "rank": 69,
-          "score": 0.8542,
+          "rank": 70,
+          "score": 0.854,
           "stars": 34,
           "category": null
         },
         {
-          "fullName": "Mars-Sea/dsh-commandcode-provider",
-          "rank": 70,
-          "score": 0.8542,
-          "stars": 34,
+          "fullName": "awesome-dsh-plugin/dsh-find-plugin",
+          "rank": 71,
+          "score": 0.8535,
+          "stars": 37,
           "category": null
         },
         {
           "fullName": "xiincs/deepseek-harness-desktop",
-          "rank": 71,
-          "score": 0.8536,
+          "rank": 72,
+          "score": 0.8535,
           "stars": 34,
           "category": "🛠 基础设施"
         },
         {
-          "fullName": "awesome-dsh-plugin/dsh-find-plugin",
-          "rank": 72,
-          "score": 0.8525,
-          "stars": 36,
-          "category": null
-        },
-        {
           "fullName": "Noob-stupid/dsh-plugin-hub",
           "rank": 73,
-          "score": 0.8512,
+          "score": 0.8517,
           "stars": 32,
           "category": null
         },
         {
-          "fullName": "omdsh-dev/dsh-data-agent",
+          "fullName": "Awu12277/dsh-stock-watch",
           "rank": 74,
-          "score": 0.8488,
-          "stars": 30,
-          "category": "🔌 单插件"
+          "score": 0.8499,
+          "stars": 31,
+          "category": null
         },
         {
-          "fullName": "Awu12277/dsh-stock-watch",
+          "fullName": "omdsh-dev/dsh-data-agent",
           "rank": 75,
           "score": 0.8487,
           "stars": 30,
-          "category": null
+          "category": "🔌 单插件"
         },
         {
           "fullName": "vostride/agent-qa",
           "rank": 76,
           "score": 0.8484,
-          "stars": 847,
+          "stars": 849,
           "category": null
         },
         {
           "fullName": "openma-ai/deepseek-harness-tui",
           "rank": 77,
-          "score": 0.8484,
+          "score": 0.8482,
           "stars": 31,
           "category": null
         },
         {
           "fullName": "RevolutionLA/dsh-dream-skin",
           "rank": 78,
-          "score": 0.8476,
+          "score": 0.8474,
           "stars": 31,
           "category": null
         },
         {
-          "fullName": "adoresever/graph-memory",
+          "fullName": "THEWOLFWALKER/dsh-notifier",
           "rank": 79,
           "score": 0.847,
-          "stars": 524,
+          "stars": 29,
           "category": null
         },
         {
           "fullName": "vlln/dsh-navbar",
           "rank": 80,
-          "score": 0.847,
+          "score": 0.8469,
           "stars": 30,
           "category": "🔌 单插件"
         },
         {
-          "fullName": "THEWOLFWALKER/dsh-notifier",
+          "fullName": "adoresever/graph-memory",
           "rank": 81,
-          "score": 0.8457,
-          "stars": 28,
+          "score": 0.8468,
+          "stars": 524,
           "category": null
         },
         {
           "fullName": "mnemon-dev/mnemon",
           "rank": 82,
-          "score": 0.8456,
+          "score": 0.8454,
           "stars": 463,
           "category": null
         },
         {
-          "fullName": "william-jin-cmu/dsh-vision",
+          "fullName": "Chinesezjc/dsh-interconnect",
           "rank": 83,
-          "score": 0.8434,
+          "score": 0.8441,
+          "stars": 30,
+          "category": null
+        },
+        {
+          "fullName": "william-jin-cmu/dsh-vision",
+          "rank": 84,
+          "score": 0.8433,
           "stars": 31,
           "category": "🔌 单插件"
         },
         {
-          "fullName": "Chinesezjc/dsh-interconnect",
-          "rank": 84,
-          "score": 0.8428,
-          "stars": 29,
-          "category": null
-        },
-        {
           "fullName": "HuanLinOTO/dsh-plugin-mineru",
           "rank": 85,
-          "score": 0.8417,
+          "score": 0.8415,
           "stars": 27,
           "category": null
         },
         {
           "fullName": "lhh010/dsh-ui-whale",
           "rank": 86,
-          "score": 0.8415,
+          "score": 0.8414,
           "stars": 29,
           "category": "🔌 单插件"
         },
         {
           "fullName": "the-beating-light-of-the-nail/dsh-meme-hub",
           "rank": 87,
-          "score": 0.8406,
+          "score": 0.8404,
           "stars": 26,
           "category": null
         },
         {
           "fullName": "yyyyukari/dsh-plugin-workshop",
           "rank": 88,
-          "score": 0.8401,
+          "score": 0.8399,
           "stars": 25,
           "category": null
         },
         {
           "fullName": "omdsh-dev/dsh-custom-tool",
           "rank": 89,
-          "score": 0.8387,
+          "score": 0.8385,
           "stars": 24,
           "category": null
         },
         {
           "fullName": "omdsh-dev/dsh-lark",
           "rank": 90,
-          "score": 0.8356,
+          "score": 0.8355,
           "stars": 23,
           "category": null
         },
         {
           "fullName": "yogsoth-ai/de-anthropocentric-research-engine",
           "rank": 91,
-          "score": 0.8342,
+          "score": 0.834,
           "stars": 371,
           "category": null
         },
         {
           "fullName": "zhaoolee/notes",
           "rank": 92,
-          "score": 0.8331,
+          "score": 0.833,
           "stars": 142,
           "category": null
         },
         {
           "fullName": "omdsh-dev/dsh-plugin-check",
           "rank": 93,
-          "score": 0.8329,
+          "score": 0.8327,
           "stars": 23,
           "category": "🔌 单插件"
         },
         {
-          "fullName": "hellodigua/dsh-share",
+          "fullName": "UNLINEARITY/dsh-code",
           "rank": 94,
           "score": 0.832,
+          "stars": 20,
+          "category": "未分类"
+        },
+        {
+          "fullName": "hellodigua/dsh-share",
+          "rank": 95,
+          "score": 0.8319,
           "stars": 21,
           "category": "🔌 单插件"
         },
         {
           "fullName": "hellodigua/dsh-emoji",
-          "rank": 95,
-          "score": 0.8312,
+          "rank": 96,
+          "score": 0.831,
           "stars": 21,
           "category": "🔌 单插件"
         },
         {
           "fullName": "dhicoc/dsh-reverse-skill",
-          "rank": 96,
-          "score": 0.8308,
+          "rank": 97,
+          "score": 0.8306,
           "stars": 20,
           "category": null
         },
         {
           "fullName": "zh667/TokenLedger",
-          "rank": 97,
-          "score": 0.83,
+          "rank": 98,
+          "score": 0.8298,
           "stars": 20,
           "category": null
         },
         {
-          "fullName": "UNLINEARITY/dsh-code",
-          "rank": 98,
-          "score": 0.83,
-          "stars": 19,
-          "category": "未分类"
-        },
-        {
           "fullName": "Anionex/dsh-computer-use",
           "rank": 99,
-          "score": 0.8299,
+          "score": 0.8297,
           "stars": 21,
           "category": "🔌 单插件"
         },
         {
           "fullName": "Tyan66666/billion-context-dsh",
           "rank": 100,
-          "score": 0.8299,
+          "score": 0.8297,
           "stars": 19,
           "category": null
         }
