@@ -346,3 +346,24 @@ footer { margin-top: 28px; border-top: 2px solid var(--border); color: var(--ink
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+/* ===== 插件评论（utteranc.es，基于 GitHub issue）===== */
+.comment-box {
+  margin-top: 10px;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 6px;
+  background: var(--paper);
+  box-shadow: var(--shadow-sm);
+}
+.comment-box[hidden] { display: none; }
+.comment-box > .utterances { max-width: none; margin: 0; }
+button.comment-btn {
+  font-family: inherit;
+}
+.comment-box:empty::before {
+  content: '💬 评论加载中…（若一直无内容，请先到 github.com/apps/utterances 授权本仓库）';
+  display: block;
+  color: var(--muted);
+  font-size: 12.5px;
+}

@@ -222,6 +222,7 @@ function render() {
         <a class="act star" href="${esc(p.url)}" target="_blank" rel="noopener" title="打开仓库，点右上角 ⭐ Star 支持作者 —— 免费，却是对作者最好的感谢">⭐ Star 支持作者</a>
         ${site}
         <button type="button" class="act copy" data-cmd="${esc(installCmd(p))}" title="复制安装命令：dsh plugin --profile web add github:${esc(p.fullName)}">复制安装命令</button>
+        <button type="button" class="act comment-btn" data-plugin="${esc(p.fullName)}" title="加载该插件的 GitHub 评论（基于 issue）">💬 评论</button>
       </div>`
     const details = `
       <details class="details">
@@ -260,13 +261,19 @@ function render() {
         ${trend}
       </div>
       ${actions}
-      ${details}`
+      ${details}
+      <div class="comment-box" data-plugin="${esc(p.fullName)}" hidden></div>`
     list.append(el)
   }
 
   // 复制安装命令按钮事件
   list.querySelectorAll('button.copy').forEach((btn) => {
     btn.addEventListener('click', () => { void copyText(btn.dataset.cmd, btn) })
+  })
+
+  // 评论按钮事件：点击才加载 utterances（懒加载，避免每行都注入 script）
+  list.querySelectorAll('button.comment-btn').forEach((btn) => {
+    btn.addEventListener('click', () => { loadComments(btn.dataset.plugin, btn) })
   })
 
   // 分页控制
@@ -297,6 +304,40 @@ function render() {
 function resetAndRender() {
   page = 1
   render()
+}
+
+/** 评论懒加载：点击「💬 评论」后注入 utterances 脚本（issue-term = 插件名）。 */
+function loadComments(fullName, btn) {
+  const box = document.querySelector(`.comment-box[data-plugin="${CSS.escape(fullName)}"]`)
+  if (!box) return
+  // 已加载过则只切换显隐
+  if (box.dataset.loaded === '1') {
+    box.hidden = !box.hidden
+    btn.textContent = box.hidden ? '💬 评论' : '💬 收起'
+    return
+  }
+  box.hidden = false
+  btn.textContent = '💬 加载中…'
+  box.dataset.loaded = '1'
+
+  const s = document.createElement('script')
+  s.src = 'https://utteranc.es/client.js'
+  s.setAttribute('repo', 'zp-home/dsh-recommend')
+  // 每个插件一个 issue：issue-term 用插件名（owner/name），utternaces 自动创建/查找
+  s.setAttribute('issue-term', fullName)
+  s.setAttribute('theme', 'github-light')
+  s.setAttribute('label', 'comment')
+  s.setAttribute('crossorigin', 'anonymous')
+  s.async = true
+  s.onload = () => { btn.textContent = '💬 收起' }
+  s.onerror = () => {
+    btn.textContent = '💬 评论'
+    box.hidden = true
+    box.dataset.loaded = '0'
+    box.textContent = '评论加载失败（请先授权 utterances app：github.com/apps/utterances）'
+    box.style.display = 'block'
+  }
+  box.appendChild(s)
 }
 
 document.getElementById('search').addEventListener('input', resetAndRender)
