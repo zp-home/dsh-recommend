@@ -22,6 +22,11 @@
       "fullName": "kinoward/dsh-plugin-subhub",
       "issue": 10,
       "approvedAt": "2026-08-16"
+    },
+    {
+      "fullName": "zp-home/dsh-dev-sandbox",
+      "issue": 11,
+      "approvedAt": "2026-08-16"
     }
   ]
 }
