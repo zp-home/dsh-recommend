@@ -3,7 +3,7 @@
 name: sync
 on:
   schedule:
-    - cron: '17 */2 * * *'   # 每 2 小时整点过 17 分同步（UTC）
+    - cron: '17 */5 * * *'   # 每 5 小时整点过 17 分同步（UTC；全量抓取耗 API 配额，2h 过密）
   workflow_dispatch: {}
 
 permissions:

@@ -126,6 +126,22 @@ export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
   let pagesUsed = 0
   let truncatedByBudget = false // 桶内翻页时预算耗尽（有仓库没取完）
   let lastBucketFull = false // 最后一个桶取满了 10 页（可能还有仓库没取完）
+  const overflowDays = [] // 单日超 Search 上限被截断的日期与漏抓数
+  const bucketTotals = new Map() // 日期 → 当日仓库总数（溢出统计用）
+
+  /** 记录并返回某日期桶的仓库总数（带 1 次轻量查询缓存）。 */
+  async function bucketTotalOf(date) {
+    if (bucketTotals.has(date)) return bucketTotals.get(date)
+    const url = `${GITHUB_API}/search/repositories?q=topic%3Adsh-plugin%20created%3A${date}..${date}&per_page=1`
+    try {
+      const body = await gh(url)
+      const total = body.total_count ?? 0
+      bucketTotals.set(date, total)
+      return total
+    } catch {
+      return SEARCH_RESULTS_CAP // 查询失败时保守假设为上限
+    }
+  }
 
   /** 抓取一个 created:[lo,hi] 区间桶；返回该桶是否「满」（可能更大需要拆）。 */
   async function fetchBucket(lo, hi) {
@@ -136,7 +152,7 @@ export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
         truncatedByBudget = true
         break
       }
-      const url = `${GITHUB_API}/search/repositories?q=topic%3Adsh-plugin%20created%3A${lo}..${hi}&per_page=${SEARCH_PER_PAGE}&page=${page}`
+      const url = `${GITHUB_API}/search/repositories?q=topic%3Adsh-plugin%20created%3A${lo}..${hi}&sort=stars&order=desc&per_page=${SEARCH_PER_PAGE}&page=${page}`
       const body = await gh(url)
       const items = body.items ?? []
       bucketTotal = body.total_count ?? bucketTotal
@@ -168,10 +184,14 @@ export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
     lastBucketFull = await fetchBucket(lo, hi)
     if (!lastBucketFull) continue
     if (lo === hi) {
-      // 拆到单日仍满：created 只精确到天，超出部分 API 永远拿不到
+      // 拆到单日仍满：created 只精确到天，超出部分 API 永远拿不到。
+      // 记录溢出数量（当日总数 - 1000），供 meta 展示与人工补录参考。
+      const total = await bucketTotalOf(lo)
+      const overflow = Math.max(0, total - SEARCH_RESULTS_CAP)
+      overflowDays.push({ date: lo, total, missed: overflow })
       console.warn(
-        `日期 ${lo} 单日仓库数 ≥ ${SEARCH_RESULTS_CAP} 条，超出部分是 Search API ` +
-          '无法返回的（created 只精确到天），本次结果不完整',
+        `日期 ${lo} 单日仓库数 ${total} ≥ ${SEARCH_RESULTS_CAP} 条，` +
+          `约 ${overflow} 个仓库超出 Search API 上限被截断（建议补录 manual-repos.json）`,
       )
       continue
     }
@@ -188,7 +208,7 @@ export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
         `${maxPages * SEARCH_PER_PAGE} 条）：请调大 MAX_PAGES_DEFAULT 或设置 GITHUB_TOKEN 提速`,
     )
   }
-  return repos
+  return { repos, overflow: overflowDays }
 }
 
 /**
@@ -376,6 +396,8 @@ const limitIndex = argv.indexOf('--limit')
 const maxPages = limitIndex >= 0 ? Number(argv[limitIndex + 1]) || MAX_PAGES_DEFAULT : MAX_PAGES_DEFAULT
 /** --skip-topic：复用现有 data/raw/repos.json 的 topicRepos，只刷新 hub 目录/awesome/手动清单（本地快速重建，省掉百级 Search 请求）。 */
 const skipTopic = argv.includes('--skip-topic')
+/** 单日超 Search 上限被截断的日期与漏抓数（全量抓取时由 fetchTopicRepos 填充）。 */
+let overflowDays = []
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   let repos = []
@@ -388,7 +410,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
       console.error(`--skip-topic 但 data/raw/repos.json 不可用（${err.message}），回退为全量抓取`)
     }
   }
-  if (repos.length === 0 && !skipTopic) repos = await fetchTopicRepos(maxPages)
+  if (repos.length === 0 && !skipTopic) {
+    const result = await fetchTopicRepos(maxPages)
+    repos = result.repos
+    overflowDays = result.overflow
+  }
   const catalog = await fetchHubCatalog()
   const awesome = await fetchAwesomeLists()
   // 手动收录清单与 topic 结果按 full_name 合并去重（手动条目优先，它是人工验证过的）。
@@ -406,6 +432,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     hubCatalog: catalog,
     awesomeLists: awesome,
     npm,
+    overflow: overflowDays,
   }
   if (out) {
     await mkdir(out, { recursive: true })

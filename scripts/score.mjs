@@ -239,6 +239,7 @@ export async function runScore(rawDir = join(ROOT(), 'data', 'raw'), outDir = jo
         categories: hub.categories?.length ?? 0,
         error: hub.error ?? null,
       },
+      fetchOverflow: Array.isArray(raw.overflow) ? raw.overflow : [],
       awesome: {
         hitRepos: Object.values(awesomeRepos).filter((v) => Array.isArray(v) && v.length > 0).length,
       },
