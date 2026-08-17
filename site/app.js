@@ -113,8 +113,8 @@ async function load() {
 
 /* ===== 精选认证侧栏 ===== */
 
-/** 侧栏默认显示的认证插件数（其余折叠，避免挤占主榜）。 */
-const CERT_TOP = 5
+/** 侧栏默认显示的认证插件数（其余折叠，避免挤占主榜；4 卡片 + 1 展开按钮视觉平衡）。 */
+const CERT_TOP = 4
 
 /** 渲染「精选认证」推荐列表。无认证插件时隐藏整区；超出 CERT_TOP 个折叠。 */
 function renderCertified() {
