@@ -43,6 +43,11 @@
       "issue": 17,
       "approvedAt": "2026-08-17",
       "npmPackage": "dsh-agent-skills"
+    },
+    {
+      "fullName": "z-time-007/whale-desktop-kitgit",
+      "issue": 18,
+      "approvedAt": "2026-08-17"
     }
   ]
 }
