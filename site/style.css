@@ -81,7 +81,7 @@ h1 {
 
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) 332px; gap: 28px; align-items: start; }
 .layout-main { min-width: 0; }
-.layout-side { position: sticky; top: 16px; }
+.layout-side { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; scrollbar-width: thin; }
 
 .controls {
   display: flex;
@@ -320,11 +320,27 @@ footer { margin-top: 28px; border-top: 2px solid var(--border); color: var(--ink
 .cert-name { color: var(--ink); font-size: 14px; font-weight: 900; line-height: 1.4; overflow-wrap: anywhere; text-decoration: none; }
 .cert-name:hover, .cert-open:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .cert-mark { display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 50%; background: var(--mint); color: var(--ink); font-size: 12px; font-weight: 900; }
-.cert-desc { min-height: 58px; margin: 0; color: var(--ink); font-size: 12.5px; line-height: 1.55; display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-.cert-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 0; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
+.cert-desc { min-height: 40px; margin: 0; color: var(--ink); font-size: 12.5px; line-height: 1.5; display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.cert-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px 0; border-top: 2px solid var(--border); border-bottom: 2px solid var(--border); }
 .cert-stats span { display: flex; flex-direction: column; color: var(--muted); font-size: 10.5px; font-weight: 700; }
 .cert-stats b { color: var(--ink); font-size: 13px; font-weight: 900; font-variant-numeric: tabular-nums; }
 .cert-open { display: inline-flex; align-items: center; justify-content: space-between; min-height: 28px; color: var(--ink); font-size: 12.5px; font-weight: 900; text-decoration: none; }
+.cert-more {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  background: var(--yellow);
+  box-shadow: var(--shadow-sm);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform .1s ease, box-shadow .1s ease;
+}
+.cert-more:hover { transform: translate(2px, 2px); box-shadow: none; }
 
 @media (max-width: 1020px) {
   .layout { grid-template-columns: 1fr; }

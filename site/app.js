@@ -113,7 +113,10 @@ async function load() {
 
 /* ===== 精选认证侧栏 ===== */
 
-/** 渲染「精选认证」推荐列表。无认证插件时隐藏整区。 */
+/** 侧栏默认显示的认证插件数（其余折叠，避免挤占主榜）。 */
+const CERT_TOP = 5
+
+/** 渲染「精选认证」推荐列表。无认证插件时隐藏整区；超出 CERT_TOP 个折叠。 */
 function renderCertified() {
   const wrap = document.getElementById('certified-showcase')
   const list = document.getElementById('cert-list')
@@ -130,7 +133,11 @@ function renderCertified() {
   wrap.hidden = false
   if (count) count.textContent = `${certified.length} 个`
 
-  list.innerHTML = certified.map((p) => {
+  const showAll = wrap.dataset.expanded === '1'
+  const visible = showAll ? certified : certified.slice(0, CERT_TOP)
+  const hiddenCount = certified.length - visible.length
+
+  list.innerHTML = visible.map((p) => {
     const tier = scoreTier(p.score)
     return `
       <article class="cert-card">
@@ -151,6 +158,21 @@ function renderCertified() {
         </a>
       </article>`
   }).join('')
+
+  // 展开/收起按钮：超过 CERT_TOP 个时显示
+  const existing = list.querySelector('.cert-more')
+  if (existing) existing.remove()
+  if (hiddenCount > 0) {
+    const btn = document.createElement('button')
+    btn.type = 'button'
+    btn.className = 'cert-more'
+    btn.textContent = showAll ? '收起 ▲' : `展开全部（${hiddenCount} 个）▼`
+    btn.addEventListener('click', () => {
+      wrap.dataset.expanded = showAll ? '0' : '1'
+      renderCertified()
+    })
+    list.append(btn)
+  }
 }
 
 
