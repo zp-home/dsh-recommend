@@ -41,7 +41,8 @@
     {
       "fullName": "minivv/dsh-agent-skills",
       "issue": 17,
-      "approvedAt": "2026-08-17"
+      "approvedAt": "2026-08-17",
+      "npmPackage": "dsh-agent-skills"
     }
   ]
 }
