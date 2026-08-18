@@ -60,6 +60,19 @@ function addDays(dateStr, days) {
   return d.toISOString().slice(0, 10)
 }
 
+/**
+ * GitHub 可能在 403/429 上省略 Retry-After，但仍给出速率窗口重置时间。
+ * 对无头信息的 403 使用保守退避，避免 10 秒后立刻再次触发限流。
+ */
+export function githubRetryDelayMs(response, retries) {
+  const retryAfterMs = Math.max(0, Number(response.headers.get('retry-after')) || 0) * 1000
+  const resetAt = Number(response.headers.get('x-ratelimit-reset')) || 0
+  const resetMs = resetAt > 0 ? Math.max(0, resetAt * 1000 - Date.now()) + 1000 : 0
+  const attempt = 4 - retries
+  const fallbackMs = response.status === 403 ? 30_000 * 2 ** Math.max(0, attempt - 1) : 10_000
+  return Math.max(retryAfterMs, resetMs, fallbackMs)
+}
+
 async function gh(url, retries = 3) {
   let res
   try {
@@ -74,9 +87,10 @@ async function gh(url, retries = 3) {
   }
   if (res.status === 403 || res.status === 429) {
     if (retries <= 0) throw new Error(`GitHub API ${res.status} ${res.statusText}（重试耗尽）: ${url}`)
-    const retryAfter = Number(res.headers.get('retry-after')) || 10
-    console.warn(`GitHub API ${res.status}：${retryAfter}s 后重试（剩余 ${retries} 次）: ${url}`)
-    await new Promise((r) => setTimeout(r, retryAfter * 1000))
+    const wait = githubRetryDelayMs(res, retries)
+    const resetAt = res.headers.get('x-ratelimit-reset') ?? 'n/a'
+    console.warn(`GitHub API ${res.status}：${Math.ceil(wait / 1000)}s 后重试（remaining=${res.headers.get('x-ratelimit-remaining') ?? 'n/a'} reset=${resetAt}，剩余 ${retries} 次）: ${url}`)
+    await new Promise((r) => setTimeout(r, wait))
     return gh(url, retries - 1)
   }
   if (!res.ok) {
