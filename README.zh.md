@@ -72,6 +72,7 @@ dsh plugin --profile web add D:\路径\dsh-recommend
 |---|---|
 | 模型工具 ×5 | `rank_plugins` 榜单查询（可过滤分类/维度）· `search_plugins` 检索 · `recommend_plugins` 按目标推荐（中英同义词扩展，支持 `keywords` 参数）· `trend_plugins` 发展榜（star 增长/排名上升/下载量/新上榜/精选）· `sync_registry` 刷新本地数据（含历史与趋势，报告 hub/深扫健康度） |
 | 设置页标签 | 设置 → 插件 → 「**插件排行**」：紧凑排行榜（搜索/分类/排序/分页）+ 一键刷新 + **一键安装**（⬇ 安装 / ✓ 已安装）+ 安装命令复制 + 详情展开 + 🏅 认证徽章 + 趋势走势图，随 DSH 亮/暗主题自动适配，zh/en 双语 |
+| 插件更新 | 自动检查当前 profile 的 Git/NPM 直接依赖版本；默认仅提醒，点击「更新」后执行官方 `dsh plugin update`，完成后手动重启 DSH；进阶模式可配置检查间隔和自动更新白名单（默认关闭） |
 
 > 仓库根目录即插件包（`dsh.bundle` + `dsh.client` 双声明，构建产物 `lib/` 随库提交，git 安装无需构建）。
 

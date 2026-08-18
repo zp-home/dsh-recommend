@@ -22,6 +22,46 @@ export interface RankingsTabInjected {
   listInstalled(): Promise<string[]>
   /** 一键安装：POST fullName 给 host 的安装路由，host 构造 spec 并执行 dsh plugin add（M3）。 */
   installPlugin(fullName: string): Promise<InstallResult>
+  /** 检查 profile 直接依赖的更新。 */
+  loadUpdates(): Promise<UpdateStatus>
+  /** 用户确认后更新单个 profile 依赖。 */
+  updatePlugin(packageName: string): Promise<UpdateResult>
+  /** 保存进阶自动更新策略。 */
+  saveUpdatePolicy(policy: UpdatePolicy): Promise<UpdatePolicy>
+}
+
+export interface UpdateItem {
+  packageName: string
+  spec: string
+  source: 'github' | 'npm' | 'unknown'
+  installed: string | null
+  latest: string | null
+  updateAvailable: boolean
+  error?: string
+}
+
+export interface UpdatePolicy {
+  mode: 'notify' | 'auto'
+  intervalHours: number
+  allowlist: string[]
+  lastAutoRunAt?: string | null
+}
+
+export interface UpdateStatus {
+  checkedAt: string
+  profile: string
+  policy: UpdatePolicy
+  updates: UpdateItem[]
+}
+
+export interface UpdateResult {
+  ok: boolean
+  packageName?: string
+  restartRequired?: boolean
+  message?: string
+  stdout?: string
+  stderr?: string
+  timedOut?: boolean
 }
 
 /** host 安装路由的返回结构（与 src/host/web.ts 对齐）。 */
@@ -184,6 +224,30 @@ body[data-ds-dark-theme] .dshr-wrap {
 .dshr-refresh:hover:not(:disabled) { border-color: var(--dshr-accent); color: var(--dshr-accent); }
 .dshr-refresh:disabled { opacity: .55; cursor: wait; }
 .dshr-msg { font-size: 12px; color: var(--dshr-text-tertiary); flex-basis: 100%; }
+.dshr-updates { border: 1px solid var(--dshr-border); background: var(--dshr-surface-muted); padding: 9px 10px; border-radius: 8px; }
+.dshr-update-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dshr-update-head > div { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.dshr-update-head strong { color: var(--dshr-text); font-size: 12px; }
+.dshr-update-head span { color: var(--dshr-text-tertiary); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dshr-update-check, .dshr-update-run { font: inherit; cursor: pointer; border: 1px solid var(--dshr-border); border-radius: 6px; background: var(--dshr-surface); color: var(--dshr-text); padding: 5px 9px; font-size: 11px; }
+.dshr-update-check:hover:not(:disabled), .dshr-update-run:hover:not(:disabled) { border-color: var(--dshr-accent); color: var(--dshr-accent); }
+.dshr-update-check:disabled, .dshr-update-run:disabled { opacity: .55; cursor: wait; }
+.dshr-update-list { display: grid; gap: 4px; margin-top: 8px; }
+.dshr-update-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px dashed var(--dshr-border); padding-top: 5px; }
+.dshr-update-package { min-width: 0; display: grid; grid-template-columns: auto auto 1fr; align-items: center; gap: 5px; }
+.dshr-update-package code { color: var(--dshr-text); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dshr-update-package span, .dshr-update-package small { color: var(--dshr-text-tertiary); font-size: 10px; white-space: nowrap; }
+.dshr-update-current { color: var(--dshr-ok); font-size: 11px; white-space: nowrap; }
+.dshr-update-error { color: #c62828; font-size: 11px; white-space: nowrap; }
+.dshr-update-policy { margin-top: 8px; border-top: 1px dashed var(--dshr-border); padding-top: 6px; }
+.dshr-update-policy summary { color: var(--dshr-text-secondary); font-size: 11px; cursor: pointer; }
+.dshr-policy-body { display: grid; gap: 7px; padding-top: 8px; color: var(--dshr-text-secondary); font-size: 11px; }
+.dshr-policy-body label { display: flex; align-items: center; gap: 6px; }
+.dshr-policy-interval input { width: 52px; font: inherit; color: var(--dshr-text); background: var(--dshr-surface); border: 1px solid var(--dshr-border); border-radius: 4px; padding: 3px 5px; }
+.dshr-policy-allowlist { display: grid; gap: 4px; }
+.dshr-policy-allowlist > span { color: var(--dshr-text-tertiary); }
+.dshr-policy-body p { margin: 0; color: var(--dshr-text-tertiary); line-height: 1.45; }
+.dshr-update-message { margin: 7px 0 0; color: var(--dshr-text-secondary); font-size: 11px; }
 .dshr-list { display: flex; flex-direction: column; gap: 4px; }
 .dshr-row {
   display: flex; flex-direction: column; gap: 6px;
@@ -290,7 +354,7 @@ body[data-ds-dark-theme] .dshr-install-msg.bad { color: #f97583; }
 .dshr-note { font-size: 11.5px; color: var(--dshr-text-tertiary); }
 `
 
-export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, listInstalled, installPlugin }: RankingsTabProps): JSX.Element {
+export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, listInstalled, installPlugin, loadUpdates, updatePlugin, saveUpdatePolicy }: RankingsTabProps): JSX.Element {
   const [doc, setDoc] = useState<RegistryDoc | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [history, setHistory] = useState<HistoryDoc | null>(null)
@@ -303,6 +367,11 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
   const [copied, setCopied] = useState<string | null>(null)
   const [installed, setInstalled] = useState<Set<string>>(new Set())
   const [installState, setInstallState] = useState<Record<string, InstallState>>({})
+  const [updateStatus, setUpdateStatus] = useState<UpdateStatus | null>(null)
+  const [updateLoading, setUpdateLoading] = useState(false)
+  const [updatingPackage, setUpdatingPackage] = useState<string | null>(null)
+  const [updateMessage, setUpdateMessage] = useState<string | null>(null)
+  const [policyDraft, setPolicyDraft] = useState<UpdatePolicy | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -338,6 +407,19 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
       .catch(() => { /* pluginInventory 不可用时静默跳过 */ })
     return () => { alive = false }
   }, [listInstalled])
+
+  // 更新检查默认只读：初始加载一次，用户可点「检查更新」手动刷新。
+  useEffect(() => {
+    let alive = true
+    loadUpdates()
+      .then((status) => {
+        if (!alive) return
+        setUpdateStatus(status)
+        setPolicyDraft(status.policy)
+      })
+      .catch(() => { /* 更新检查不可用不影响排行榜 */ })
+    return () => { alive = false }
+  }, [loadUpdates])
 
   const categories = useMemo(() => {
     const set = new Set<string>()
@@ -420,6 +502,57 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
     }
   }
 
+  const onCheckUpdates = async (): Promise<void> => {
+    setUpdateLoading(true)
+    setUpdateMessage(null)
+    try {
+      const status = await loadUpdates()
+      setUpdateStatus(status)
+      setPolicyDraft(status.policy)
+      const count = status.updates.filter((u) => u.updateAvailable).length
+      setUpdateMessage(count > 0 ? t('updateFound', { count: String(count) }) : t('updateNone'))
+    } catch (error) {
+      setUpdateMessage(t('updateCheckFail', { message: error instanceof Error ? error.message : String(error) }))
+    } finally {
+      setUpdateLoading(false)
+    }
+  }
+
+  const doUpdate = async (packageName: string): Promise<void> => {
+    setUpdatingPackage(packageName)
+    setUpdateMessage(null)
+    try {
+      const result = await updatePlugin(packageName)
+      if (result.ok) {
+        // 更新后刷新状态，但保留「请重启」提示，不能被检查结果覆盖。
+        try {
+          const status = await loadUpdates()
+          setUpdateStatus(status)
+          setPolicyDraft(status.policy)
+        } catch { /* 更新已成功，刷新状态失败不影响重启提示 */ }
+        setUpdateMessage(t('updateDone', { packageName }))
+      } else {
+        setUpdateMessage(t('updateFail', { packageName, message: result.message ?? t('unknownError') }))
+      }
+    } catch (error) {
+      setUpdateMessage(t('updateFail', { packageName, message: error instanceof Error ? error.message : String(error) }))
+    } finally {
+      setUpdatingPackage(null)
+    }
+  }
+
+  const onSavePolicy = async (): Promise<void> => {
+    if (!policyDraft) return
+    try {
+      const policy = await saveUpdatePolicy(policyDraft)
+      setPolicyDraft(policy)
+      setUpdateStatus((current) => current ? { ...current, policy } : current)
+      setUpdateMessage(policy.mode === 'auto' ? t('autoUpdateEnabled') : t('autoUpdateDisabled'))
+    } catch (error) {
+      setUpdateMessage(t('updatePolicyFail', { message: error instanceof Error ? error.message : String(error) }))
+    }
+  }
+
   if (error) {
     return (
       <div className="dshr-wrap">
@@ -453,6 +586,68 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
           {historyDays > 0 ? t('historyMeta', { days: String(historyDays) }) : null}
         </span>
       </div>
+
+      <section className="dshr-updates" aria-label={t('updateSectionTitle')}>
+        <div className="dshr-update-head">
+          <div>
+            <strong>{t('updateSectionTitle')}</strong>
+            <span>{updateStatus ? t('updateCheckedAt', { time: formatTime(updateStatus.checkedAt) }) : t('updateCheckingInitial')}</span>
+          </div>
+          <button type="button" className="dshr-update-check" onClick={() => { void onCheckUpdates() }} disabled={updateLoading || updatingPackage !== null}>
+            {updateLoading ? t('updateChecking') : t('updateCheck')}
+          </button>
+        </div>
+        {updateStatus ? (
+          <>
+            <div className="dshr-update-list">
+              {updateStatus.updates.map((item) => (
+                <div className="dshr-update-row" key={item.packageName}>
+                  <div className="dshr-update-package">
+                    <code>{item.packageName}</code>
+                    <span>{item.source === 'github' ? t('updateSourceGit') : item.source === 'npm' ? t('updateSourceNpm') : t('updateSourceUnknown')}</span>
+                    <small>{(item.installed ?? '—').slice(0, 12)} → {(item.latest ?? '—').slice(0, 12)}</small>
+                  </div>
+                  {item.error ? <span className="dshr-update-error" title={item.error}>{t('updateUnavailable')}</span> : item.updateAvailable ? (
+                    <button type="button" className="dshr-update-run" onClick={() => { void doUpdate(item.packageName) }} disabled={updatingPackage !== null}>
+                      {updatingPackage === item.packageName ? t('updating') : t('updateNow')}
+                    </button>
+                  ) : <span className="dshr-update-current">{t('updateCurrent')}</span>}
+                </div>
+              ))}
+            </div>
+            {policyDraft ? (
+              <details className="dshr-update-policy">
+                <summary>{t('updatePolicyTitle')}</summary>
+                <div className="dshr-policy-body">
+                  <label>
+                    <input type="checkbox" checked={policyDraft.mode === 'auto'} onChange={(e) => setPolicyDraft({ ...policyDraft, mode: e.target.checked ? 'auto' : 'notify' })} />
+                    {t('autoUpdateLabel')}
+                  </label>
+                  <label className="dshr-policy-interval">
+                    {t('autoUpdateInterval')}
+                    <input type="number" min="1" max="168" value={policyDraft.intervalHours} onChange={(e) => setPolicyDraft({ ...policyDraft, intervalHours: Math.min(168, Math.max(1, Number(e.target.value) || 1)) })} />
+                    {t('hourUnit')}
+                  </label>
+                  {policyDraft.mode === 'auto' ? (
+                    <div className="dshr-policy-allowlist">
+                      <span>{t('autoUpdateAllowlist')}</span>
+                      {updateStatus.updates.map((item) => (
+                        <label key={item.packageName}>
+                          <input type="checkbox" checked={policyDraft.allowlist.includes(item.packageName)} onChange={(e) => setPolicyDraft({ ...policyDraft, allowlist: e.target.checked ? [...policyDraft.allowlist, item.packageName] : policyDraft.allowlist.filter((p) => p !== item.packageName) })} />
+                          <code>{item.packageName}</code>
+                        </label>
+                      ))}
+                    </div>
+                  ) : null}
+                  <button type="button" className="dshr-update-check" onClick={() => { void onSavePolicy() }}>{t('saveUpdatePolicy')}</button>
+                  <p>{t('autoUpdateNotice')}</p>
+                </div>
+              </details>
+            ) : null}
+          </>
+        ) : null}
+        {updateMessage ? <p className="dshr-update-message" role="status">{updateMessage}</p> : null}
+      </section>
 
       <div className="dshr-controls">
         <input

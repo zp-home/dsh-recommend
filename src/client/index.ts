@@ -14,10 +14,10 @@ import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
-import { RankingsTab, type HistoryDoc, type InstallResult, type RankingsTabInjected, type RegistryDoc } from './RankingsTab.tsx'
+import { RankingsTab, type HistoryDoc, type InstallResult, type RankingsTabInjected, type RegistryDoc, type UpdatePolicy, type UpdateResult, type UpdateStatus } from './RankingsTab.tsx'
 import { en, zh, type RankingsLocaleKey } from './locales.ts'
 
-export type { HistoryDoc, InstallResult, RankingsTabInjected, RankingsTabProps, RegistryDoc } from './RankingsTab.tsx'
+export type { HistoryDoc, InstallResult, RankingsTabInjected, RankingsTabProps, RegistryDoc, UpdatePolicy, UpdateResult, UpdateStatus } from './RankingsTab.tsx'
 export type { RankingsLocaleKey } from './locales.ts'
 
 declare module '@deepseek-ai/dsh-client-ui-slots' {
@@ -78,6 +78,32 @@ export function apply(ctx: ClientContext): void {
       const data = (await res.json()) as InstallResult & { error?: string }
       if (!res.ok) return { ok: false, message: data.error ?? `HTTP ${res.status}` }
       return data
+    },
+    loadUpdates: async (): Promise<UpdateStatus> => {
+      const res = await fetch('/dsh-recommend/updates', { cache: 'no-store' })
+      const data = (await res.json()) as UpdateStatus & { ok?: boolean; error?: string }
+      if (!res.ok || data.ok === false) throw new Error(data.error ?? `updates 路由 ${res.status}`)
+      return data
+    },
+    updatePlugin: async (packageName: string): Promise<UpdateResult> => {
+      const res = await fetch('/dsh-recommend/update', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ packageName }),
+      })
+      const data = (await res.json()) as UpdateResult & { error?: string }
+      if (!res.ok) return { ok: false, message: data.error ?? `HTTP ${res.status}` }
+      return data
+    },
+    saveUpdatePolicy: async (policy: UpdatePolicy): Promise<UpdatePolicy> => {
+      const res = await fetch('/dsh-recommend/update-policy', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(policy),
+      })
+      const data = (await res.json()) as { ok?: boolean; policy?: UpdatePolicy; error?: string }
+      if (!res.ok || !data.ok || !data.policy) throw new Error(data.error ?? `update-policy 路由 ${res.status}`)
+      return data.policy
     },
   })
 

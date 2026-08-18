@@ -17,6 +17,7 @@
 - **排行榜独立页**（`site/rankings.html`）：7 个 Tab 发展榜 + SVG sparkline 曲线，零构建；综合榜页顶新增导航
 - **`trend_plugins` 工具**（host 半第 5 个工具）：按榜单查询发展数据；`sync_registry` 同时拉取 registry + history + trends
 - **设置页一键安装**：每行「⬇ 安装」按钮（`POST /dsh-recommend/install` 执行 `dsh plugin add`，spec 由服务端构造 + Origin 校验防注入/CSRF）；已装检测走官方 pluginInventory Remote，已装插件显示「✓ 已安装」；原「复制安装命令」保留为「复制命令」
+- **设置页插件更新**：检查当前 profile 的 Git/NPM 直接依赖，显示已安装 commit/版本与上游最新值；默认仅提醒，用户确认后执行官方 `dsh plugin update <package>` 并提示重启；进阶模式支持检查间隔 + 自动更新白名单（默认关闭）
 - **设置页紧凑排版**：删除分数进度条、收紧留白与字号（保留详情展开 / 深扫状态 / 走势 sparkline）
 
 ### 新增（榜单可信度，评分模型 v2）
