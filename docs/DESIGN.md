@@ -18,7 +18,7 @@
 ```
                     ┌────────────────────────────────────────────┐
                     │                数据层（本仓库）              │
-                    │  .github/workflows/sync.yml（每日 cron）    │
+                    │  .github/workflows/sync.yml（每 5 小时 cron） │
                     │        │  node scripts/sync.mjs            │
                     │        ▼                                   │
                     │  fetch（采集）→ score（过滤+评分）           │
@@ -48,13 +48,13 @@
 
 | 数据源 | 接口 | 频率 | 失败策略 |
 |---|---|---|---|
-| GitHub topic 仓库 | `GET /search/repositories?q=topic:dsh-plugin&per_page=100` 翻页 | 每日 | 抛错 → 管道红（数据过期比没有数据好） |
-| hub 目录公开镜像 | `0xsline/awesome-deepseek-harness` 的 CATALOG.md（hub 组织仓库本身私有，每日镜像公开） | 每日 | 降级：跳过，仅警告 |
-| awesome 列表 ×3 | 各仓库 raw README | 每日 | 降级：逐列表跳过并警告 |
+| GitHub topic 仓库 | `GET /search/repositories?q=topic:dsh-plugin&per_page=100` 翻页 | 每 5 小时 | 抛错 → 管道红（数据过期比没有数据好） |
+| hub 目录公开镜像 | `0xsline/awesome-deepseek-harness` 的 CATALOG.md（hub 组织仓库本身私有，每日镜像公开） | 每 5 小时 | 降级：跳过，仅警告 |
+| awesome 列表 ×3 | 各仓库 raw README | 每 5 小时 | 降级：逐列表跳过并警告 |
 
-输出 `data/raw/repos.json`（含 fetchedAt 时间戳与全部源数据，便于重算与审计）。
+输出 `data/raw/repos.json`（含 fetchedAt 时间戳与全部源数据，便于重算）和 `data/raw/topic-coverage.json`（查询分片、每个叶子的 `total_count`/去重数/重试/溢出，便于审计）。
 
-GitHub API 限额：未认证 10 次/分（够一轮）；CI 用 `GITHUB_TOKEN` 提到 30 次/分。**逐仓库深扫**（读 package.json 检测 `dsh.bundle`、读 README）在 v0 不做——653 个仓库的逐仓请求会让限额不够；作为 M1.5 的「精选前 N 深扫」加入（见 roadmap）。
+GitHub Search 每个查询最多只能返回 1000 条：先按 `created` 日期二分，单日仍饱和时按 `size`、`stars` 的闭区间继续拆分，所有同层范围无重叠且无缺口。只有每个叶子查询未触发 `incomplete_results` 且去重数等于 `total_count`，该次采集才完整；否则不发布部分 registry。GitHub API 限额：未认证 10 次/分（够一轮）；CI 用 `GITHUB_TOKEN` 提到 30 次/分。**逐仓库深扫**（读 package.json 检测 `dsh.bundle`、读 README）在 v0 不做——653 个仓库的逐仓请求会让限额不够；作为 M1.5 的「精选前 N 深扫」加入（见 roadmap）。
 
 ### 3.2 过滤与评分（scripts/score.mjs）
 
@@ -115,7 +115,7 @@ CI 门禁：结构完整、无重复、分数在 [0,1]、排名降序、rankings
 
 ## 6. 可持续性机制（本项目的「活法」）
 
-1. **自动化**：每日 cron 全量重算并提交 `data/`，无人值守。新鲜度 = 生命线。
+1. **自动化**：每 5 小时 cron 全量重算并提交 `data/`，无人值守。新鲜度与 API 成本保持平衡。
 2. **Git 即数据库**：数据变更全部走 git 历史，天然审计日志、天然可回滚。
 3. **零成本**：Actions 免费额度 + Pages 静态托管 + 零依赖脚本。
 4. **透明可复算**：公式/权重/原始数据全公开；任何质疑 = 「跑一遍脚本」。

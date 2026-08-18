@@ -6,7 +6,7 @@
  */
 import { ok } from 'node:assert/strict'
 import { exclusionReason, scoreRepo } from './score.mjs'
-import { extractRepoRefs } from './fetch.mjs'
+import { extractRepoRefs, splitTopicShard, topicQueryForShard } from './fetch.mjs'
 import { badgeColor } from './badge.mjs'
 
 let n = 0
@@ -59,6 +59,56 @@ t('awesome 链接提取：排除 topics/动作/徽章 URL', () => {
   ok(refs.includes('a/b'), '带 /tree/ 后缀的应提取 owner/repo')
   ok(!refs.some((r) => r.startsWith('topics/')), 'topics 链接不得被当作仓库')
   ok(!refs.some((r) => r.startsWith('actions/')), 'actions 链接不得被当作仓库')
+})
+
+t('Topic 分片：跨年日期范围无重叠且无缺口', () => {
+  const shard = { createdFrom: '2025-12-31', createdTo: '2026-01-01', numeric: {}, depth: 0 }
+  const split = splitTopicShard(shard)
+  ok(split?.dimension === 'created')
+  ok(split.children[0].createdFrom === '2025-12-31' && split.children[0].createdTo === '2025-12-31')
+  ok(split.children[1].createdFrom === '2026-01-01' && split.children[1].createdTo === '2026-01-01')
+})
+
+t('Topic 分片：size 闭区间完整覆盖且查询稳定', () => {
+  const shard = { createdFrom: '2026-08-14', createdTo: '2026-08-14', numeric: {}, depth: 0 }
+  const split = splitTopicShard(shard, [
+    { size: 0, stargazers_count: 0 },
+    { size: 10, stargazers_count: 0 },
+    { size: 20, stargazers_count: 1 },
+    { size: 30, stargazers_count: 1 },
+  ])
+  ok(split?.dimension === 'size')
+  const [lower, upper] = split.children
+  ok(lower.numeric.size.min === 0 && lower.numeric.size.max === 10)
+  ok(upper.numeric.size.min === 11 && upper.numeric.size.max === null)
+  ok(topicQueryForShard(lower) === 'topic:dsh-plugin created:2026-08-14..2026-08-14 size:0..10')
+  ok(topicQueryForShard(upper) === 'topic:dsh-plugin created:2026-08-14..2026-08-14 size:>=11')
+})
+
+t('Topic 分片：1474 条同日簇可按 size 打散', () => {
+  const shard = { createdFrom: '2026-08-14', createdTo: '2026-08-14', numeric: {}, depth: 0 }
+  const burst = Array.from({ length: 1474 }, (_, index) => ({ size: index % 73, stargazers_count: index % 5 }))
+  const split = splitTopicShard(shard, burst)
+  ok(split?.dimension === 'size')
+  ok(split.children[0].numeric.size.max !== null)
+  ok(split.children[1].numeric.size.min === split.children[0].numeric.size.max + 1)
+})
+
+t('Topic 分片：集中 size=0 后继续按 stars 切分', () => {
+  const shard = { createdFrom: '2026-08-14', createdTo: '2026-08-14', numeric: {}, depth: 0 }
+  const bySize = splitTopicShard(shard, [
+    { size: 0, stargazers_count: 0 },
+    { size: 0, stargazers_count: 0 },
+  ])
+  ok(bySize?.dimension === 'size')
+  const zeroSize = bySize.children[0]
+  const byStars = splitTopicShard(zeroSize, [
+    { size: 0, stargazers_count: 0 },
+    { size: 0, stargazers_count: 0 },
+  ])
+  ok(byStars?.dimension === 'stars')
+  ok(topicQueryForShard(byStars.children[0]).endsWith('size:0 stars:0'))
+  ok(topicQueryForShard(byStars.children[1]).endsWith('size:0 stars:>=1'))
 })
 
 t('徽章颜色分档', () => {

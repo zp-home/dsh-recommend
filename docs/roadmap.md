@@ -8,12 +8,12 @@
 - ✅ 排除规则（占位/空仓库/fork/归档 + 官方 denylist + 深扫插件性验证）
 - ✅ 评分模型 v2 + 文档 + meta 快照（含信号源健康度）
 - ✅ `data/registry.json` / `rankings.json` / `history.json` / `badges/` 全量生成
-- ✅ GitHub Actions：每 2 小时 cron 同步（sync.yml，含深扫与月报）+ PR 校验（validate.yml，含冒烟测试）
+- ✅ GitHub Actions：每 5 小时 cron 同步（sync.yml，含深扫与月报）+ PR 校验（validate.yml，含冒烟测试）
 - ✅ 静态排行站 site/（榜单卡片 + 搜索 + 分类筛选 + 多视图 + 分页 + 详情展开 + 趋势 + 安装/徽章复制）
 - ✅ 发布动作：打 `dsh-plugin` 话题、awesome 列表 PR、hub 收录、npm 发布（0.3.0）
 - ✅ 提交插件 Issue 表单上线（`.github/ISSUE_TEMPLATE/submit-plugin.yml`）
 
-**M1 验收**：打开网站能看到 1900+ 插件带分数与排名；`data/` 每 2 小时自动更新。
+**M1 验收**：打开网站能看到 1900+ 插件带分数与排名；`data/` 每 5 小时自动更新。
 
 ## M1.5 — 深扫与信号增强 ✅
 

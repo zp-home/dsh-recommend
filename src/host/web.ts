@@ -17,7 +17,8 @@
  */
 import { spawn } from 'node:child_process'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname } from 'node:path'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { Context } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-host-webserver'
 
@@ -37,6 +38,16 @@ export interface Config {
 
 /** 安装超时：pnpm 拉取 git 依赖可能很慢，给足 10 分钟。 */
 const INSTALL_TIMEOUT_MS = 10 * 60 * 1000
+const PACKAGE_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..')
+const SITE_DIR = join(PACKAGE_ROOT, 'site')
+const SITE_ASSETS = [
+  { route: '/dsh-recommend/site/', file: 'index.html', type: 'text/html; charset=utf-8' },
+  { route: '/dsh-recommend/site/index.html', file: 'index.html', type: 'text/html; charset=utf-8' },
+  { route: '/dsh-recommend/site/rankings.html', file: 'rankings.html', type: 'text/html; charset=utf-8' },
+  { route: '/dsh-recommend/site/style.css', file: 'style.css', type: 'text/css; charset=utf-8' },
+  { route: '/dsh-recommend/site/app.js', file: 'app.js', type: 'text/javascript; charset=utf-8' },
+  { route: '/dsh-recommend/site/rankings.js', file: 'rankings.js', type: 'text/javascript; charset=utf-8' },
+]
 
 export function apply(ctx: Context, config: Config): void {
   const historyPath = config.historyPath ?? config.cachePath.replace(/registry\.json$/, 'history.json')
@@ -88,6 +99,50 @@ export function apply(ctx: Context, config: Config): void {
       }
     },
   }), 'dsh-recommend: history route')
+
+  // 独立静态排行榜：复用本 web 半的缓存，使本地沙盒和 GitHub Pages 之外也能直接预览。
+  for (const asset of SITE_ASSETS) {
+    ctx.effect(() => ctx.webServer.register({
+      kind: 'exact',
+      path: asset.route,
+      async handler(req, res) {
+        if (req.method !== 'GET') {
+          res.writeHead(405, { 'content-type': 'text/plain; charset=utf-8' })
+          res.end('method not allowed')
+          return
+        }
+        try {
+          const body = await readFile(join(SITE_DIR, asset.file))
+          res.writeHead(200, { 'content-type': asset.type, 'cache-control': 'no-store' })
+          res.end(body)
+        } catch {
+          res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' })
+          res.end(`static site asset missing: ${asset.file}`)
+        }
+      },
+    }), `dsh-recommend: static ${asset.file}`)
+  }
+
+  // 静态站原本从 ../data/ 读取；同源别名改为服务隔离缓存，保证本地预览与插件页数据一致。
+  for (const [route, filePath] of [
+    ['/dsh-recommend/data/registry.json', config.cachePath],
+    ['/dsh-recommend/data/history.json', historyPath],
+  ] as const) {
+    ctx.effect(() => ctx.webServer.register({
+      kind: 'exact',
+      path: route,
+      async handler(_req, res) {
+        try {
+          const body = await readFile(filePath)
+          res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' })
+          res.end(body)
+        } catch {
+          res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' })
+          res.end('data cache missing — run sync_registry first')
+        }
+      },
+    }), `dsh-recommend: static data ${route}`)
+  }
 
   // 设置页「刷新数据」：拉取最新 registry 覆写缓存。只读数据，不执行任何插件代码。
   // 注：WebRoute 契约无 method 字段（同路径下方法不可区分），故在 handler 内校验 req.method。

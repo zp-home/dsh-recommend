@@ -1,6 +1,6 @@
 # 🐋 dsh-recommend
 
-> DSH 插件生态的**透明排行与推荐**：每 2 小时自动抓取全 GitHub 的 `dsh-plugin` 话题仓库，按公开的评分模型打分排序；DSH 插件与静态站消费同一份数据。
+> DSH 插件生态的**透明排行与推荐**：每 5 小时自动抓取全 GitHub 的 `dsh-plugin` 话题仓库，按公开的评分模型打分排序；DSH 插件与静态站消费同一份数据。
 
 <p>
   <a href="https://github.com/zp-home/dsh-recommend"><img src="https://img.shields.io/github/stars/zp-home/dsh-recommend?style=flat-square" alt="stars"></a>
@@ -21,7 +21,8 @@
 
 - **透明**：评分公式、权重、全部原始数据都公开在这个仓库里，任何人 `clone` 后跑一遍 `node scripts/sync.mjs` 即可复算——这是排行类项目信任的基石
 - **可信**：官方本体/非插件 denylist（`scripts/exclude-list.json`）+ 榜单前 200 名**深扫插件性验证**（`scripts/scan.mjs` 检测 `dsh` 声明 / `@deepseek-ai/*` 依赖 / cordis 配置 / skills 特征），未检出特征的仓库排除出榜并透明标注；hub 目录抓取失败会让 CI 红，信号源健康度随时可见
-- **自动化**：GitHub Actions 每 2 小时全量重算并提交 `data/`（含深扫、历史快照、徽章、月度报告），数据永不人工维护
+- **可审计全量**：GitHub Search 单查询超过 1000 条时，采集器按创建日期、仓库大小与 Star 的无重叠闭区间递归分片；`topic-coverage.json` 记录每个叶子查询的 `total_count`、去重数、重试与溢出。任一叶子不完整即终止全量发布，不以部分数据更新榜单
+- **自动化**：GitHub Actions 每 5 小时全量重算并提交 `data/`（含深扫、历史快照、徽章、月度报告），数据永不人工维护
 - **一份数据，多个消费端**：`data/registry.json` 是唯一事实源，静态排行站、DSH 插件（模型工具 + 设置页标签）、外部工具共用；`data/history.json` 提供每日趋势
 
 ## 🚀 快速开始
@@ -38,7 +39,7 @@
 
 ![Neo-Brutalism 风格的 DSH 插件发展排行榜](docs/images/site-2.png)
 
-也可以直接看原始数据：[`data/rankings.json`](data/rankings.json)（每 2 小时自动更新）、[`data/history.json`](data/history.json)（每日趋势快照）、[`data/trends.json`](data/trends.json)（派生发展榜）。
+也可以直接看原始数据：[`data/rankings.json`](data/rankings.json)（每 5 小时自动更新）、[`data/history.json`](data/history.json)（每日趋势快照）、[`data/trends.json`](data/trends.json)（派生发展榜）。
 
 ### 2️⃣ 在 DSH 里安装插件（✅ 已真机验证）
 
@@ -87,7 +88,7 @@ node scripts/smoke.mjs           # 管道纯函数冒烟测试
 
 ## 🛡 插件作者：挂一个分数徽章
 
-榜单前 200 名每 2 小时自动生成 shields 徽章（`data/badges/<owner>__<name>.json`）。将下面这行中的 `<owner>__<name>` 替换为你的 GitHub 仓库路径即可：
+榜单前 200 名每 5 小时自动生成 shields 徽章（`data/badges/<owner>__<name>.json`）。将下面这行中的 `<owner>__<name>` 替换为你的 GitHub 仓库路径；静态站和设置页也可直接复制链接：
 
 ```md
 [![dsh score](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fzp-home%2Fdsh-recommend%2Fmain%2Fdata%2Fbadges%2F<owner>__<name>.json)](https://github.com/zp-home/dsh-recommend)
@@ -122,7 +123,7 @@ node scripts/invite.mjs --tier 1     # 只生成 Tier 1（头部标杆 ★≥800
 ## 📁 仓库结构
 
 ```
-data/           每 2 小时生成的 registry.json / rankings.json / meta.json / history.json / trends.json / badges/（Git 即数据库）
+data/           每 5 小时生成的 registry.json / rankings.json / meta.json / history.json / trends.json / badges/（Git 即数据库）
 scripts/        fetch（采集）→ score（过滤+评分）→ scan（深扫）→ history（快照）→ trends（趋势派生）→ badge（徽章）→ report（月报）→ validate（门禁）→ sync（总入口）
 src/            插件源码（host 工具半 + web 数据路由半 + browser 设置页半）
 lib/            构建产物（随库提交，git 安装免构建）
@@ -130,7 +131,7 @@ cordis.patch.yml 插件配置层（bundle patch）
 site/           静态站（综合榜 index + 发展排行榜 rankings，零构建）
 docs/           设计 / 评分模型 / 趋势模型 / 路线图 / 决策记录 / 月度报告
 scripts/curated.json 精选认证列表（issue 审核自动维护）
-.github/        Actions（每 2 小时 cron + PR 校验 + 精选认证 curate）与提交插件表单
+.github/        Actions（每 5 小时 cron + PR 校验 + 精选认证 curate）与提交插件表单
 ```
 
 ## 数据源

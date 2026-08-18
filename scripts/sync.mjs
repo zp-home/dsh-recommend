@@ -3,7 +3,7 @@
  *
  * fetch → score(phase1, 无深扫) → scan(榜单前 N 深扫) → score(phase2, 合并深扫)
  *       → history(每日快照) → trends(趋势派生) → badge(徽章) → validate
- * CI 每 2 小时 cron 调用的就是它：
+ * CI 每 5 小时 cron 调用的就是它：
  *   node scripts/sync.mjs [--limit N] [--no-awesome] [--skip-topic] [--no-scan] [--no-badge]
  *
  * --limit N      只抓取 GitHub Search 前 N 页（本地快速调试用）

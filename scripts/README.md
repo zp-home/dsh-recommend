@@ -3,7 +3,7 @@
 零依赖（Node 18+ 内置 API）。流水线：
 
 ```
-fetch.mjs ──► data/raw/repos.json        采集（GitHub topic + hub 目录镜像 + awesome 列表 + 手动收录）
+fetch.mjs ──► data/raw/{repos,topic-coverage}.json  采集 + topic 完整性审计（GitHub topic + hub 目录镜像 + awesome 列表 + 手动收录）
 score.mjs ──► data/{registry,rankings,meta}.json   过滤 + 评分（两阶段：--no-scan / 默认合并深扫）
 scan.mjs  ──► data/raw/deep-scan.json    深扫插件性验证（榜单前 N 名，检测 dsh 声明/@deepseek-ai 依赖/cordis/skills）
 history.mjs ─► data/history.json         每日历史快照（top100 + 总量，同天幂等，保留 366 天）
@@ -41,7 +41,8 @@ GITHUB_TOKEN=xxx node scripts/sync.mjs # 带 token：30 次/分，快很多（�
 - **主入口检测**：`import.meta.url === pathToFileURL(process.argv[1]).href`（Windows 路径安全）
 - **改评分 = 三处同步**：`docs/scoring.md` → `score.mjs`（`SCORING_VERSION`/`WEIGHTS`）→ 重新生成 `data/`
 - **数据源白名单**：见 `fetch.mjs` 头部注释；新增源先走 ADR
-- **手动收录清单**：`scripts/manual-repos.json` 兜底 Search API 永远取不到的仓库（单日仓库数 ≥1000 的溢出区，如 2026-08-14 有 1474 个、单日上限 1000）；按 `owner/repo` 填写，fetch 用 `/repos` 接口抓取合并，不改变 registry 结构
+- **topic 完整性审计**：`fetch.mjs` 把超 1000 条的查询先按 `created` 日期、再按 `size`/`stars` 的无重叠闭区间递归拆分；每轮写 `data/raw/topic-coverage.json`。全量运行只要存在不可拆分溢出、Search `incomplete_results`、分页漂移或页预算耗尽就失败，不发布部分数据
+- **手动收录清单**：`scripts/manual-repos.json` 仅兜底已知的极端不可分溢出叶子；按 `owner/repo` 填写，fetch 用 `/repos` 接口抓取合并，不改变 registry 结构
 - **排除清单**：`scripts/exclude-list.json` 登记官方本体/非插件仓库（denylist），score 排除出榜、registry 保留原因；深扫未检出的仓库自动排除，无需手动登记
 - **失败策略**：主数据源（GitHub Search）失败即红；辅助源（目录镜像/awesome/手动清单单仓）降级警告——**hub 目录降级会写进 meta 并被 validate 拦红**（不再无声）
 - **限额**：未认证 Search 10 次/分（页间已加 6.5s 退避 + 403/429 Retry-After 重试 ×3）；深扫 core API 有 token 30/min 间隔 2s
@@ -53,11 +54,11 @@ GITHUB_TOKEN=xxx node scripts/sync.mjs # 带 token：30 次/分，快很多（�
 3. **话题仓库水分大**：2200 个里 256 个被排除（202 个无描述、48 个空仓库、1 官方本体），排除原因透明展示
 4. **部分仓库描述是 mojibake**（GBK 误存进 GitHub 元数据，如 `鈥?`）——原样保留，不做猜测性修复
 5. **Search API 单个查询最多返回 1000 条**（10 页 × 100，第 11 页恒为空数组；且 repository
-   搜索不支持按 created 排序，sort=created 会被静默忽略）——「全量」按 `created` 日期区间
-   分桶 + 递归拆分实现（`fetchTopicRepos`）：桶间无重叠、不依赖排序；某桶取满 1000 条就
-   从中间日期拆成两个子桶重抓，直到不足 1000 条或拆到单日（单日仓库数 ≥1000 是 Search API
-   无法绕过的极限，会告警截断）。拆桶后请求数随话题仓库数增长：未认证 10 次/分，仓库数
-   >1000 时建议配 `GITHUB_TOKEN`（30 次/分）。
+   搜索不支持按 created 排序，sort=created 会被静默忽略）——`fetchTopicRepos` 先按 `created`
+   日期区间拆分；单日仍超过 1000 时，再以 `size`、`stars` 的闭区间分片，范围无重叠且无缺口。
+   每个叶子都要求 `uniqueCount === total_count` 且 `incomplete_results=false`；无法安全继续切分时
+   写入 `topic-coverage.json` 并让全量同步失败，而不是静默截断。拆桶后请求数会增长，建议配
+   `GITHUB_TOKEN`（30 次/分）。
 6. **hub 目录镜像可能失败且曾被静默降级**：0 分类/0 curated 但 CI 全绿——v2 起 `meta.signals.hubCatalog`
    记录 `fetchedAt/error`，validate 对空目录直接红。
 7. **awesome README 里的 topic 链接会被误抓成仓库**（`github.com/topics/dsh-plugin` → 假条目

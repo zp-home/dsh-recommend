@@ -4,6 +4,11 @@
 
 ## [Unreleased]
 
+### 变更
+
+- **Topic 全量采集**：GitHub Search 单查询超过 1000 条时，采集器从仅按 `created` 日期二分升级为日期后接 `size`/`stars` 无重叠闭区间的自适应分片；新增 `data/raw/topic-coverage.json` 审计每个叶子查询。存在溢出、页预算截断、`incomplete_results` 或分页去重计数不一致时，全量同步失败，不再静默发布部分 registry
+- **同步频率调整**：数据全量同步由每 2 小时改为每 5 小时（UTC cron `17 */5 * * *`），降低 GitHub API、深扫与 Actions 资源消耗；仍保留手动触发。
+
 ### 新增（精选认证 + 趋势榜 + 一键安装，M3）
 
 - **精选认证闭环**：作者提 issue（可选勾选「申请精选认证」并填 npm 包名）→ 维护者打 `approved` 标签 → [curate workflow](.github/workflows/curate.yml) 自动收录进 `scripts/curated.json` → `score.mjs` 打 `certified` 标记 → site / DSH 设置页显示 🏅 徽章。认证是展示层激励，**不改变评分**

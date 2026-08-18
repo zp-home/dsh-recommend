@@ -21,7 +21,7 @@
 
 ## 已知事实（2026-08 调研结论）
 
-- GitHub `dsh-plugin` 话题仓库数已远超 1000（2026-08-14 单日新增簇就有 1474 个），含大量占位/WIP（排除规则在 score.mjs）。全量抓取受 Search API 硬限制（单查询 1000 条、单日 1000 条）约束且请求数达百级，**本地全量必须配 GITHUB_TOKEN**（CI 已注入）；见 scripts/fetch.mjs 与 scripts/README.md。
+- GitHub `dsh-plugin` 话题仓库数已远超 1000（2026-08-14 单日新增簇就有 1474 个），含大量占位/WIP（排除规则在 score.mjs）。全量抓取受 Search API 单查询 1000 条限制，fetch 以 `created` 后接 `size`/`stars` 无重叠闭区间递归拆分并产出 topic-coverage 审计；全量请求数达百级，**本地全量必须配 GITHUB_TOKEN**（CI 已注入）；见 scripts/fetch.mjs 与 scripts/README.md。
 - 竞争/协作关系：WhaleHub（网站，Stars 排序）、dsh-find-plugins（技能，语义发现）、AdamPlatin123/awesome-dsh-plugins 与 dsh-plugin-radar（兼容性雷达）——我们的差异化是「评分+排行+推荐」且公式公开可复算。
 - 上游官方仓库：`deepseek-ai/deepseek-harness`。官方插件契约：`dsh.bundle`（配置层 patch）+ `dsh.client`（浏览器半 manifest），安装走 `dsh plugin --profile <name> add <spec>`。
 - 官方机制会变（如 2026-08 删除 repository 插件机制）：涉及插件契约的改动前，先查上游最新文档/发布。

@@ -43,6 +43,23 @@ if (hub) {
   check(hub.entries >= 10, `hub 目录条目过少（${hub.entries}，正常应有 200+），分类/精选信号失效`)
   check(!hub.error, `hub 目录抓取失败：${hub.error}`)
 }
+// topic 采集完整性：全量 fetch 写出的原始审计不能含溢出、预算截断或分页漂移。
+// --limit 冒烟运行会显式标为 limitedRun，不把其故意的部分数据当作生产数据门禁。
+try {
+  const coverage = JSON.parse(await readFile(join(DATA_DIR, 'raw', 'topic-coverage.json'), 'utf8'))
+  if (!coverage.limitedRun) {
+    check(coverage.complete === true, `topic 采集不完整：overflow=${coverage.overflow?.length ?? 0} incomplete=${coverage.incomplete?.length ?? 0}`)
+    check((coverage.overflow?.length ?? 0) === 0, `topic 存在不可拆分溢出叶子：${coverage.overflow?.length ?? 0}`)
+    check((coverage.incomplete?.length ?? 0) === 0, `topic 存在未完成查询叶子：${coverage.incomplete?.length ?? 0}`)
+    check(coverage.uniqueItems === coverage.expectedLeafResults, `topic 去重计数不一致：unique=${coverage.uniqueItems} expected=${coverage.expectedLeafResults}`)
+  } else {
+    console.warn('[warn] topic-coverage.json 来自 --limit 冒烟运行，跳过全量完整性门禁')
+  }
+} catch (err) {
+  if (err.code !== 'ENOENT') throw err
+  console.warn('[warn] topic-coverage.json 不存在（旧数据或尚未运行 fetch），跳过 topic 完整性门禁')
+}
+
 // awesome 精选信号不能为空
 const awesomeHits = registry.meta?.signals?.awesome?.hitRepos
 check(Number.isFinite(awesomeHits) && awesomeHits > 0, `awesome 精选信号 0 命中（${awesomeHits}），请检查 fetch`)
@@ -85,8 +102,8 @@ for (const r of rankings.rankings ?? []) {
 }
 
 // M3：curated.json 认证列表与 registry 的一致性。
-// 注意：curated 中的插件可能因 Search API 单日上限（单日 ≥1000 条截断）暂时
-// 抓不到，缺失仅告警；但 registry 里已有的认证插件必须带 certified 标记。
+// 注意：旧 registry 或极端不可分的 Search 溢出叶子可能暂时缺少 curated 插件，
+// 缺失仅告警；但 registry 里已有的认证插件必须带 certified 标记。
 try {
   const curated = JSON.parse(await readFile(join(ROOT, 'scripts', 'curated.json'), 'utf8'))
   const registryNames = new Set(registry.plugins.map((p) => p.fullName))

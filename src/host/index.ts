@@ -78,7 +78,7 @@ export function apply(ctx: Context, config: Config) {
 
   ctx.tools.register(defineTool({
     name: 'sync_registry',
-    description: '下载最新插件 registry（含历史趋势数据）到本地缓存，并报告数据源健康度。数据源：dsh-recommend 数据仓库（每 2 小时自动重算）。',
+    description: '下载最新插件 registry（含历史趋势数据）到本地缓存，并报告数据源健康度。数据源：dsh-recommend 数据仓库（每 5 小时自动重算）。',
     parameters: {},
     output: {
       schema: {
@@ -287,12 +287,19 @@ export function apply(ctx: Context, config: Config) {
     async execute(args) {
       const doc = await loadRegistry()
       if (!doc) throw new Error('本地缓存缺失，请先调用 sync_registry')
-      const q = args.query.toLowerCase()
+      const query = normalizeText(args.query)
+      if (!query) return { results: [] }
+      const queryTokens = tokenize(query)
       const results = doc.plugins
-        .filter((p) => (p.fullName + ' ' + (p.description ?? '') + ' ' + (p.category ?? '')).toLowerCase().includes(q))
-        .sort((a, b) => b.score - a.score)
+        .map((p) => {
+          const fields = searchableFields(p)
+          const match = scoreSearchMatch(query, queryTokens, fields)
+          return { p, match }
+        })
+        .filter(({ match }) => match.matched)
+        .sort((a, b) => b.match.relevance - a.match.relevance || b.p.score - a.p.score)
         .slice(0, Math.min(args.limit ?? 10, 50))
-        .map((p) => ({ fullName: p.fullName, url: p.url, install: installCommand(p.fullName), description: p.description, stars: p.stars, score: p.score, excluded: p.excluded }))
+        .map(({ p }) => ({ fullName: p.fullName, url: p.url, install: installCommand(p.fullName), description: p.description, stars: p.stars, score: p.score, excluded: p.excluded }))
       return { results }
     },
   }))
@@ -337,36 +344,31 @@ export function apply(ctx: Context, config: Config) {
     async execute(args) {
       const doc = await loadRegistry()
       if (!doc) throw new Error('本地缓存缺失，请先调用 sync_registry')
-      const tokens = [...tokenize(args.goal), ...(args.keywords ?? []).map((k) => k.toLowerCase())]
+      const tokens = unique([...tokenize(args.goal), ...(args.keywords ?? []).flatMap((k) => tokenize(k))])
       if (tokens.length === 0) return { recommendations: [] }
 
-      // 同义扩展：goal/keywords 命中哪个组，就把该组全部同义词加入检索
+      // 同义扩展：goal/keywords 命中哪个组，就把该组全部同义词参与检索。
       const touchedGroups = new Set<string>()
-      const tokenGroupHits = new Map<string, string[]>() // token -> 命中的组
       for (const t of tokens) {
-        const groups: string[] = []
         for (const [gid, syns] of Object.entries(SYNONYM_GROUPS)) {
-          if (syns.some((s) => t.includes(s) || s.includes(t))) groups.push(gid)
+          if (syns.some((s) => normalizeText(s).includes(t) || t.includes(normalizeText(s)))) touchedGroups.add(gid)
         }
-        tokenGroupHits.set(t, groups)
-        for (const g of groups) touchedGroups.add(g)
       }
-      const expanded = new Set<string>()
-      for (const g of touchedGroups) for (const s of SYNONYM_GROUPS[g] ?? []) expanded.add(s)
-
+      const expanded = [...touchedGroups].flatMap((g) => SYNONYM_GROUPS[g] ?? []).map(normalizeText)
       const scored = doc.plugins
         .filter((p) => !p.excluded)
         .map((p) => {
-          const haystack = `${p.fullName} ${p.description ?? ''} ${p.category ?? ''}`.toLowerCase()
-          const directHits = tokens.filter((t) => haystack.includes(t)).length
-          const groupMatched = [...touchedGroups].filter((g) => (SYNONYM_GROUPS[g] ?? []).some((s) => haystack.includes(s))).length
-          const ratioDirect = tokens.length === 0 ? 0 : directHits / tokens.length
-          const ratioGroup = touchedGroups.size === 0 ? 0 : groupMatched / touchedGroups.size
-          const matchedRatio = 0.5 * ratioDirect + 0.5 * ratioGroup
-          const relevance = Math.min(1, matchedRatio) * 0.6 + p.score * 0.4
-          return { p, relevance, directHits, groupMatched, expandedHits: [...expanded].filter((s) => haystack.includes(s)).length }
+          const fields = searchableFields(p)
+          const directHits = tokens.filter((t) => fields.search.includes(t)).length
+          const groupMatched = [...touchedGroups].filter((g) => (SYNONYM_GROUPS[g] ?? []).some((s) => fields.search.includes(normalizeText(s)))).length
+          const expandedHits = expanded.filter((s) => fields.search.includes(s)).length
+          const tokenRatio = directHits / tokens.length
+          const groupRatio = touchedGroups.size === 0 ? 0 : groupMatched / touchedGroups.size
+          const expandedRatio = expanded.length === 0 ? 0 : expandedHits / expanded.length
+          const lexical = 0.5 * tokenRatio + 0.35 * groupRatio + 0.15 * expandedRatio
+          const relevance = lexical * 0.7 + p.score * 0.3
+          return { p, relevance, directHits, groupMatched, expandedHits }
         })
-        .filter((x) => x.directHits > 0 || x.groupMatched > 0)
         .sort((a, b) => b.relevance - a.relevance || b.p.score - a.p.score)
         .slice(0, Math.min(args.limit ?? 5, 20))
       return {
@@ -501,17 +503,46 @@ export const SYNONYM_GROUPS: Record<string, string[]> = {
 }
 
 /** v0 分词：英文词 + CJK 字符二元组。 */
+function normalizeText(input: string): string {
+  return input.normalize('NFKC').toLowerCase().replace(/[._/\\:]+/g, ' ')
+}
+
+function unique(values: string[]): string[] {
+  return [...new Set(values.filter(Boolean))]
+}
+
+/** 统一把 registry 的所有可发现字段纳入检索；字段权重由 scoreSearchMatch 控制。 */
+function searchableFields(p: RegistryDoc['plugins'][number]): { name: string; description: string; category: string; topics: string; search: string } {
+  const name = normalizeText(p.fullName)
+  const description = normalizeText(p.description ?? '')
+  const category = normalizeText(p.category ?? '')
+  const topics = (p.topics ?? []).map(normalizeText).join(' ')
+  return { name, description, category, topics, search: `${name} ${description} ${category} ${topics}` }
+}
+
+function scoreSearchMatch(query: string, queryTokens: string[], fields: ReturnType<typeof searchableFields>): { matched: boolean; relevance: number } {
+  const phrase = fields.search.includes(query) ? 1 : 0
+  const tokenHits = queryTokens.filter((token) => fields.search.includes(token)).length
+  const tokenRatio = queryTokens.length === 0 ? 0 : tokenHits / queryTokens.length
+  const nameHits = queryTokens.filter((token) => fields.name.includes(token)).length
+  const topicHits = queryTokens.filter((token) => fields.topics.includes(token)).length
+  const fieldBoost = Math.min(1, (nameHits * 0.35 + topicHits * 0.2) / Math.max(1, queryTokens.length))
+  return { matched: phrase > 0 || tokenHits > 0, relevance: phrase * 0.45 + tokenRatio * 0.4 + fieldBoost * 0.15 }
+}
+
+/** 分词：英文词、CJK 单字与二元组，兼容中文短语与中英混写。 */
 function tokenize(input: string): string[] {
-  const s = input.toLowerCase()
+  const s = normalizeText(input)
   const tokens = [...(s.match(/[a-z0-9-]+/g) ?? [])]
+  for (const char of s) {
+    if (/\p{Script=Han}/u.test(char)) tokens.push(char)
+  }
   for (let i = 0; i < s.length - 1; i += 1) {
     const a = s[i] ?? ''
     const b = s[i + 1] ?? ''
-    if (/[\u4e00-\u9fff]/.test(a) || /[\u4e00-\u9fff]/.test(b)) {
-      tokens.push(a + b)
-    }
+    if (/\p{Script=Han}/u.test(a) && /\p{Script=Han}/u.test(b)) tokens.push(a + b)
   }
-  return tokens
+  return unique(tokens)
 }
 
 interface RegistryDoc {
@@ -530,6 +561,7 @@ interface RegistryDoc {
     stars: number
     score: number
     category: string | null
+    topics?: string[]
     excluded: string | null
     pushedAt: string | null
     signals: Record<string, number>

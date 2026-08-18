@@ -1,5 +1,5 @@
 {
-  "note": "手动收录清单：无法被 GitHub Search API 自动发现的已人工验证插件（如单日仓库数超 1000 被截断的溢出区、或未打 dsh-plugin 话题标签但已通过精选认证审核的），按 owner/repo 填写；fetch.mjs 会用 /repos 接口单独抓取并合并进 topicRepos，不改变 registry 数据结构。",
+  "note": "手动收录清单：用于 topic-coverage.json 标出的极端不可分溢出叶子，以及未打 dsh-plugin 话题但已人工验证的插件；按 owner/repo 填写。fetch.mjs 会用 /repos 接口单独抓取并合并进 topicRepos，不改变 registry 数据结构。",
   "repos": [
     "BeiZi6/dsh-theme-plugin",
     "BeiZi6/dsh-opencodego-usage",
