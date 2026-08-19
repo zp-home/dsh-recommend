@@ -1,13 +1,13 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-08-19T06:18:36.565Z",
+  "updatedAt": "2026-08-19T06:22:50.487Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
         "commit": "9e24652e184d2ef8fd6ea96745031993afc3b9cd",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:18:21.639Z",
+        "checkedAt": "2026-08-19T06:22:29.687Z",
         "scannedFiles": 459,
         "findingCount": 300,
         "findings": [
@@ -318,20 +318,17 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-DATA-005",
-            "risk": "high",
+            "rule": "MKT-DATA-007",
+            "risk": "medium",
             "file": "scripts/install.sh",
             "line": 1,
             "message": "references 1 known high-risk or anonymous destination(s)",
             "family": "data-egress",
             "confidence": "medium",
             "disposition": "manual-review",
-            "basis": "OWASP npm Security Cheat Sheet",
-            "remediation": "Never read sensitive environment variables and pass them to untrusted code or external services.",
-            "impact": "Environment variables often contain API keys, tokens, and database credentials.",
-            "attack_vector": "process.env.SECRET accessed in plugin code — if combined with network calls, secrets are exfiltrated.",
-            "cwe": "CWE-532",
-            "evidence_risk": "high",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Route all network traffic through allowlisted, authenticated endpoints only.",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -3701,8 +3698,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 6,
-        "rulesetVersion": "2026-14"
+        "scannerVersion": 7,
+        "rulesetVersion": "2026-15"
       }
     },
     "alvinunreal/openpets": {
@@ -10987,7 +10984,7 @@
         "commit": "0f2c9da9b44cf2963b5e19824665d3382cad3f87",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:18:22.371Z",
+        "checkedAt": "2026-08-19T06:22:26.859Z",
         "scannedFiles": 357,
         "findingCount": 300,
         "findings": [
@@ -14593,8 +14590,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 6,
-        "rulesetVersion": "2026-14"
+        "scannerVersion": 7,
+        "rulesetVersion": "2026-15"
       }
     },
     "dsh-market/dsh-market": {
@@ -14602,7 +14599,7 @@
         "commit": "6084104eb079973f7ad64403e974bdb88fa6713d",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:18:21.570Z",
+        "checkedAt": "2026-08-19T06:22:28.031Z",
         "scannedFiles": 134,
         "findingCount": 114,
         "findings": [
@@ -14697,20 +14694,17 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-DATA-005",
-            "risk": "high",
+            "rule": "MKT-DATA-007",
+            "risk": "medium",
             "file": "client/client.js",
             "line": 1,
             "message": "references 3 known high-risk or anonymous destination(s)",
             "family": "data-egress",
             "confidence": "medium",
             "disposition": "manual-review",
-            "basis": "OWASP npm Security Cheat Sheet",
-            "remediation": "Never read sensitive environment variables and pass them to untrusted code or external services.",
-            "impact": "Environment variables often contain API keys, tokens, and database credentials.",
-            "attack_vector": "process.env.SECRET accessed in plugin code — if combined with network calls, secrets are exfiltrated.",
-            "cwe": "CWE-532",
-            "evidence_risk": "high",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Route all network traffic through allowlisted, authenticated endpoints only.",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -15529,20 +15523,17 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-DATA-005",
-            "risk": "high",
+            "rule": "MKT-DATA-007",
+            "risk": "medium",
             "file": "src/client/market-data.ts",
             "line": 1,
             "message": "references 3 known high-risk or anonymous destination(s)",
             "family": "data-egress",
             "confidence": "medium",
             "disposition": "manual-review",
-            "basis": "OWASP npm Security Cheat Sheet",
-            "remediation": "Never read sensitive environment variables and pass them to untrusted code or external services.",
-            "impact": "Environment variables often contain API keys, tokens, and database credentials.",
-            "attack_vector": "process.env.SECRET accessed in plugin code — if combined with network calls, secrets are exfiltrated.",
-            "cwe": "CWE-532",
-            "evidence_risk": "high",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Route all network traffic through allowlisted, authenticated endpoints only.",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -15810,20 +15801,17 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-DATA-005",
-            "risk": "high",
+            "rule": "MKT-DATA-007",
+            "risk": "medium",
             "file": "src/gist.ts",
             "line": 1,
             "message": "references 2 known high-risk or anonymous destination(s)",
             "family": "data-egress",
             "confidence": "medium",
             "disposition": "manual-review",
-            "basis": "OWASP npm Security Cheat Sheet",
-            "remediation": "Never read sensitive environment variables and pass them to untrusted code or external services.",
-            "impact": "Environment variables often contain API keys, tokens, and database credentials.",
-            "attack_vector": "process.env.SECRET accessed in plugin code — if combined with network calls, secrets are exfiltrated.",
-            "cwe": "CWE-532",
-            "evidence_risk": "high",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Route all network traffic through allowlisted, authenticated endpoints only.",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -16778,8 +16766,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 6,
-        "rulesetVersion": "2026-14"
+        "scannerVersion": 7,
+        "rulesetVersion": "2026-15"
       }
     },
     "strukto-ai/mirage": {
@@ -16787,8 +16775,8 @@
         "commit": "6594de90b79f6f484fdf8944fa218a1afcb66680",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:18:23.422Z",
-        "scannedFiles": 1820,
+        "checkedAt": "2026-08-19T06:22:28.759Z",
+        "scannedFiles": 1821,
         "findingCount": 300,
         "findings": [
           {
@@ -16861,24 +16849,6 @@
             "cwe": "CWE-200",
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
-            "rule": "MKT-DATA-001",
-            "risk": "high",
-            "file": ".github/workflows/test_integ.yml",
-            "line": 1,
-            "message": "contains 5 potential credential/key pattern(s)",
-            "family": "data-egress",
-            "confidence": "high",
-            "disposition": "manual-review",
-            "basis": "OWASP npm Security Cheat Sheet",
-            "remediation": "Remove embedded credentials, rotate exposed secrets, and load them only from a protected secret store.",
-            "impact": "Hardcoded API keys/tokens can be exfiltrated by anyone with read access to the plugin source.",
-            "attack_vector": "Secret key pattern matched in source — key is shipped in plaintext to all consumers.",
-            "cwe": "CWE-798",
-            "evidence_risk": "high",
-            "evidence_confidence": "high",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
@@ -20449,11 +20419,32 @@
             "evidence_risk": "medium",
             "evidence_confidence": "high",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "python/mirage/agents/openai_agents/sandbox.py",
+            "line": 83,
+            "message": "invokes a file-system mutation API",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "protections": "workspace path boundary",
+            "downgrade": "Downgraded from high: no system-impact pattern matched.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": true,
-        "scannerVersion": 6,
-        "rulesetVersion": "2026-14"
+        "scannerVersion": 7,
+        "rulesetVersion": "2026-15"
       }
     },
     "GanyuanRan/Aegis": {
@@ -25141,7 +25132,7 @@
         "commit": "d88967aaeb969106ed3e77249bb3ef8248a03ebb",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:18:23.361Z",
+        "checkedAt": "2026-08-19T06:22:38.175Z",
         "scannedFiles": 369,
         "findingCount": 300,
         "findings": [
@@ -25668,20 +25659,17 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-DATA-005",
-            "risk": "high",
+            "rule": "MKT-DATA-007",
+            "risk": "medium",
             "file": "benchmark/RAG/scripts/download_dataset.py",
             "line": 1,
             "message": "references 1 known high-risk or anonymous destination(s)",
             "family": "data-egress",
             "confidence": "medium",
             "disposition": "manual-review",
-            "basis": "OWASP npm Security Cheat Sheet",
-            "remediation": "Never read sensitive environment variables and pass them to untrusted code or external services.",
-            "impact": "Environment variables often contain API keys, tokens, and database credentials.",
-            "attack_vector": "process.env.SECRET accessed in plugin code — if combined with network calls, secrets are exfiltrated.",
-            "cwe": "CWE-532",
-            "evidence_risk": "high",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Route all network traffic through allowlisted, authenticated endpoints only.",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -28971,8 +28959,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 6,
-        "rulesetVersion": "2026-14"
+        "scannerVersion": 7,
+        "rulesetVersion": "2026-15"
       }
     },
     "zhu1090093659/dsh-web-ui": {
@@ -28980,7 +28968,7 @@
         "commit": "0e5b5a642a8f15681e9da901f1da3e524a8621bc",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:18:22.113Z",
+        "checkedAt": "2026-08-19T06:22:29.855Z",
         "scannedFiles": 803,
         "findingCount": 300,
         "findings": [
@@ -32723,8 +32711,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 6,
-        "rulesetVersion": "2026-14"
+        "scannerVersion": 7,
+        "rulesetVersion": "2026-15"
       }
     },
     "Anionex/dsh-vision-toolkit": {
