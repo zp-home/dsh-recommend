@@ -4,7 +4,13 @@ name: sync
 on:
   schedule:
     - cron: '17 */5 * * *'   # 每 5 小时整点过 17 分同步（UTC；全量抓取耗 API 配额，2h 过密）
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      badges_only:
+        description: 'Rebuild score and certification badges from the committed rankings without refetching data'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: dsh-recommend-data-publish
@@ -19,10 +25,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: 数据管道全量重算（含深扫验证）
+        if: ${{ !inputs.badges_only }}
         run: node scripts/sync.mjs
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: 重建全部徽章并校验
+        if: ${{ inputs.badges_only }}
+        run: |
+          node scripts/badge.mjs
+          node scripts/validate.mjs
       - name: 生成/更新月度生态报告
+        if: ${{ !inputs.badges_only }}
         run: node scripts/report.mjs --out docs/reports
       - name: 提交数据变更
         run: |
