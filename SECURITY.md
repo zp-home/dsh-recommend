@@ -2,10 +2,11 @@
 
 ## 立场声明
 
-**本仓库不执行任何被收录插件的代码。** 它是只读的元数据分析项目：
+**本仓库不执行任何被收录插件的代码。** 它以元数据分析为主，另有受限的只读静态扫描：
 
-- 数据管道只调用 GitHub API 与 raw.githubusercontent.com 读取元数据（stars、描述、更新时间、license、size 等）
-- 从不 clone、从不安装、从不运行被收录仓库的任何文件
+- 常规数据管道只调用 GitHub API 与 raw.githubusercontent.com 读取元数据（stars、描述、更新时间、license、size 等）
+- 市场 GitHub Actions 安全队列可能 shallow clone 固定的公开 commit，但会禁用持久凭据、submodule 和 LFS；它只读取文本并运行市场自带扫描器
+- 从不安装依赖、从不运行被收录仓库的 lifecycle/build/test 脚本，也不 import 被收录仓库文件
 - 从不读取被收录仓库的 secrets/环境变量
 - DSH 插件半只读取 `data/registry.json` 格式的 JSON 数据并做展示/检索
 
@@ -19,6 +20,13 @@
 - 安装时是否运行构建/安装脚本（git 源安装的 `prepare` 脚本会以你的用户权限执行）
 
 参考：[DeepSeek Harness 官方发布教程](https://github.com/deepseek-ai/deepseek-harness/blob/main/docs/user/develop/basic/publish.md) 对 git 安装授权的警告。
+
+## 静态安全提示仅供参考
+
+- 扫描算法、规则、扫描范围、上限和已知盲区公开在 [`docs/security-scanning.md`](docs/security-scanning.md)，并随 `scannerVersion` / `rulesetVersion` 固定
+- “未匹配规则”仅代表被读取的文件没有触发当前启发式规则，**不等于**插件、依赖、发布产物或后续版本安全
+- 规则命中是复查线索，不等于恶意行为判定；未扫描、扫描不完整和提示结果均不改变安装资格
+- 兼容性回执只说明给定 revision 在给定 profile 的一次运行结果，不构成安全认证
 
 ## 数据完整性
 

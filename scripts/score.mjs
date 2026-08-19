@@ -100,7 +100,11 @@ export async function loadDeepScan() {
     const scan = JSON.parse(await readFile(join(ROOT(), 'data', 'raw', 'deep-scan.json'), 'utf8'))
     const map = new Map()
     for (const [fullName, info] of Object.entries(scan.results ?? {})) {
-      map.set(fullName.toLowerCase(), { status: info?.status, signals: info?.signals ?? null })
+      map.set(fullName.toLowerCase(), {
+        status: info?.status,
+        signals: info?.signals ?? null,
+        verification: info?.verification ?? null,
+      })
     }
     return { map, summary: scan.summary ?? null }
   } catch (err) {
@@ -110,6 +114,19 @@ export async function loadDeepScan() {
 }
 
 /** 读取 scripts/curated.json 精选认证列表；返回 fullName -> { issue, approvedAt, npmPackage }。 */
+/** Read market-run static-security receipts. Missing data means no public label. */
+export async function loadVerificationIndex() {
+  try {
+    const index = JSON.parse(await readFile(join(ROOT(), 'data', 'verification.json'), 'utf8'))
+    const plugins = index?.plugins
+    if (!plugins || typeof plugins !== 'object' || Array.isArray(plugins)) return new Map()
+    return new Map(Object.entries(plugins).map(([fullName, info]) => [fullName.toLowerCase(), info]))
+  } catch (err) {
+    if (err.code !== 'ENOENT') console.warn(`verification.json 解析失败：${err.message}`)
+    return new Map()
+  }
+}
+
 export async function loadCurated() {
   try {
     const curated = JSON.parse(await readFile(join(ROOT(), 'scripts', 'curated.json'), 'utf8'))
@@ -146,6 +163,7 @@ export async function runScore(rawDir = join(ROOT(), 'data', 'raw'), outDir = jo
   const raw = JSON.parse(await readFile(join(rawDir, 'repos.json'), 'utf8'))
   const denylist = await loadDenylist()
   const { map: scanMap, summary: scanSummary } = noScan ? { map: new Map(), summary: null } : await loadDeepScan()
+  const verificationByRepo = await loadVerificationIndex()
   const certifiedBy = await loadCurated()
   const npmByPackage = await loadNpmDownloads()
 
@@ -164,6 +182,7 @@ export async function runScore(rawDir = join(ROOT(), 'data', 'raw'), outDir = jo
   const registry = []
   let excluded = 0
   let scanCounts = { scanned: 0, verified: 0, unverified: 0, error: 0, skipped: 0 }
+  const verificationCounts = { securityPassed: 0, securityWarnings: 0, compatibilityPassed: 0, unavailable: 0 }
   for (const repo of raw.topicRepos ?? []) {
     const nameKey = repo.name.toLowerCase()
     const urlKey = repo.url.toLowerCase()
@@ -176,6 +195,13 @@ export async function runScore(rawDir = join(ROOT(), 'data', 'raw'), outDir = jo
     const scanInfo = scanMap.get(repo.fullName.toLowerCase())
     const scanStatus = scanInfo?.status ?? 'skipped'
     const scanSignals = scanInfo?.signals ?? null
+    const verificationRecord = verificationByRepo.get(repo.fullName.toLowerCase()) ?? null
+    const staticSecurity = verificationRecord?.staticSecurity ?? null
+    const publisherCompatibility = verificationRecord?.publisherCompatibility ?? scanInfo?.verification?.compatibility ?? null
+    if (staticSecurity?.status === 'passed') verificationCounts.securityPassed += 1
+    else if (staticSecurity?.status === 'warnings') verificationCounts.securityWarnings += 1
+    else verificationCounts.unavailable += 1
+    if (publisherCompatibility?.status === 'passed') verificationCounts.compatibilityPassed += 1
     scanCounts[scanStatus] = (scanCounts[scanStatus] ?? 0) + 1
 
     // 排除原因优先级：denylist（人工权威）> 基础规则 > 深扫未检出
@@ -205,6 +231,11 @@ export async function runScore(rawDir = join(ROOT(), 'data', 'raw'), outDir = jo
       excluded: reason,
       scanStatus,
       scanSignals,
+      // Verification evidence is display-only and never changes score/listing.
+      verification: {
+        staticSecurity,
+        publisherCompatibility,
+      },
       // 精选认证（展示层，不进评分；M3）
       certified: Boolean(certified),
       certifiedAt: certified?.approvedAt ?? null,
@@ -252,6 +283,7 @@ export async function runScore(rawDir = join(ROOT(), 'data', 'raw'), outDir = jo
         error: 0,
       },
       scanCounts,
+      verification: verificationCounts,
     },
     formula: {
       maintenance: 'exp(-daysSincePush / 180)',

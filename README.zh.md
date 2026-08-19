@@ -21,6 +21,7 @@
 
 - **透明**：评分公式、权重、全部原始数据都公开在这个仓库里，任何人 `clone` 后跑一遍 `node scripts/sync.mjs` 即可复算——这是排行类项目信任的基石
 - **可信**：官方本体/非插件 denylist（`scripts/exclude-list.json`）+ 榜单前 200 名**深扫插件性验证**（`scripts/scan.mjs` 检测 `dsh` 声明 / `@deepseek-ai/*` 依赖 / cordis 配置 / skills 特征），未检出特征的仓库排除出榜并透明标注；hub 目录抓取失败会让 CI 红，信号源健康度随时可见
+- **安全提示（仅供参考）**：市场 GitHub Actions 以公开的只读规则扫描源码和发布 bundle，规则、版本、上限与已知盲区见 [静态安全扫描算法](docs/security-scanning.md)。未命中规则不等于安全，提示不构成安全认证，也不影响评分或安装资格
 - **可审计全量**：GitHub Search 单查询超过 1000 条时，采集器按创建日期、仓库大小与 Star 的无重叠闭区间递归分片；`topic-coverage.json` 记录每个叶子查询的 `total_count`、去重数、重试与溢出。任一叶子不完整即终止全量发布，不以部分数据更新榜单
 - **自动化**：GitHub Actions 每 5 小时全量重算并提交 `data/`（含深扫、历史快照、徽章、月度报告），数据永不人工维护
 - **一份数据，多个消费端**：`data/registry.json` 是唯一事实源，静态排行站、DSH 插件（模型工具 + 设置页标签）、外部工具共用；`data/history.json` 提供每日趋势
@@ -89,7 +90,7 @@ node scripts/smoke.mjs           # 管道纯函数冒烟测试
 
 ## 🛡 插件作者：挂一个分数徽章
 
-榜单前 200 名每 5 小时自动生成 shields 徽章（`data/badges/<owner>__<name>.json`）。将下面这行中的 `<owner>__<name>` 替换为你的 GitHub 仓库路径；静态站和设置页也可直接复制链接：
+所有上榜项目每 5 小时自动生成 shields 徽章（`data/badges/<owner>__<name>.json`）。将下面这行中的 `<owner>__<name>` 替换为你的 GitHub 仓库路径；静态站和设置页也可直接复制链接：
 
 ```md
 [![dsh score](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fzp-home%2Fdsh-recommend%2Fmain%2Fdata%2Fbadges%2F<owner>__<name>.json)](https://github.com/zp-home/dsh-recommend)

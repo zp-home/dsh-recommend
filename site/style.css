@@ -199,6 +199,9 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
 .pill:nth-child(2n) { background: var(--mint); }
 .pill:nth-child(3n) { background: var(--blue); }
 .pill b { font-weight: 900; }
+.security-pill { background: var(--orange) !important; color: var(--ink); text-decoration: none; }
+.security-pill:hover { background: var(--yellow) !important; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
+.compatibility-pill { background: var(--mint) !important; }
 .reason { display: block; color: #a02020; font-size: 12px; font-weight: 800; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .act {

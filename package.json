@@ -60,6 +60,7 @@
     "fetch": "node scripts/fetch.mjs",
     "score": "node scripts/score.mjs",
     "scan": "node scripts/scan.mjs",
+    "security:queue": "node scripts/security-queue.mjs",
     "history": "node scripts/history.mjs",
     "badge": "node scripts/badge.mjs",
     "report": "node scripts/report.mjs",

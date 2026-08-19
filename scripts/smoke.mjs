@@ -4,10 +4,17 @@
  * 对纯函数做固定断言：评分公式、排除规则、denylist、awesome 链接提取、徽章颜色。
  * 失败退出码非零（可挂进 validate.yml）。用法：node scripts/smoke.mjs
  */
-import { ok } from 'node:assert/strict'
+import { equal, ok } from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { exclusionReason, scoreRepo } from './score.mjs'
 import { extractRepoRefs, splitTopicShard, topicQueryForShard } from './fetch.mjs'
-import { badgeColor } from './badge.mjs'
+import { badgeColor, runBadge } from './badge.mjs'
+import { scanPluginSource, readCompatibilityAttestation, validateCompatibilityAttestationForSource } from './static-security.mjs'
+import { selectSecurityTargets } from './security-queue.mjs'
+import { mergeSecurityReceipts } from './merge-security-receipts.mjs'
 
 let n = 0
 function t(name, fn) {
@@ -117,5 +124,137 @@ t('徽章颜色分档', () => {
   ok(badgeColor(0.55) === '81858c')
   ok(badgeColor(0.3) === '9ca3af')
 })
+
+{
+  const outDir = await mkdtemp(join(tmpdir(), 'dsh-recommend-badge-'))
+  const badgeDir = join(outDir, 'badges')
+  try {
+    await mkdir(badgeDir)
+    await writeFile(join(outDir, 'rankings.json'), JSON.stringify({
+      meta: { scoringVersion: 2 },
+      rankings: [
+        { rank: 1, fullName: 'top/repo', score: 0.9 },
+        { rank: 400, fullName: 'guo6x/dsh-pilot', score: 0.7678 },
+      ],
+    }))
+    await writeFile(join(badgeDir, 'stale__repo.json'), '{}')
+    await writeFile(join(badgeDir, 'guo6x__dsh-pilot.certified.json'), '{}')
+
+    const result = await runBadge(outDir)
+    const files = await readdir(badgeDir)
+    const index = JSON.parse(await readFile(join(badgeDir, 'index.json'), 'utf8'))
+    equal(result.written, 2)
+    equal(result.removed, 1)
+    ok(files.includes('guo6x__dsh-pilot.json'), '第 400 名也必须生成分数徽章')
+    ok(!files.includes('stale__repo.json'), '失效分数徽章必须被清理')
+    ok(files.includes('guo6x__dsh-pilot.certified.json'), '认证徽章不得被清理')
+    equal(index.entries['guo6x/dsh-pilot'].rank, 400)
+  } finally {
+    await rm(outDir, { recursive: true, force: true })
+  }
+  n += 1
+  console.log('  ✓ 徽章：覆盖全量排名并清理失效分数文件')
+}
+
+{
+  const now = Date.parse('2026-09-01T00:00:00.000Z')
+  const targets = selectSecurityTargets([
+    { fullName: 'owner/old', score: 0.7, pushedAt: '2026-08-01', excluded: null },
+    { fullName: 'owner/new', score: 0.9, pushedAt: '2026-09-01T00:00:01.000Z', excluded: null },
+    { fullName: 'owner/excluded', score: 1, pushedAt: '2026-08-30', excluded: 'placeholder' },
+  ], {
+    plugins: {
+      'owner/old': { staticSecurity: { checkedAt: '2026-08-01T00:00:00.000Z' } },
+      'owner/new': { staticSecurity: { checkedAt: '2026-08-31T00:00:00.000Z' } },
+    },
+  }, 6, now)
+  equal(targets.length, 2)
+  equal(targets[0].fullName, 'owner/new')
+  equal(targets[1].fullName, 'owner/old')
+  n += 1
+  console.log('  ✓ 安全队列：优先选择新 revision、过期或缺失的未排除插件')
+}
+
+{
+  const receipt = {
+    format: 'dsh-plugin-verification/v1',
+    kind: 'static-security',
+    repository: 'owner/plugin',
+    commit: '0123456789abcdef',
+    checkedAt: '2026-09-01T00:00:00.000Z',
+    scannerVersion: 1,
+    rulesetVersion: '2026-09',
+    status: 'passed',
+    risk: 'low',
+    scannedFiles: 3,
+    findings: [],
+    truncated: false,
+    publisherCompatibility: {
+      format: 'dsh-plugin-verification/v1',
+      kind: 'baseline-compatibility',
+      repository: 'owner/plugin',
+      commit: '0123456789abcdef',
+      checkedAt: '2026-09-01T00:00:00.000Z',
+      status: 'passed',
+      profileMode: 'clean',
+    },
+  }
+  const merged = mergeSecurityReceipts({}, [receipt, { ...receipt, repository: 'bad value' }], '2026-09-01T01:00:00.000Z')
+  equal(merged.merged, 1)
+  equal(merged.plugins['owner/plugin'].staticSecurity.commit, receipt.commit)
+  equal(merged.plugins['owner/plugin'].publisherCompatibility.profileMode, 'clean')
+  n += 1
+  console.log('  ✓ 安全回执：仅合并带版本的有效市场回执')
+}
+
+{
+  const root = await mkdtemp(join(tmpdir(), 'dsh-recommend-security-'))
+  try {
+    await mkdir(join(root, 'lib'))
+    await writeFile(join(root, 'package.json'), JSON.stringify({ name: 'fixture' }))
+    await writeFile(join(root, 'lib', 'index.js'), "import { exec } from 'node:child_process'\nexec('echo test')\n")
+    const receipt = await scanPluginSource(root, { repository: 'owner/plugin', commit: '0123456789abcdef' })
+    equal(receipt.status, 'warnings')
+    equal(receipt.risk, 'high')
+    ok(receipt.findings.some((finding) => finding.file === 'lib/index.js'), 'published lib must be scanned')
+    equal(readCompatibilityAttestation({
+      format: 'dsh-plugin-verification/v1',
+      kind: 'baseline-compatibility',
+      repository: 'owner/plugin',
+      commit: '0123456789abcdef',
+      checkedAt: '2026-09-01T00:00:00.000Z',
+      profileMode: 'host-web',
+      result: 'passed',
+      plugin: { sourceFingerprint: 'sha256' },
+    }, '0123456789abcdef', 'owner/plugin'), null)
+    const manifestText = await readFile(join(root, 'package.json'), 'utf8')
+    const sourceFingerprint = createHash('sha256').update(manifestText).digest('hex')
+    const portable = await validateCompatibilityAttestationForSource(root, {
+      format: 'dsh-plugin-verification/v1',
+      kind: 'baseline-compatibility',
+      repository: 'owner/plugin',
+      commit: '0123456789abcdef',
+      checkedAt: '2026-09-01T00:00:00.000Z',
+      profileMode: 'clean',
+      result: 'passed',
+      plugin: { name: 'fixture', sourceFingerprint },
+    }, '0123456789abcdef', 'owner/plugin')
+    equal(portable?.status, 'passed')
+    equal(await validateCompatibilityAttestationForSource(root, {
+      format: 'dsh-plugin-verification/v1',
+      kind: 'baseline-compatibility',
+      repository: 'owner/plugin',
+      commit: '0123456789abcdef',
+      checkedAt: '2026-09-01T00:00:00.000Z',
+      profileMode: 'clean',
+      result: 'passed',
+      plugin: { name: 'fixture', sourceFingerprint: '0'.repeat(64) },
+    }, '0123456789abcdef', 'owner/plugin'), null)
+  } finally {
+    await rm(root, { recursive: true, force: true })
+  }
+  n += 1
+  console.log('  ✓ 静态扫描：扫描发布 bundle，公开回执绑定 target manifest')
+}
 
 console.log(`\n✓ smoke 全部通过（${n} 项）`)

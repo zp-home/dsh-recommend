@@ -16,12 +16,14 @@ export interface RankingsTabInjected {
   loadRankings(): Promise<RegistryDoc>
   /** 读取历史趋势数据（默认走同源路由；缓存缺失时 reject，调用方降级为无趋势）。 */
   loadHistory(): Promise<HistoryDoc>
-  /** 触发一次数据刷新（POST 同源 sync 路由，拉最新 registry 覆写缓存）。 */
-  refreshRankings(): Promise<{ fetchedAt: string; count: number }>
+  /** 检查缓存是否过期；传 true 时强制下载完整数据快照。 */
+  refreshRankings(force?: boolean): Promise<{ updated: boolean; fetchedAt?: string; count?: number }>
   /** 读取已安装插件的 moduleName 列表（官方 pluginInventory Remote，M3）。 */
   listInstalled(): Promise<string[]>
   /** 一键安装：POST fullName 给 host 的安装路由，host 构造 spec 并执行 dsh plugin add（M3）。 */
   installPlugin(fullName: string): Promise<InstallResult>
+  /** Explicit dsh-dev-sandbox check for a user-provided prepared source directory. */
+  verifyLocalPlugin(fullName: string, pluginPath: string, profileMode: 'clean' | 'host-web'): Promise<LocalCompatibilityResult>
   /** 检查 profile 直接依赖的更新。 */
   loadUpdates(): Promise<UpdateStatus>
   /** 用户确认后更新单个 profile 依赖。 */
@@ -74,6 +76,19 @@ export interface InstallResult {
   stderr?: string
   timedOut?: boolean
 }
+
+export interface LocalCompatibilityResult {
+  result: 'passed' | 'failed'
+  profileMode: 'clean' | 'host-web'
+  checkedAt: string
+  error: string | null
+}
+
+type LocalCheckState =
+  | { phase: 'idle' }
+  | { phase: 'running' }
+  | { phase: 'complete'; result: LocalCompatibilityResult }
+  | { phase: 'failed'; message: string }
 
 export type RankingsTabProps = PropsRuntime<'settings.plugins.tab'>
   & PropsLocale<'dshRecommend'>
@@ -294,6 +309,8 @@ body[data-ds-dark-theme] .dshr-wrap {
   border: 1px solid var(--dshr-border);
 }
 .dshr-pill b { font-weight: 600; color: var(--dshr-text); }
+.dshr-security-pill { text-decoration: none; }
+.dshr-security-pill:hover { color: var(--dshr-accent); border-color: var(--dshr-accent); }
 .dshr-trend { display: flex; align-items: center; gap: 5px; color: var(--dshr-text-tertiary); }
 .dshr-spark { color: var(--dshr-accent); flex: 0 0 auto; }
 .dshr-actions { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -337,6 +354,21 @@ body[data-ds-dark-theme] .dshr-install-msg.bad { color: #f97583; }
 .dshr-details dl { display: grid; grid-template-columns: max-content 1fr; gap: 5px 14px; margin: 8px 0 0; }
 .dshr-details dt { color: var(--dshr-text-tertiary); white-space: nowrap; }
 .dshr-details dd { margin: 0; overflow-wrap: anywhere; }
+.dshr-install-dialog { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 20px; background: rgb(0 0 0 / .38); }
+.dshr-install-dialog > section { width: min(520px, 100%); max-height: min(680px, 100%); overflow: auto; padding: 18px; border: 1px solid var(--dshr-border); border-radius: 8px; background: var(--dshr-surface); color: var(--dshr-text); box-shadow: 0 18px 55px rgb(0 0 0 / .25); }
+.dshr-install-dialog h3 { margin: 0; font-size: 16px; }
+.dshr-install-dialog p { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--dshr-text-secondary); }
+.dshr-install-dialog code { overflow-wrap: anywhere; }
+.dshr-install-check { display: grid; gap: 7px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--dshr-border); }
+.dshr-install-check label { font-size: 12px; color: var(--dshr-text-secondary); }
+.dshr-install-check input, .dshr-install-check select { min-width: 0; padding: 7px 8px; font: inherit; color: var(--dshr-text); background: var(--dshr-surface); border: 1px solid var(--dshr-border); border-radius: 5px; }
+.dshr-install-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 7px; margin-top: 18px; }
+.dshr-install-check-result { font-size: 12px; color: var(--dshr-text-tertiary); }
+.dshr-install-check-result.ok { color: var(--dshr-ok); }
+.dshr-install-check-result.bad { color: #c62828; }
+body[data-ds-dark-theme] .dshr-install-check-result.bad { color: #f97583; }
+/* Local sandbox controls appear only in the explicit installation confirmation. */
+.dshr-details .dshr-verify, .dshr-details dt:has(+ dd .dshr-verify), .dshr-details dd:has(.dshr-verify) { display: none; }
 .dshr-details .dshr-topics { display: flex; flex-wrap: wrap; gap: 4px; }
 .dshr-details .dshr-topic {
   font-size: 11px; line-height: 1; padding: 3px 7px; border-radius: 999px;
@@ -354,7 +386,7 @@ body[data-ds-dark-theme] .dshr-install-msg.bad { color: #f97583; }
 .dshr-note { font-size: 11.5px; color: var(--dshr-text-tertiary); }
 `
 
-export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, listInstalled, installPlugin, loadUpdates, updatePlugin, saveUpdatePolicy }: RankingsTabProps): JSX.Element {
+export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, listInstalled, installPlugin, verifyLocalPlugin, loadUpdates, updatePlugin, saveUpdatePolicy }: RankingsTabProps): JSX.Element {
   const [doc, setDoc] = useState<RegistryDoc | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [history, setHistory] = useState<HistoryDoc | null>(null)
@@ -367,6 +399,10 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
   const [copied, setCopied] = useState<string | null>(null)
   const [installed, setInstalled] = useState<Set<string>>(new Set())
   const [installState, setInstallState] = useState<Record<string, InstallState>>({})
+  const [installCandidate, setInstallCandidate] = useState<RegistryDoc['plugins'][number] | null>(null)
+  const [localPaths, setLocalPaths] = useState<Record<string, string>>({})
+  const [localProfiles, setLocalProfiles] = useState<Record<string, 'clean' | 'host-web'>>({})
+  const [localChecks, setLocalChecks] = useState<Record<string, LocalCheckState>>({})
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus | null>(null)
   const [updateLoading, setUpdateLoading] = useState(false)
   const [updatingPackage, setUpdatingPackage] = useState<string | null>(null)
@@ -388,6 +424,25 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
       .catch(() => { if (alive) setHistory(null) }) // 历史缓存缺失 → 无趋势，不影响榜单
     return () => { alive = false }
   }, [loadHistory])
+
+  // Render the cached snapshot immediately, then update it in the background when it is stale.
+  useEffect(() => {
+    let alive = true
+    refreshRankings()
+      .then(async (result) => {
+        if (!result.updated) return
+        const [fresh, freshHistory] = await Promise.all([
+          loadRankings(),
+          loadHistory().catch(() => null),
+        ])
+        if (!alive) return
+        setDoc(fresh)
+        setHistory(freshHistory)
+        setError(null)
+      })
+      .catch(() => { /* Retain the last usable local snapshot when the upstream is unavailable. */ })
+    return () => { alive = false }
+  }, [loadHistory, loadRankings, refreshRankings])
 
   useEffect(() => {
     const style = document.getElementById('dshr-rankings-css') ?? document.createElement('style')
@@ -463,9 +518,13 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
     setRefreshing(true)
     setRefreshMsg(null)
     try {
-      const r = await refreshRankings()
-      const fresh = await loadRankings()
+      const r = await refreshRankings(true)
+      const [fresh, freshHistory] = await Promise.all([
+        loadRankings(),
+        loadHistory().catch(() => null),
+      ])
       setDoc(fresh)
+      setHistory(freshHistory)
       setError(null)
       setRefreshMsg(t('refreshDone', { time: formatTime(r.fetchedAt) }))
     } catch (err) {
@@ -486,7 +545,7 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
     }
   }
 
-  const doInstall = async (fullName: string): Promise<void> => {
+  const doInstall = async (fullName: string): Promise<boolean> => {
     setInstallState((s) => ({ ...s, [fullName]: { phase: 'running' } }))
     try {
       const result = await installPlugin(fullName)
@@ -494,11 +553,28 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
         setInstallState((s) => ({ ...s, [fullName]: { phase: 'installed' } }))
         // 本会话内视为已装（重启后 pluginInventory 会确认）
         setInstalled((prev) => new Set(prev).add(normalizeKey(fullName)))
-      } else {
-        setInstallState((s) => ({ ...s, [fullName]: { phase: 'failed', message: result.message ?? t('installFail') } }))
+        return true
       }
+      setInstallState((s) => ({ ...s, [fullName]: { phase: 'failed', message: result.message ?? t('installFail') } }))
     } catch (err) {
       setInstallState((s) => ({ ...s, [fullName]: { phase: 'failed', message: err instanceof Error ? err.message : String(err) } }))
+    }
+    return false
+  }
+
+  const doLocalVerification = async (fullName: string): Promise<void> => {
+    const pluginPath = (localPaths[fullName] ?? '').trim()
+    if (!pluginPath) {
+      setLocalChecks((checks) => ({ ...checks, [fullName]: { phase: 'failed', message: t('localPathRequired') } }))
+      return
+    }
+    const profileMode = localProfiles[fullName] ?? 'host-web'
+    setLocalChecks((checks) => ({ ...checks, [fullName]: { phase: 'running' } }))
+    try {
+      const result = await verifyLocalPlugin(fullName, pluginPath, profileMode)
+      setLocalChecks((checks) => ({ ...checks, [fullName]: { phase: 'complete', result } }))
+    } catch (caught) {
+      setLocalChecks((checks) => ({ ...checks, [fullName]: { phase: 'failed', message: caught instanceof Error ? caught.message : String(caught) } }))
     }
   }
 
@@ -572,6 +648,13 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
   const start = (safePage - 1) * PAGE_SIZE
   const pageRows = rows.slice(start, start + PAGE_SIZE)
   const historyDays = history?.days.length ?? 0
+  const candidateCheck = installCandidate === null
+    ? { phase: 'idle' } as LocalCheckState
+    : localChecks[installCandidate.fullName] ?? { phase: 'idle' }
+
+  const confirmInstall = async (): Promise<void> => {
+    if (installCandidate !== null && await doInstall(installCandidate.fullName)) setInstallCandidate(null)
+  }
 
   return (
     <div className="dshr-wrap">
@@ -683,6 +766,15 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
             ? t('scanSkipped')
             : p.scanStatus === 'verified' ? t('scanVerified')
             : p.scanStatus === 'unverified' ? t('scanUnverified') : t('scanError')
+          const securityLabel = p.verification?.staticSecurity?.status === 'passed'
+            ? t('securityPassed')
+            : p.verification?.staticSecurity?.status === 'warnings'
+              ? t('securityWarnings', { risk: p.verification.staticSecurity.risk })
+              : t('securityUnavailable')
+          const compatibilityLabel = p.verification?.publisherCompatibility?.status === 'passed'
+            ? t('publisherCompatibilityPassed')
+            : null
+          const localCheck = localChecks[p.fullName] ?? { phase: 'idle' }
           return (
             <article className="dshr-row" key={p.fullName}>
               <div className="dshr-row-top">
@@ -712,6 +804,8 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                       </span>
                     )
                   })}
+                  <a className="dshr-pill dshr-security-pill" href="https://github.com/zp-home/dsh-recommend/blob/main/docs/security-scanning.md" target="_blank" rel="noreferrer" title={t('securityTitle')}>{securityLabel}</a>
+                  {compatibilityLabel ? <span className="dshr-pill" title={t('publisherCompatibilityTitle')}>{compatibilityLabel}</span> : null}
                 </span>
                 {series && series.length >= 2 ? (
                   <span className="dshr-trend" title={t('trendTitle', { days: String(series.length) })}>
@@ -740,7 +834,7 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                         type="button"
                         className="dshr-act dshr-install"
                         title={t('installTitle')}
-                        onClick={() => { void doInstall(p.fullName) }}
+                        onClick={() => setInstallCandidate(p)}
                       >
                         ⬇ {t('install')}
                       </button>
@@ -785,13 +879,94 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                   {p.pushedAt ? <><dt>{t('fieldPushed')}</dt><dd>{formatTime(p.pushedAt)}</dd></> : null}
                   {site ? <><dt>{t('fieldHomepage')}</dt><dd>{site}</dd></> : null}
                   <><dt>{t('fieldScan')}</dt><dd>{scanLabel}</dd></>
-                  {p.excluded ? <><dt>{t('excludedReason')}</dt><dd>{p.excluded}</dd></> : null}
+                  <><dt>{t('fieldSecurity')}</dt><dd>{securityLabel}</dd></>
+                   {compatibilityLabel ? <><dt>{t('fieldPublisherCompatibility')}</dt><dd>{compatibilityLabel}</dd></> : null}
+                   <>
+                     <dt>{t('fieldLocalCompatibility')}</dt>
+                     <dd>
+                       <div className="dshr-verify" hidden>
+                         <input
+                           type="text"
+                           value={localPaths[p.fullName] ?? ''}
+                           onChange={(event) => setLocalPaths((paths) => ({ ...paths, [p.fullName]: event.target.value }))}
+                           placeholder={t('localPathPlaceholder')}
+                           aria-label={t('localPathPlaceholder')}
+                         />
+                         <select
+                           value={localProfiles[p.fullName] ?? 'host-web'}
+                           onChange={(event) => setLocalProfiles((profiles) => ({ ...profiles, [p.fullName]: event.target.value as 'clean' | 'host-web' }))}
+                           aria-label={t('localProfile')}
+                         >
+                           <option value="host-web">{t('localProfileHost')}</option>
+                           <option value="clean">{t('localProfileClean')}</option>
+                         </select>
+                         <button type="button" className="dshr-act" disabled={localCheck.phase === 'running'} onClick={() => { void doLocalVerification(p.fullName) }}>
+                           {localCheck.phase === 'running' ? t('localChecking') : t('localCheck')}
+                         </button>
+                         {localCheck.phase === 'complete' ? (
+                           <span className={`dshr-verify-result ${localCheck.result.result === 'passed' ? 'ok' : 'bad'}`}>
+                             {localCheck.result.result === 'passed'
+                               ? t('localPassed', { profile: localCheck.result.profileMode })
+                               : t('localFailed', { message: localCheck.result.error ?? t('unknownError') })}
+                           </span>
+                         ) : null}
+                         {localCheck.phase === 'failed' ? <span className="dshr-verify-result bad">{localCheck.message}</span> : null}
+                       </div>
+                     </dd>
+                   </>
+                   {p.excluded ? <><dt>{t('excludedReason')}</dt><dd>{p.excluded}</dd></> : null}
                 </dl>
               </details>
             </article>
           )
         })}
       </div>
+
+      {installCandidate ? (
+        <div className="dshr-install-dialog" role="presentation" onMouseDown={() => setInstallCandidate(null)}>
+          <section role="dialog" aria-modal="true" aria-label={t('installDialogTitle')} onMouseDown={(event) => event.stopPropagation()}>
+            <h3>{t('installDialogTitle')}</h3>
+            <p>{t('installDialogDescription')}</p>
+            <p><code>github:{installCandidate.fullName}</code></p>
+            <div className="dshr-install-check">
+              <label htmlFor="dshr-local-path">{t('localPathPlaceholder')}</label>
+              <input
+                id="dshr-local-path"
+                type="text"
+                value={localPaths[installCandidate.fullName] ?? ''}
+                onChange={(event) => setLocalPaths((paths) => ({ ...paths, [installCandidate.fullName]: event.target.value }))}
+                placeholder={t('localPathPlaceholder')}
+              />
+              <label htmlFor="dshr-local-profile">{t('localProfile')}</label>
+              <select
+                id="dshr-local-profile"
+                value={localProfiles[installCandidate.fullName] ?? 'host-web'}
+                onChange={(event) => setLocalProfiles((profiles) => ({ ...profiles, [installCandidate.fullName]: event.target.value as 'clean' | 'host-web' }))}
+              >
+                <option value="host-web">{t('localProfileHost')}</option>
+                <option value="clean">{t('localProfileClean')}</option>
+              </select>
+              <button type="button" className="dshr-act" disabled={candidateCheck.phase === 'running'} onClick={() => { void doLocalVerification(installCandidate.fullName) }}>
+                {candidateCheck.phase === 'running' ? t('localChecking') : t('localCheck')}
+              </button>
+              {candidateCheck.phase === 'complete' ? (
+                <span className={`dshr-install-check-result ${candidateCheck.result.result === 'passed' ? 'ok' : 'bad'}`}>
+                  {candidateCheck.result.result === 'passed'
+                    ? t('localPassed', { profile: candidateCheck.result.profileMode })
+                    : t('localFailed', { message: candidateCheck.result.error ?? t('unknownError') })}
+                </span>
+              ) : null}
+              {candidateCheck.phase === 'failed' ? <span className="dshr-install-check-result bad">{candidateCheck.message}</span> : null}
+            </div>
+            <div className="dshr-install-dialog-actions">
+              <button type="button" className="dshr-act" onClick={() => setInstallCandidate(null)}>{t('cancel')}</button>
+              <button type="button" className="dshr-act dshr-install" disabled={installState[installCandidate.fullName]?.phase === 'running'} onClick={() => { void confirmInstall() }}>
+                {installState[installCandidate.fullName]?.phase === 'running' ? t('installing') : t('installWithoutCheck')}
+              </button>
+            </div>
+          </section>
+        </div>
+      ) : null}
 
       <div className="dshr-pager">
         <button type="button" disabled={safePage <= 1} onClick={() => setPage(safePage - 1)}>{t('prevPage')}</button>
@@ -822,6 +997,10 @@ export interface RegistryDoc {
     license?: string | null
     topics?: string[]
     scanStatus?: 'verified' | 'unverified' | 'skipped' | 'error' | null
+    verification?: {
+      staticSecurity?: { status: 'passed' | 'warnings' | 'incomplete'; risk: 'low' | 'medium' | 'high'; commit: string; checkedAt: string } | null
+      publisherCompatibility?: { status: 'passed'; profileMode: 'clean'; commit: string; checkedAt: string } | null
+    }
     certified?: boolean
     signals: Record<string, number>
   }>

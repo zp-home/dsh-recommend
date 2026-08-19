@@ -2,7 +2,8 @@
  * scan.mjs — 插件性验证深扫（M1.5 / 榜单可信度）
  *
  * 对榜单前 N 名（默认 200）逐个仓库做轻量验证：用 GitHub Contents API 取根目录
- * 列表 + package.json，检测 DSH 插件特征：
+ * 列表 + package.json，检测 DSH 插件特征；同时读取同一 GitHub API 上、当前
+ * 默认分支 commit 的 Actions Check 回执（静态安全 / 发布基线兼容）：
  *   - package.json 声明 `dsh` 字段（dsh.bundle / dsh.client）→ 强特征
  *   - dependencies/devDependencies 含 @deepseek-ai/* → 强特征
  *   - cordis 配置（cordis.config.* / *.cordis.yml / agent.cordis.yml / cordis.patch.yml）→ 强特征
@@ -49,8 +50,55 @@ async function ghJson(url, retries = 2) {
   return res.json()
 }
 
+const RECEIPT_FORMAT = 'dsh-plugin-verification/v1'
+
+/** Extract only publisher baseline compatibility from a public Actions check.
+ * Static-security evidence comes exclusively from the market-owned scan queue;
+ * a repository can otherwise forge a check-summary marker. */
+export function receiptFromCheck(check, headSha, repository) {
+  const text = `${check?.output?.summary ?? ''}\n${check?.output?.text ?? ''}`
+  const match = /<!--\s*dsh-plugin-verification:(\{[\s\S]*?\})\s*-->/.exec(text)
+  if (match === null) return null
+  try {
+    const receipt = JSON.parse(match[1])
+    if (receipt?.format !== RECEIPT_FORMAT || receipt?.commit !== headSha) return null
+    if (receipt.kind === 'baseline-compatibility'
+      && receipt.repository === repository
+      && receipt.status === 'passed'
+      && receipt.profileMode === 'clean'
+      && typeof receipt.checkedAt === 'string'
+      && Number.isFinite(Date.parse(receipt.checkedAt))) {
+      return { kind: receipt.kind, status: 'passed', profileMode: 'clean', checkedAt: receipt.checkedAt, checkUrl: check.html_url ?? null }
+    }
+  } catch {
+    // A malformed third-party check is ignored rather than becoming a label.
+  }
+  return null
+}
+
+/** Read an optional publisher clean-profile receipt from the current default-branch head. */
+export async function fetchWorkflowVerification(owner, name, defaultBranch) {
+  try {
+    const repository = `${owner}/${name}`
+    const branch = typeof defaultBranch === 'string' && defaultBranch !== ''
+      ? defaultBranch
+      : (await ghJson(`${GITHUB_API}/repos/${owner}/${name}`))?.default_branch
+    if (typeof branch !== 'string' || branch === '') return null
+    const commit = await ghJson(`${GITHUB_API}/repos/${owner}/${name}/commits/${encodeURIComponent(branch)}`)
+    const sha = typeof commit?.sha === 'string' ? commit.sha : null
+    if (sha === null) return null
+    const checks = await ghJson(`${GITHUB_API}/repos/${owner}/${name}/commits/${sha}/check-runs?per_page=100`)
+    const compatibility = (checks?.check_runs ?? [])
+      .map((check) => receiptFromCheck(check, sha, repository))
+      .find(Boolean) ?? null
+    return compatibility === null ? null : { commit: sha, compatibility }
+  } catch (error) {
+    return { commit: null, compatibility: null, error: error instanceof Error ? error.message : String(error) }
+  }
+}
+
 /** 检测单个仓库（contents 根目录 + 可选 package.json）。返回 { status, signals }。 */
-export async function scanRepo(owner, name) {
+export async function scanRepo(owner, name, defaultBranch) {
   const signals = {
     hasPackageJson: false,
     hasDshManifest: false,
@@ -96,7 +144,8 @@ export async function scanRepo(owner, name) {
     || signals.hasDshConfig
     || signals.hasSkillDir
     || signals.hasSKILLMD
-  return { status: verified ? 'verified' : 'unverified', signals }
+  const verification = await fetchWorkflowVerification(owner, name, defaultBranch)
+  return { status: verified ? 'verified' : 'unverified', signals, verification }
 }
 
 const argv = process.argv.slice(2)
@@ -117,8 +166,8 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const [owner, ...rest] = r.fullName.split('/')
     const name = rest.join('/')
     try {
-      const { status, signals } = await scanRepo(owner, name)
-      results[r.fullName] = { status, signals }
+      const { status, signals, verification } = await scanRepo(owner, name)
+      results[r.fullName] = { status, signals, verification }
       counts[status] += 1
       counts.scanned += 1
       console.log(`  ${status === 'verified' ? '✓' : '✗'} ${r.fullName}（${status}）`)

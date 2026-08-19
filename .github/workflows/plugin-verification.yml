@@ -1,0 +1,83 @@
+# Reusable publisher workflow. Plugin repositories call this by ref from their
+# own workflow; all target code is treated as data and is never installed.
+name: dsh-plugin-verification
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  static-security:
+    name: static-security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout plugin source
+        uses: actions/checkout@v4
+        with:
+          path: target
+          persist-credentials: false
+          submodules: false
+          lfs: false
+      - name: Checkout trusted scanner
+        uses: actions/checkout@v4
+        with:
+          repository: zp-home/dsh-recommend
+          path: market
+          persist-credentials: false
+      - name: Scan source without executing it
+        shell: bash
+        run: |
+          node market/scripts/static-security.mjs \
+            --path target \
+            --repository "$GITHUB_REPOSITORY" \
+            --commit "$GITHUB_SHA" \
+            --out "$RUNNER_TEMP/dsh-static-security.json" \
+            > "$RUNNER_TEMP/dsh-static-security.summary"
+          cat "$RUNNER_TEMP/dsh-static-security.summary" >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload scan receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: dsh-static-security
+          path: ${{ runner.temp }}/dsh-static-security.json
+          if-no-files-found: error
+
+  baseline-compatibility:
+    name: baseline-compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout plugin source
+        uses: actions/checkout@v4
+        with:
+          path: target
+          persist-credentials: false
+          submodules: false
+          lfs: false
+      - name: Checkout trusted receipt validator
+        uses: actions/checkout@v4
+        with:
+          repository: zp-home/dsh-recommend
+          path: market
+          persist-credentials: false
+      - name: Publish the local sandbox receipt when present
+        shell: bash
+        run: |
+          node --input-type=module - "$GITHUB_SHA" "$GITHUB_REPOSITORY" <<'NODE' >> "$GITHUB_STEP_SUMMARY"
+          import { readFile } from 'node:fs/promises'
+          import { formatCheckMarker, readCompatibilityAttestation } from './market/scripts/static-security.mjs'
+          const commit = process.argv[2]
+          const repository = process.argv[3]
+          let value = null
+          try {
+            value = JSON.parse(await readFile('target/.dsh/compatibility.json', 'utf8'))
+          } catch {
+            // A missing receipt is informational: unverified plugins remain installable.
+          }
+          const receipt = readCompatibilityAttestation(value, commit, repository)
+            ?? { format: 'dsh-plugin-verification/v1', kind: 'baseline-compatibility', repository, commit, status: 'unavailable' }
+          console.log(formatCheckMarker(receipt))
+          console.log(receipt.status === 'passed'
+            ? `Publisher baseline compatibility: passed (${receipt.profileMode})`
+            : 'Publisher baseline compatibility: no matching dsh-dev-sandbox receipt')
+          NODE

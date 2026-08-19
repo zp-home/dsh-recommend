@@ -1,0 +1,102 @@
+# Slow, bounded marketplace security scan. Each worker checks out a public
+# repository without credentials and reads its source text only; it never runs
+# package-manager lifecycle scripts, build scripts, tests, or plugin code.
+name: marketplace-security-scan
+
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: 'Number of marketplace entries to scan (1-12)'
+        required: false
+        default: '6'
+
+concurrency:
+  group: dsh-recommend-data-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    outputs:
+      targets: ${{ steps.targets.outputs.targets }}
+      hasTargets: ${{ steps.targets.outputs.hasTargets }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: targets
+        name: Select expired verification records
+        env:
+          LIMIT: ${{ inputs.limit || '6' }}
+        run: node scripts/security-queue.mjs --limit "$LIMIT"
+
+  scan:
+    needs: select
+    if: needs.select.outputs.hasTargets == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        target: ${{ fromJSON(needs.select.outputs.targets) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: market
+      - name: Checkout target source without credentials
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.target.fullName }}
+          path: target
+          fetch-depth: 1
+          submodules: false
+          lfs: false
+          persist-credentials: false
+      - name: Scan source without executing it
+        working-directory: market
+        shell: bash
+        run: |
+          commit="$(git -C ../target rev-parse HEAD)"
+          node scripts/static-security.mjs \
+            --path ../target \
+            --repository "${{ matrix.target.fullName }}" \
+            --commit "$commit" \
+            --compatibility ../target/.dsh/compatibility.json \
+            --out "$RUNNER_TEMP/${{ matrix.target.id }}.json"
+      - name: Upload static-security receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: static-security-${{ matrix.target.id }}
+          path: ${{ runner.temp }}/${{ matrix.target.id }}.json
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: [select, scan]
+    if: always() && needs.select.outputs.hasTargets == 'true'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download completed scan receipts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: static-security-*
+          path: receipts
+          merge-multiple: true
+      - name: Merge verified receipt schema
+        run: node scripts/merge-security-receipts.mjs --dir receipts --out data/verification.json
+      - name: Commit verification index
+        run: |
+          git config user.name "dsh-recommend bot"
+          git config user.email "actions@github.com"
+          git add data/verification.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: update static security receipts"
+          git pull --rebase origin main
+          git push

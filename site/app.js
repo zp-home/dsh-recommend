@@ -16,6 +16,7 @@ function formatTime(iso) {
 }
 
 let doc = null // { meta, plugins }（registry）
+let verification = null // { plugins: { [owner/repo]: evidence } }（可选市场验证索引）
 let history = null // { days: [...] }（每日快照）
 
 const PAGE_SIZE = 50 // 每页条数
@@ -45,6 +46,25 @@ function siteLink(p) {
 /** 安装命令。 */
 function installCmd(p) {
   return `dsh plugin --profile web add github:${p.fullName}`
+}
+
+/** Public, advisory-only marketplace static-security pill. */
+function securityPill(p) {
+  const status = p.verification?.staticSecurity?.status
+  const risk = esc(p.verification?.staticSecurity?.risk ?? 'unknown')
+  const label = status === 'passed'
+    ? '静态提示：未匹配规则'
+    : status === 'warnings'
+      ? `静态提示（${risk}）`
+      : '无静态安全提示'
+  return `<a class="pill security-pill" href="../docs/security-scanning.md" target="_blank" rel="noopener" title="公开规则的只读静态提示；仅供参考，不构成安全认证">${label}</a>`
+}
+
+/** Publisher clean receipt verified by the marketplace source-only queue. */
+function compatibilityPill(p) {
+  return p.verification?.publisherCompatibility?.status === 'passed'
+    ? '<span class="pill compatibility-pill" title="开发者 dsh-dev-sandbox clean 回执已由市场 Actions 绑定到此 GitHub revision 与 package manifest；兼容性结果不构成安全认证">开发者沙盒 clean 通过</span>'
+    : ''
 }
 
 /** 近 N 天综合分序列（按日期升序）。 */
@@ -77,8 +97,22 @@ function sparkline(series) {
 
 async function load() {
   try {
-    const reg = await fetch('../data/registry.json').then((r) => r.json())
-    doc = reg
+    const [reg, verificationIndex] = await Promise.all([
+      fetch('../data/registry.json').then((r) => r.json()),
+      fetch('../data/verification.json')
+        .then((r) => r.ok ? r.json() : null)
+        .catch(() => null),
+    ])
+    verification = verificationIndex
+    const evidenceByRepo = verification?.plugins && typeof verification.plugins === 'object' ? verification.plugins : {}
+    doc = {
+      ...reg,
+      plugins: reg.plugins.map((plugin) => {
+        const evidence = evidenceByRepo[plugin.fullName]
+        if (!evidence || typeof evidence !== 'object') return plugin
+        return { ...plugin, verification: { ...plugin.verification, ...evidence } }
+      }),
+    }
     const cats = new Set(doc.plugins.map((p) => p.category).filter(Boolean))
     const sel = document.getElementById('category')
     for (const c of [...cats].sort()) {
@@ -228,10 +262,13 @@ function render() {
     const medal = start + i === 0 ? '🥇' : start + i === 1 ? '🥈' : start + i === 2 ? '🥉' : `#${start + i + 1}`
     const el = document.createElement('article')
     el.className = 'row' + (p.excluded ? ' excluded' : '')
-    const pills = SIGNAL_ORDER
-      .filter((k) => p.signals?.[k] !== undefined)
-      .map((k) => `<span class="pill">${SIGNAL_LABELS[k]} <b>${p.signals[k].toFixed(2)}</b></span>`)
-      .join('')
+    const pills = [
+      ...SIGNAL_ORDER
+        .filter((k) => p.signals?.[k] !== undefined)
+        .map((k) => `<span class="pill">${SIGNAL_LABELS[k]} <b>${p.signals[k].toFixed(2)}</b></span>`),
+      securityPill(p),
+      compatibilityPill(p),
+    ].join('')
     const series = trendSeries(p.fullName)
     const trend = series.length >= 2
       ? `<span class="trend" title="近 ${series.length} 天综合分走势">${sparkline(series)}</span>`
@@ -257,6 +294,8 @@ function render() {
           ${p.pushedAt ? `<dt>最近更新</dt><dd>${formatTime(p.pushedAt)}</dd>` : ''}
           ${p.homepage && site ? `<dt>站点</dt><dd><a href="${esc(site)}" target="_blank" rel="noopener">${esc(site)}</a></dd>` : ''}
           <dt>深扫验证</dt><dd>${SCAN_LABELS[p.scanStatus] ?? '未深扫'}</dd>
+           <dt>云端静态安全提示</dt><dd>${securityPill(p)}</dd>
+           ${compatibilityPill(p) ? `<dt>开发者沙盒 clean 回执</dt><dd>${compatibilityPill(p)}</dd>` : ''}
           ${p.excluded ? `<dt>排除原因</dt><dd class="reason">${esc(p.excluded)}</dd>` : ''}
         </dl>
       </details>`

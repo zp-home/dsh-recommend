@@ -14,10 +14,10 @@ import type {} from '@deepseek-ai/dsh-client-locale/client'
 import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
-import { RankingsTab, type HistoryDoc, type InstallResult, type RankingsTabInjected, type RegistryDoc, type UpdatePolicy, type UpdateResult, type UpdateStatus } from './RankingsTab.tsx'
+import { RankingsTab, type HistoryDoc, type InstallResult, type LocalCompatibilityResult, type RankingsTabInjected, type RegistryDoc, type UpdatePolicy, type UpdateResult, type UpdateStatus } from './RankingsTab.tsx'
 import { en, zh, type RankingsLocaleKey } from './locales.ts'
 
-export type { HistoryDoc, InstallResult, RankingsTabInjected, RankingsTabProps, RegistryDoc, UpdatePolicy, UpdateResult, UpdateStatus } from './RankingsTab.tsx'
+export type { HistoryDoc, InstallResult, LocalCompatibilityResult, RankingsTabInjected, RankingsTabProps, RegistryDoc, UpdatePolicy, UpdateResult, UpdateStatus } from './RankingsTab.tsx'
 export type { RankingsLocaleKey } from './locales.ts'
 
 declare module '@deepseek-ai/dsh-client-ui-slots' {
@@ -44,7 +44,31 @@ export function apply(ctx: ClientContext): void {
       if (!res.ok) {
         throw new Error(`registry 路由 ${res.status}（先调用 sync_registry）`)
       }
-      return res.json()
+      const registry = await res.json() as RegistryDoc
+      const verification = await fetch('/dsh-recommend/verification.json', { cache: 'no-store' })
+        .then(async (response) => response.ok ? await response.json() as {
+          plugins?: Record<string, {
+            staticSecurity?: { status: 'passed' | 'warnings' | 'incomplete'; risk: 'low' | 'medium' | 'high'; commit: string; checkedAt: string } | null
+            publisherCompatibility?: { status: 'passed'; profileMode: 'clean'; commit: string; checkedAt: string } | null
+          }>
+        } : null)
+        .catch(() => null)
+      if (!verification?.plugins) return registry
+      return {
+        ...registry,
+        plugins: registry.plugins.map((plugin) => {
+          const evidence = verification.plugins?.[plugin.fullName]
+          if (!evidence || (evidence.staticSecurity === undefined && evidence.publisherCompatibility === undefined)) return plugin
+          return {
+            ...plugin,
+            verification: {
+              ...plugin.verification,
+              ...evidence.staticSecurity !== undefined ? { staticSecurity: evidence.staticSecurity } : {},
+              ...evidence.publisherCompatibility !== undefined ? { publisherCompatibility: evidence.publisherCompatibility } : {},
+            },
+          }
+        }),
+      }
     },
     loadHistory: async (): Promise<HistoryDoc> => {
       const res = await fetch('/dsh-recommend/history.json', { cache: 'no-store' })
@@ -53,13 +77,13 @@ export function apply(ctx: ClientContext): void {
       }
       return res.json()
     },
-    refreshRankings: async (): Promise<{ fetchedAt: string; count: number }> => {
-      const res = await fetch('/dsh-recommend/sync', { method: 'POST' })
+    refreshRankings: async (force = false): Promise<{ updated: boolean; fetchedAt?: string; count?: number }> => {
+      const res = await fetch(`/dsh-recommend/sync${force ? '?force=1' : ''}`, { method: 'POST' })
       const body = await res.json().catch(() => null)
       if (!res.ok || !body?.ok) {
         throw new Error(body?.error ?? `sync 路由 ${res.status}`)
       }
-      return { fetchedAt: body.fetchedAt, count: body.count }
+      return { updated: body.updated === true, fetchedAt: body.fetchedAt, count: body.count }
     },
     listInstalled: async (): Promise<string[]> => {
       const result = await ctx.remote.pluginInventory.list()
@@ -78,6 +102,16 @@ export function apply(ctx: ClientContext): void {
       const data = (await res.json()) as InstallResult & { error?: string }
       if (!res.ok) return { ok: false, message: data.error ?? `HTTP ${res.status}` }
       return data
+    },
+    verifyLocalPlugin: async (fullName: string, pluginPath: string, profileMode: 'clean' | 'host-web'): Promise<LocalCompatibilityResult> => {
+      const res = await fetch('/api/dsh-dev-sandbox/verify', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ pluginPath, repository: fullName, profileMode, kind: 'local-compatibility' }),
+      })
+      const body = await res.json().catch(() => null) as { verification?: LocalCompatibilityResult; error?: string } | null
+      if (!res.ok || !body?.verification) throw new Error(body?.error ?? `dsh-dev-sandbox verify HTTP ${res.status}`)
+      return body.verification
     },
     loadUpdates: async (): Promise<UpdateStatus> => {
       const res = await fetch('/dsh-recommend/updates', { cache: 'no-store' })

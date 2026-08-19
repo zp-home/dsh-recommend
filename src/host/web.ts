@@ -21,17 +21,12 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Context } from '@deepseek-ai/cordis'
 import type {} from '@deepseek-ai/dsh-host-webserver'
+import { syncRegistry, syncRegistryIfStale, type RegistrySyncConfig } from './sync.ts'
 
 export const name = 'dsh-recommend-web'
 export const inject = ['webServer']
 
-export interface Config {
-  /** 本地缓存路径（与 host 半一致）。 */
-  cachePath: string
-  /** 数据仓库 registry.json 下载地址（POST /sync 拉取用，与 host 半一致）。 */
-  dataUrl: string
-  /** 可选：历史数据缓存路径（默认 cachePath 同级 history.json）。 */
-  historyPath?: string
+export interface Config extends RegistrySyncConfig {
   /** 可选：安装目标 profile 名；缺省为 web（浏览器半所在的 profile）。 */
   installProfile?: string
 }
@@ -201,18 +196,12 @@ export function apply(ctx: Context, config: Config): void {
   const historyPath = config.historyPath ?? config.cachePath.replace(/registry\.json$/, 'history.json')
   const profile = config.installProfile ?? 'web'
   const profileDir = profileDirFromCache(config.cachePath, profile)
+  const verificationPath = config.verificationPath ?? config.cachePath.replace(/registry\.json$/, 'verification.json')
   let updateBusy = false
 
-  /** 拉取最新 registry 并覆写本地缓存（与 host 半 sync_registry 相同逻辑）。 */
-  async function refresh(): Promise<{ fetchedAt: string; count: number }> {
-    const res = await fetch(config.dataUrl)
-    if (!res.ok) throw new Error(`下载 registry 失败: ${res.status}`)
-    const text = await res.text()
-    const doc = JSON.parse(text) as { meta?: { generatedAt?: string }; plugins?: unknown[] }
-    if (!Array.isArray(doc.plugins)) throw new Error('下载的 registry 结构异常')
-    await mkdir(dirname(config.cachePath), { recursive: true })
-    await writeFile(config.cachePath, text, 'utf8')
-    return { fetchedAt: doc.meta?.generatedAt ?? new Date().toISOString(), count: doc.plugins.length }
+  /** Manual refresh always downloads; automatic refresh only runs after the cache TTL expires. */
+  async function refresh(force: boolean) {
+    return force ? syncRegistry(config) : syncRegistryIfStale(config)
   }
 
   ctx.effect(() => ctx.webServer.register({
@@ -250,6 +239,24 @@ export function apply(ctx: Context, config: Config): void {
       }
     },
   }), 'dsh-recommend: history route')
+
+  ctx.effect(() => ctx.webServer.register({
+    kind: 'exact',
+    path: '/dsh-recommend/verification.json',
+    async handler(_req, res) {
+      try {
+        const body = await readFile(verificationPath)
+        res.writeHead(200, {
+          'content-type': 'application/json; charset=utf-8',
+          'cache-control': 'no-store',
+        })
+        res.end(body)
+      } catch {
+        res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' })
+        res.end('verification cache missing — refresh marketplace data first')
+      }
+    },
+  }), 'dsh-recommend: verification route')
 
   // 独立静态排行榜：复用本 web 半的缓存，使本地沙盒和 GitHub Pages 之外也能直接预览。
   for (const asset of SITE_ASSETS) {
@@ -295,7 +302,7 @@ export function apply(ctx: Context, config: Config): void {
     }), `dsh-recommend: static data ${route}`)
   }
 
-  // 设置页「刷新数据」：拉取最新 registry 覆写缓存。只读数据，不执行任何插件代码。
+  // 设置页加载后以默认模式检查缓存 TTL；按钮传 force=1 强制同步完整快照。
   // 注：WebRoute 契约无 method 字段（同路径下方法不可区分），故在 handler 内校验 req.method。
   ctx.effect(() => ctx.webServer.register({
     kind: 'exact',
@@ -307,7 +314,8 @@ export function apply(ctx: Context, config: Config): void {
         return
       }
       try {
-        const result = await refresh()
+        const requestUrl = new URL(req.url ?? '/dsh-recommend/sync', 'http://localhost')
+        const result = await refresh(requestUrl.searchParams.get('force') === '1')
         res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' })
         res.end(JSON.stringify({ ok: true, ...result }))
       } catch (err) {

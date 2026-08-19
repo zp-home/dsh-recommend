@@ -6,28 +6,15 @@
  * 本地缓存于 config.cachePath / config.historyPath（默认 $DSH_HOME/dsh-recommend/ 下），
  * sync_registry 负责更新两者。本插件从不执行任何被收录插件的代码（见 SECURITY.md）。
  */
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname } from 'node:path'
+import { readFile } from 'node:fs/promises'
 import type { Context } from '@deepseek-ai/cordis'
 import { defineTool } from '@deepseek-ai/dsh-tools'
+import { readSyncedRegistry, syncRegistry, type RegistrySyncConfig } from './sync.ts'
 
 export const name = 'dsh-recommend'
 export const inject = ['tools']
 
-export interface Config {
-  /** 数据仓库 registry.json 的下载地址。 */
-  dataUrl: string
-  /** 本地缓存路径；不存在时由 sync_registry 拉取。 */
-  cachePath: string
-  /** 可选：历史数据 URL（默认由 dataUrl 推导：registry.json → history.json）。 */
-  historyUrl?: string
-  /** 可选：历史数据缓存路径（默认 cachePath 同级 history.json）。 */
-  historyPath?: string
-  /** 可选：趋势数据 URL（默认由 dataUrl 推导：registry.json → trends.json，M3）。 */
-  trendsUrl?: string
-  /** 可选：趋势数据缓存路径（默认 cachePath 同级 trends.json）。 */
-  trendsPath?: string
-}
+export interface Config extends RegistrySyncConfig {}
 
 /** ISO 时间戳 → 本地可读格式，如 2026-08-14 05:27（UTC+8）。解析失败原样返回，缺省显示 —。 */
 function formatTime(iso: string | null | undefined): string {
@@ -47,10 +34,7 @@ function installCommand(fullName: string): string {
 
 export function apply(ctx: Context, config: Config) {
   const cachePath = config.cachePath
-  const historyPath = config.historyPath ?? config.cachePath.replace(/registry\.json$/, 'history.json')
-  const historyUrl = config.historyUrl ?? config.dataUrl.replace(/registry\.json$/, 'history.json')
   const trendsPath = config.trendsPath ?? config.cachePath.replace(/registry\.json$/, 'trends.json')
-  const trendsUrl = config.trendsUrl ?? config.dataUrl.replace(/registry\.json$/, 'trends.json')
 
   /** 读缓存；缺失/损坏时返回 null（工具层提示先 sync）。 */
   async function loadRegistry(): Promise<RegistryDoc | null> {
@@ -123,46 +107,16 @@ export function apply(ctx: Context, config: Config) {
       },
     },
     async execute() {
-      const [regRes, hisRes, trendRes] = await Promise.all([
-        fetch(config.dataUrl),
-        fetch(historyUrl),
-        fetch(trendsUrl),
-      ])
-      if (!regRes.ok) throw new Error(`下载 registry 失败: ${regRes.status}`)
-      const text = await regRes.text()
-      const doc: RegistryDoc = JSON.parse(text)
-      if (!Array.isArray(doc.plugins)) throw new Error('下载的 registry 结构异常')
-      await mkdir(dirname(cachePath), { recursive: true })
-      await writeFile(cachePath, text, 'utf8')
-      let historyDays = 0
-      if (hisRes.ok) {
-        const hisText = await hisRes.text()
-        try {
-          const his = JSON.parse(hisText)
-          if (Array.isArray(his.days)) {
-            await writeFile(historyPath, hisText, 'utf8')
-            historyDays = his.days.length
-          }
-        } catch { /* history 可选，解析失败仅警告 */ }
-      }
-      // 趋势数据：拉取失败不阻断主流程（trend_plugins 会提示缺失）
-      if (trendRes.ok) {
-        const tText = await trendRes.text()
-        try {
-          const tDoc = JSON.parse(tText)
-          if (Array.isArray(tDoc.trends)) {
-            await writeFile(trendsPath, tText, 'utf8')
-          }
-        } catch { /* trends 可选，解析失败仅警告 */ }
-      }
-      const meta = doc.meta as RegistryDoc['meta']
+      const result = await syncRegistry(config)
+      const doc = await readSyncedRegistry(cachePath) as RegistryDoc
+      const meta = doc.meta
       return {
-        fetchedAt: meta.generatedAt,
-        count: doc.plugins.length,
+        fetchedAt: result.fetchedAt,
+        count: result.count,
         excluded: doc.plugins.filter((p) => p.excluded).length,
         hubCatalog: meta.signals?.hubCatalog ?? undefined,
         deepScan: meta.signals?.scanCounts ?? undefined,
-        historyDays,
+        historyDays: result.historyDays,
       }
     },
   }))

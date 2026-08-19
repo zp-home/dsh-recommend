@@ -7,7 +7,7 @@ fetch.mjs ──► data/raw/{repos,topic-coverage}.json  采集 + topic 完整�
 score.mjs ──► data/{registry,rankings,meta}.json   过滤 + 评分（两阶段：--no-scan / 默认合并深扫）
 scan.mjs  ──► data/raw/deep-scan.json    深扫插件性验证（榜单前 N 名，检测 dsh 声明/@deepseek-ai 依赖/cordis/skills）
 history.mjs ─► data/history.json         每日历史快照（top100 + 总量，同天幂等，保留 366 天）
-badge.mjs  ──► data/badges/*.json         shields endpoint 徽章（前 200 名）
+badge.mjs  ──► data/badges/*.json         shields endpoint 徽章（所有上榜项目）
 report.mjs ──► docs/reports/<月>.md       月度生态报告（新秀/涨幅/下滑榜）
 smoke.mjs     零依赖冒烟测试（评分/排除/链接提取/徽章，CI 用）
 validate.mjs  校验门禁（CI 用，失败 exit 1；含 hub/awesome 信号源健康度）
@@ -24,7 +24,7 @@ node scripts/sync.mjs --no-scan        # 跳过深扫（本地无 token 时自�
 node scripts/fetch.mjs --dry           # 只打印原始 JSON 不落盘（调试）
 node scripts/scan.mjs --top 200        # 单独跑深扫（需 GITHUB_TOKEN）
 node scripts/history.mjs               # 单独生成当日快照
-node scripts/badge.mjs --top 200       # 生成徽章
+node scripts/badge.mjs                 # 为所有上榜项目生成徽章
 node scripts/report.mjs --stdout       # 月度报告打印到终端；--out docs/reports 写文件
 node scripts/smoke.mjs                 # 冒烟测试
 node scripts/validate.mjs              # 只校验
