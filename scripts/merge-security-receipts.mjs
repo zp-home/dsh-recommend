@@ -14,7 +14,8 @@ const SHA_PATTERN = /^[0-9a-f]{7,64}$/i
 const RULE_PATTERN = /^(?:MKT-[A-Z]+-\d{3}|[a-z][a-z0-9-]{0,63})$/
 const RISK_VALUES = new Set(['low', 'medium', 'high'])
 
-/** Preserve only bounded, source-location evidence safe for the public index. */
+/** Preserve only bounded, source-location evidence safe for the public index.
+ * Source excerpts (evidence field) are intentionally NOT published. */
 function publicFindings(receipt) {
   if (!Array.isArray(receipt.findings)) return []
   return receipt.findings.slice(0, 200).flatMap((finding) => {
@@ -41,6 +42,12 @@ function publicFindings(receipt) {
       ...detail('baselineRisk', 16),
       ...detail('protections', 240),
       ...detail('downgrade', 300),
+      ...detail('impact', 300),
+      ...detail('attack_vector', 300),
+      ...detail('cwe', 16),
+      ...detail('evidence_risk', 16),
+      ...detail('evidence_confidence', 16),
+      ...detail('risk_adjustment', 300),
     }]
   })
 }
