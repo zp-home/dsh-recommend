@@ -337,7 +337,7 @@ const SUPPLY_CHAIN_RULES = [
     message: 'uses arbitrary git/URL dependency without pinned commit',
     remediation: 'Pin all dependencies to immutable commit SHAs or version ranges.',
     basis: 'OpenSSF Scorecards',
-    expression: re("\\b(?:github:|git\\+|https?:\\/\\/)\\S+", 'g') },
+    expression: re("\"(?:git\\+https?:\\/\\/|github:)[^\"]+\"", 'g') },
   { id: 'MKT-SUPPLY-003', family: 'supply-chain', risk: 'medium', confidence: 'medium',
     message: 'dependencies reference a git+ URL (potential supply-chain risk)',
     remediation: 'Prefer versioned package references over git URLs for reproducible builds.',
@@ -703,7 +703,12 @@ function evidenceBasedRisk(rule, matchedText, context = {}) {
 function makeFinding(rule, file, line, message = rule.message, details = {}) {
   const impactInfo = IMPACT_MAP[rule.id] || {}
   const evidence = details.evidence || null
-  const evRisk = evidenceBasedRisk(rule, evidence, details.composite ? { composite: details.composite } : {})
+  // If caller explicitly set a risk (e.g. capability analysis downgrade), respect it.
+  // Otherwise compute from evidence strength.
+  const hasExplicitRisk = details.risk !== undefined
+  const evRisk = hasExplicitRisk
+    ? { risk: details.risk, evidenceConfidence: 'high', adjustment: `Explicit risk (${details.risk}) set by caller; evidence-based adjustment skipped.` }
+    : evidenceBasedRisk(rule, evidence, details.composite ? { composite: details.composite } : {})
   return {
     rule: rule.id,
     family: rule.family,
@@ -722,7 +727,7 @@ function makeFinding(rule, file, line, message = rule.message, details = {}) {
     file,
     line,
     message,
-    ...(() => { const { evidence: _e, composite: _c, ...rest } = details; return rest })(),
+    ...(() => { const { evidence: _e, composite: _c, risk: _r, ...rest } = details; return rest })(),
   }
 }
 
@@ -849,6 +854,7 @@ function runCapabilityAnalysis(text, file, findings) {
   ]
 
   for (const { rule, expr, boundary } of ruleDefs) {
+    const bounded = boundary.test(text)
     expr.lastIndex = 0
     let matches = 0
     for (;;) {
