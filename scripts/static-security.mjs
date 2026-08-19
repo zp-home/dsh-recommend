@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 10
-export const RULESET_VERSION = '2026-18'
+export const SCANNER_VERSION = 11
+export const RULESET_VERSION = '2026-19'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
