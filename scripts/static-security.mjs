@@ -21,9 +21,11 @@ const MAX_FILES = 8000
 const MAX_FINDINGS = 300
 const MAX_MATCHES_PER_RULE_FILE = 5
 
+// Generated plugin bundles are part of the install surface. Do not skip dist/
+// or build/: the scanner must inspect code a plugin installation can execute.
 const SKIP_DIRECTORIES = new Set([
   '.git', 'node_modules', 'coverage', '.next', '.turbo',
-  'dist', 'build', '.cache', '.parcel-cache', 'vendor',
+  '.cache', '.parcel-cache', 'vendor',
 ])
 
 const CODE_EXTENSIONS = new Set([
@@ -688,19 +690,14 @@ function assessEvidenceStrength(matchedText, rule, context = {}) {
 }
 
 function evidenceBasedRisk(rule, matchedText, context = {}) {
-  const baseRisk = rule.risk
   const strength = assessEvidenceStrength(matchedText, rule, context)
-  // If evidence is weak, downgrade risk by one level
-  if (strength === 'low') {
-    if (baseRisk === 'high') return { risk: 'medium', evidenceConfidence: 'low', adjustment: 'Downgraded: weak evidence pattern (likely benign context).' }
-    if (baseRisk === 'medium') return { risk: 'low', evidenceConfidence: 'low', adjustment: 'Downgraded: weak evidence pattern (likely benign context).' }
-    return { risk: baseRisk, evidenceConfidence: strength, adjustment: 'No adjustment.' }
+  // Evidence confidence describes a static lead. It must not lower risk on its
+  // own: only the explicit write/exec protection model may do that.
+  return {
+    risk: rule.risk,
+    evidenceConfidence: strength,
+    adjustment: 'No automatic downgrade: risk changes require explicit protective controls.',
   }
-  // If evidence is strong, keep or upgrade
-  if (strength === 'high') {
-    return { risk: baseRisk, evidenceConfidence: 'high', adjustment: 'Confirmed: strong evidence pattern matched.' }
-  }
-  return { risk: baseRisk, evidenceConfidence: strength, adjustment: 'No adjustment: medium evidence confidence.' }
 }
 
 function makeFinding(rule, file, line, message = rule.message, details = {}) {
@@ -779,8 +776,8 @@ function runKeyDetection(text, file, findings) {
   }
   if (found.length > 0) {
     findings.push(makeFinding(DATA_EGRESS_RULES[0], file, 1,
-      `contains ${found.length} potential credential/key pattern(s): ${found.slice(0, 3).join(', ')}`,
-      { evidence: found.slice(0, 3).join(' | ') }))
+      `contains ${found.length} potential credential/key pattern(s)`,
+      { evidence: 'Credential-like values redacted by the scanner.' }))
   }
   return found.length
 }
@@ -790,8 +787,8 @@ function runSuspiciousDestDetection(text, file, findings) {
   const suspicious = urls.filter(isSuspiciousURL)
   if (suspicious.length > 0) {
     findings.push(makeFinding(DATA_EGRESS_RULES[3], file, 1,
-      `references ${suspicious.length} known high-risk/anonymous destination(s): ${suspicious.slice(0, 3).join(', ')}`,
-      { evidence: suspicious.slice(0, 3).join(' | ') }))
+      `references ${suspicious.length} known high-risk or anonymous destination(s)`,
+      { evidence: 'Destination values are omitted from public evidence.' }))
   }
   return suspicious.length
 }
@@ -845,7 +842,6 @@ function runCapabilityAnalysis(text, file, findings) {
 
   const destructive = DESTRUCTIVE_SYSTEM.test(text)
   const approved = EXPLICIT_APPROVAL.test(text)
-  const bounded = WORKSPACE_BOUNDARY.test(text)
 
   const ruleDefs = [
     { rule: { id: 'MKT-EXEC-001', family: 'execution', risk: 'high', confidence: 'medium', disposition: 'manual-review', basis: 'OWASP Node.js Security Cheat Sheet', remediation: 'Require explicit user approval and use a fixed allowlisted command with bounded arguments.', message: 'invokes an operating-system process API' }, expr: EXECUTION_CALL, boundary: FIXED_COMMAND },
@@ -862,18 +858,19 @@ function runCapabilityAnalysis(text, file, findings) {
       let risk = 'high'
       let downgrade = 'No downgrade: a system-impact pattern is present in the same source file.'
       const localProtections = []
+      const constrained = boundary.test(text)
 
       if (!destructive) {
         risk = 'medium'
         downgrade = 'Downgraded from high: no system-impact pattern matched.'
-        if (approved && bounded) {
+        if (approved && constrained) {
           risk = 'low'
           const p1 = rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary'
           localProtections.push('explicit user approval', p1)
           downgrade = `Downgraded from high: ${localProtections.join(' and ')} detected.`
         } else {
           if (approved) localProtections.push('explicit user approval')
-          if (bounded) localProtections.push(rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
+          if (constrained) localProtections.push(rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
         }
       }
 
@@ -907,15 +904,14 @@ function runCompositeDetection(text, file, findings, fileContext) {
   }
 
   // Instruction override + destructive/egress guidance
-  if (isSkill || isReadme || isMarkdown || isCode) {
+  if (isSkill) {
     INSTRUCTION_OVERRIDE.lastIndex = 0
     const overrideMatch = INSTRUCTION_OVERRIDE.exec(text)
     DESTRUCTIVE_OR_EGRESS_GUIDANCE.lastIndex = 0
     const egressMatch = DESTRUCTIVE_OR_EGRESS_GUIDANCE.exec(text)
     if (overrideMatch && egressMatch) {
-      const contextLabel = isCode ? 'code file' : isSkill ? 'skill file' : isReadme ? 'readme file' : 'markdown file'
       findings.push(makeFinding(COMPOSITE_RULES[1], file, lineOf(text, overrideMatch.index),
-        `${contextLabel} contains instruction override with destructive/egress guidance`, {
+        'skill file contains instruction override with destructive or egress guidance', {
           evidence: `OVERRIDE: ${extractSnippet(text, overrideMatch.index)} | EGRESS: ${extractSnippet(text, egressMatch.index)}`,
           composite: [extractSnippet(text, overrideMatch.index), extractSnippet(text, egressMatch.index)],
         }))
@@ -986,16 +982,16 @@ function scanManifest(manifest, file, findings) {
     for (const name of ['preinstall', 'install', 'postinstall', 'prepare']) {
       if (typeof scripts[name] === 'string' && scripts[name].trim() !== '') {
         findings.push(makeFinding(SUPPLY_CHAIN_RULES[0], file, 1,
-          `declares a ${name} lifecycle script: ${scripts[name].slice(0, 100)}`,
-          { evidence: `"${name}": "${scripts[name].slice(0, 120)}"` }))
+          `declares a ${name} lifecycle script`,
+          { evidence: 'Lifecycle command omitted from public evidence.' }))
       }
     }
     if (manifest.dependencies) {
       for (const [pkg, spec] of Object.entries(manifest.dependencies)) {
         if (typeof spec === 'string' && /^(git\+https?:\/\/|github:)/.test(spec)) {
           findings.push(makeFinding(SUPPLY_CHAIN_RULES[2], file, 1,
-            `dependency ${pkg} uses git URL (${spec.slice(0, 80)})`,
-            { evidence: `"${pkg}": "${spec.slice(0, 120)}"` }))
+            `dependency ${pkg} uses a git URL`,
+            { evidence: 'Dependency URL omitted from public evidence.' }))
         }
       }
     }
@@ -1003,8 +999,8 @@ function scanManifest(manifest, file, findings) {
       for (const [pkg, spec] of Object.entries(manifest.devDependencies)) {
         if (typeof spec === 'string' && /^(git\+https?:\/\/|github:)/.test(spec)) {
           findings.push(makeFinding(SUPPLY_CHAIN_RULES[2], file, 1,
-            `devDependency ${pkg} uses git URL (${spec.slice(0, 80)})`,
-            { evidence: `"${pkg}": "${spec.slice(0, 120)}"` }))
+            `devDependency ${pkg} uses a git URL`,
+            { evidence: 'Dependency URL omitted from public evidence.' }))
         }
       }
     }
@@ -1107,8 +1103,9 @@ function riskFrom(findings) {
 }
 
 function statusFrom(risk) {
-  if (risk === 'low') return 'passed'
-  return 'warnings'
+  // Receipt consumers accept passed, warnings, and incomplete. The risk field
+  // carries the severity; a static advisory never claims a runtime failure.
+  return risk === 'low' ? 'passed' : 'warnings'
 }
 
 function computeRiskScore(findings, stats) {
@@ -1217,6 +1214,7 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     const isWorkflow = WORKFLOW_FILE.test(display)
     const isSkill = SKILL_FILE.test(display)
     const isReadme = README_FILE.test(display)
+    const isSecuritySource = isCode || isManifest || isSkill || isWorkflow
 
     stats.filesScanned += 1
 
@@ -1228,12 +1226,11 @@ export async function scanPluginSource(root, { commit = null, repository = null 
       }
     }
 
-    stats.longLines += runLongLineDetection(text, display, findings)
+    if (isSecuritySource) stats.longLines += runLongLineDetection(text, display, findings)
     if (isWorkflow) checkWorkflowIntegrity(text, display, findings)
-    if (isReadme) checkReadmeSecurity(text, display, findings)
-    stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
-    stats.secretsFound += runKeyDetection(text, display, findings)
-    if (isCode || /\.md$/i.test(display)) runEnvSecretDetection(text, display, findings)
+    if (isSecuritySource) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
+    if (isSecuritySource) stats.secretsFound += runKeyDetection(text, display, findings)
+    if (isCode) runEnvSecretDetection(text, display, findings)
     if (isCode && !TEST_PATH.test(display)) runCapabilityAnalysis(text, display, findings)
 
     runCompositeDetection(text, display, findings, { isCode, isSkill, isWorkflow, isReadme })
@@ -1246,10 +1243,9 @@ export async function scanPluginSource(root, { commit = null, repository = null 
       for (const rule of ANTI_ANALYSIS_RULES) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of FILESYSTEM_RULES.filter(r => r.expression)) stats.filesystemPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of CI_INTEGRITY_RULES.filter(r => r.expression)) stats.ciIntegrityPatterns += runRegexRule(rule, text, display, findings)
-      for (const rule of SUPPLY_CHAIN_RULES.filter(r => r.expression)) stats.supplyChainPatterns += runRegexRule(rule, text, display, findings)
     }
 
-    if (isSkill || /\.md$/i.test(display) || isCode) {
+    if (isSkill) {
       for (const rule of SKILL_HIJACK_RULES.filter(r => r.expression)) stats.skillHijackPatterns += runRegexRule(rule, text, display, findings)
     }
   }
