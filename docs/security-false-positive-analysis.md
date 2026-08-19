@@ -1,140 +1,175 @@
 # 静态安全扫描器误报修复报告
 
-> 日期：2026-08-19 | 规则集版本：Ruleset 2026-12 (v10) | 扫描器版本：见 `SCANNER_VERSION`
+> 日期：2026-08-19 | 扫描器版本：v10 | 规则集：Ruleset 2026-18
 
 ## 1. 问题背景
 
-CI 重新扫描后，54 个插件中 49 个被标记为 high 风险。`MKT-EXEC-001` 触发 952 次，`MKT-EXEC-009` 触发 176 次。大量正常代码（`exec('npm run build')`、`writeFile()`、`fetch()`）被误判为高危操作。
+CI 重新扫描后，54 个插件中 49 个被标记为 high 风险，`MKT-EXEC-001` 触发 952 次。大量正常代码（`exec('npm run build')`、`writeFile()`、`fetch()`）被误判为高危操作。经过三轮修复，72 个插件中 30 个已用 v10 重新扫描，其中 17 个 high / 13 个 medium。
 
-**结论**：不是标注问题，而是检测逻辑存在 5 个系统性缺陷，导致大规模误报和重复发现。
+**结论**：检测逻辑在文件级别匹配，导致远距离无关代码互相影响。修复方向是从文件级降为调用点级检测。
 
-## 2. 根因分析与修复
+## 2. 三轮修复总览
 
-### 2.1 `runCapabilityAnalysis` / `runRegexRule` 每文件生成多条重复 finding
+| 轮次 | PR | 核心修复 | 效果 |
+|------|-----|---------|------|
+| 第一轮 | #26 | 重复 finding 消除、正则修正、SKILL 规则范围、CI 风险降级 | 952→数百条 |
+| 第二轮 | #27 | CI 规则重复检测消除 | 数百→数十条 |
+| 第三轮 | #28 | 文件级→调用点级检测、scripts/ 精细排除 | 49→17 high（v10） |
+
+## 3. 根因分析与修复详情
+
+### 3.1 重复 finding 生成（第一轮）
 
 **根因**：`runCapabilityAnalysis` 对每个 `exec()` 调用生成一条 finding（上限 5 条/文件），`runRegexRule` 同样每文件最多 5 条。一个 Electron 应用 50 个文件用 `exec`/`writeFile`，产生 250+ 条发现。
 
-**修复**：两条函数均改为每文件每规则只生成一条 finding，消息中包含匹配次数（如 "invokes an operating-system process API (3 calls in this file)"）。
+**修复**：两条函数均改为每文件每规则只生成一条 finding，消息中包含匹配次数。
 
-**效果**：单个插件的 finding 数量从数百条降至个位数。
-
-### 2.2 `MKT-SKILL-004` 在代码文件上运行
+### 3.2 SKILL 规则在代码文件上运行（第一轮）
 
 **根因**：`SKILL_HIJACK_RULES` 的运行条件被改为 `isSkill || isCode`，导致 `.ts`/`.js` 代码文件中 `export...message`、`send...chat` 等正常代码词汇被匹配为 exfiltration guidance。111 次误报。
 
-**修复**：
-1. 运行条件恢复为 `isSkill`（仅在 SKILL.md 等技能描述文件上运行）
-2. 正则表达式收窄：
-   - 高危动词 `exfiltrate/harvest/dump/collect/gather` + 对话数据关键词
-   - 或 `send/transmit/upload/export` + 对话数据关键词 + 远程目标词（remote/external/server/webhook/api/url/http）
+**修复**：运行条件恢复为 `isSkill`；正则表达式收窄，要求高危动词或远程目标词。
 
-**效果**：正常 SKILL.md 描述 "export conversation history to a file" 不再触发；"harvest chat history" 仍正确触发。
-
-### 2.3 `MKT-CI-003` / `MKT-CI-004` 风险等级过高
+### 3.3 CI 规则风险等级过高（第一轮）
 
 **根因**：
-- `MKT-CI-003`（checkout 缺少 `persist-credentials: false`）：84 次匹配，risk=high。但这是常见疏忽，多数项目未设置此项。
-- `MKT-CI-004`（`npm install`）：59 次匹配，risk=high。但每个 Node.js 项目的 CI 都会跑 `npm install`。
+- `MKT-CI-003`（checkout 缺少 `persist-credentials: false`）：risk=high，但这是常见疏忽。
+- `MKT-CI-004`（`npm install`）：risk=high，但每个 Node.js 项目 CI 都会跑。
+
+**修复**：`MKT-CI-003` 降为 medium，`MKT-CI-004` 降为 medium/low。
+
+### 3.4 EXEC-009 正则不精确（第一轮）
+
+**根因**：`import\s*\(\s*(?![\"\'`])` 负向前瞻只排除引号开头的参数，`import(/* comment */` 也被匹配。176 次误报。
+
+**修复**：改为 `import\s*\(\s*[A-Za-z_$]`，只匹配变量名开头的动态导入。
+
+### 3.5 测试文件中的假密钥（第一轮）
+
+**根因**：`runKeyDetection`、`runEnvSecretDetection` 未跳过测试文件。104 次误报。
+
+**修复**：所有检测函数添加 `!TEST_PATH.test(display)` 条件。
+
+### 3.6 DESTRUCTIVE_SYSTEM 文件级匹配（第三轮 — 关键修复）
+
+**根因**：`DESTRUCTIVE_SYSTEM.test(text)` 在整个文件文本上检测。如果文件任何位置有 `rm -rf`、`shutdown` 等词（包括注释、方法调用 `server.shutdown()`），整个文件所有 `exec()`/`writeFile()` 都变 high。9 次 FS-001 + 4 次 EXEC-001 误报。
+
+**修复**：改为在 `exec()` 调用点 150 字符窗口内检测 `DESTRUCTIVE_SYSTEM`。大文件中 `exec('npm build')` + 远处 `rm -rf`（>150 字符）正确降为 medium。
+
+### 3.7 EXEC-012 Base64+eval 文件级关联（第三轮）
+
+**根因**：`Buffer.from()` 和 `eval()` 在同一文件就触发 `MKT-EXEC-012`。但 `Buffer.from` 是极常见的 Node.js API，两者可能完全无关。6 次误报。
+
+**修复**：两者必须在 150 字符内（同一代码块）才触发。
+
+### 3.8 scripts/ 目录排除策略（第三轮）
+
+**根因**：`scripts/` 目录中的构建脚本（`update-contributors.mjs`、`pr-review.mjs`）中的配置变量 `api_key = '...'`、`password = '...'` 被检测为密钥泄露。13 次误报。同时 `install.sh` 中的 `curl|bash` 需要保留检测。
 
 **修复**：
-- `MKT-CI-003`：risk 从 `high` 降为 `medium`
-- `MKT-CI-004`：risk 从 `high` 降为 `medium`，confidence 从 `medium` 降为 `low`
+- 新增 `SCRIPTS_PATH` 正则
+- `isProductionCode` 排除 `scripts/` 目录（跳过密钥、env、能力分析）
+- `scripts/` 中的 `.sh`/`.ps1` 文件仍检测 `MKT-EXEC-003`（curl|bash）
 
-### 2.4 `MKT-EXEC-009` 正则不精确
+### 3.9 EXEC-002 正则修正（第三轮）
 
-**根因**：`import\s*\(\s*(?![\"\'`])` 负向前瞻只排除引号开头的参数，但 `import(/* comment */` 和 `import(\n  "module"` 也被匹配为动态导入。176 次误报。
+**根因**：`\b(?:eval|Function)\s*\(` 匹配普通函数调用 `Function(`。
 
-**修复**：改为 `import\s*\(\s*[A-Za-z_$]|\bimport\s*\(\s*\`\$\{`，只匹配：
-- 变量名开头的 `import(variable)`
-- 模板字符串插值的 `import(\`${...}`)
+**修复**：改为 `\b(?:eval|new\s+Function)\s*\(`，仅匹配 `eval()` 和 `new Function()` 构造函数。
 
-**效果**：`import('./config.js')` 不再触发；`import(modulePath)` 仍正确触发。risk 从 `high` 降为 `medium`。
+### 3.10 其他正则修复（第一轮）
 
-### 2.5 测试文件中的假密钥触发 `MKT-DATA-001`
+| 正则 | 修复前 | 修复后 |
+|------|--------|--------|
+| `EXECUTION_CALL` | `exec` 无 `(` 要求 | 要求 `exec(` 函数调用形式 |
+| `DESTRUCTIVE_SYSTEM` | `shutdown` 无上下文 | `(?<!\.)shutdown(?!\s*[=()])` |
+| `EXEC_SINK` | `require\([^)]+\)` | `require\((?![\"\'\`])` |
+| `NETWORK_SINK` | 缺少方法调用 | 添加 `axios\.get\(` 等 |
+| `SECRET_SOURCE` | 含 `process.env` | 移除宽泛匹配 |
+| `ENV_SENSITIVE` | `\.env` | `(?<!process)\.env` |
+| `MKT-EXEC-010` | 负向匹配 string | 正向匹配 string |
 
-**根因**：`runKeyDetection`、`runEnvSecretDetection`、`runSuspiciousDestDetection` 未跳过测试文件。测试文件中的假 API key（`'sk-1234567890abcdef...'`）被检测为真实密钥泄露。104 次误报。
+## 4. 修复后验证数据
 
-**修复**：所有检测函数添加 `!TEST_PATH.test(display)` 条件，跳过 `test/`、`tests/`、`__tests__/`、`*.test.*`、`*.spec.*` 等路径。
+### 4.1 v10 扫描结果（30 个已重新扫描的插件）
 
-### 2.6 `assessEvidenceStrength` 误匹配方法调用
+| 风险等级 | 插件数 | 占比 |
+|----------|--------|------|
+| high | 17 | 57% |
+| medium | 13 | 43% |
+| low | 0 | 0% |
 
-**根因**：`highStrength` 数组包含 `/shutdown/`、`/reboot/`，`server.shutdown()` 方法调用会将证据强度提升到 high，与 `DESTRUCTIVE_SYSTEM` 相同的误报模式。
+### 4.2 v10 high 规则分布
 
-**修复**：从 `highStrength` 数组中移除 `/shutdown/`、`/reboot/`。
+| 规则 | 次数 | 说明 |
+|------|------|------|
+| `MKT-DATA-001` | 21 | 生产代码中检测到 API key 模式 |
+| `MKT-FS-001` | 11 | 文件系统操作 + 调用点附近有破坏性命令 |
+| `MKT-EXEC-003` | 8 | `curl|bash` 下载执行模式 |
+| `MKT-PERSIST-001` | 8 | 持久化/自启动模式 |
+| `MKT-EXEC-012` | 7 | Base64 解码 + eval 在同一代码块 |
+| `MKT-DATA-005` | 7 | 环境变量读取 + 网络请求 |
+| `MKT-DATA-008` | 7 | 环境变量 + 网络复合检测 |
+| `MKT-EXEC-001` | 6 | 进程 API + 调用点附近有破坏性命令 |
+| `MKT-EXEC-002` | 6 | `eval()` 或 `new Function()` |
+| `MKT-DATA-003` | 5 | 密钥源 + 网络连接 |
+| `MKT-SKILL-001` | 2 | SKILL 文件中的指令覆盖 |
+| `MKT-FS-005` | 2 | 敏感数据写入外部位置 |
+| `MKT-CI-005` | 1 | CI 工作流中 curl|bash |
 
-### 2.7 `ENV_SENSITIVE_PATTERNS` 中 `.env` 匹配 `process.env`
+### 4.3 测试用例验证
 
-**根因**：`process.env.DEEPSEEK_API_KEY` 中的 `.env` 被正则 `\.env(?:\b|$|\.|/)` 匹配为 dotenv 文件引用，导致 `containsEnvAccess` 误返回 true，触发 `MKT-DATA-005` 和 `MKT-DATA-008`。
+| 场景 | 修复前 risk | 修复后 risk | 修复前 high | 修复后 high |
+|------|-------------|-------------|-------------|-------------|
+| 正常 Electron 应用（exec+writeFile） | high | medium | 数百 | 0 |
+| 正常 CI 工作流（npm install） | high | medium | 3 | 0 |
+| 测试文件中的假密钥 | high | low | 1+ | 0 |
+| SKILL.md 正常描述 | high | low | 2+ | 0 |
+| scripts/ 中的假密钥 | high | low | 1+ | 0 |
+| 大文件 exec + 远处 rm -rf | high | **medium** | 1 | **0** |
+| 大文件 Buffer.from + 远处 eval | high | high | 2 | **1**（仅 EXEC-002） |
+| exec(variable) + 附近破坏性命令 | high | high | 多条 | 1 |
+| 危险 CI（pull_request_target + curl\|bash） | high | high | 8 | 4 |
+| scripts/install.sh 中 curl\|bash | 漏检 | **high** | 0 | **1** |
 
-**修复**：正则改为 `(?<!process)\.env(?:\b|$|/|\\)`，添加负向后顾排除 `process.env`。
+### 4.4 冒烟测试
 
-### 2.8 `checkWorkflowIntegrity` 与 `CI_INTEGRITY_RULES` 重复检测
+`node scripts/smoke.mjs` — 14 项全部通过。
 
-**根因**：`checkWorkflowIntegrity` 已详细检测所有 CI 规则（CI-001 至 CI-008），但 `CI_INTEGRITY_RULES` regex 仍在 workflow 文件上重复运行，导致同一模式生成两条 finding。
+## 5. 仍为 high 的规则分析
 
-**修复**：workflow 文件只走 `checkWorkflowIntegrity`，不再跑 `CI_INTEGRITY_RULES` regex。
+### 5.1 合理保留的 high（真实威胁）
 
-## 3. 正则表达式修复汇总
+| 规则 | 说明 | 典型案例 |
+|------|------|----------|
+| `MKT-EXEC-003` | `curl|bash` 下载执行 | `scripts/install.sh` 中的安装脚本 |
+| `MKT-EXEC-002` | `eval()` 执行动态代码 | 代码中直接调用 `eval(userInput)` |
+| `MKT-CI-005` | CI 中 `curl|bash` | 工作流下载并执行远程脚本 |
+| `MKT-SKILL-001` | SKILL 文件指令覆盖 | 包含 "ignore previous instructions" + 破坏性指导 |
+| `MKT-DATA-003` | 密钥源 + 网络连接 | 文件中同时有 `API_KEY` 和 `fetch()` |
+| `MKT-EXEC-012` | Base64 + eval 同一代码块 | `Buffer.from(base64).toString()` 紧邻 `eval()` |
+| `MKT-EXEC-001:high` | exec + 调用点附近有破坏性命令 | `exec(cmd)` + `rm -rf` 在 150 字符内 |
+| `MKT-FS-001:high` | writeFile + 调用点附近有破坏性命令 | 同上 |
 
-| 规则 | 修复前 | 修复后 | 问题 |
-|------|--------|--------|------|
-| `EXECUTION_CALL` | `exec` 无 `(` 要求 | 要求 `exec(` 函数调用形式 | 匹配注释和 import 中的 exec |
-| `DESTRUCTIVE_SYSTEM` | `shutdown` 无上下文 | `(?<!\.)shutdown(?!\s*[=()])` | 匹配方法调用和变量赋值 |
-| `EXEC_SINK` | `require\([^)]+\)` | `require\((?![\"\'\`])` | 匹配 `require('fs')` |
-| `NETWORK_SINK` | 缺少方法调用 | 添加 `axios\.get\(` 等 | 遗漏方法链式调用 |
-| `SECRET_SOURCE` | 含 `process.env` | 移除宽泛匹配 | 匹配任意 env 访问 |
-| `ENV_SENSITIVE` | `\.env` | `(?<!process)\.env` | 匹配 `process.env` |
-| `MKT-EXEC-009` | `import\((?![\"\'\`])` | `import\(\s*[A-Za-z_$]` | 匹配注释和换行 |
-| `MKT-SKILL-004` | 宽泛动词匹配 | 要求高危动词或远程目标 | 匹配正常代码词汇 |
-| `MKT-EXEC-010` | 负向匹配 string | 正向匹配 string | 逻辑反转 |
+### 5.2 需要持续关注的规则（可能有残留误报）
 
-## 4. 测试验证
-
-### 4.1 测试用例与结果
-
-| 场景 | 修复前 risk | 修复后 risk | 修复前 findings | 修复后 findings | high 数 |
-|------|-------------|-------------|-----------------|-----------------|---------|
-| 正常 Electron 应用（exec+writeFile） | high | medium | 数百条 | 2 | 0 |
-| 正常 CI 工作流（npm install） | high | medium | 3 | 1 | 0 |
-| 测试文件中的假密钥 | high | low | 1+ | 0 | 0 |
-| SKILL.md 正常描述 | high | low | 2+ | 0 | 0 |
-| exec(variable) + 破坏性命令 | high | high | 多条 | 1 | 1 |
-| 危险 CI（pull_request_target + curl\|bash） | high | high | 8 | 4 | 2 |
-| 正常 fetch + writeFile | high | medium | 多条 | 1 | 0 |
-| 动态 import(variable) | high | medium | 多条 | 1 | 0 |
-
-### 4.2 冒烟测试
-
-`node scripts/smoke.mjs` — 14 项全部通过，包括：
-- 保护条件降级验证
-- 关联敏感来源与外传验证
-- 文档和 fixture 文件不触发 finding 验证
-
-## 5. 修复后仍为 high 的规则（合理保留）
-
-以下规则在修复后仍可能产生 high 风险，这些是真正的安全威胁：
-
-| 规则 | 触发条件 | 合理性 |
-|------|----------|--------|
-| `MKT-EXEC-001:high` | `exec()` + 文件中存在破坏性命令（`rm -rf`、`mkfs`、`dd if=`） | 系统影响模式确实存在 |
-| `MKT-FS-001:high` | `writeFile()` + 文件中存在破坏性命令 | 同上 |
-| `MKT-DATA-001:high` | 生产代码中检测到真实 API key 模式 | 真实密钥泄露 |
-| `MKT-DATA-003:high` | `SECRET_SOURCE` + `NETWORK_SINK` 同时匹配 | 密钥外传组合 |
-| `MKT-CI-001:high` | `pull_request_target` + `head.sha` checkout | PR 代码在特权上下文执行 |
-| `MKT-CI-002:high` | `workflows:write` 或 `secrets:write` 权限 | 过度授权 |
-| `MKT-CI-005:high` | `curl|bash` 管道执行 | 下载并执行远程代码 |
-| `MKT-CI-007:high` | `*: write` 或 `write-all` 权限 | 通配符权限 |
-| `MKT-EXEC-012:high` | `eval()` + Base64 解码组合 | 混淆执行链 |
+| 规则 | 潜在问题 | 后续方向 |
+|------|----------|----------|
+| `MKT-DATA-001` (21次) | 配置文件中的 `api_key = 'placeholder'` 可能被匹配 | 考虑排除 `.env.example`、`config.example.*` |
+| `MKT-DATA-005/008` (各7次) | env + 网络在同文件出现，但不一定是外传 | 考虑调用点级关联 |
+| `MKT-PERSIST-001` (8次) | 自启动/持久化模式可能在合法工具中出现 | 审查具体匹配内容 |
 
 ## 6. 文件变更清单
 
-- `scripts/static-security.mjs` — 核心扫描逻辑修复
-- `scripts/merge-security-receipts.mjs` — 公开报告字段处理
-- `docs/security-scanning.md` — 设计文档同步更新
+| 文件 | 变更 |
+|------|------|
+| `scripts/static-security.mjs` | 核心扫描逻辑修复（三轮共 ~100 行改动） |
+| `docs/security-false-positive-analysis.md` | 本报告 |
 
 ## 7. 后续建议
 
-1. **CI 重新扫描**：修复已合并到 main，CI 会自动重新扫描所有插件。预计 high 风险插件数从 49 降至 10-15 个（仅保留真正危险的插件）。
-2. **规则审计周期**：建议每季度审查一次规则正则表达式和风险等级，确保与最新攻击模式同步。
-3. **误报反馈机制**：在公开报告中添加 "report false positive" 链接，让插件作者可以反馈误报。
-4. **规则测试覆盖**：建议为每条规则添加正向和反向测试用例，防止回归。
+1. **等待 CI 全量重扫**：72 个插件中 30 个已用 v10 扫描，剩余 42 个（v3 或 unknown）会在后续 CI 轮次中重扫。
+2. **DATA-001 误报优化**：排除示例配置文件（`*.example.*`、`*.template.*`）中的占位密钥。
+3. **DATA-005/008 调用点级关联**：当前仍为文件级匹配，可考虑降为调用点级。
+4. **规则测试覆盖**：为每条规则添加正向/反向测试用例到 `smoke.mjs`。
+5. **误报反馈机制**：在公开报告中添加 "report false positive" 链接。
