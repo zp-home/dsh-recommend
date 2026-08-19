@@ -1345,7 +1345,8 @@ export async function scanPluginSource(root, { commit = null, repository = null 
       for (const rule of FILESYSTEM_RULES.filter(r => r.expression)) stats.filesystemPatterns += runRegexRule(rule, text, display, findings)
     }
     if (isWorkflow) {
-      for (const rule of CI_INTEGRITY_RULES.filter(r => r.expression)) stats.ciIntegrityPatterns += runRegexRule(rule, text, display, findings)
+      // checkWorkflowIntegrity already handles all CI rules (CI-001 through CI-008)
+      // with richer context. Skip regex rules to avoid duplicate findings.
     }
 
     if (isSkill) {
