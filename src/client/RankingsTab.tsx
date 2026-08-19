@@ -101,6 +101,9 @@ interface StaticSecurityFinding {
   disposition?: string
   basis?: string
   remediation?: string
+  baselineRisk?: 'low' | 'medium' | 'high'
+  protections?: string
+  downgrade?: string
 }
 
 interface StaticSecurityEvidence {
@@ -988,6 +991,7 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
               <ul className="dshr-security-evidence">
                 {candidateSecurity.findings.map((finding, index) => {
                   const riskLabel = finding.risk === 'high' ? t('riskHigh') : finding.risk === 'medium' ? t('riskMedium') : t('riskLow')
+                  const baselineRiskLabel = finding.baselineRisk === 'high' ? t('riskHigh') : finding.baselineRisk === 'medium' ? t('riskMedium') : t('riskLow')
                   const source = `${securityCandidate.url}/blob/${candidateSecurity.commit}/${finding.file}#L${finding.line}`
                   return <li key={`${finding.rule}-${finding.file}-${finding.line}-${index}`}>
                     <strong>{finding.rule}</strong> <span className={`dshr-risk ${finding.risk}`}>{riskLabel}</span>
@@ -997,7 +1001,10 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                     {finding.disposition ? <p>{t('securityDisposition')}: {finding.disposition}</p> : null}
                     {finding.basis ? <p>{t('securityBasis')}: {finding.basis}</p> : null}
                     {finding.remediation ? <p>{t('securityRemediation')}: {finding.remediation}</p> : null}
-                    <p>{t('securityLocation')}: <a href={source} target="_blank" rel="noreferrer">{finding.file}:{finding.line}</a></p>
+                    {finding.baselineRisk ? <p>{t('securityBaselineRisk')}: {baselineRiskLabel}</p> : null}
+                    {finding.protections ? <p>{t('securityProtections')}: {finding.protections}</p> : null}
+                    {finding.downgrade ? <p>{t('securityDowngrade')}: {finding.downgrade}</p> : null}
+                    <p>{t('securityLocation')}:  <a href={source} target="_blank" rel="noreferrer">{finding.file}:{finding.line}</a></p>
                   </li>
                 })}
               </ul>

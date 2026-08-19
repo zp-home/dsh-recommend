@@ -85,6 +85,9 @@ function securityEvidenceDialog(p) {
         finding.disposition ? `建议处置：${esc(finding.disposition)}` : '',
         finding.basis ? `公开依据：${esc(finding.basis)}` : '',
         finding.remediation ? `修复建议：${esc(finding.remediation)}` : '',
+        finding.baselineRisk ? `初始风险：${riskLabels[finding.baselineRisk] ?? esc(finding.baselineRisk)}` : '',
+        finding.protections ? `已检测保护：${esc(finding.protections)}` : '',
+        finding.downgrade ? `降级依据：${esc(finding.downgrade)}` : '',
       ].filter(Boolean).map((detail) => `<p>${detail}</p>`).join('')
       return `<li><strong>${esc(finding.rule)}</strong> <span class="risk ${esc(finding.risk)}">${riskLabels[finding.risk] ?? '风险规则'}</span><p>${esc(finding.message)}</p>${details}<p>位置：<a href="${esc(source)}" target="_blank" rel="noopener">${esc(finding.file)}:${esc(finding.line)}</a></p></li>`
     }).join('')}</ul>`

@@ -38,6 +38,9 @@ function publicFindings(receipt) {
       ...detail('disposition', 32),
       ...detail('basis', 160),
       ...detail('remediation', 300),
+      ...detail('baselineRisk', 16),
+      ...detail('protections', 240),
+      ...detail('downgrade', 300),
     }]
   })
 }

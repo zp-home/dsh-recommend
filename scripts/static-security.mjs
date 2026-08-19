@@ -11,8 +11,8 @@ import { dirname, extname, join, relative } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 2
-export const RULESET_VERSION = '2026-10'
+export const SCANNER_VERSION = 3
+export const RULESET_VERSION = '2026-11'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 5000
 const MAX_FINDINGS = 200
@@ -28,7 +28,6 @@ const WORKFLOW_FILE = /^\.github\/workflows\/[^/]+\.ya?ml$/i
 // Rules are source-only leads, not exploit findings. A single capability such
 // as fetch() or process.env is deliberately not a risk finding on its own.
 const RULES = [
-  { id: 'MKT-EXEC-001', family: 'execution', risk: 'high', confidence: 'high', disposition: 'manual-review', basis: 'OWASP Node.js Security Cheat Sheet', remediation: 'Avoid arbitrary shell execution; use fixed allowlisted commands and arguments.', expression: /\b(?:exec(?:File)?(?:Sync)?|spawn(?:Sync)?|fork)\b/g, message: 'invokes an operating-system process API' },
   { id: 'MKT-EXEC-002', family: 'execution', risk: 'high', confidence: 'high', disposition: 'manual-review', basis: 'OWASP Node.js Security Cheat Sheet', remediation: 'Remove dynamic evaluation and use fixed allowlisted implementations.', expression: /\b(?:eval|Function)\s*\(/g, message: 'evaluates dynamically generated JavaScript' },
   { id: 'MKT-EXEC-003', family: 'execution', risk: 'high', confidence: 'high', disposition: 'manual-review', basis: 'OWASP npm Security Cheat Sheet', remediation: 'Do not execute code downloaded at runtime; pin and review shipped code.', expression: /\b(?:curl|wget|Invoke-WebRequest|iwr)\b[^\n]{0,180}\|\s*(?:sh|bash|zsh|pwsh|powershell)|\b(?:IEX|Invoke-Expression)\b/g, message: 'contains a download-and-execute command pattern' },
   { id: 'MKT-DATA-001', family: 'data-egress', risk: 'high', confidence: 'high', disposition: 'manual-review', basis: 'OWASP npm Security Cheat Sheet', remediation: 'Remove embedded credentials, rotate exposed secrets, and load them only from a protected secret store.', expression: /-----BEGIN(?: [A-Z]+)? PRIVATE KEY-----|(?:github_pat|ghp|sk-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16})/g, message: 'contains a value shaped like a private credential' },
@@ -47,6 +46,17 @@ const SECRET_SOURCE = /\b(?:process\.env|DEEPSEEK_API_KEY|OPENAI_API_KEY|ANTHROP
 const NETWORK_SINK = /\b(?:fetch|https?\.request|WebSocket)\s*\(/i
 const INSTRUCTION_OVERRIDE = /\b(?:ignore|override|disregard)\b[^\n]{0,120}\b(?:previous|system|developer|approval|sandbox|guardrail|instruction)/i
 const DESTRUCTIVE_OR_EGRESS_GUIDANCE = /\b(?:rm\s+-rf|git\s+reset\s+--hard|curl|wget|upload|webhook|pastebin|do not ask|auto-approve)\b/i
+const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
+const DESTRUCTIVE_SYSTEM = /\b(?:rm\s+-[a-z]*r[a-z]*f[a-z]*\s+(?:\/|~|\$HOME)|Remove-Item\b[^\n]{0,120}-Recurse\b[^\n]{0,120}(?:[A-Za-z]:|\\)|\b(?:format|diskpart|mkfs(?:\.\w+)?|shutdown|reboot)\b|\bdd\s+if=[^\n]{0,80}\bof=\/dev\/)/i
+const EXPLICIT_APPROVAL = /\b(?:ask_user_question|requestApproval|requires?Approval|confirm(?:ation)?|prompt)\b/i
+const WORKSPACE_BOUNDARY = /\b(?:workspace(?:Root|Path|Dir)?|isWithinWorkspace|path\.relative|relative\([^\n]{0,120}workspace|startsWith\([^\n]{0,120}workspace)\b/i
+const FIXED_COMMAND = /\b(?:execFile(?:Sync)?|spawn(?:Sync)?)\s*\(\s*['\"][^'\"]+['\"]/i
+const CAPABILITY_RULES = {
+  execution: { id: 'MKT-EXEC-001', family: 'execution', risk: 'high', confidence: 'medium', disposition: 'manual-review', basis: 'OWASP Node.js Security Cheat Sheet', remediation: 'Require explicit user approval and use a fixed allowlisted command with bounded arguments.', message: 'invokes an operating-system process API' },
+  fileWrite: { id: 'MKT-FS-001', family: 'file-system', risk: 'high', confidence: 'medium', disposition: 'manual-review', basis: 'OWASP Node.js Security Cheat Sheet', remediation: 'Require explicit user approval and restrict mutations to an allowlisted workspace path.', message: 'invokes a file-system mutation API' },
+}
+const EXECUTION_CALL = /\b(?:exec(?:File)?(?:Sync)?|spawn(?:Sync)?|fork)\s*\(/g
+const FILE_MUTATION_CALL = /\b(?:writeFile|appendFile|copyFile|rename|mkdir|chmod|truncate|unlink|rm|rmdir)\s*\(|\b(?:Set-Content|Add-Content|Remove-Item|New-Item)\b/g
 const MANIFEST_RULES = {
   lifecycle: { id: 'MKT-SUPPLY-001', family: 'supply-chain', risk: 'high', confidence: 'high', disposition: 'manual-review', basis: 'OWASP npm Security Cheat Sheet', remediation: 'Remove install-time side effects or document and review each lifecycle script.', message: 'declares an install lifecycle script' },
   invalid: { id: 'MKT-MAN-001', family: 'manifest', risk: 'medium', confidence: 'high', disposition: 'manual-review', basis: 'OWASP npm Security Cheat Sheet', remediation: 'Publish a valid manifest so install behavior can be reviewed.', message: 'package.json is not valid JSON' },
@@ -56,7 +66,7 @@ function lineOf(text, offset) {
   return text.slice(0, offset).split('\n').length
 }
 
-function makeFinding(rule, file, line, message = rule.message) {
+function makeFinding(rule, file, line, message = rule.message, details = {}) {
   return {
     rule: rule.id,
     family: rule.family,
@@ -68,7 +78,54 @@ function makeFinding(rule, file, line, message = rule.message) {
     file,
     line,
     message,
+    ...details,
   }
+}
+
+function capabilityFinding(rule, text, file, line, requiredBoundary, message) {
+  const protections = []
+  const destructive = DESTRUCTIVE_SYSTEM.test(text)
+  const approved = EXPLICIT_APPROVAL.test(text)
+  const bounded = requiredBoundary.test(text)
+  let risk = 'high'
+  let downgrade = 'No downgrade: a system-impact pattern is present in the same source file.'
+  if (!destructive) {
+    risk = 'medium'
+    downgrade = 'Downgraded from high: no system-impact pattern matched this ruleset.'
+    if (approved && bounded) {
+      risk = 'low'
+      protections.push('explicit user approval', rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
+      downgrade = `Downgraded from high: no system-impact pattern matched; ${protections.join(' and ')} detected.`
+    } else {
+      if (approved) protections.push('explicit user approval')
+      if (bounded) protections.push(rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
+    }
+  }
+  return makeFinding(rule, file, line, message, {
+    risk,
+    baselineRisk: 'high',
+    protections: protections.join(', '),
+    downgrade,
+  })
+}
+
+function capabilityFindings(text, file) {
+  if (TEST_PATH.test(file)) return []
+  const findings = []
+  for (const [rule, expression, boundary] of [
+    [CAPABILITY_RULES.execution, EXECUTION_CALL, FIXED_COMMAND],
+    [CAPABILITY_RULES.fileWrite, FILE_MUTATION_CALL, WORKSPACE_BOUNDARY],
+  ]) {
+    expression.lastIndex = 0
+    let matches = 0
+    for (;;) {
+      const match = expression.exec(text)
+      if (match === null || matches >= MAX_MATCHES_PER_RULE_FILE) break
+      findings.push(capabilityFinding(rule, text, file, lineOf(text, match.index), boundary))
+      matches += 1
+    }
+  }
+  return findings
 }
 
 function compositeFindings(text, file) {
@@ -163,6 +220,7 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     }
     findings.push(...compositeFindings(text, display))
     if (CODE_EXTENSIONS.has(extname(display).toLowerCase())) {
+      findings.push(...capabilityFindings(text, display))
       for (const rule of RULES) {
         rule.expression.lastIndex = 0
         let matches = 0

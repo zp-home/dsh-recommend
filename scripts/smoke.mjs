@@ -216,8 +216,20 @@ t('徽章颜色分档', () => {
     await writeFile(join(root, 'lib', 'index.js'), "import { exec } from 'node:child_process'\nexec('echo test')\n")
     const receipt = await scanPluginSource(root, { repository: 'owner/plugin', commit: '0123456789abcdef' })
     equal(receipt.status, 'warnings')
-    equal(receipt.risk, 'high')
+    equal(receipt.risk, 'medium')
+    const unprotectedExec = receipt.findings.find((finding) => finding.rule === 'MKT-EXEC-001')
+    equal(unprotectedExec?.baselineRisk, 'high')
+    equal(unprotectedExec?.risk, 'medium')
     ok(receipt.findings.some((finding) => finding.file === 'lib/index.js'), 'published lib must be scanned')
+    await writeFile(join(root, 'lib', 'index.js'), "function requestApproval() { return true }\nif (requestApproval()) execFile('git', ['status'])\n")
+    const protectedExec = await scanPluginSource(root, { repository: 'owner/plugin', commit: '0123456789abcdef' })
+    equal(protectedExec.findings.find((finding) => finding.rule === 'MKT-EXEC-001')?.risk, 'low')
+    await writeFile(join(root, 'lib', 'index.js'), "function requestApproval() { return true }\nconst workspaceRoot = '/workspace'\nif (requestApproval()) writeFile(workspaceRoot + '/config.json', '{}')\n")
+    const protectedWrite = await scanPluginSource(root, { repository: 'owner/plugin', commit: '0123456789abcdef' })
+    equal(protectedWrite.findings.find((finding) => finding.rule === 'MKT-FS-001')?.risk, 'low')
+    await writeFile(join(root, 'lib', 'index.js'), "function requestApproval() { return true }\nif (requestApproval()) exec('rm -rf /')\n")
+    const destructiveExec = await scanPluginSource(root, { repository: 'owner/plugin', commit: '0123456789abcdef' })
+    equal(destructiveExec.findings.find((finding) => finding.rule === 'MKT-EXEC-001')?.risk, 'high')
     await writeFile(join(root, 'lib', 'index.js'), "fetch('https://example.test')\n")
     const capabilityOnly = await scanPluginSource(root, { repository: 'owner/plugin', commit: '0123456789abcdef' })
     equal(capabilityOnly.status, 'passed')
@@ -268,7 +280,7 @@ t('徽章颜色分档', () => {
     await rm(root, { recursive: true, force: true })
   }
   n += 1
-  console.log('  ✓ 静态扫描：扫描发布 bundle，关联敏感来源与外传')
+  console.log('  ✓ 静态扫描：保护条件降级，关联敏感来源与外传')
 }
 
 console.log(`\n✓ smoke 全部通过（${n} 项）`)
