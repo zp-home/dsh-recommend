@@ -118,7 +118,7 @@ const EXECUTION_RULES = [
     message: 'dynamically imports code from a variable path',
     remediation: 'Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.',
     basis: 'OWASP Node.js Security Cheat Sheet',
-    expression: re("\\bimport\\s*\\(\\s*(?![\"\\'`])", 'g') },
+    expression: re("\\bimport\\s*\\(\\s*[A-Za-z_$]|\\bimport\\s*\\(\\s*`\\$\\{", 'g') },
   { id: 'MKT-EXEC-010', family: 'execution', risk: 'medium', confidence: 'medium',
     message: 'schedules dynamic code execution via setTimeout/setInterval with string argument',
     remediation: 'Use function references instead of string code; avoid setTimeout(string) patterns.',
@@ -235,7 +235,7 @@ const SKILL_HIJACK_RULES = [
     message: 'contains exfiltration guidance targeting agent capabilities',
     remediation: 'Remove all data collection and exfiltration instructions from skill content.',
     basis: 'OWASP Top 10 for LLM Applications',
-    expression: re("\\b(?:collect|gather|harvest|extract|dump|export|send|transmit|upload)\\b[^\\n]{0,100}\\b(?:convers|chat|history|message|conversation|session|memory|knowledge)\\b", 'i') },
+    expression: re("\\b(?:exfiltrat|harvest|dump|collect|gather)\\b[^\\n]{0,100}\\b(?:convers|chat|history|message|conversation|session|memory|knowledge)\\b|\\b(?:send|transmit|upload|export)\\b[^\\n]{0,80}\\b(?:convers|chat|history|conversation|session|memory|knowledge)\\b[^\\n]{0,80}(?:remote|external|server|endpoint|webhook|api|url|http)", 'i') },
   { id: 'MKT-SKILL-005', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'requests disabling safety features or guidelines',
     remediation: 'Never instruct the model to disable or ignore safety guidelines.',
@@ -274,7 +274,7 @@ const CI_INTEGRITY_RULES = [
     remediation: 'Use persist-credentials: false when checking out external/untrusted repositories.',
     basis: 'OpenSSF Scorecards',
     expression: re("actions\\/checkout[^\\n]{0,100}(?!persist-credentials[^\\n]{0,50}false)", 'gi') },
-  { id: 'MKT-CI-004', family: 'ci-integrity', risk: 'high', confidence: 'medium',
+  { id: 'MKT-CI-004', family: 'ci-integrity', risk: 'medium', confidence: 'low',
     message: 'runs npm/pip install with compromised dependency potential',
     remediation: 'Use lock files and pin versions; add provenance/sL3.0 verification.',
     basis: 'OpenSSF Scorecards',
@@ -1336,13 +1336,16 @@ export async function scanPluginSource(root, { commit = null, repository = null 
 
     runCompositeDetection(text, display, findings, { isCode: isProductionCode, isSkill, isWorkflow, isReadme })
 
-    if (isProductionCode) {
+    if (isProductionCode && !isWorkflow) {
       for (const rule of EXECUTION_RULES) stats.execPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of DATA_EGRESS_RULES.filter(r => r.expression)) stats.dataEgressPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of PERSISTENCE_RULES) stats.persistencePatterns += runRegexRule(rule, text, display, findings)
       for (const rule of OBFUSCATION_RULES.filter(r => r.expression)) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of ANTI_ANALYSIS_RULES) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of FILESYSTEM_RULES.filter(r => r.expression)) stats.filesystemPatterns += runRegexRule(rule, text, display, findings)
+    }
+    if (isWorkflow) {
+      for (const rule of CI_INTEGRITY_RULES.filter(r => r.expression)) stats.ciIntegrityPatterns += runRegexRule(rule, text, display, findings)
     }
 
     if (isSkill) {
