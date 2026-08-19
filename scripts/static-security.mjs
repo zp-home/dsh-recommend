@@ -87,7 +87,7 @@ const ENV_SENSITIVE_PATTERNS = [
   re("\\bprocess\\.env\\.(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)\\b", 'i'),
   re("\\bprocess\\.env\\[\"\\'](?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)[\"\\']\\]", 'i'),
   re("\\b(?:dotenv|DotEnv)\\b", ''),
-  re("\\.env(?:\\b|$|\\.|\\/)", ''),
+  re("(?<!process)\\.env(?:\\b|$|\\/|\\\\)", ''),
   re("\\.npmrc\\b", ''),
   re("\\.pypirc\\b", ''),
   re("\\.netrc\\b", ''),
@@ -724,7 +724,7 @@ function assessEvidenceStrength(matchedText, rule, context = {}) {
     /pastebin/, /transfer\.sh/, /base64/i, /atob\(/,
     /process\.dlopen/, /WebAssembly\.(?:instantiate|compile)/,
     /pull_request_target/, /persist-credentials/,
-    /shutdown/, /reboot/, /mkfs\./, /dd\s+if=/,
+    /mkfs\./, /dd\s+if=/,
   ]
   // Low-strength indicators: common patterns that may be benign
   const lowStrength = [
@@ -831,13 +831,21 @@ function countLongLines(text, threshold = 500) {
 function runRegexRule(rule, text, file, findings) {
   if (!rule.expression) return 0
   let count = 0
+  let firstMatch = null
   rule.expression.lastIndex = 0
   for (;;) {
     const match = rule.expression.exec(text)
     if (match === null || count >= MAX_MATCHES_PER_RULE_FILE) break
-    const snippet = extractSnippet(text, match.index)
-    findings.push(makeFinding(rule, file, lineOf(text, match.index), rule.message, { evidence: snippet }))
+    if (firstMatch === null) firstMatch = match
     count += 1
+  }
+  if (count > 0) {
+    const msg = count > 1
+      ? `${rule.message} (${count} occurrences in this file)`
+      : rule.message
+    findings.push(makeFinding(rule, file, lineOf(text, firstMatch.index), msg, {
+      evidence: extractSnippet(text, firstMatch.index),
+    }))
   }
   return count
 }
@@ -921,38 +929,45 @@ function runCapabilityAnalysis(text, file, findings) {
 
   for (const { rule, expr, boundary } of ruleDefs) {
     expr.lastIndex = 0
-    let matches = 0
+    let matchCount = 0
+    let firstMatch = null
     for (;;) {
       const match = expr.exec(text)
-      if (match === null || matches >= MAX_MATCHES_PER_RULE_FILE) break
-
-      let risk = 'high'
-      let downgrade = 'No downgrade: a system-impact pattern is present in the same source file.'
-      const localProtections = []
-      const constrained = boundary.test(text)
-
-      if (!destructive) {
-        risk = 'medium'
-        downgrade = 'Downgraded from high: no system-impact pattern matched.'
-        if (approved && constrained) {
-          risk = 'low'
-          const p1 = rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary'
-          localProtections.push('explicit user approval', p1)
-          downgrade = `Downgraded from high: ${localProtections.join(' and ')} detected.`
-        } else {
-          if (approved) localProtections.push('explicit user approval')
-          if (constrained) localProtections.push(rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
-        }
-      }
-
-      findings.push(makeFinding(rule, file, lineOf(text, match.index), rule.message, {
-        evidence: extractSnippet(text, match.index),
-        risk, baselineRisk: 'high',
-        protections: localProtections.join(', '),
-        downgrade,
-      }))
-      matches += 1
+      if (match === null || matchCount >= MAX_MATCHES_PER_RULE_FILE) break
+      if (firstMatch === null) firstMatch = match
+      matchCount += 1
     }
+    if (matchCount === 0) continue
+
+    let risk = 'high'
+    let downgrade = 'No downgrade: a system-impact pattern is present in the same source file.'
+    const localProtections = []
+    const constrained = boundary.test(text)
+
+    if (!destructive) {
+      risk = 'medium'
+      downgrade = 'Downgraded from high: no system-impact pattern matched.'
+      if (approved && constrained) {
+        risk = 'low'
+        const p1 = rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary'
+        localProtections.push('explicit user approval', p1)
+        downgrade = `Downgraded from high: ${localProtections.join(' and ')} detected.`
+      } else {
+        if (approved) localProtections.push('explicit user approval')
+        if (constrained) localProtections.push(rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
+      }
+    }
+
+    const msg = matchCount > 1
+      ? `${rule.message} (${matchCount} calls in this file)`
+      : rule.message
+
+    findings.push(makeFinding(rule, file, lineOf(text, firstMatch.index), msg, {
+      evidence: extractSnippet(text, firstMatch.index),
+      risk, baselineRisk: 'high',
+      protections: localProtections.join(', '),
+      downgrade,
+    }))
   }
 }
 
@@ -989,15 +1004,9 @@ function runCompositeDetection(text, file, findings, fileContext) {
     }
   }
 
-  // Dangerous CI workflow
-  if (isWorkflow) {
-    if (/\bpull_request_target\b/.test(text) && /github\.event\.pull_request\.head\.(?:sha|ref)/.test(text)) {
-      findings.push(makeFinding(COMPOSITE_RULES[2], file, 1, undefined, {
-        evidence: 'pull_request_target + github.event.pull_request.head.sha/ref detected in workflow',
-        composite: ['pull_request_target', 'github.event.pull_request.head.*'],
-      }))
-    }
-  }
+  // Dangerous CI workflow — checkWorkflowIntegrity already handles pull_request_target
+  // + head.sha/ref detection with richer context (including github.head_ref alias).
+  // Skip composite duplicate to avoid triple-reporting MKT-CI-001.
 
   // Env secret + network
   if (isCode && containsEnvAccess(text) && NETWORK_SINK.test(text)) {
