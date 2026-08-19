@@ -395,12 +395,12 @@ const COMPOSITE_RULES = [
 // ═══════════════════════════════════════════════════════════════
 // Key Regex Patterns (built once, reused)
 // ═══════════════════════════════════════════════════════════════
-const DESTRUCTIVE_SYSTEM = re("\\b(?:rm\\s+-[a-z]*r[a-z]*f[a-z]*\\s+(?:\\/|~|\\$HOME|%USERPROFILE%|\\*|\\.)|rm\\s+-r[a-z]*\\s+\\/(?:etc|usr|var|boot|home|tmp)|Remove-Item\\b[^\\n]{0,120}-Recurse\\b[^\\n]{0,120}(?:[A-Za-z]:|\\\\\\\\)|(?:mkfs\\.(?:ext[234]|xfs|btrfs|zfs)|dd\\s+if=[^\\n]{0,80}\\bof=\\/dev\\/[srh])|(?:shutdown|reboot|poweroff|halt|init\\s+[06])\\b)", 'i')
+const DESTRUCTIVE_SYSTEM = re("\\b(?:rm\\s+-[a-z]*r[a-z]*f[a-z]*\\s+(?:\\/|~|\\$HOME|%USERPROFILE%|\\*|\\.)|rm\\s+-r[a-z]*\\s+\\/(?:etc|usr|var|boot|home|tmp)|Remove-Item\\b[^\\n]{0,120}-Recurse\\b[^\\n]{0,120}(?:[A-Za-z]:|\\\\\\\\)|(?:mkfs\\.(?:ext[234]|xfs|btrfs|zfs)|dd\\s+if=[^\\n]{0,80}\\bof=\\/dev\\/[srh])|(?<!\\.)(?:shutdown|reboot|poweroff|halt)\\b(?!\\s*[=()])|init\\s+[06]\\b)", 'i')
 const EXPLICIT_APPROVAL = re("\\b(?:ask_user_question|requestApproval|requires?Approval|confirm(?:ation)?|prompt_user|user_confirmation|safety_confirm|verify_user_action|awaiting_user|user_input)\\b", 'i')
 const WORKSPACE_BOUNDARY = re("\\b(?:workspace(?:Root|Path|Dir|RootPath)?|isWithinWorkspace|path\\.resolve\\s*\\(\\s*[\"\\'`]\\/workspace|path\\.resolve\\s*\\(\\s*[\"\\'`]\\/app\\b|allowedPaths|allowedDirectories)\\b", 'i')
 const FIXED_COMMAND = re("\\b(?:execFile(?:Sync)?|spawn(?:Sync)?|fork|execv|posix_spawn)\\s*\\(\\s*[\"\\'][^\"\\']+[\"\\']", 'i')
 
-const EXECUTION_CALL = re("\\b(?:exec(?:File|Sync)?|spawn(?:Sync)?|fork|execv|posix_spawn|Deno\\.Command|Bun\\.spawn)\\b", 'g')
+const EXECUTION_CALL = re("\\b(?:exec(?:File|Sync)?|spawn(?:Sync)?|fork|execv|posix_spawn)\\s*\\(|\\b(?:Deno\\.Command|Bun\\.spawn)\\b", 'g')
 const FILE_MUTATION_CALL = re("\\b(?:writeFile|appendFile|copyFile|rename|mkdir|chmod|truncate|unlink|rm|rmdir|fs\\.promises\\.|fs\\.writeFile|fs\\.appendFile)\\s*\\(|\\b(?:Set-Content|Add-Content|Remove-Item|New-Item|Copy-Item|Move-Item)\\b", 'g')
 
 const SECRET_SOURCE = re("\\b(?:DEEPSEEK_API_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY|GITHUB_TOKEN|DOCKER_REGISTRY|AWS_SECRET|GCP_KEY|AZURE_.*KEY)\\b|fs\\.read(?:File|FileSync)?\\s*\\([^)]*(?:passwd|shadow|\\.ssh|\\.aws|\\.docker|credentials|secret|token|\\.npmrc)", 'i')
@@ -906,6 +906,10 @@ function runLongLineDetection(text, file, findings) {
 
 function runCapabilityAnalysis(text, file, findings) {
   if (TEST_PATH.test(file)) return
+  // Shell scripts use `exec` as a builtin (file-descriptor redirect / process
+  // replacement), not as a Node.js child_process API.  Skip Node.js capability
+  // analysis for shell files to avoid systemic false positives.
+  if (/\.(?:sh|bash|zsh|fish)$/i.test(file)) return
 
   const destructive = DESTRUCTIVE_SYSTEM.test(text)
   const approved = EXPLICIT_APPROVAL.test(text)
