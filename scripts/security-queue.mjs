@@ -11,7 +11,9 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
-const DEFAULT_RESCAN_INTERVAL_MS = 14 * 24 * 60 * 60 * 1000
+// The marketplace leaderboard is refreshed daily. A receipt older than one
+// day is stale even when the source revision has not changed.
+const DEFAULT_RESCAN_INTERVAL_MS = 24 * 60 * 60 * 1000
 const NAME_PATTERN = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/
 
 function dateValue(value) {
@@ -69,7 +71,7 @@ async function readJson(path, fallback) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const limit = arg('--limit') ?? '6'
+  const limit = arg('--limit') ?? '12'
   const registry = await readJson(arg('--registry') ?? join(ROOT, 'data', 'registry.json'), { plugins: [] })
   const force = process.argv.includes('--force')
   const index = force ? { plugins: {} } : await readJson(arg('--verification') ?? join(ROOT, 'data', 'verification.json'), { plugins: {} })

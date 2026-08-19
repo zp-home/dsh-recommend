@@ -49,9 +49,9 @@ The index never publishes source excerpts (the `evidence` field containing match
 
 A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. The scanner uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-19
+## Ruleset 2026-20
 
-Supersedes `2026-16`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+Supersedes `2026-19`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
 
 ### Execution (MKT-EXEC-*)
 
@@ -60,8 +60,6 @@ Supersedes `2026-16`. Existing receipts remain displayable; new scans use the ex
 | `MKT-EXEC-001` | high | high / medium / low | OS process launch API, protection-aware | CWE-78 | Manual review |
 | `MKT-EXEC-002` | high | high | `eval()` or `Function()` constructor | CWE-95 | Manual review |
 | `MKT-EXEC-003` | high | high | download-and-execute shell or PowerShell pattern | CWE-494 | Manual review |
-| `MKT-EXEC-004` | high | high | `vm` module sandbox escape (`runInNewContext`, `runInThisContext`) | CWE-94 | Manual review |
-| `MKT-EXEC-005` | high | high | `execSync` or `spawnSync` blocking process call | CWE-78 | Manual review |
 | `MKT-EXEC-006` | high | high | WebAssembly compilation or instantiation | CWE-94 | Manual review |
 | `MKT-EXEC-007` | high | high | Native `.node` addon via `process.dlopen` or `require("*.node")` | CWE-912 | Manual review |
 | `MKT-EXEC-008` | high | high | `vm.runInNewContext()` with untrusted data | CWE-94 | Manual review |
@@ -75,11 +73,12 @@ Supersedes `2026-16`. Existing receipts remain displayable; new scans use the ex
 |---|---:|---:|---|---|---|
 | `MKT-DATA-001` | high | high | value shaped like a private key or provider token | CWE-798 | Rotate and review |
 | `MKT-DATA-002` | medium | medium | plaintext HTTP or disabled TLS verification | CWE-295 | Manual review |
-| `MKT-DATA-003` | high | high | likely secret source and network sink in one code file | CWE-200 | Manual review |
+| `MKT-DATA-003` | high | high | likely non-environment secret source and nearby network sink | CWE-200 | Manual review |
 | `MKT-DATA-004` | medium | medium | raw TCP/UDP socket (`net.connect`, `dgram.createSocket`) | CWE-923 | Manual review |
-| `MKT-DATA-005` | medium / high | medium / high | reads environment variables (high if combined with network sink) | CWE-532 | Manual review |
+| `MKT-DATA-005` | medium | not emitted | legacy identifier retained for receipt compatibility; environment access is reported by `MKT-DATA-008` only when correlated | CWE-532 | Manual review |
 | `MKT-DATA-006` | high | high | access to system credential stores (`~/.ssh/id_rsa`, `~/.aws/credentials`) | CWE-200 | Manual review |
-| `MKT-DATA-008` | high | high | Composite: environment secrets + network request in same file | CWE-200 | Manual review |
+| `MKT-DATA-007` | medium | medium | known anonymous/high-risk destination | CWE-200 | Manual review |
+| `MKT-DATA-008` | medium | medium | Composite review lead: environment secrets + nearby network request | CWE-200 | Manual review |
 | `MKT-DATA-009` | high | high | executable code patterns (`eval`, `Function`) in README/documentation | CWE-94 | Manual review |
 
 ### Agent and skill (MKT-SKILL-* / MKT-HIJACK-*)
@@ -128,7 +127,7 @@ Supersedes `2026-16`. Existing receipts remain displayable; new scans use the ex
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
-| `MKT-PERSIST-001` | high | high | plugin lifecycle hooks (`install`/`uninstall`/`activate`) | CWE-506 | Manual review |
+| `MKT-PERSIST-001` | high | high | operating-system persistence mechanisms (`schtasks`, `crontab`, services, Run keys) | CWE-506 | Manual review |
 | `MKT-PERSIST-002` | high | high | writing to startup files (`~/.bashrc`, `~/.zshrc`) | CWE-506 | Manual review |
 
 ### Anti-analysis (MKT-ANALYZE-*)
@@ -150,10 +149,10 @@ Supersedes `2026-16`. Existing receipts remain displayable; new scans use the ex
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
-| `MKT-DATA-003` | high | high | secret source + network sink in one file | CWE-200 | Manual review |
+| `MKT-DATA-003` | high | high | secret source + nearby network sink | CWE-200 | Manual review |
 | `MKT-SKILL-001` | high | high | instruction override + destructive/egress guidance | CWE-1039 | Manual review |
 | `MKT-CI-001` | high | high | `pull_request_target` + head SHA/ref checkout | CWE-250 | Manual review |
-| `MKT-DATA-008` | high | high | env secrets + network request in one file | CWE-200 | Manual review |
+| `MKT-DATA-008` | medium | medium | env secrets + nearby network request | CWE-200 | Manual review |
 | `MKT-EXEC-012` | high | high | decode + execute in same file | CWE-94 | Manual review |
 | `MKT-FS-005` | high | high | sensitive read + file write in same file | CWE-200 | Manual review |
 
@@ -162,7 +161,7 @@ Supersedes `2026-16`. Existing receipts remain displayable; new scans use the ex
 Each finding carries an `evidence_confidence` field (high / medium / low) computed from the matched pattern:
 
 - **High confidence**: explicit dangerous function calls (`eval(`, `spawn(`, `rm -rf`, `/etc/passwd`, `pull_request_target`, etc.) — risk level is confirmed.
-- **Low confidence**: patterns that may appear in benign contexts (`require('./...`, `console.`, `test`, `mock`) — risk level is downgraded by one step (high → medium, medium → low).
+- **Low confidence**: patterns that may appear in benign contexts (`require('./...`, `console.`, `test`, `mock`) — confidence is reduced, but risk is not changed by evidence confidence alone.
 - **Composite findings**: when both sides of a composite rule match, evidence confidence is automatically high.
 
 The `risk_adjustment` field documents the reasoning. The rule's original risk is preserved in `evidence_risk`.
@@ -173,11 +172,11 @@ File mutations and operating-system process execution begin at **high** baseline
 
 1. If a conventional system-impact pattern is detected in the same production source file, the final level remains high. Examples include destructive recursive deletion of a root/home target, disk formatting, disk-writing, shutdown, or reboot. Protection text does not lower this result.
 2. If no system-impact pattern matches, the final level is reduced to medium. This means only that this finite ruleset did not observe such a pattern; it is not a finding of benign intent or safety.
-3. The final level is reduced to low only when both relevant controls are statically observed in the same production source file:
+3. The final level is reduced to low only when both relevant controls are statically observed near the same capability call site:
    - File mutation: an explicit user-approval mechanism and a workspace-path boundary.
    - Process execution: an explicit user-approval mechanism and a fixed command target through `execFile` or `spawn`.
 
-The scanner ignores test and fixture paths for these protection-aware capability findings. It does not infer protection from README text, comments, tool names, or a generic "safe" claim. Dynamic execution, remote download-and-execute, credential exposure, persistence, lifecycle scripts, and other direct high-risk rules are not eligible for this downgrade.
+The scanner ignores test and fixture paths for these protection-aware capability findings. It does not infer protection from README text, comments, variable names alone, or a generic "safe" claim. Dynamic execution, remote download-and-execute, credential exposure, persistence, lifecycle scripts, and other direct high-risk rules are not eligible for this downgrade.
 
 ### Agent and skill safeguards
 
@@ -185,35 +184,39 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 ### Correlation safeguards
 
-`MKT-DATA-003` requires both a likely secret source and a network API in the same code file. It is a review lead, not proof that a secret leaves the device. The scanner intentionally does not emit a finding for an environment lookup or a network API alone. The same principle applies to all composite rules: both sides must match in the same file.
+`MKT-DATA-003` and `MKT-DATA-008` are mutually exclusive: one correlated finding is emitted per production file, and the environment-specific rule is used when a sensitive `process.env` access is present. The two signals must occur within a bounded call-site window; a secret lookup in one unrelated function and a network call elsewhere is not sufficient. The scanner intentionally does not emit a finding for an environment lookup or a network API alone.
 
 ## Bounds and coverage
 
 The scanner reads eligible production code, manifest, workflow, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. Test, fixture, contract, mock, spec, example, and integration paths are excluded from production code rules. It skips dependency/cache directories, reads at most 8,000 files, reads at most 1 MiB per file, emits at most 300 findings, and emits at most one occurrence of the same rule in one file. Any bound hit produces `incomplete` status.
 
+The marketplace security queue treats receipts older than 24 hours as stale and increases the default batch size to 12. Receipt merging is monotonic by `checkedAt`; an older receipt cannot replace a newer commit, and missing compatibility evidence clears an older compatibility label.
+
 Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputation checks, runtime network capture, permission necessity, authorization correctness, and human intent are outside this source-only scanner. Those concerns require separate dynamic analysis, repository metadata, or manual review.
 
 ## Versioning and migration
 
-`scannerVersion: 11` and `rulesetVersion: 2026-19` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 12` and `rulesetVersion: 2026-20` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
 
-### Changes from 2026-11 to 2026-19
+**2026-20 correction:** sensitive environment variables combined with a nearby ordinary network request are a medium review lead. Common API-backed plugins need this capability; high risk requires a hardcoded credential, credential-store read, suspicious destination, or an explicit execution/destructive chain.
+
+### Changes from 2026-19 to 2026-20
 
 **Added rules:**
-- `MKT-EXEC-004` through `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, setTimeout eval, decode+execute composite)
+- `MKT-EXEC-006` through `MKT-EXEC-012` (WebAssembly, native addons, vm, dynamic import, setTimeout eval, constructor escape, decode+execute composite)
 - `MKT-DATA-004` through `MKT-DATA-009` (raw sockets, env secrets, credential stores, env+network composite, README code execution)
 - `MKT-HIJACK-001`, `MKT-HIJACK-004`, `MKT-HIJACK-005` (prompt injection in code files)
 - `MKT-SKILL-002` through `MKT-SKILL-005` (role impersonation, multi-step injection, exfiltration guidance, safety bypass)
 - `MKT-FS-002` through `MKT-FS-005` (path escape, credential file read, encoded traversal, sensitive read+write composite)
 - `MKT-SUPPLY-002` (unpinned git/URL dependencies)
-- `MKT-CI-002` through `MKT-CI-008` (token permissions, checkout credentials, curl-pipe, pull_request_target without head, wildcard permissions, unverified downloads)
+- `MKT-CI-002`, `MKT-CI-003`, `MKT-CI-005` through `MKT-CI-008` (token permissions, checkout credentials, curl-pipe, pull_request_target without head, wildcard permissions, unverified downloads)
 - `MKT-PERSIST-002` (startup file persistence)
 - `MKT-ANALYZE-001` through `MKT-ANALYZE-002` (anti-debugging, stack inspection)
 - `MKT-REVIEW-005` (long line obfuscation)
 
-**2026-19 corrections:**
+**2026-20 corrections:**
 - Production rules exclude documentation, test, fixture, contract, mock, spec, example, and integration paths.
-- Sensitive environment access requires a recognizable secret-bearing variable and a network sink in the same production file.
+- Sensitive environment access requires a recognizable secret-bearing variable and a nearby network sink in the same production file.
 - CI rules inspect workflow files only; Skill rules inspect conventional instruction files only.
 - Public evidence retains up to 300 schema-validated findings, matching the scanner bound.
 - Standalone Skill exfiltration language is medium risk; only override-plus-destructive/egress composites are high.
