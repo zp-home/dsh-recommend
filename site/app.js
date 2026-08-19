@@ -29,6 +29,13 @@ function scoreTier(score) {
   return 'dim'
 }
 
+function scoreSignalSummary(p) {
+  return SIGNAL_ORDER
+    .filter((key) => p.signals?.[key] !== undefined)
+    .map((key) => `${SIGNAL_LABELS[key]} ${p.signals[key].toFixed(2)}`)
+    .join(' · ')
+}
+
 /** HTML 转义：homepage / description 等来自 GitHub API 的文本，避免破坏布局或注入。 */
 function esc(s) {
   return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
@@ -285,15 +292,10 @@ function render() {
   for (const [i, p] of rows.entries()) {
     const tier = scoreTier(p.score)
     const medal = start + i === 0 ? '🥇' : start + i === 1 ? '🥈' : start + i === 2 ? '🥉' : `#${start + i + 1}`
+    const scoreDetails = scoreSignalSummary(p)
     const el = document.createElement('article')
     el.className = 'row' + (p.excluded ? ' excluded' : '')
-    const pills = [
-      ...SIGNAL_ORDER
-        .filter((k) => p.signals?.[k] !== undefined)
-        .map((k) => `<span class="pill">${SIGNAL_LABELS[k]} <b>${p.signals[k].toFixed(2)}</b></span>`),
-      securityPill(p),
-      compatibilityPill(p),
-    ].join('')
+    const pills = [securityPill(p), compatibilityPill(p)].join('')
     const series = trendSeries(p.fullName)
     const trend = series.length >= 2
       ? `<span class="trend" title="近 ${series.length} 天综合分走势">${sparkline(series)}</span>`
@@ -338,7 +340,7 @@ function render() {
         </div>
         <div class="right">
           <span class="stars">★ ${p.stars}</span>
-          <span class="score"><span class="num ${tier}">${p.score.toFixed(3)}</span></span>
+          <span class="score" title="${esc(scoreDetails)}" aria-label="${esc(scoreDetails)}"><span class="num ${tier}">${p.score.toFixed(3)}</span></span>
         </div>
       </div>
       ${p.description ? `<p class="desc">${esc(p.description)}</p>` : ''}

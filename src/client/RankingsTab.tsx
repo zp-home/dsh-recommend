@@ -310,7 +310,7 @@ body[data-ds-dark-theme] .dshr-wrap {
 .dshr-cat { font-size: 10.5px; color: var(--dshr-text-tertiary); }
 .dshr-right { margin-left: auto; flex: 0 0 auto; display: flex; align-items: center; gap: 10px; }
 .dshr-stars { font-size: 12px; color: var(--dshr-text-secondary); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.dshr-score { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.dshr-score { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; cursor: help; }
 .dshr-score .num { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
 .dshr-score .num.gold { color: #f5c518; }
 .dshr-score .num.accent { color: var(--dshr-accent); }
@@ -813,6 +813,13 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
           const securityClass = security?.status === 'passed'
             ? 'dshr-security-clear'
             : security ? `dshr-security-${security.risk}` : 'dshr-security-unavailable'
+          const scoreDetails = SIGNAL_ORDER
+            .map((key) => {
+              const value = p.signals?.[key]
+              return value === undefined ? null : `${t(SIGNAL_LABELS[key] as Parameters<typeof t>[0])} ${value.toFixed(2)}`
+            })
+            .filter((value): value is string => value !== null)
+            .join(' · ')
           const compatibilityLabel = p.verification?.publisherCompatibility?.status === 'passed'
             ? t('publisherCompatibilityPassed')
             : null
@@ -828,7 +835,7 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                 </div>
                 <div className="dshr-right">
                   <span className="dshr-stars">★ {p.stars}</span>
-                  <span className="dshr-score">
+                  <span className="dshr-score" title={scoreDetails} aria-label={scoreDetails}>
                     <span className={`num ${tier}`}>{p.score.toFixed(3)}</span>
                   </span>
                 </div>
@@ -838,14 +845,6 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
 
               <div className="dshr-foot">
                 <span className="dshr-pills">
-                  {SIGNAL_ORDER.map((k) => {
-                    const v = p.signals?.[k]
-                    return v === undefined ? null : (
-                      <span className="dshr-pill" key={k}>
-                        {t(SIGNAL_LABELS[k] as Parameters<typeof t>[0])} <b>{v.toFixed(2)}</b>
-                      </span>
-                    )
-                  })}
                   {security ? (
                     <button type="button" className={`dshr-pill dshr-security-pill ${securityClass}`} onClick={() => setSecurityCandidate(p)} title={t('securityDetails')}>{securityLabel}</button>
                   ) : (

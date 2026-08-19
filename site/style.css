@@ -170,6 +170,7 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
 .cat { color: var(--muted); font-size: 12px; font-weight: 700; }
 .right { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; margin-left: auto; }
 .stars { color: var(--ink); font-size: 13px; font-weight: 800; white-space: nowrap; }
+.score { cursor: help; }
 .score .num {
   display: inline-block;
   padding: 2px 6px;
