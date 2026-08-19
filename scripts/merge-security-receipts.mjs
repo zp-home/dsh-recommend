@@ -95,8 +95,14 @@ export function mergeSecurityReceipts(existing, receipts, now = new Date().toISO
   for (const receipt of receipts) {
     if (!validReceipt(receipt)) continue
     const previous = plugins[receipt.repository]
+    const previousCheckedAt = previous?.staticSecurity?.checkedAt
+    if (typeof previousCheckedAt === 'string'
+      && Number.isFinite(Date.parse(previousCheckedAt))
+      && Date.parse(receipt.checkedAt) < Date.parse(previousCheckedAt)) {
+      continue
+    }
     const compatibility = publisherCompatibility(receipt)
-    plugins[receipt.repository] = {
+    const nextPlugin = {
       ...(previous && typeof previous === 'object' ? previous : {}),
       staticSecurity: {
         commit: receipt.commit,
@@ -110,8 +116,10 @@ export function mergeSecurityReceipts(existing, receipts, now = new Date().toISO
         scannerVersion: receipt.scannerVersion,
         rulesetVersion: receipt.rulesetVersion,
       },
-      ...(compatibility !== null ? { publisherCompatibility: compatibility } : {}),
     }
+    if (compatibility !== null) nextPlugin.publisherCompatibility = compatibility
+    else delete nextPlugin.publisherCompatibility
+    plugins[receipt.repository] = nextPlugin
     merged += 1
   }
   return { format: INDEX_FORMAT, updatedAt: now, plugins, merged }
