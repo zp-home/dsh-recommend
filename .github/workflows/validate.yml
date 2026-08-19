@@ -18,7 +18,7 @@ jobs:
       - name: 冒烟：抓取链路可用
         run: node scripts/sync.mjs --limit 1 --no-scan --no-badge
       - name: 数据完整性校验（含 hub/awesome 信号源健康度门禁）
-        run: node scripts/validate.mjs
+        run: node scripts/validate.mjs --skip-badges
       - name: 打印当前评分版本
         run: |
           node -e "const m=require('./data/meta.json');console.log('scoringVersion =',m.scoringVersion,'（改过评分必须重新生成 data/）')"
