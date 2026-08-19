@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 9
-export const RULESET_VERSION = '2026-17'
+export const SCANNER_VERSION = 10
+export const RULESET_VERSION = '2026-18'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
@@ -128,7 +128,7 @@ const EXECUTION_RULES = [
     message: 'uses constructor-based sandbox escape pattern',
     remediation: 'Avoid prototype manipulation that can lead to sandbox escape.',
     basis: 'OWASP Node.js Security Cheat Sheet',
-    expression: re("\\.constructor\\.constructor\\s*\\(|constructor\\s*:\\s*(?:Proxy|Reflect|Object\\.prototype)|(?:Proxy|Reflect)\\s*\\(", 'g') },
+    expression: re("\\.constructor\\.constructor\\s*\\(|constructor\\s*:\\s*(?:Proxy|Reflect|Object\\.prototype)", 'g') },
 ]
 
 const DATA_EGRESS_RULES = [
@@ -231,7 +231,7 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Break complex instructions into safe, auditable steps; never chain injection vectors.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:step\\s*(?:1|one|first|1\\.))[^\\n]{0,80}\\b(?:then|next|after|step\\s*(?:2|two|second))[^\\n]{0,80}\\b(?:ignore|override|bypass|skip|disregard)", 'i') },
-  { id: 'MKT-SKILL-004', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-SKILL-004', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'contains exfiltration guidance targeting agent capabilities',
     remediation: 'Remove all data collection and exfiltration instructions from skill content.',
     basis: 'OWASP Top 10 for LLM Applications',
