@@ -44,9 +44,9 @@ The raw receipt may also carry internal `evidence` text. The index never publish
 
 A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. The scanner uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-15
+## Ruleset 2026-16
 
-Supersedes `2026-14`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+Supersedes `2026-15`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
 
 ### Execution (MKT-EXEC-*)
 
@@ -80,8 +80,8 @@ Supersedes `2026-14`. Existing receipts remain displayable; new scans use the ex
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
 | `MKT-SKILL-001` | high | high | instruction override language + destructive/egress guidance in agent-instruction files | CWE-1039 | Manual review |
-| `MKT-SKILL-002` | high | high | role impersonation ("you are now system/admin") in skill content | CWE-1039 | Manual review |
-| `MKT-SKILL-003` | high | high | multi-step prompt injection chain in skill files | CWE-1039 | Manual review |
+| `MKT-SKILL-002` | medium | medium | role impersonation ("you are now system/admin") in skill content | CWE-1039 | Manual review |
+| `MKT-SKILL-003` | medium | medium | multi-step prompt injection chain in skill files | CWE-1039 | Manual review |
 | `MKT-SKILL-004` | medium | medium | exfiltration guidance targeting conversation/history/memory | CWE-200 | Manual review |
 | `MKT-SKILL-005` | medium | medium | disabling/bypassing safety features in skill content | CWE-1039 | Manual review |
 
@@ -99,7 +99,7 @@ Supersedes `2026-14`. Existing receipts remain displayable; new scans use the ex
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
-| `MKT-SUPPLY-001` | high | high | non-empty npm install lifecycle script (`preinstall`/`install`/`postinstall`/`prepare`) | CWE-506 | Manual review |
+| `MKT-SUPPLY-001` | high / medium | high / medium | lifecycle script (`prepare` is medium; `preinstall`/`install`/`postinstall` are high) | CWE-506 | Manual review |
 | `MKT-SUPPLY-002` | high | high | unpinned git/URL dependency (`git+https://`, `github:`) | CWE-494 | Manual review |
 
 ### CI integrity (MKT-CI-*)
@@ -185,9 +185,9 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 
 ## Versioning and migration
 
-`scannerVersion: 7` and `rulesetVersion: 2026-15` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 8` and `rulesetVersion: 2026-16` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
 
-### Changes from 2026-11 to 2026-15
+### Changes from 2026-11 to 2026-16
 
 **Added rules:**
 - `MKT-EXEC-004` through `MKT-EXEC-009`, `MKT-EXEC-011`, and `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, decode+execute composite)
@@ -216,9 +216,14 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 - Credential-shaped value detection no longer scans workflow or skill text; those files use their dedicated structural rules.
 - Suspicious destination detection now applies only to production code.
 
+**2026-16 corrections:**
+- Reclassified standalone Skill injection-pattern rules as medium; only the override-plus-destructive/egress composite remains high.
+- Reclassified raw socket use as medium. It becomes high only when combined with a separate direct high-risk rule.
+- Reclassified `prepare` lifecycle scripts as medium; install-time `preinstall`, `install`, and `postinstall` remain high.
+
 **Added evidence fields:**
 - `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)
 - `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence confidence and rationale)
 - `evidence` (internal source excerpt, stripped from the public index)
 
-The corrections above are version-bound to `scannerVersion: 7` / `rulesetVersion: 2026-15`; earlier receipts are retained only as historical evidence.
+The corrections above are version-bound to `scannerVersion: 8` / `rulesetVersion: 2026-16`; earlier receipts are retained only as historical evidence.

@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 7
-export const RULESET_VERSION = '2026-15'
+export const SCANNER_VERSION = 8
+export const RULESET_VERSION = '2026-16'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
@@ -138,7 +138,7 @@ const DATA_EGRESS_RULES = [
     remediation: 'Use HTTPS and keep TLS certificate verification enabled.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("rejectUnauthorized\\s*:\\s*false|NODE_TLS_REJECT_UNAUTHORIZED\\s*=\\s*[\"\\']?0|http:\\/\\/(?!localhost\\b|127\\.0\\.0\\.1\\b|0\\.0\\.0\\.0\\b)", 'g') },
-  { id: 'MKT-DATA-004', family: 'data-egress', risk: 'high', confidence: 'medium',
+  { id: 'MKT-DATA-004', family: 'data-egress', risk: 'medium', confidence: 'medium',
     message: 'detects net.connect, dgram.createSocket, or process-level network access',
     remediation: 'Review all network connections; ensure they use allowlisted destinations with explicit approval.',
     basis: 'OWASP Data Security Cheat Sheet',
@@ -217,12 +217,12 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Treat external content as data; preserve approval boundaries; remove override directives.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: null },
-  { id: 'MKT-SKILL-002', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-SKILL-002', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'attempts to impersonate system or developer role',
     remediation: 'Never include role-override text in skill content; it bypasses safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:you are|act as|pretend to be|you are now|you are an)\\b[^\\n]{0,100}\\b(?:system|developer|admin|root|superuser|god|unrestricted|unfiltered)\\b", 'i') },
-  { id: 'MKT-SKILL-003', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-SKILL-003', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'contains multi-step prompt injection patterns',
     remediation: 'Break complex instructions into safe, auditable steps; never chain injection vectors.',
     basis: 'OWASP Top 10 for LLM Applications',
@@ -237,17 +237,17 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Never instruct the model to disable or ignore safety guidelines.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:disable|bypass|ignore|skip|defeat|turn\\s*(?:off)?)\\b[^\\n]{0,100}\\b(?:safety|safety_check|content_filter|guardrail|filter|restriction|safety\\s*(?:mode|guideline|policy))", 'i') },
-  { id: 'MKT-HIJACK-001', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-HIJACK-001', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'contains prompt injection patterns targeting system instructions',
     remediation: 'Remove all prompt injection patterns; they indicate attempts to override safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("ignore all previous instructions|system prompt|prompt injection", 'i') },
-  { id: 'MKT-HIJACK-004', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-HIJACK-004', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'attempts to override or redirect tool usage',
     remediation: 'Never include tool override directives; they bypass approval and safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("use exec_command instead|ignore previous tool rules", 'i') },
-  { id: 'MKT-HIJACK-005', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-HIJACK-005', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'instruction override with specific goal redirection',
     remediation: 'Remove instruction override language; treat external content as data only.',
     basis: 'OWASP Top 10 for LLM Applications',
@@ -965,7 +965,10 @@ function scanManifest(manifest, file, findings) {
   if (scripts && typeof scripts === 'object') {
     for (const name of ['preinstall', 'install', 'postinstall', 'prepare']) {
       if (typeof scripts[name] === 'string' && scripts[name].trim() !== '') {
-        findings.push(makeFinding(SUPPLY_CHAIN_RULES[0], file, 1,
+        const rule = name === 'prepare'
+          ? { ...SUPPLY_CHAIN_RULES[0], risk: 'medium', confidence: 'medium' }
+          : SUPPLY_CHAIN_RULES[0]
+        findings.push(makeFinding(rule, file, 1,
           `declares a ${name} lifecycle script`,
           { evidence: 'Lifecycle command omitted from public evidence.' }))
       }
