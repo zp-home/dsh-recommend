@@ -43,7 +43,12 @@ const SKILL_FILE = /(?:^|\/)(?:SKILL|AGENTS|CLAUDE|SYSTEM|RULES)\.md$/i
 const WORKFLOW_FILE = /^\.github\/workflows\/[^/]+\.ya?ml$/i
 const README_FILE = /(?:^|\/)(?:README|LICENSE|SECURITY|CONTRIBUTING|CHANGELOG)\.?(?:md|txt)?$/i
 const MANIFEST_FILE = /^package\.json$/i
-const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__|contracts?|examples?|integ(?:ration)?)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
+const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__|contracts?|examples?|integ(?:ration)?|tools|build|dist|node_modules|vendor|third_party|third-party)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
+
+// Scripts directories contain project tooling, not plugin runtime code.
+// Skip credential and env-secret detection there, but keep execution checks
+// (install.sh with curl|bash is still a real threat).
+const SCRIPTS_PATH = /(?:^|\/)(?:scripts?|bin)\//i
 
 const SUSPICIOUS_DOMAINS = [
   'pastebin\\.com', 'paste\\.ee', 'hastebin', 'transfer\\.sh', '0x0\\.st',
@@ -90,10 +95,10 @@ const ENV_SENSITIVE_PATTERNS = [
 
 const EXECUTION_RULES = [
   { id: 'MKT-EXEC-002', family: 'execution', risk: 'high', confidence: 'high',
-    message: 'evaluates dynamically generated JavaScript via eval/Function',
+    message: 'uses eval() or new Function() to execute dynamically generated code',
     remediation: 'Remove dynamic evaluation and use fixed allowlisted implementations.',
     basis: 'OWASP Node.js Security Cheat Sheet',
-    expression: re("\\b(?:eval|Function)\\s*\\(", 'g') },
+    expression: re("\\b(?:eval|new\\s+Function)\\s*\\(", 'g') },
   { id: 'MKT-EXEC-003', family: 'execution', risk: 'high', confidence: 'high',
     message: 'downloads and pipes code directly to interpreter',
     remediation: 'Do not execute code downloaded at runtime; pin and review shipped code.',
@@ -917,7 +922,6 @@ function runCapabilityAnalysis(text, file, findings) {
   // analysis for shell files to avoid systemic false positives.
   if (/\.(?:sh|bash|zsh|fish)$/i.test(file)) return
 
-  const destructive = DESTRUCTIVE_SYSTEM.test(text)
   const approved = EXPLICIT_APPROVAL.test(text)
 
   const ruleDefs = [
@@ -929,22 +933,26 @@ function runCapabilityAnalysis(text, file, findings) {
     expr.lastIndex = 0
     let matchCount = 0
     let firstMatch = null
+    let destructiveNearby = false
     for (;;) {
       const match = expr.exec(text)
       if (match === null || matchCount >= MAX_MATCHES_PER_RULE_FILE) break
       if (firstMatch === null) firstMatch = match
+      // Check for destructive patterns within 150 chars of the call site
+      const window = text.substring(Math.max(0, match.index - 150), Math.min(text.length, match.index + 150))
+      if (DESTRUCTIVE_SYSTEM.test(window)) destructiveNearby = true
       matchCount += 1
     }
     if (matchCount === 0) continue
 
     let risk = 'high'
-    let downgrade = 'No downgrade: a system-impact pattern is present in the same source file.'
+    let downgrade = 'No downgrade: a system-impact pattern is present near the call site.'
     const localProtections = []
     const constrained = boundary.test(text)
 
-    if (!destructive) {
+    if (!destructiveNearby) {
       risk = 'medium'
-      downgrade = 'Downgraded from high: no system-impact pattern matched.'
+      downgrade = 'Downgraded from high: no system-impact pattern matched near the call site.'
       if (approved && constrained) {
         risk = 'low'
         const p1 = rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary'
@@ -1026,14 +1034,19 @@ function runCompositeDetection(text, file, findings, fileContext) {
   const decodeRe = re("\\b(?:atob|Buffer\\.from|TextDecoder)\\s*\\(", 'g')
   if (isCode) {
     decodeRe.lastIndex = 0
-    const decodeMatch = decodeRe.exec(text)
-    EXEC_SINK.lastIndex = 0
-    const execMatch = EXEC_SINK.exec(text)
-    if (decodeMatch && execMatch) {
-      findings.push(makeFinding(COMPOSITE_RULES[4], file, lineOf(text, decodeMatch.index), undefined, {
-        evidence: `DECODE: ${extractSnippet(text, decodeMatch.index)} | EXEC: ${extractSnippet(text, execMatch.index)}`,
-        composite: [extractSnippet(text, decodeMatch.index), extractSnippet(text, execMatch.index)],
-      }))
+    let decodeMatch
+    while ((decodeMatch = decodeRe.exec(text)) !== null) {
+      // Only flag when decode and exec are within 150 chars (same code block)
+      const window = text.substring(Math.max(0, decodeMatch.index - 150), Math.min(text.length, decodeMatch.index + 150))
+      EXEC_SINK.lastIndex = 0
+      const execMatch = EXEC_SINK.exec(window)
+      if (execMatch) {
+        findings.push(makeFinding(COMPOSITE_RULES[4], file, lineOf(text, decodeMatch.index), undefined, {
+          evidence: `DECODE: ${extractSnippet(text, decodeMatch.index)} | EXEC nearby`,
+          composite: ['decode+exec within 300 chars'],
+        }))
+        break
+      }
     }
   }
 
@@ -1313,9 +1326,9 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     const isWorkflow = WORKFLOW_FILE.test(display)
     const isSkill = SKILL_FILE.test(display)
     const isReadme = README_FILE.test(display)
-    const isProductionCode = isCode && !TEST_PATH.test(display)
+    const isProductionCode = isCode && !TEST_PATH.test(display) && !SCRIPTS_PATH.test(display)
     const isSecuritySource = isProductionCode || isManifest || isSkill || isWorkflow
-    const isCredentialSource = isProductionCode || isManifest
+    const isCredentialSource = (isProductionCode && !SCRIPTS_PATH.test(display)) || isManifest
 
     stats.filesScanned += 1
 
@@ -1343,6 +1356,11 @@ export async function scanPluginSource(root, { commit = null, repository = null 
       for (const rule of OBFUSCATION_RULES.filter(r => r.expression)) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of ANTI_ANALYSIS_RULES) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of FILESYSTEM_RULES.filter(r => r.expression)) stats.filesystemPatterns += runRegexRule(rule, text, display, findings)
+    }
+    // Shell scripts in scripts/ or bin/ directories: only check execution threats
+    // (curl|bash, IEX, etc.) — skip credential, env, and capability checks.
+    if (!isProductionCode && isCode && SCRIPTS_PATH.test(display) && /\.(?:sh|bash|zsh|fish|ps1|cmd|bat)$/i.test(display)) {
+      for (const rule of EXECUTION_RULES.filter(r => r.id === 'MKT-EXEC-003')) stats.execPatterns += runRegexRule(rule, text, display, findings)
     }
     if (isWorkflow) {
       // checkWorkflowIntegrity already handles all CI rules (CI-001 through CI-008)
