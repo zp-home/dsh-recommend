@@ -1,14 +1,14 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-08-19T08:09:07.038Z",
+  "updatedAt": "2026-08-19T08:12:56.209Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
         "commit": "74a1b0206b009f4c9e4bf8e55d6593b2921a3872",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:35.254Z",
-        "scannedFiles": 700,
+        "checkedAt": "2026-08-19T08:12:29.497Z",
+        "scannedFiles": 708,
         "findingCount": 300,
         "findings": [
           {
@@ -49,7 +49,7 @@
           },
           {
             "rule": "MKT-SKILL-004",
-            "risk": "high",
+            "risk": "medium",
             "file": ".claude-plugin/skills/setup/SKILL.md",
             "line": 522,
             "message": "contains exfiltration guidance targeting agent capabilities (5 occurrences in this file)",
@@ -61,7 +61,7 @@
             "impact": "Exfiltration guidance targets conversation history, memory, and session data for theft.",
             "attack_vector": "\"collect/gather/extract\" + \"conversation/history/memory\" — instructs agent to dump sensitive context.",
             "cwe": "CWE-200",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -246,24 +246,6 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "crates/ouroboros-tui/src/views/lineage.rs",
-            "line": 471,
-            "message": "uses constructor-based sandbox escape pattern",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
-            "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
             "rule": "MKT-DATA-007",
             "risk": "medium",
             "file": "scripts/install.sh",
@@ -410,7 +392,7 @@
           },
           {
             "rule": "MKT-SKILL-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/brownfield/SKILL.md",
             "line": 101,
             "message": "contains exfiltration guidance targeting agent capabilities (5 occurrences in this file)",
@@ -422,7 +404,7 @@
             "impact": "Exfiltration guidance targets conversation history, memory, and session data for theft.",
             "attack_vector": "\"collect/gather/extract\" + \"conversation/history/memory\" — instructs agent to dump sensitive context.",
             "cwe": "CWE-200",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -446,7 +428,7 @@
           },
           {
             "rule": "MKT-SKILL-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/setup/SKILL.md",
             "line": 522,
             "message": "contains exfiltration guidance targeting agent capabilities (5 occurrences in this file)",
@@ -458,7 +440,7 @@
             "impact": "Exfiltration guidance targets conversation history, memory, and session data for theft.",
             "attack_vector": "\"collect/gather/extract\" + \"conversation/history/memory\" — instructs agent to dump sensitive context.",
             "cwe": "CWE-200",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -3119,24 +3101,6 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "src/ouroboros/evolution/loop.py",
-            "line": 184,
-            "message": "uses constructor-based sandbox escape pattern",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
-            "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
             "rule": "MKT-EXEC-009",
             "risk": "medium",
             "file": "src/ouroboros/evolution/loop_support.py",
@@ -4489,24 +4453,6 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "src/ouroboros/mcp/tools/subagent.py",
-            "line": 2038,
-            "message": "uses constructor-based sandbox escape pattern",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
-            "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
             "rule": "MKT-EXEC-009",
             "risk": "medium",
             "file": "src/ouroboros/mcp/tools/synapse_handler.py",
@@ -5513,11 +5459,65 @@
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-009",
+            "risk": "medium",
+            "file": "src/ouroboros/orchestrator/execution_semantics.py",
+            "line": 10,
+            "message": "dynamically imports code from a variable path",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.",
+            "impact": "Dynamic import() with variable paths allows loading arbitrary modules at runtime.",
+            "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
+            "cwe": "CWE-94",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-006",
+            "risk": "medium",
+            "file": "src/ouroboros/orchestrator/failure_taxonomy.py",
+            "line": 79,
+            "message": "accesses system or user credential stores (2 occurrences in this file)",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Avoid direct access to credential files; use authenticated API flows instead.",
+            "impact": "Direct access to system credential stores allows theft of SSH keys, AWS creds, and Docker tokens.",
+            "attack_vector": "File path matches ~/.ssh/id_rsa, ~/.aws/credentials, or ~/.docker/config.json.",
+            "cwe": "CWE-200",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-009",
+            "risk": "medium",
+            "file": "src/ouroboros/orchestrator/frugality_proof.py",
+            "line": 45,
+            "message": "dynamically imports code from a variable path (5 occurrences in this file)",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.",
+            "impact": "Dynamic import() with variable paths allows loading arbitrary modules at runtime.",
+            "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
+            "cwe": "CWE-94",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": true,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "alvinunreal/openpets": {
@@ -5525,7 +5525,7 @@
         "commit": "042844d8e3cd43d8984a2742865d100c3a7be4a4",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:46.290Z",
+        "checkedAt": "2026-08-19T08:12:37.114Z",
         "scannedFiles": 540,
         "findingCount": 115,
         "findings": [
@@ -7679,18 +7679,18 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "anywhere-labs/deepseek-harness-desktop": {
       "staticSecurity": {
         "commit": "6074088f5b660206e404b3591fab51fb99c69add",
         "status": "warnings",
-        "risk": "high",
-        "checkedAt": "2026-08-19T08:08:39.662Z",
+        "risk": "medium",
+        "checkedAt": "2026-08-19T08:12:36.322Z",
         "scannedFiles": 367,
-        "findingCount": 50,
+        "findingCount": 49,
         "findings": [
           {
             "rule": "MKT-CI-003",
@@ -8479,24 +8479,6 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "dsh-plugin-desktop/src/profile.ts",
-            "line": 319,
-            "message": "uses constructor-based sandbox escape pattern",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
-            "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
             "rule": "MKT-PERSIST-002",
             "risk": "medium",
             "file": "dsh-plugin-desktop/src/profile.ts",
@@ -8649,8 +8631,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "ccch1mneyyy/dsh-TUI": {
@@ -8658,7 +8640,7 @@
         "commit": "6aeae15ae04978e7bae8cc2344405c5c53304945",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:29.756Z",
+        "checkedAt": "2026-08-19T08:12:25.243Z",
         "scannedFiles": 508,
         "findingCount": 173,
         "findings": [
@@ -11884,18 +11866,18 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "dsh-market/dsh-market": {
       "staticSecurity": {
         "commit": "6084104eb079973f7ad64403e974bdb88fa6713d",
         "status": "warnings",
-        "risk": "high",
-        "checkedAt": "2026-08-19T08:08:31.876Z",
+        "risk": "medium",
+        "checkedAt": "2026-08-19T08:12:25.348Z",
         "scannedFiles": 134,
-        "findingCount": 55,
+        "findingCount": 53,
         "findings": [
           {
             "rule": "MKT-CI-003",
@@ -12599,24 +12581,6 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "src/net.ts",
-            "line": 43,
-            "message": "uses constructor-based sandbox escape pattern (2 occurrences in this file)",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
-            "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
             "rule": "MKT-PERSIST-002",
             "risk": "medium",
             "file": "src/order.ts",
@@ -12709,24 +12673,6 @@
             "attack_vector": "File write to shell rc files — persistence across reboots and new terminals.",
             "cwe": "CWE-506",
             "evidence_risk": "medium",
-            "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "src/registry.ts",
-            "line": 162,
-            "message": "uses constructor-based sandbox escape pattern",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -12919,8 +12865,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "strukto-ai/mirage": {
@@ -12928,7 +12874,7 @@
         "commit": "8e18c5687b57eaaba089a7d2286a9e302e980ced",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:34.116Z",
+        "checkedAt": "2026-08-19T08:12:28.914Z",
         "scannedFiles": 1941,
         "findingCount": 300,
         "findings": [
@@ -18368,8 +18314,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "GanyuanRan/Aegis": {
@@ -18377,7 +18323,7 @@
         "commit": "75fe591f77766b5e1e601ea00cd4770dc8b2e74f",
         "status": "warnings",
         "risk": "medium",
-        "checkedAt": "2026-08-19T08:08:46.725Z",
+        "checkedAt": "2026-08-19T08:12:43.928Z",
         "scannedFiles": 483,
         "findingCount": 15,
         "findings": [
@@ -18669,8 +18615,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "liustack/modlens": {
@@ -18678,7 +18624,7 @@
         "commit": "6e1fb0666a11c8c6c04b0895b0fc3f0d10ba0c96",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:44.330Z",
+        "checkedAt": "2026-08-19T08:12:38.553Z",
         "scannedFiles": 134,
         "findingCount": 41,
         "findings": [
@@ -19462,8 +19408,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "omdsh-dev/DSH-better-sidebar": {
@@ -19471,7 +19417,7 @@
         "commit": "14ef8e4df8ab0ac8054965b68991d187498c8073",
         "status": "warnings",
         "risk": "medium",
-        "checkedAt": "2026-08-19T08:08:51.005Z",
+        "checkedAt": "2026-08-19T08:12:39.513Z",
         "scannedFiles": 193,
         "findingCount": 34,
         "findings": [
@@ -20112,8 +20058,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "tt-a1i/archify": {
@@ -20121,7 +20067,7 @@
         "commit": "82e63c9ec3cc169b87d2829faae061f3dac8dba1",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:51.893Z",
+        "checkedAt": "2026-08-19T08:12:45.151Z",
         "scannedFiles": 297,
         "findingCount": 36,
         "findings": [
@@ -20803,8 +20749,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "volcengine/OpenViking": {
@@ -20812,8 +20758,8 @@
         "commit": "c4a76d90c18b1f158e0b5792e0cfc40e30b71008",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:38.627Z",
-        "scannedFiles": 1497,
+        "checkedAt": "2026-08-19T08:12:28.366Z",
+        "scannedFiles": 1499,
         "findingCount": 300,
         "findings": [
           {
@@ -21375,24 +21321,6 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "agent-plugins/servers/mcp-proxy.mjs",
-            "line": 71,
-            "message": "uses constructor-based sandbox escape pattern",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
-            "evidence_confidence": "medium",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
             "rule": "MKT-DATA-006",
             "risk": "medium",
             "file": "agent-plugins/servers/mcp-proxy.mjs",
@@ -21426,24 +21354,6 @@
             "cwe": "CWE-295",
             "evidence_risk": "medium",
             "evidence_confidence": "high",
-            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
-          },
-          {
-            "rule": "MKT-EXEC-011",
-            "risk": "high",
-            "file": "agent-plugins/servers/shared/mcp-proxy-core.mjs",
-            "line": 139,
-            "message": "uses constructor-based sandbox escape pattern",
-            "family": "execution",
-            "confidence": "medium",
-            "disposition": "manual-review",
-            "basis": "OWASP Node.js Security Cheat Sheet",
-            "remediation": "Avoid prototype manipulation that can lead to sandbox escape.",
-            "impact": "Constructor-based sandbox escape allows breaking out of restricted execution contexts.",
-            "attack_vector": "constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.",
-            "cwe": "CWE-94",
-            "evidence_risk": "high",
-            "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
@@ -24461,7 +24371,7 @@
           },
           {
             "rule": "MKT-SKILL-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "bot/workspace/skills/tmux/SKILL.md",
             "line": 20,
             "message": "contains exfiltration guidance targeting agent capabilities (5 occurrences in this file)",
@@ -24473,7 +24383,7 @@
             "impact": "Exfiltration guidance targets conversation history, memory, and session data for theft.",
             "attack_vector": "\"collect/gather/extract\" + \"conversation/history/memory\" — instructs agent to dump sensitive context.",
             "cwe": "CWE-200",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -26068,7 +25978,7 @@
           },
           {
             "rule": "MKT-SKILL-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "examples/openclaw-plugin/skills/install-openviking-memory/SKILL.md",
             "line": 37,
             "message": "contains exfiltration guidance targeting agent capabilities (5 occurrences in this file)",
@@ -26080,7 +25990,7 @@
             "impact": "Exfiltration guidance targets conversation history, memory, and session data for theft.",
             "attack_vector": "\"collect/gather/extract\" + \"conversation/history/memory\" — instructs agent to dump sensitive context.",
             "cwe": "CWE-200",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -26481,11 +26391,49 @@
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "openviking/crypto/providers.py",
+            "line": 239,
+            "message": "invokes a file-system mutation API (3 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based adjustment skipped."
+          },
+          {
+            "rule": "MKT-EXEC-009",
+            "risk": "medium",
+            "file": "openviking/crypto/providers.py",
+            "line": 22,
+            "message": "dynamically imports code from a variable path",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.",
+            "impact": "Dynamic import() with variable paths allows loading arbitrary modules at runtime.",
+            "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
+            "cwe": "CWE-94",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": true,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "zhu1090093659/dsh-web-ui": {
@@ -26493,7 +26441,7 @@
         "commit": "72458f0c633bf33026631deebbe3db86b581226a",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T08:08:32.454Z",
+        "checkedAt": "2026-08-19T08:12:30.569Z",
         "scannedFiles": 840,
         "findingCount": 183,
         "findings": [
@@ -29895,8 +29843,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 9,
-        "rulesetVersion": "2026-17"
+        "scannerVersion": 10,
+        "rulesetVersion": "2026-18"
       }
     },
     "Anionex/dsh-vision-toolkit": {
