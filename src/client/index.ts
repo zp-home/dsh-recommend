@@ -48,7 +48,7 @@ export function apply(ctx: ClientContext): void {
       const verification = await fetch('/dsh-recommend/verification.json', { cache: 'no-store' })
         .then(async (response) => response.ok ? await response.json() as {
           plugins?: Record<string, {
-            staticSecurity?: { status: 'passed' | 'warnings' | 'incomplete'; risk: 'low' | 'medium' | 'high'; commit: string; checkedAt: string } | null
+            staticSecurity?: { status: 'passed' | 'warnings' | 'incomplete'; risk: 'low' | 'medium' | 'high'; commit: string; checkedAt: string; findings?: Array<{ rule: string; risk: 'low' | 'medium' | 'high'; file: string; line: number; message: string }> } | null
             publisherCompatibility?: { status: 'passed'; profileMode: 'clean'; commit: string; checkedAt: string } | null
           }>
         } : null)

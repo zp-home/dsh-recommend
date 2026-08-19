@@ -52,14 +52,37 @@ function installCmd(p) {
 function securityPill(p) {
   const status = p.verification?.staticSecurity?.status
   const risk = p.verification?.staticSecurity?.risk ?? 'unknown'
+  const riskLabel = ({ low: '低风险规则命中', medium: '中风险规则命中', high: '高风险规则命中' }[risk] ?? '静态规则命中')
   const label = status === 'passed'
     ? '&#128737; 未命中静态规则'
-    : status === 'warnings'
-      ? ({ low: '低风险规则命中', medium: '中风险规则命中', high: '高风险规则命中' }[risk] ?? '静态规则命中')
-      : '无静态安全提示'
+    : status === 'incomplete' ? `${riskLabel}（扫描不完整）`
+      : status === 'warnings' ? riskLabel : '无静态安全提示'
   const state = status === 'passed' ? 'security-pill-clear'
-    : status === 'warnings' ? `security-pill-${esc(risk)}` : 'security-pill-unavailable'
-  return `<a class="pill security-pill ${state}" href="../docs/security-scanning.md" target="_blank" rel="noopener" title="公开规则的只读静态提示；未命中规则不代表安全，仅供参考，不构成安全认证">${label}</a>`
+    : status ? `security-pill-${esc(risk)}` : 'security-pill-unavailable'
+  return status
+    ? `<button type="button" class="pill security-pill ${state}" data-security-plugin="${esc(p.fullName)}" title="查看静态提示依据">${label}</button>`
+    : `<a class="pill security-pill ${state}" href="../docs/security-scanning.md" target="_blank" rel="noopener" title="公开规则的只读静态提示；未命中规则不代表安全，仅供参考，不构成安全认证">${label}</a>`
+}
+
+function securityEvidenceDialog(p) {
+  const security = p.verification?.staticSecurity
+  if (!security) return
+  const findings = Array.isArray(security.findings) ? security.findings : []
+  const riskLabels = { low: '低风险', medium: '中风险', high: '高风险' }
+  const findingRows = findings.length
+    ? `<ul class="security-evidence">${findings.map((finding) => {
+      const source = `${p.url}/blob/${security.commit}/${finding.file}#L${finding.line}`
+      return `<li><strong>${esc(finding.rule)}</strong> <span class="risk ${esc(finding.risk)}">${riskLabels[finding.risk] ?? '风险规则'}</span><p>${esc(finding.message)}</p><p>位置：<a href="${esc(source)}" target="_blank" rel="noopener">${esc(finding.file)}:${esc(finding.line)}</a></p></li>`
+    }).join('')}</ul>`
+    : '<p>该扫描记录尚未包含逐条依据；下次扫描后会补充。</p>'
+  const overlay = document.createElement('div')
+  overlay.className = 'security-dialog'
+  overlay.innerHTML = `<section role="dialog" aria-modal="true" aria-label="静态安全提示依据"><h3>静态安全提示依据</h3><p><code>${esc(p.fullName)}@${esc(security.commit)}</code></p><p>规则集 v${esc(security.rulesetVersion ?? 'unknown')} · 扫描器 v${esc(security.scannerVersion ?? 'unknown')} · ${esc(security.findingCount ?? findings.length)} 条命中</p>${security.truncated ? '<p>扫描或命中结果已截断，未显示的内容可能仍包含其他规则命中。</p>' : ''}${findingRows}<div class="security-dialog-actions"><a class="act" href="../docs/security-scanning.md" target="_blank" rel="noopener">查看公开规则说明</a><button type="button" class="act security-close">关闭</button></div></section>`
+  const close = () => overlay.remove()
+  overlay.addEventListener('mousedown', close)
+  overlay.querySelector('section')?.addEventListener('mousedown', (event) => event.stopPropagation())
+  overlay.querySelector('.security-close')?.addEventListener('click', close)
+  document.body.append(overlay)
 }
 
 /** Publisher clean receipt verified by the marketplace source-only queue. */
@@ -328,6 +351,15 @@ function render() {
       <div class="comment-box" data-plugin="${esc(p.fullName)}" hidden></div>`
     list.append(el)
   }
+
+  // 静态提示点击后显示版本绑定的规则、位置和源码链接。
+  const pluginsByName = new Map(rows.map((plugin) => [plugin.fullName, plugin]))
+  list.querySelectorAll('button.security-pill[data-security-plugin]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const plugin = pluginsByName.get(btn.dataset.securityPlugin)
+      if (plugin) securityEvidenceDialog(plugin)
+    })
+  })
 
   // 复制安装命令按钮事件
   list.querySelectorAll('button.copy').forEach((btn) => {

@@ -14,7 +14,7 @@ The UI distinguishes these states:
 - **Static advisory**: one or more source-only heuristic rules matched; the report is not a verdict that the plugin is malicious.
 - **No static security advisory**: the queue has not reached this version, the receipt expired, or scanning could not complete.
 
-The static-security field is display-only. It never changes ranking score or automatically blocks installation. A later GitHub push has a newer `pushedAt` value than its last receipt, so the central queue selects it again and refreshes both public labels without requiring the market browser to download the plugin.
+The static-security field is display-only. It never changes ranking score or automatically blocks installation. Each published warning carries a bounded, source-only evidence record: rule ID, severity, scanner explanation, relative file path, and line number. The UI links that location to the exact public GitHub commit and links the rule ID to the public algorithm; it never publishes source excerpts, local paths, logs, credentials, or target-code output. A later GitHub push has a newer `pushedAt` value than its last receipt, so the central queue selects it again and refreshes both public labels without requiring the market browser to download the plugin.
 
 ## Publisher baseline compatibility
 

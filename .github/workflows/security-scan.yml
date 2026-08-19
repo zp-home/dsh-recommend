@@ -12,6 +12,11 @@ on:
         description: 'Number of marketplace entries to scan (1-12)'
         required: false
         default: '6'
+      force:
+        description: 'Rescan selected entries even when their receipt is fresh'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: dsh-recommend-data-publish
@@ -32,7 +37,7 @@ jobs:
         name: Select expired verification records
         env:
           LIMIT: ${{ inputs.limit || '6' }}
-        run: node scripts/security-queue.mjs --limit "$LIMIT"
+        run: node scripts/security-queue.mjs --limit "$LIMIT" ${{ inputs.force && '--force' || '' }}
 
   scan:
     needs: select

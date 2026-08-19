@@ -199,7 +199,7 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
 .pill:nth-child(2n) { background: var(--mint); }
 .pill:nth-child(3n) { background: var(--blue); }
 .pill b { font-weight: 900; }
-.security-pill { color: var(--ink); text-decoration: none; }
+.security-pill { color: var(--ink); font: inherit; text-decoration: none; cursor: pointer; }
 .security-pill.security-pill-clear { background: #d8f3df !important; border-color: #4b9d68; color: #176438; }
 .security-pill.security-pill-low { background: #fff1ae !important; border-color: #b18400; color: #6f5300; }
 .security-pill.security-pill-medium { background: #ffd9a0 !important; border-color: #bf7100; color: #7d4700; }
@@ -207,6 +207,20 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
 .security-pill.security-pill-unavailable { background: var(--orange) !important; }
 .security-pill:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
 .compatibility-pill { background: var(--mint) !important; }
+.security-dialog { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgb(0 0 0 / .42); }
+.security-dialog > section { width: min(620px, 100%); max-height: min(700px, 100%); overflow: auto; padding: 18px; border: 2px solid var(--border); border-radius: 4px; background: #fffef9; color: var(--ink); box-shadow: 5px 5px 0 var(--ink); }
+.security-dialog h3 { margin: 0; font-size: 18px; }
+.security-dialog p { margin: 7px 0 0; font-size: 13px; line-height: 1.5; }
+.security-dialog code { overflow-wrap: anywhere; }
+.security-evidence { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.security-evidence li { padding: 9px; border: 2px solid var(--border); background: #fff; }
+.security-evidence p { margin: 4px 0 0; }
+.security-evidence a { color: #0c5f92; font-weight: 700; }
+.security-evidence .risk { margin-left: 5px; font-size: 12px; font-weight: 900; }
+.security-evidence .risk.low { color: #6f5300; }
+.security-evidence .risk.medium { color: #7d4700; }
+.security-evidence .risk.high { color: #8d2020; }
+.security-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 16px; }
 .reason { display: block; color: #a02020; font-size: 12px; font-weight: 800; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
 .act {

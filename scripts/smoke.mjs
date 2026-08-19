@@ -187,7 +187,7 @@ t('徽章颜色分档', () => {
     status: 'passed',
     risk: 'low',
     scannedFiles: 3,
-    findings: [],
+    findings: [{ rule: 'network-access', risk: 'low', file: 'lib/client.js', line: 12, message: 'opens a network connection' }],
     truncated: false,
     publisherCompatibility: {
       format: 'dsh-plugin-verification/v1',
@@ -202,6 +202,7 @@ t('徽章颜色分档', () => {
   const merged = mergeSecurityReceipts({}, [receipt, { ...receipt, repository: 'bad value' }], '2026-09-01T01:00:00.000Z')
   equal(merged.merged, 1)
   equal(merged.plugins['owner/plugin'].staticSecurity.commit, receipt.commit)
+  equal(merged.plugins['owner/plugin'].staticSecurity.findings[0]?.rule, 'network-access')
   equal(merged.plugins['owner/plugin'].publisherCompatibility.profileMode, 'clean')
   n += 1
   console.log('  ✓ 安全回执：仅合并带版本的有效市场回执')

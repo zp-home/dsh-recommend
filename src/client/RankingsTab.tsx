@@ -90,6 +90,26 @@ type LocalCheckState =
   | { phase: 'complete'; result: LocalCompatibilityResult }
   | { phase: 'failed'; message: string }
 
+interface StaticSecurityFinding {
+  rule: string
+  risk: 'low' | 'medium' | 'high'
+  file: string
+  line: number
+  message: string
+}
+
+interface StaticSecurityEvidence {
+  status: 'passed' | 'warnings' | 'incomplete'
+  risk: 'low' | 'medium' | 'high'
+  commit: string
+  checkedAt: string
+  findingCount?: number | null
+  truncated?: boolean
+  scannerVersion?: number
+  rulesetVersion?: string
+  findings?: StaticSecurityFinding[]
+}
+
 export type RankingsTabProps = PropsRuntime<'settings.plugins.tab'>
   & PropsLocale<'dshRecommend'>
   & RankingsTabInjected
@@ -309,7 +329,7 @@ body[data-ds-dark-theme] .dshr-wrap {
   border: 1px solid var(--dshr-border);
 }
 .dshr-pill b { font-weight: 600; color: var(--dshr-text); }
-.dshr-security-pill { text-decoration: none; }
+.dshr-security-pill { font-family: inherit; cursor: pointer; text-decoration: none; }
 .dshr-security-pill.dshr-security-clear { color: #237a45; border-color: #53ad75; background: #e8f7ed; }
 .dshr-security-pill.dshr-security-low { color: #846100; border-color: #c9a32e; background: #fff8dc; }
 .dshr-security-pill.dshr-security-medium { color: #9a5b00; border-color: #dc8a2c; background: #fff0dc; }
@@ -363,6 +383,15 @@ body[data-ds-dark-theme] .dshr-install-msg.bad { color: #f97583; }
 .dshr-install-dialog h3 { margin: 0; font-size: 16px; }
 .dshr-install-dialog p { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--dshr-text-secondary); }
 .dshr-install-dialog code { overflow-wrap: anywhere; }
+.dshr-security-evidence { display: grid; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.dshr-security-evidence li { padding: 9px; border: 1px solid var(--dshr-border); border-radius: 6px; background: var(--dshr-surface-muted); }
+.dshr-security-evidence strong { font-size: 12px; color: var(--dshr-text); }
+.dshr-security-evidence p { margin: 4px 0 0; }
+.dshr-security-evidence a { color: var(--dshr-accent); }
+.dshr-security-evidence .dshr-risk { font-size: 11px; font-weight: 600; }
+.dshr-security-evidence .dshr-risk.high { color: #a32626; }
+.dshr-security-evidence .dshr-risk.medium { color: #9a5b00; }
+.dshr-security-evidence .dshr-risk.low { color: #846100; }
 .dshr-install-check { display: grid; gap: 7px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--dshr-border); }
 .dshr-install-check label { font-size: 12px; color: var(--dshr-text-secondary); }
 .dshr-install-check input, .dshr-install-check select { min-width: 0; padding: 7px 8px; font: inherit; color: var(--dshr-text); background: var(--dshr-surface); border: 1px solid var(--dshr-border); border-radius: 5px; }
@@ -404,6 +433,7 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
   const [installed, setInstalled] = useState<Set<string>>(new Set())
   const [installState, setInstallState] = useState<Record<string, InstallState>>({})
   const [installCandidate, setInstallCandidate] = useState<RegistryDoc['plugins'][number] | null>(null)
+  const [securityCandidate, setSecurityCandidate] = useState<RegistryDoc['plugins'][number] | null>(null)
   const [localPaths, setLocalPaths] = useState<Record<string, string>>({})
   const [localProfiles, setLocalProfiles] = useState<Record<string, 'clean' | 'host-web'>>({})
   const [localChecks, setLocalChecks] = useState<Record<string, LocalCheckState>>({})
@@ -655,6 +685,7 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
   const candidateCheck = installCandidate === null
     ? { phase: 'idle' } as LocalCheckState
     : localChecks[installCandidate.fullName] ?? { phase: 'idle' }
+  const candidateSecurity = securityCandidate?.verification?.staticSecurity ?? null
 
   const confirmInstall = async (): Promise<void> => {
     if (installCandidate !== null && await doInstall(installCandidate.fullName)) setInstallCandidate(null)
@@ -771,16 +802,17 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
             : p.scanStatus === 'verified' ? t('scanVerified')
             : p.scanStatus === 'unverified' ? t('scanUnverified') : t('scanError')
           const security = p.verification?.staticSecurity
+          const securityRiskLabel = security?.risk === 'high' ? t('securityWarningsHigh')
+            : security?.risk === 'medium' ? t('securityWarningsMedium')
+              : t('securityWarningsLow')
           const securityLabel = security?.status === 'passed'
             ? t('securityPassed')
-            : security?.status === 'warnings'
-              ? security.risk === 'high' ? t('securityWarningsHigh')
-                : security.risk === 'medium' ? t('securityWarningsMedium')
-                  : t('securityWarningsLow')
-              : t('securityUnavailable')
+            : security?.status === 'incomplete'
+              ? t('securityIncomplete', { label: securityRiskLabel })
+              : security?.status === 'warnings' ? securityRiskLabel : t('securityUnavailable')
           const securityClass = security?.status === 'passed'
             ? 'dshr-security-clear'
-            : security?.status === 'warnings' ? `dshr-security-${security.risk}` : 'dshr-security-unavailable'
+            : security ? `dshr-security-${security.risk}` : 'dshr-security-unavailable'
           const compatibilityLabel = p.verification?.publisherCompatibility?.status === 'passed'
             ? t('publisherCompatibilityPassed')
             : null
@@ -814,7 +846,11 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                       </span>
                     )
                   })}
-                  <a className={`dshr-pill dshr-security-pill ${securityClass}`} href="https://github.com/zp-home/dsh-recommend/blob/main/docs/security-scanning.md" target="_blank" rel="noreferrer" title={t('securityTitle')}>{securityLabel}</a>
+                  {security ? (
+                    <button type="button" className={`dshr-pill dshr-security-pill ${securityClass}`} onClick={() => setSecurityCandidate(p)} title={t('securityDetails')}>{securityLabel}</button>
+                  ) : (
+                    <a className={`dshr-pill dshr-security-pill ${securityClass}`} href="https://github.com/zp-home/dsh-recommend/blob/main/docs/security-scanning.md" target="_blank" rel="noreferrer" title={t('securityTitle')}>{securityLabel}</a>
+                  )}
                   {compatibilityLabel ? <span className="dshr-pill" title={t('publisherCompatibilityTitle')}>{compatibilityLabel}</span> : null}
                 </span>
                 {series && series.length >= 2 ? (
@@ -932,6 +968,38 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
         })}
       </div>
 
+      {securityCandidate && candidateSecurity ? (
+        <div className="dshr-install-dialog" role="presentation" onMouseDown={() => setSecurityCandidate(null)}>
+          <section role="dialog" aria-modal="true" aria-label={t('securityDetailsTitle')} onMouseDown={(event) => event.stopPropagation()}>
+            <h3>{t('securityDetailsTitle')}</h3>
+            <p><code>{securityCandidate.fullName}@{candidateSecurity.commit}</code></p>
+            <p>{t('securityEvidenceMeta', {
+              ruleset: candidateSecurity.rulesetVersion ?? 'unknown',
+              scanner: String(candidateSecurity.scannerVersion ?? 'unknown'),
+              count: String(candidateSecurity.findingCount ?? candidateSecurity.findings?.length ?? 0),
+            })}</p>
+            {candidateSecurity.truncated ? <p>{t('securityTruncated')}</p> : null}
+            {candidateSecurity.findings?.length ? (
+              <ul className="dshr-security-evidence">
+                {candidateSecurity.findings.map((finding, index) => {
+                  const riskLabel = finding.risk === 'high' ? t('riskHigh') : finding.risk === 'medium' ? t('riskMedium') : t('riskLow')
+                  const source = `${securityCandidate.url}/blob/${candidateSecurity.commit}/${finding.file}#L${finding.line}`
+                  return <li key={`${finding.rule}-${finding.file}-${finding.line}-${index}`}>
+                    <strong>{finding.rule}</strong> <span className={`dshr-risk ${finding.risk}`}>{riskLabel}</span>
+                    <p>{finding.message}</p>
+                    <p>{t('securityLocation')}: <a href={source} target="_blank" rel="noreferrer">{finding.file}:{finding.line}</a></p>
+                  </li>
+                })}
+              </ul>
+            ) : <p>{t('securityNoFindings')}</p>}
+            <div className="dshr-install-dialog-actions">
+              <a className="dshr-act" href="https://github.com/zp-home/dsh-recommend/blob/main/docs/security-scanning.md" target="_blank" rel="noreferrer">{t('securityRuleDocs')}</a>
+              <button type="button" className="dshr-act" onClick={() => setSecurityCandidate(null)}>{t('cancel')}</button>
+            </div>
+          </section>
+        </div>
+      ) : null}
+
       {installCandidate ? (
         <div className="dshr-install-dialog" role="presentation" onMouseDown={() => setInstallCandidate(null)}>
           <section role="dialog" aria-modal="true" aria-label={t('installDialogTitle')} onMouseDown={(event) => event.stopPropagation()}>
@@ -1008,7 +1076,7 @@ export interface RegistryDoc {
     topics?: string[]
     scanStatus?: 'verified' | 'unverified' | 'skipped' | 'error' | null
     verification?: {
-      staticSecurity?: { status: 'passed' | 'warnings' | 'incomplete'; risk: 'low' | 'medium' | 'high'; commit: string; checkedAt: string } | null
+      staticSecurity?: StaticSecurityEvidence | null
       publisherCompatibility?: { status: 'passed'; profileMode: 'clean'; commit: string; checkedAt: string } | null
     }
     certified?: boolean

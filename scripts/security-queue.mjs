@@ -71,7 +71,8 @@ async function readJson(path, fallback) {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const limit = arg('--limit') ?? '6'
   const registry = await readJson(arg('--registry') ?? join(ROOT, 'data', 'registry.json'), { plugins: [] })
-  const index = await readJson(arg('--verification') ?? join(ROOT, 'data', 'verification.json'), { plugins: {} })
+  const force = process.argv.includes('--force')
+  const index = force ? { plugins: {} } : await readJson(arg('--verification') ?? join(ROOT, 'data', 'verification.json'), { plugins: {} })
   const targets = selectSecurityTargets(registry.plugins, index, limit)
   const output = process.env.GITHUB_OUTPUT
   if (output) {
