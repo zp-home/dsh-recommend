@@ -43,9 +43,9 @@ The index never publishes source excerpts, raw evidence, local paths, logs, cred
 
 A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. The scanner uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-14
+## Ruleset 2026-15
 
-Supersedes `2026-13`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+Supersedes `2026-14`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
 
 ### Execution (MKT-EXEC-*)
 
@@ -184,9 +184,9 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 
 ## Versioning and migration
 
-`scannerVersion: 6` and `rulesetVersion: 2026-14` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 7` and `rulesetVersion: 2026-15` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
 
-### Changes from 2026-11 to 2026-14
+### Changes from 2026-11 to 2026-15
 
 **Added rules:**
 - `MKT-EXEC-004` through `MKT-EXEC-009`, `MKT-EXEC-011`, and `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, decode+execute composite)
@@ -210,9 +210,14 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 - CI rules run only against workflow files. A checkout without `persist-credentials: false` is medium risk, while broad permissions are high risk only for workflow or secrets write access.
 - Reclassified standalone skill exfiltration and safety-bypass wording as medium risk; the high-risk composite override rule remains unchanged.
 
+**2026-15 corrections:**
+- Fixed the suspicious-destination finding to use `MKT-DATA-007`, rather than the unrelated `MKT-DATA-005` environment-exfiltration rule.
+- Credential-shaped value detection no longer scans workflow or skill text; those files use their dedicated structural rules.
+- Suspicious destination detection now applies only to production code.
+
 **Added raw-receipt fields:**
 - `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)
 - `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence confidence and rationale)
 - `evidence` (internal source excerpt, stripped from the public index)
 
-The corrections above are version-bound to `scannerVersion: 6` / `rulesetVersion: 2026-14`; earlier receipts are retained only as historical evidence.
+The corrections above are version-bound to `scannerVersion: 7` / `rulesetVersion: 2026-15`; earlier receipts are retained only as historical evidence.

@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 6
-export const RULESET_VERSION = '2026-14'
+export const SCANNER_VERSION = 7
+export const RULESET_VERSION = '2026-15'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
@@ -777,7 +777,7 @@ function runSuspiciousDestDetection(text, file, findings) {
   const urls = extractURLs(text)
   const suspicious = urls.filter(isSuspiciousURL)
   if (suspicious.length > 0) {
-    findings.push(makeFinding(DATA_EGRESS_RULES[3], file, 1,
+    findings.push(makeFinding(DATA_EGRESS_RULES.find((rule) => rule.id === 'MKT-DATA-007'), file, 1,
       `references ${suspicious.length} known high-risk or anonymous destination(s)`,
       { evidence: 'Destination values are omitted from public evidence.' }))
   }
@@ -1197,6 +1197,7 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     const isReadme = README_FILE.test(display)
     const isProductionCode = isCode && !TEST_PATH.test(display)
     const isSecuritySource = isProductionCode || isManifest || isSkill || isWorkflow
+    const isCredentialSource = isProductionCode || isManifest
 
     stats.filesScanned += 1
 
@@ -1210,8 +1211,8 @@ export async function scanPluginSource(root, { commit = null, repository = null 
 
     if (isSecuritySource) stats.longLines += runLongLineDetection(text, display, findings)
     if (isWorkflow) checkWorkflowIntegrity(text, display, findings)
-    if (isSecuritySource) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
-    if (isSecuritySource) stats.secretsFound += runKeyDetection(text, display, findings)
+    if (isProductionCode) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
+    if (isCredentialSource) stats.secretsFound += runKeyDetection(text, display, findings)
     if (isProductionCode) runEnvSecretDetection(text, display, findings)
     if (isProductionCode) runCapabilityAnalysis(text, display, findings)
 
