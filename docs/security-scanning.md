@@ -30,15 +30,9 @@ Every public finding is bound to `repository + commit + scannerVersion + ruleset
 - Risk level, confidence, and suggested disposition
 - Relative source path and line number, linked to the exact public commit
 - Short scanner explanation, remediation guidance, and public-basis name
-- Evidence-oriented fields (added in ruleset 2026-12):
-  - `impact`: concrete harm description (what an attacker could achieve)
-  - `attack_vector`: how the pattern could be exploited
-  - `cwe`: MITRE CWE identifier (e.g. CWE-78, CWE-95)
-  - `evidence_risk`: the rule's baseline risk before evidence-based adjustment
-  - `evidence_confidence`: strength of the matched evidence (high / medium / low)
-  - `risk_adjustment`: explanation of any risk-level adjustment applied
+The raw scanner receipt additionally records `impact`, `attack_vector`, `cwe`, `evidence_risk`, `evidence_confidence`, `risk_adjustment`, and an internal `evidence` field. These richer fields are not yet part of the public-index projection.
 
-The index never publishes source excerpts (the `evidence` field containing matched code snippets is internal-only and stripped by `publicFindings`), local paths, logs, credentials, or execution output. Findings are length-bounded and schema-validated before publication.
+The index never publishes source excerpts, raw evidence, local paths, logs, credentials, or execution output. It projects only schema-validated, bounded rule metadata and the protection-aware `baselineRisk`, `protections`, and `downgrade` fields.
 
 ## Outcome model
 
@@ -80,7 +74,6 @@ Supersedes `2026-11`. Existing receipts remain displayable; new scans use the ex
 | `MKT-DATA-005` | medium / high | medium / high | reads environment variables (high if combined with network sink) | CWE-532 | Manual review |
 | `MKT-DATA-006` | high | high | access to system credential stores (`~/.ssh/id_rsa`, `~/.aws/credentials`) | CWE-200 | Manual review |
 | `MKT-DATA-008` | high | high | Composite: environment secrets + network request in same file | CWE-200 | Manual review |
-| `MKT-DATA-009` | high | high | executable code patterns (`eval`, `Function`) in README/documentation | CWE-94 | Manual review |
 
 ### Agent and skill (MKT-SKILL-* / MKT-HIJACK-*)
 
@@ -91,9 +84,6 @@ Supersedes `2026-11`. Existing receipts remain displayable; new scans use the ex
 | `MKT-SKILL-003` | high | high | multi-step prompt injection chain in skill files | CWE-1039 | Manual review |
 | `MKT-SKILL-004` | high | high | exfiltration guidance targeting conversation/history/memory | CWE-200 | Manual review |
 | `MKT-SKILL-005` | high | high | disabling/bypassing safety features in skill content | CWE-1039 | Manual review |
-| `MKT-HIJACK-001` | high | high | prompt injection patterns ("ignore all previous instructions") in code files | CWE-1039 | Manual review |
-| `MKT-HIJACK-004` | high | high | tool override directives ("use exec_command instead") in code files | CWE-1039 | Manual review |
-| `MKT-HIJACK-005` | high | high | instruction override with specific goal redirection in code files | CWE-1039 | Manual review |
 
 ### File system (MKT-FS-*)
 
@@ -157,15 +147,15 @@ Supersedes `2026-11`. Existing receipts remain displayable; new scans use the ex
 | `MKT-EXEC-012` | high | high | decode + execute in same file | CWE-94 | Manual review |
 | `MKT-FS-005` | high | high | sensitive read + file write in same file | CWE-200 | Manual review |
 
-### Evidence-based risk adjustment
+### Evidence confidence
 
-Each finding carries an `evidence_confidence` field (high / medium / low) computed from the matched pattern:
+Each raw scanner finding carries an `evidence_confidence` field (high / medium / low) computed from the matched pattern. It describes how specific a static lead is; it does not lower the rule's risk by itself.
 
-- **High confidence**: explicit dangerous function calls (`eval(`, `spawn(`, `rm -rf`, `/etc/passwd`, `pull_request_target`, etc.) — risk level is confirmed.
-- **Low confidence**: patterns that may appear in benign contexts (`require('./...`, `console.`, `test`, `mock`) — risk level is downgraded by one step (high → medium, medium → low).
+- **High confidence**: explicit dangerous function calls (`eval(`, `spawn(`, `rm -rf`, `/etc/passwd`, `pull_request_target`, etc.).
+- **Low confidence**: patterns that can appear in benign contexts (`require('./...`, `console.`, `test`, `mock`). These remain review leads rather than being silently downgraded.
 - **Composite findings**: when both sides of a composite rule match, evidence confidence is automatically high.
 
-The `risk_adjustment` field documents the reasoning. The rule's original risk is preserved in `evidence_risk`.
+Only the explicit protection-aware write/exec model below may reduce final risk. The `risk_adjustment` field documents that decision; the original rule level remains in `evidence_risk`.
 
 ### Protection-aware downgrade conditions
 
@@ -181,7 +171,7 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 ### Agent and skill safeguards
 
-`MKT-SKILL-001` applies only to conventional agent-instruction filenames such as `SKILL.md`, `AGENTS.md`, and `CLAUDE.md`. It requires both instruction-override language and destructive or external-action guidance. `MKT-HIJACK-*` rules apply to code files and detect prompt injection patterns in source code. Both prevent ordinary security documentation, tests, examples, or a single phrase from being labeled as an agent attack.
+`MKT-SKILL-001` applies only to conventional agent-instruction filenames such as `SKILL.md`, `AGENTS.md`, and `CLAUDE.md`. It requires both instruction-override language and destructive or external-action guidance. Ordinary security documentation, tests, examples, and a single phrase do not receive an agent-attack label.
 
 ### Correlation safeguards
 
@@ -189,7 +179,7 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 ## Bounds and coverage
 
-The scanner reads eligible code, manifest, workflow, and conventional agent-instruction files. It skips dependency/cache directories, reads at most 5,000 files, reads at most 1 MiB per file, emits at most 200 findings, and emits at most three occurrences of the same rule in one file. Any bound hit produces `incomplete` status.
+The scanner reads eligible code, manifest, workflow, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. It skips dependency/cache directories, reads at most 8,000 files, reads at most 1 MiB per file, emits at most 300 findings, and emits at most five occurrences of the same rule in one file. Any bound hit produces `incomplete` status.
 
 Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputation checks, runtime network capture, permission necessity, authorization correctness, and human intent are outside this source-only scanner. Those concerns require separate dynamic analysis, repository metadata, or manual review.
 
@@ -201,8 +191,7 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 
 **Added rules:**
 - `MKT-EXEC-004` through `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, setTimeout eval, decode+execute composite)
-- `MKT-DATA-004` through `MKT-DATA-009` (raw sockets, env secrets, credential stores, env+network composite, README code execution)
-- `MKT-HIJACK-001`, `MKT-HIJACK-004`, `MKT-HIJACK-005` (prompt injection in code files)
+- `MKT-DATA-004` through `MKT-DATA-008` (raw sockets, env secrets, credential stores, env+network composite)
 - `MKT-SKILL-002` through `MKT-SKILL-005` (role impersonation, multi-step injection, exfiltration guidance, safety bypass)
 - `MKT-FS-002` through `MKT-FS-005` (path escape, credential file read, encoded traversal, sensitive read+write composite)
 - `MKT-SUPPLY-002` (unpinned git/URL dependencies)
@@ -211,9 +200,9 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 - `MKT-ANALYZE-001` through `MKT-ANALYZE-002` (anti-debugging, stack inspection)
 - `MKT-REVIEW-005` (long line obfuscation)
 
-**Added finding fields:**
+**Added raw-receipt fields:**
 - `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)
-- `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence-based risk adjustment)
-- `evidence` (source excerpt — internal only, stripped from public index)
+- `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence confidence and rationale)
+- `evidence` (internal source excerpt, stripped from the public index)
 
 **No rules removed or reclassified.**
