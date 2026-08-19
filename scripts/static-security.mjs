@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 8
-export const RULESET_VERSION = '2026-16'
+export const SCANNER_VERSION = 4
+export const RULESET_VERSION = '2026-12'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
@@ -43,7 +43,7 @@ const SKILL_FILE = /(?:^|\/)(?:SKILL|AGENTS|CLAUDE|SYSTEM|RULES)\.md$/i
 const WORKFLOW_FILE = /^\.github\/workflows\/[^/]+\.ya?ml$/i
 const README_FILE = /(?:^|\/)(?:README|LICENSE|SECURITY|CONTRIBUTING|CHANGELOG)\.?(?:md|txt)?$/i
 const MANIFEST_FILE = /^package\.json$/i
-const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__|contracts?|examples?)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
+const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
 
 const SUSPICIOUS_DOMAINS = [
   'pastebin\\.com', 'paste\\.ee', 'hastebin', 'transfer\\.sh', '0x0\\.st',
@@ -84,8 +84,13 @@ const SECRET_KEY_PATTERNS = [
 ]
 
 const ENV_SENSITIVE_PATTERNS = [
-  re("\\bprocess\\.env\\.[A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)\\b", 'i'),
-  re("\\bprocess\\.env\\[\"\\'][A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)[\"\\']\\]", 'i'),
+  re("\\bprocess\\.env\\.(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)\\b", 'i'),
+  re("\\bprocess\\.env\\[\"\\'](?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)[\"\\']\\]", 'i'),
+  re("\\b(?:dotenv|DotEnv)\\b", ''),
+  re("(?<!process)\\.env(?:\\b|$|\\/|\\\\)", ''),
+  re("\\.npmrc\\b", ''),
+  re("\\.pypirc\\b", ''),
+  re("\\.netrc\\b", ''),
 ]
 
 const EXECUTION_RULES = [
@@ -103,7 +108,7 @@ const EXECUTION_RULES = [
     message: 'uses WebAssembly compilation or instantiation',
     remediation: 'Review all WASM sources; untrusted WASM can execute arbitrary machine code.',
     basis: 'OWASP Node.js Security Cheat Sheet',
-    expression: re("\\b(?:WebAssembly\\.(?:compile|instantiate|compileStreaming|instantiateStreaming|validate|table|memory|global|numeric))\\s*\\(", 'g') },
+    expression: re("\\b(?:WebAssembly\\.(?:compile|instantiate|compileStreaming|instantiateStreaming|validate|table|memory|global|numeric))\\s*\\(|new\\s+WebAssembly(?:Module|Instance|Table|Memory|Global|Tag)\\s*\\(", 'g') },
   { id: 'MKT-EXEC-007', family: 'execution', risk: 'high', confidence: 'high',
     message: 'loads native Node.js addon or uses dlopen',
     remediation: 'Require explicit user approval for native module loading; verify addon source integrity.',
@@ -114,17 +119,21 @@ const EXECUTION_RULES = [
     remediation: 'Avoid vm.Context/runInNewContext with untrusted input; prefer static analysis.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("\\b(?:vm\\.(?:runInNewContext|runInContext|createContext|createScript|runInThisContext|Script))\\s*\\(", 'g') },
-  { id: 'MKT-EXEC-009', family: 'execution', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-EXEC-009', family: 'execution', risk: 'high', confidence: 'medium',
     message: 'dynamically imports code from a variable path',
     remediation: 'Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("\\bimport\\s*\\(\\s*(?![\"\\'`])", 'g') },
-
+  { id: 'MKT-EXEC-010', family: 'execution', risk: 'medium', confidence: 'medium',
+    message: 'schedules dynamic code execution via setTimeout/setInterval with string argument',
+    remediation: 'Use function references instead of string code; avoid setTimeout(string) patterns.',
+    basis: 'OWASP Node.js Security Cheat Sheet',
+    expression: re("\\b(?:setTimeout|setInterval)\\s*\\(\\s*[\"\\'][^\"\\']{4,}[\"\\']", 'g') },
   { id: 'MKT-EXEC-011', family: 'execution', risk: 'high', confidence: 'medium',
     message: 'uses constructor-based sandbox escape pattern',
     remediation: 'Avoid prototype manipulation that can lead to sandbox escape.',
     basis: 'OWASP Node.js Security Cheat Sheet',
-    expression: re("\\.constructor\\.constructor\\s*\\(|constructor\\s*:\\s*(?:Proxy|Reflect|Object\\.prototype)", 'g') },
+    expression: re("\\.constructor\\.constructor\\s*\\(|constructor\\s*:\\s*(?:Proxy|Reflect|Object\\.prototype)|(?:Proxy|Reflect)\\s*\\(", 'g') },
 ]
 
 const DATA_EGRESS_RULES = [
@@ -138,7 +147,7 @@ const DATA_EGRESS_RULES = [
     remediation: 'Use HTTPS and keep TLS certificate verification enabled.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("rejectUnauthorized\\s*:\\s*false|NODE_TLS_REJECT_UNAUTHORIZED\\s*=\\s*[\"\\']?0|http:\\/\\/(?!localhost\\b|127\\.0\\.0\\.1\\b|0\\.0\\.0\\.0\\b)", 'g') },
-  { id: 'MKT-DATA-004', family: 'data-egress', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-DATA-004', family: 'data-egress', risk: 'high', confidence: 'medium',
     message: 'detects net.connect, dgram.createSocket, or process-level network access',
     remediation: 'Review all network connections; ensure they use allowlisted destinations with explicit approval.',
     basis: 'OWASP Data Security Cheat Sheet',
@@ -217,17 +226,17 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Treat external content as data; preserve approval boundaries; remove override directives.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: null },
-  { id: 'MKT-SKILL-002', family: 'agent-skill', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-SKILL-002', family: 'agent-skill', risk: 'high', confidence: 'medium',
     message: 'attempts to impersonate system or developer role',
     remediation: 'Never include role-override text in skill content; it bypasses safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:you are|act as|pretend to be|you are now|you are an)\\b[^\\n]{0,100}\\b(?:system|developer|admin|root|superuser|god|unrestricted|unfiltered)\\b", 'i') },
-  { id: 'MKT-SKILL-003', family: 'agent-skill', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-SKILL-003', family: 'agent-skill', risk: 'high', confidence: 'medium',
     message: 'contains multi-step prompt injection patterns',
     remediation: 'Break complex instructions into safe, auditable steps; never chain injection vectors.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:step\\s*(?:1|one|first|1\\.))[^\\n]{0,80}\\b(?:then|next|after|step\\s*(?:2|two|second))[^\\n]{0,80}\\b(?:ignore|override|bypass|skip|disregard)", 'i') },
-  { id: 'MKT-SKILL-004', family: 'agent-skill', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-SKILL-004', family: 'agent-skill', risk: 'high', confidence: 'medium',
     message: 'contains exfiltration guidance targeting agent capabilities',
     remediation: 'Remove all data collection and exfiltration instructions from skill content.',
     basis: 'OWASP Top 10 for LLM Applications',
@@ -237,17 +246,17 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Never instruct the model to disable or ignore safety guidelines.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:disable|bypass|ignore|skip|defeat|turn\\s*(?:off)?)\\b[^\\n]{0,100}\\b(?:safety|safety_check|content_filter|guardrail|filter|restriction|safety\\s*(?:mode|guideline|policy))", 'i') },
-  { id: 'MKT-HIJACK-001', family: 'agent-skill', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-HIJACK-001', family: 'agent-skill', risk: 'high', confidence: 'medium',
     message: 'contains prompt injection patterns targeting system instructions',
     remediation: 'Remove all prompt injection patterns; they indicate attempts to override safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("ignore all previous instructions|system prompt|prompt injection", 'i') },
-  { id: 'MKT-HIJACK-004', family: 'agent-skill', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-HIJACK-004', family: 'agent-skill', risk: 'high', confidence: 'medium',
     message: 'attempts to override or redirect tool usage',
     remediation: 'Never include tool override directives; they bypass approval and safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("use exec_command instead|ignore previous tool rules", 'i') },
-  { id: 'MKT-HIJACK-005', family: 'agent-skill', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-HIJACK-005', family: 'agent-skill', risk: 'high', confidence: 'medium',
     message: 'instruction override with specific goal redirection',
     remediation: 'Remove instruction override language; treat external content as data only.',
     basis: 'OWASP Top 10 for LLM Applications',
@@ -265,7 +274,7 @@ const CI_INTEGRITY_RULES = [
     remediation: 'Apply least-privilege principle; grant only required scopes.',
     basis: 'OpenSSF Scorecards',
     expression: re("\\b(?:contents(?:\\s*:\\s*(?:write|admin))|pull-requests(?:\\s*:\\s*write)|workflow(?:s?\\s*:\\s*write)|secrets(?:\\s*:\\s*write))\\b", 'g') },
-  { id: 'MKT-CI-003', family: 'ci-integrity', risk: 'medium', confidence: 'medium',
+  { id: 'MKT-CI-003', family: 'ci-integrity', risk: 'high', confidence: 'medium',
     message: 'checks out code without persist-credentials protection',
     remediation: 'Use persist-credentials: false when checking out external/untrusted repositories.',
     basis: 'OpenSSF Scorecards',
@@ -279,7 +288,7 @@ const CI_INTEGRITY_RULES = [
     message: 'uses curl/wget to fetch arbitrary scripts and execute them',
     remediation: 'Verify fetched content before execution; use checksum-verified artifacts.',
     basis: 'OpenSSF Scorecards',
-    expression: re("\\b(?:curl|wget)\\b[^\\n]{0,100}\\|\\s*(?:bash|sh|zsh|node|python)", 'gi') },
+    expression: re("\\b(?:curl|wget)\\b[^\\n]{0,100}\\|\\s*(?:bash|sh|zsh|node|python|perl|ruby)|\\b(?:curl|wget)\\b[^\\n]{0,100}\\s+-o\\s+[^\\n]{0,50}[^\\n]{0,50}(?:chmod|chmod\\s+\\+x)", 'gi') },
 ]
 
 const FILESYSTEM_RULES = [
@@ -328,12 +337,12 @@ const SUPPLY_CHAIN_RULES = [
     message: 'uses arbitrary git/URL dependency without pinned commit',
     remediation: 'Pin all dependencies to immutable commit SHAs or version ranges.',
     basis: 'OpenSSF Scorecards',
-    expression: re("\\b(?:github:|git\\+|https?:\\/\\/)\\S+", 'g') },
+    expression: re("\"(?:git\+https?:\\/\\/|github:|git@github\\.com:)[^\"]+\"", 'g') },
   { id: 'MKT-SUPPLY-003', family: 'supply-chain', risk: 'medium', confidence: 'medium',
     message: 'dependencies reference a git+ URL (potential supply-chain risk)',
     remediation: 'Prefer versioned package references over git URLs for reproducible builds.',
     basis: 'OpenSSF Scorecards',
-    expression: re("\"git\\+https?:\\/\\/|\"github:", 'g') },
+    expression: re("\"(?:git\+https?:\\/\\/|github:)[^\"]+\"", 'g') },
   { id: 'MKT-MAN-001', family: 'manifest', risk: 'medium', confidence: 'high',
     message: 'package.json is not valid JSON',
     remediation: 'Publish a valid manifest so install behavior can be reviewed.',
@@ -386,19 +395,19 @@ const COMPOSITE_RULES = [
 // ═══════════════════════════════════════════════════════════════
 // Key Regex Patterns (built once, reused)
 // ═══════════════════════════════════════════════════════════════
-const DESTRUCTIVE_SYSTEM = re("\\b(?:rm\\s+-[a-z]*r[a-z]*f[a-z]*\\s+(?:\\/|~|\\$HOME|%USERPROFILE%)|Remove-Item\\b[^\\n]{0,120}-Recurse\\b[^\\n]{0,120}(?:[A-Za-z]:|\\\\\\\\)|(?:mkfs\\.(?:ext[234]|xfs|btrfs|zfs)|dd\\s+if=[^\\n]{0,80}\\bof=\\/dev\\/[srh])|(?:shutdown|reboot|poweroff|halt|init\\s+[06])\\b)", 'i')
-const EXPLICIT_APPROVAL = re("\\b(?:ask_user_question|requestApproval|requires?Approval|confirm(?:ation)?|prompt_user|user_confirmation|safety_confirm)\\b", 'i')
-const WORKSPACE_BOUNDARY = re("\\b(?:workspace(?:Root|Path|Dir|RootPath)?|isWithinWorkspace|path\\.resolve\\s*\\(\\s*[\"\\'`]\\/workspace|path\\.resolve\\s*\\(\\s*[\"\\'`]\\/app\\b)", 'i')
+const DESTRUCTIVE_SYSTEM = re("\\b(?:rm\\s+-[a-z]*r[a-z]*f[a-z]*\\s+(?:\\/|~|\\$HOME|%USERPROFILE%|\\*|\\.)|rm\\s+-r[a-z]*\\s+\\/(?:etc|usr|var|boot|home|tmp)|Remove-Item\\b[^\\n]{0,120}-Recurse\\b[^\\n]{0,120}(?:[A-Za-z]:|\\\\\\\\)|(?:mkfs\\.(?:ext[234]|xfs|btrfs|zfs)|dd\\s+if=[^\\n]{0,80}\\bof=\\/dev\\/[srh])|(?<!\\.)(?:shutdown|reboot|poweroff|halt)\\b(?!\\s*[=()])|init\\s+[06]\\b)", 'i')
+const EXPLICIT_APPROVAL = re("\\b(?:ask_user_question|requestApproval|requires?Approval|confirm(?:ation)?|prompt_user|user_confirmation|safety_confirm|verify_user_action|awaiting_user|user_input)\\b", 'i')
+const WORKSPACE_BOUNDARY = re("\\b(?:workspace(?:Root|Path|Dir|RootPath)?|isWithinWorkspace|path\\.resolve\\s*\\(\\s*[\"\\'`]\\/workspace|path\\.resolve\\s*\\(\\s*[\"\\'`]\\/app\\b|allowedPaths|allowedDirectories)\\b", 'i')
 const FIXED_COMMAND = re("\\b(?:execFile(?:Sync)?|spawn(?:Sync)?|fork|execv|posix_spawn)\\s*\\(\\s*[\"\\'][^\"\\']+[\"\\']", 'i')
 
-const EXECUTION_CALL = re("\\b(?:exec(?:File)?(?:Sync)?|spawn(?:Sync)?|fork|execv|posix_spawn)\\s*\\(", 'g')
+const EXECUTION_CALL = re("\\b(?:exec(?:File|Sync)?|spawn(?:Sync)?|fork|execv|posix_spawn)\\s*\\(|\\b(?:Deno\\.Command|Bun\\.spawn)\\b", 'g')
 const FILE_MUTATION_CALL = re("\\b(?:writeFile|appendFile|copyFile|rename|mkdir|chmod|truncate|unlink|rm|rmdir|fs\\.promises\\.|fs\\.writeFile|fs\\.appendFile)\\s*\\(|\\b(?:Set-Content|Add-Content|Remove-Item|New-Item|Copy-Item|Move-Item)\\b", 'g')
 
-const SECRET_SOURCE = re("\\b(?:process\\.env\\.[A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)|DEEPSEEK_API_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY|GITHUB_TOKEN|AWS_SECRET|GCP_KEY|AZURE_.*KEY)\\b|fs\\.read(?:File|FileSync)?\\s*\\([^)]*(?:passwd|shadow|\\.ssh|\\.aws|\\.docker|credentials|secret|token)", 'i')
-const NETWORK_SINK = re("\\b(?:fetch|https?\\.request|WebSocket|axios|got|superagent|node-fetch|require\\s*\\(\\s*[\"\\'](?:https?|ws)[\"\\']|http\\.get)\\s*\\(", 'i')
+const SECRET_SOURCE = re("\\b(?:DEEPSEEK_API_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY|GITHUB_TOKEN|DOCKER_REGISTRY|AWS_SECRET|GCP_KEY|AZURE_.*KEY)\\b|fs\\.read(?:File|FileSync)?\\s*\\([^)]*(?:passwd|shadow|\\.ssh|\\.aws|\\.docker|credentials|secret|token|\\.npmrc)", 'i')
+const NETWORK_SINK = re("\\b(?:fetch|https?\\.request|WebSocket|axios(?:\\.\\w+)?|got(?:\\.\\w+)?|superagent|node-fetch|require\\s*\\(\\s*[\"\\'](?:https?|ws)[\"\\']|http\\.get)\\s*\\(", 'i')
 const INSTRUCTION_OVERRIDE = re("\\b(?:ignore|override|disregard|forget|disobey|bypass|defeat)\\b[^\\n]{0,200}\\b(?:previous|system|developer|approval|sandbox|guardrail|instruction|safety|restriction|rule|policy|instructions?|prompt)\\b", 'i')
-const DESTRUCTIVE_OR_EGRESS_GUIDANCE = re("\\b(?:rm\\s+-rf|git\\s+reset\\s+--hard|curl|wget|upload|webhook|pastebin|transfer\\.sh|do not ask|auto-approve|transmit|exfiltrat|leak)\\b", 'i')
-const EXEC_SINK = re("\\b(?:(?:eval|Function|new\\s+Function|vm\\.run|setTimeout\\s*\\(\\s*eval|setInterval\\s*\\(\\s*eval|setImmediate\\s*\\(\\s*eval)\\s*\\(|require\\s*\\(\\s*[^)]+\\)|import\\s*\\([^)]+\\))", 'i')
+const DESTRUCTIVE_OR_EGRESS_GUIDANCE = re("\\b(?:rm\\s+-rf|git\\s+reset\\s+--hard|curl[^\\n]{0,50}\\|\\s*(?:ba|z|sh|fi|ruby|python|perl)|wget|upload|webhook|pastebin|transfer\\.sh|do not ask|auto-approve|transmit|exfiltrat|leak|chmod\\s+\\+x|kill\\s+-9|dd\\s+if=|format\\s+[A-Za-z]:|mkfs\\.)\\b", 'i')
+const EXEC_SINK = re("\\b(?:(?:eval|Function|new\\s+Function|vm\\.run|setTimeout\\s*\\(\\s*eval|setInterval\\s*\\(\\s*eval|setImmediate\\s*\\(\\s*eval)\\s*\\(|require\\s*\\(\\s*(?![\"\\'`])[^)]+\\)|import\\s*\\(\\s*(?![\"\\'`])[^)]+\\)|setTimeout\\s*\\(\\s*[\"\\'][^\"\\']{4,}[\"\\']|setInterval\\s*\\(\\s*[\"\\'][^\"\\']{4,}[\"\\'])", 'i')
 
 // ═══════════════════════════════════════════════════════════════
 // Evidence-Oriented Impact Mapping
@@ -445,6 +454,11 @@ const IMPACT_MAP = {
     impact: 'setTimeout/setInterval with non-literal arguments can trigger delayed code execution.',
     attackVector: 'setTimeout(string) or setTimeout(variable) — eval-equivalent if string is attacker-controlled.',
     cwe: 'CWE-95',
+  },
+  'MKT-EXEC-011': {
+    impact: 'Constructor-based sandbox escape allows breaking out of restricted execution contexts.',
+    attackVector: 'constructor.constructor() or Proxy/Reflect manipulation — bypasses sandbox boundaries.',
+    cwe: 'CWE-94',
   },
   'MKT-EXEC-012': {
     impact: 'Decoded payload executed in same file — classic obfuscation-to-RCE pattern.',
@@ -570,6 +584,11 @@ const IMPACT_MAP = {
     attackVector: 'Dependency resolves to a mutable ref (branch/tag) — attacker pushes a malicious commit to the ref.',
     cwe: 'CWE-494',
   },
+  'MKT-SUPPLY-003': {
+    impact: 'git+ URL dependencies bypass package registries and weaken supply-chain integrity guarantees.',
+    attackVector: 'Dependency uses git+https:// — no provenance, no checksum verification, no package registry audit.',
+    cwe: 'CWE-494',
+  },
   // ── CI 完整性 ──
   'MKT-CI-001': {
     impact: 'pull_request_target + PR head checkout = arbitrary code execution in the privileged CI context.',
@@ -606,6 +625,11 @@ const IMPACT_MAP = {
     attackVector: 'curl/wget in workflow without checksum/sha256 verification — attacker intercepts and replaces.',
     cwe: 'CWE-494',
   },
+  'MKT-CI-009': {
+    impact: 'Excessive or wildcard GitHub token permissions grant more privileges than necessary for the workflow.',
+    attackVector: 'permissions block grants write/admin to multiple scopes — violates least-privilege principle.',
+    cwe: 'CWE-250',
+  },
   // ── 持久化 ──
   'MKT-PERSIST-001': {
     impact: 'Lifecycle hooks (install/uninstall/activate) create persistence — malicious code runs across sessions.',
@@ -615,6 +639,16 @@ const IMPACT_MAP = {
   'MKT-PERSIST-002': {
     impact: 'Writing to startup files (~/.bashrc, ~/.zshrc) ensures malicious code runs on every shell session.',
     attackVector: 'File write to shell rc files — persistence across reboots and new terminals.',
+    cwe: 'CWE-506',
+  },
+  'MKT-PERSIST-003': {
+    impact: 'Writing to system directories or boot locations gives attackers persistent root-level access.',
+    attackVector: 'File write to /etc/init.d, /Library/LaunchDaemons, or Program Files — survives reboots.',
+    cwe: 'CWE-506',
+  },
+  'MKT-PERSIST-004': {
+    impact: 'Installing as a system service or driver grants the attacker kernel-level persistence.',
+    attackVector: 'sc create or New-Service installs a malicious driver/service — runs with SYSTEM privileges.',
     cwe: 'CWE-506',
   },
   // ── 反分析 ──
@@ -628,7 +662,27 @@ const IMPACT_MAP = {
     attackVector: 'Error().stack inspection — detects if running in a debugger/analysis environment.',
     cwe: 'CWE-506',
   },
+  'MKT-ANALYZE-003': {
+    impact: 'Exception-based anti-analysis uses throw/catch to detect debugging.',
+    attackVector: 'try/catch with specific exception handling — detects debugger presence via timing.',
+    cwe: 'CWE-506',
+  },
   // ── 混淆 ──
+  'MKT-REVIEW-001': {
+    impact: 'Base64-decoded payloads hide malicious content from static analysis tools.',
+    attackVector: 'Buffer.from(base64).toString() — payload is invisible until runtime decoding.',
+    cwe: 'CWE-506',
+  },
+  'MKT-REVIEW-002': {
+    impact: 'Character-code construction hides string literals from grep-based detection.',
+    attackVector: 'String.fromCharCode() builds dangerous strings at runtime — evades static patterns.',
+    cwe: 'CWE-506',
+  },
+  'MKT-REVIEW-003': {
+    impact: 'Multi-layer encoding (hex/base64/unicode) significantly hinders security review.',
+    attackVector: 'Chained decoding layers — attacker increases analysis cost and may hide malicious payloads.',
+    cwe: 'CWE-506',
+  },
   'MKT-REVIEW-005': {
     impact: 'Extremely long lines hide obfuscated or minified code from human review.',
     attackVector: 'Lines > 500 chars — code is structured to evade visual inspection.',
@@ -656,6 +710,13 @@ function assessEvidenceStrength(matchedText, rule, context = {}) {
   let strength = rule.confidence || 'medium'
   if (!matchedText) return strength
   const lower = matchedText.toLowerCase()
+  
+  // Skip evidence-based strength adjustment for supply-chain and manifest rules
+  // as they rely on structural analysis rather than text matching
+  if (rule.family === 'supply-chain' || rule.family === 'manifest') {
+    return 'high'
+  }
+
   // High-strength indicators: explicit dangerous function calls
   const highStrength = [
     /eval\s*\(/, /exec(?:sync)?\s*\(/, /spawn\s*\(/, /child_process/,
@@ -663,20 +724,40 @@ function assessEvidenceStrength(matchedText, rule, context = {}) {
     /pastebin/, /transfer\.sh/, /base64/i, /atob\(/,
     /process\.dlopen/, /WebAssembly\.(?:instantiate|compile)/,
     /pull_request_target/, /persist-credentials/,
+    /mkfs\./, /dd\s+if=/,
   ]
   // Low-strength indicators: common patterns that may be benign
   const lowStrength = [
     /require\s*\(\s*['"]\.\/|^import\s/m, /console\./, /test/i,
     /mock/i, /example/i, /documentation/i, /readme/i,
   ]
+  // Strong downgrade indicators: test/setup code context
+  const testContext = [
+    /\b(?:describe|it|test)\s*\(/, /jest\./, /mocha\./, /vitest\./,
+    /fixture/i, /__tests__/, /spec\./,
+  ]
+  
+  let isTestContext = false
   for (const p of highStrength) {
     if (p.test(lower)) { strength = 'high'; break }
   }
+  
+  // Check for test context: if found, significantly downgrade confidence
+  for (const p of testContext) {
+    if (p.test(lower)) { 
+      isTestContext = true
+      strength = strength === 'high' ? 'medium' : 'low'
+      break 
+    }
+  }
+  
   for (const p of lowStrength) {
     if (p.test(lower)) { strength = strength === 'high' ? 'medium' : 'low'; break }
   }
-  // If composite context has both sides, boost to high
-  if (context.composite && context.composite.length >= 2) strength = 'high'
+  
+  // If composite context has both sides, boost to high (unless test context)
+  if (context.composite && context.composite.length >= 2 && !isTestContext) strength = 'high'
+  
   return strength
 }
 
@@ -694,7 +775,12 @@ function evidenceBasedRisk(rule, matchedText, context = {}) {
 function makeFinding(rule, file, line, message = rule.message, details = {}) {
   const impactInfo = IMPACT_MAP[rule.id] || {}
   const evidence = details.evidence || null
-  const evRisk = evidenceBasedRisk(rule, evidence, details.composite ? { composite: details.composite } : {})
+  // If caller explicitly set a risk (e.g. capability analysis downgrade), respect it.
+  // Otherwise compute from evidence strength.
+  const hasExplicitRisk = details.risk !== undefined
+  const evRisk = hasExplicitRisk
+    ? { risk: details.risk, evidenceConfidence: 'high', adjustment: `Explicit risk (${details.risk}) set by caller; evidence-based adjustment skipped.` }
+    : evidenceBasedRisk(rule, evidence, details.composite ? { composite: details.composite } : {})
   return {
     rule: rule.id,
     family: rule.family,
@@ -713,7 +799,7 @@ function makeFinding(rule, file, line, message = rule.message, details = {}) {
     file,
     line,
     message,
-    ...(() => { const { evidence: _e, composite: _c, ...rest } = details; return rest })(),
+    ...(() => { const { evidence: _e, composite: _c, risk: _r, ...rest } = details; return rest })(),
   }
 }
 
@@ -745,13 +831,21 @@ function countLongLines(text, threshold = 500) {
 function runRegexRule(rule, text, file, findings) {
   if (!rule.expression) return 0
   let count = 0
+  let firstMatch = null
   rule.expression.lastIndex = 0
   for (;;) {
     const match = rule.expression.exec(text)
     if (match === null || count >= MAX_MATCHES_PER_RULE_FILE) break
-    const snippet = extractSnippet(text, match.index)
-    findings.push(makeFinding(rule, file, lineOf(text, match.index), rule.message, { evidence: snippet }))
+    if (firstMatch === null) firstMatch = match
     count += 1
+  }
+  if (count > 0) {
+    const msg = count > 1
+      ? `${rule.message} (${count} occurrences in this file)`
+      : rule.message
+    findings.push(makeFinding(rule, file, lineOf(text, firstMatch.index), msg, {
+      evidence: extractSnippet(text, firstMatch.index),
+    }))
   }
   return count
 }
@@ -777,7 +871,7 @@ function runSuspiciousDestDetection(text, file, findings) {
   const urls = extractURLs(text)
   const suspicious = urls.filter(isSuspiciousURL)
   if (suspicious.length > 0) {
-    findings.push(makeFinding(DATA_EGRESS_RULES.find((rule) => rule.id === 'MKT-DATA-007'), file, 1,
+    findings.push(makeFinding(DATA_EGRESS_RULES[3], file, 1,
       `references ${suspicious.length} known high-risk or anonymous destination(s)`,
       { evidence: 'Destination values are omitted from public evidence.' }))
   }
@@ -796,18 +890,15 @@ function runEnvSecretDetection(text, file, findings) {
   NETWORK_SINK.lastIndex = 0
   const netMatch = NETWORK_SINK.exec(text)
   const netEvidence = netMatch ? extractSnippet(text, netMatch.index) : null
-  if (hasEnv && hasNetwork) {
+  if (hasEnv) {
     findings.push(makeFinding({
-      id: 'MKT-DATA-005', family: 'data-egress', risk: 'high', confidence: 'medium',
+      id: 'MKT-DATA-005', family: 'data-egress', risk: 'medium', confidence: 'medium',
       disposition: 'manual-review', basis: 'OWASP npm Security Cheat Sheet',
-      remediation: 'Never read sensitive environment variables and transmit them over the network.',
-      message: 'reads sensitive environment variables and makes network requests (potential secret exfiltration)',
-    }, file, 1, undefined, {
-      evidence: `ENV: ${envEvidence} | NETWORK: ${netEvidence}`,
-      composite: [envEvidence, netEvidence],
-    }))
+      remediation: 'Never read sensitive environment variables from plugin code.',
+      message: 'reads environment variables that may contain secrets',
+    }, file, 1, undefined, { evidence: envEvidence }))
   }
-  return hasEnv && hasNetwork
+  return hasEnv
 }
 
 function runLongLineDetection(text, file, findings) {
@@ -823,6 +914,10 @@ function runLongLineDetection(text, file, findings) {
 
 function runCapabilityAnalysis(text, file, findings) {
   if (TEST_PATH.test(file)) return
+  // Shell scripts use `exec` as a builtin (file-descriptor redirect / process
+  // replacement), not as a Node.js child_process API.  Skip Node.js capability
+  // analysis for shell files to avoid systemic false positives.
+  if (/\.(?:sh|bash|zsh|fish)$/i.test(file)) return
 
   const destructive = DESTRUCTIVE_SYSTEM.test(text)
   const approved = EXPLICIT_APPROVAL.test(text)
@@ -834,38 +929,45 @@ function runCapabilityAnalysis(text, file, findings) {
 
   for (const { rule, expr, boundary } of ruleDefs) {
     expr.lastIndex = 0
-    let matches = 0
+    let matchCount = 0
+    let firstMatch = null
     for (;;) {
       const match = expr.exec(text)
-      if (match === null || matches >= MAX_MATCHES_PER_RULE_FILE) break
-
-      let risk = 'high'
-      let downgrade = 'No downgrade: a system-impact pattern is present in the same source file.'
-      const localProtections = []
-      const constrained = boundary.test(text)
-
-      if (!destructive) {
-        risk = 'medium'
-        downgrade = 'Downgraded from high: no system-impact pattern matched.'
-        if (approved && constrained) {
-          risk = 'low'
-          const p1 = rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary'
-          localProtections.push('explicit user approval', p1)
-          downgrade = `Downgraded from high: ${localProtections.join(' and ')} detected.`
-        } else {
-          if (approved) localProtections.push('explicit user approval')
-          if (constrained) localProtections.push(rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
-        }
-      }
-
-      findings.push(makeFinding(rule, file, lineOf(text, match.index), rule.message, {
-        evidence: extractSnippet(text, match.index),
-        risk, baselineRisk: 'high',
-        protections: localProtections.join(', '),
-        downgrade,
-      }))
-      matches += 1
+      if (match === null || matchCount >= MAX_MATCHES_PER_RULE_FILE) break
+      if (firstMatch === null) firstMatch = match
+      matchCount += 1
     }
+    if (matchCount === 0) continue
+
+    let risk = 'high'
+    let downgrade = 'No downgrade: a system-impact pattern is present in the same source file.'
+    const localProtections = []
+    const constrained = boundary.test(text)
+
+    if (!destructive) {
+      risk = 'medium'
+      downgrade = 'Downgraded from high: no system-impact pattern matched.'
+      if (approved && constrained) {
+        risk = 'low'
+        const p1 = rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary'
+        localProtections.push('explicit user approval', p1)
+        downgrade = `Downgraded from high: ${localProtections.join(' and ')} detected.`
+      } else {
+        if (approved) localProtections.push('explicit user approval')
+        if (constrained) localProtections.push(rule.id === 'MKT-EXEC-001' ? 'fixed command target' : 'workspace path boundary')
+      }
+    }
+
+    const msg = matchCount > 1
+      ? `${rule.message} (${matchCount} calls in this file)`
+      : rule.message
+
+    findings.push(makeFinding(rule, file, lineOf(text, firstMatch.index), msg, {
+      evidence: extractSnippet(text, firstMatch.index),
+      risk, baselineRisk: 'high',
+      protections: localProtections.join(', '),
+      downgrade,
+    }))
   }
 }
 
@@ -902,15 +1004,9 @@ function runCompositeDetection(text, file, findings, fileContext) {
     }
   }
 
-  // Dangerous CI workflow
-  if (isWorkflow) {
-    if (/\bpull_request_target\b/.test(text) && /github\.event\.pull_request\.head\.(?:sha|ref)/.test(text)) {
-      findings.push(makeFinding(COMPOSITE_RULES[2], file, 1, undefined, {
-        evidence: 'pull_request_target + github.event.pull_request.head.sha/ref detected in workflow',
-        composite: ['pull_request_target', 'github.event.pull_request.head.*'],
-      }))
-    }
-  }
+  // Dangerous CI workflow — checkWorkflowIntegrity already handles pull_request_target
+  // + head.sha/ref detection with richer context (including github.head_ref alias).
+  // Skip composite duplicate to avoid triple-reporting MKT-CI-001.
 
   // Env secret + network
   if (isCode && containsEnvAccess(text) && NETWORK_SINK.test(text)) {
@@ -965,30 +1061,27 @@ function scanManifest(manifest, file, findings) {
   if (scripts && typeof scripts === 'object') {
     for (const name of ['preinstall', 'install', 'postinstall', 'prepare']) {
       if (typeof scripts[name] === 'string' && scripts[name].trim() !== '') {
-        const rule = name === 'prepare'
-          ? { ...SUPPLY_CHAIN_RULES[0], risk: 'medium', confidence: 'medium' }
-          : SUPPLY_CHAIN_RULES[0]
-        findings.push(makeFinding(rule, file, 1,
+        findings.push(makeFinding(SUPPLY_CHAIN_RULES[0], file, 1,
           `declares a ${name} lifecycle script`,
           { evidence: 'Lifecycle command omitted from public evidence.' }))
       }
     }
-    if (manifest.dependencies) {
-      for (const [pkg, spec] of Object.entries(manifest.dependencies)) {
-        if (typeof spec === 'string' && /^(git\+https?:\/\/|github:)/.test(spec)) {
-          findings.push(makeFinding(SUPPLY_CHAIN_RULES[2], file, 1,
-            `dependency ${pkg} uses a git URL`,
-            { evidence: 'Dependency URL omitted from public evidence.' }))
-        }
+  }
+  if (manifest.dependencies) {
+    for (const [pkg, spec] of Object.entries(manifest.dependencies)) {
+      if (typeof spec === 'string' && /^(git\+https?:\/\/|github:|git@github\.com:)/.test(spec)) {
+        findings.push(makeFinding(SUPPLY_CHAIN_RULES[1], file, 1,
+          `dependency ${pkg} uses a git URL`,
+          { evidence: 'Dependency URL omitted from public evidence.' }))
       }
     }
-    if (manifest.devDependencies) {
-      for (const [pkg, spec] of Object.entries(manifest.devDependencies)) {
-        if (typeof spec === 'string' && /^(git\+https?:\/\/|github:)/.test(spec)) {
-          findings.push(makeFinding(SUPPLY_CHAIN_RULES[2], file, 1,
-            `devDependency ${pkg} uses a git URL`,
-            { evidence: 'Dependency URL omitted from public evidence.' }))
-        }
+  }
+  if (manifest.devDependencies) {
+    for (const [pkg, spec] of Object.entries(manifest.devDependencies)) {
+      if (typeof spec === 'string' && /^(git\+https?:\/\/|github:|git@github\.com:)/.test(spec)) {
+        findings.push(makeFinding(SUPPLY_CHAIN_RULES[1], file, 1,
+          `devDependency ${pkg} uses a git URL`,
+          { evidence: 'Dependency URL omitted from public evidence.' }))
       }
     }
   }
@@ -998,7 +1091,7 @@ function checkWorkflowIntegrity(text, file, findings) {
   if (!WORKFLOW_FILE.test(file)) return
 
   if (/\bpull_request_target\b/.test(text)) {
-    const dangerousPattern = /github\.event\.pull_request\.head\.(?:sha|ref)|\$\{\{\s*github\.event\.pull_request\.head\.(?:sha|ref)\s*\}\}/
+    const dangerousPattern = /github\.event\.pull_request\.head\.(?:sha|ref)|github\.head_ref|\$\{\{\s*github\.event\.pull_request\.head\.(?:sha|ref)\s*\}\}|\$\{\{\s*github\.head_ref\s*\}\}/
     if (dangerousPattern.test(text)) {
       const dMatch = dangerousPattern.exec(text)
       findings.push(makeFinding(CI_INTEGRITY_RULES[0], file, 1, undefined, {
@@ -1021,6 +1114,9 @@ function checkWorkflowIntegrity(text, file, findings) {
     const dangerousPerms = []
     if (/workflows?\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('workflows:write')
     if (/secrets\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('secrets:write')
+    if (/packages?\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('packages:write')
+    if (/contents\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('contents:write')
+    if (/pull.requests?\s*:\s*write/i.test(permText)) dangerousPerms.push('pull-requests:write')
     if (dangerousPerms.length > 0) {
       findings.push(makeFinding(CI_INTEGRITY_RULES[1], file, 1,
         `excessive GitHub token permissions: ${dangerousPerms.join(', ')}`,
@@ -1034,21 +1130,42 @@ function checkWorkflowIntegrity(text, file, findings) {
         basis: 'OpenSSF Scorecards', disposition: 'manual-review',
       }, file, 1, undefined, { evidence: permText.slice(0, 160).replace(/\s+/g, ' ') }))
     }
+    if (/write-all/i.test(permText)) {
+      findings.push(makeFinding({
+        id: 'MKT-CI-007', family: 'ci-integrity', risk: 'high', confidence: 'high',
+        message: 'uses write-all permission — grants all available scopes',
+        remediation: 'Replace write-all with the minimum required scopes.',
+        basis: 'OpenSSF Scorecards', disposition: 'manual-review',
+      }, file, 1, undefined, { evidence: permText.slice(0, 160).replace(/\s+/g, ' ') }))
+    }
   }
 
-  if (/actions\/checkout[^\\n]{0,100}(?!persist-credentials[^\\n]{0,50}false)/i.test(text)) {
-    const unsafeCheckout = /actions\/checkout[^\\n]{0,100}/i.exec(text)
-    if (unsafeCheckout && /persist-credentials[^\\n]{0,50}false/i.test(unsafeCheckout[0]) === false) {
+  if (/actions\/checkout[^\n]{0,100}(?!persist-credentials[^\n]{0,50}false)/i.test(text)) {
+    const unsafeCheckout = /actions\/checkout[^\n]{0,100}/i.exec(text)
+    if (unsafeCheckout && /persist-credentials[^\n]{0,50}false/i.test(unsafeCheckout[0]) === false) {
       findings.push(makeFinding(CI_INTEGRITY_RULES[2], file, 1,
         'checkout without persist-credentials: false — tokens may leak',
         { evidence: unsafeCheckout[0].slice(0, 160) }))
     }
   }
 
-  if (/curl|wget|powershell.*download/i.test(text)) {
-    const hasVerification = /(?:checksum|sha256|gpg|signature|verify|hash)/i.test(text)
+  const pipeToShell = /(?:curl|wget)\b[^\n]{0,200}\|\s*(?:bash|sh|zsh|node|python|perl|ruby)/i
+  if (pipeToShell.test(text)) {
+    const pMatch = pipeToShell.exec(text)
+    findings.push(makeFinding({
+      id: 'MKT-CI-005', family: 'ci-integrity', risk: 'high', confidence: 'high',
+      message: 'workflow pipes curl/wget output to interpreter — download-and-execute pattern',
+      remediation: 'Verify fetched content before execution; use checksum-verified artifacts.',
+      basis: 'OpenSSF Scorecards', disposition: 'manual-review',
+    }, file, pMatch ? lineOf(text, pMatch.index) : 1, undefined, {
+      evidence: pMatch ? extractSnippet(text, pMatch.index) : 'pipe-to-interpreter pattern detected',
+    }))
+  }
+
+  if (/(?:^|\s)(curl|wget)\s+[^\n]{0,100}/i.test(text) || /powershell[^\n]{0,50}(?:DownloadString|DownloadFile)/i.test(text)) {
+    const hasVerification = /(?:checksum|sha256sum|gpg\s+--verify|--verify-signature|cosign\s+verify)/i.test(text)
     if (!hasVerification) {
-      const dlMatch = /(?:curl|wget|powershell.*download)[^\\n]{0,80}/i.exec(text)
+      const dlMatch = /(?:(?:curl|wget)\s+[^\n]{0,80}|powershell[^\n]{0,50}(?:DownloadString|DownloadFile))/i.exec(text)
       findings.push(makeFinding({
         id: 'MKT-CI-008', family: 'ci-integrity', risk: 'medium', confidence: 'low',
         message: 'workflow downloads remote scripts without integrity verification',
@@ -1198,9 +1315,7 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     const isWorkflow = WORKFLOW_FILE.test(display)
     const isSkill = SKILL_FILE.test(display)
     const isReadme = README_FILE.test(display)
-    const isProductionCode = isCode && !TEST_PATH.test(display)
-    const isSecuritySource = isProductionCode || isManifest || isSkill || isWorkflow
-    const isCredentialSource = isProductionCode || isManifest
+    const isSecuritySource = isCode || isManifest || isSkill || isWorkflow
 
     stats.filesScanned += 1
 
@@ -1214,23 +1329,25 @@ export async function scanPluginSource(root, { commit = null, repository = null 
 
     if (isSecuritySource) stats.longLines += runLongLineDetection(text, display, findings)
     if (isWorkflow) checkWorkflowIntegrity(text, display, findings)
-    if (isProductionCode) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
-    if (isCredentialSource) stats.secretsFound += runKeyDetection(text, display, findings)
-    if (isProductionCode) runEnvSecretDetection(text, display, findings)
-    if (isProductionCode) runCapabilityAnalysis(text, display, findings)
+    if (isReadme) checkReadmeSecurity(text, display, findings)
+    if (isSecuritySource) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
+    if (isSecuritySource) stats.secretsFound += runKeyDetection(text, display, findings)
+    if (isCode) runEnvSecretDetection(text, display, findings)
+    if (isCode && !TEST_PATH.test(display)) runCapabilityAnalysis(text, display, findings)
 
-    runCompositeDetection(text, display, findings, { isCode: isProductionCode, isSkill, isWorkflow, isReadme })
+    runCompositeDetection(text, display, findings, { isCode, isSkill, isWorkflow, isReadme })
 
-    if (isProductionCode) {
+    if (isCode) {
       for (const rule of EXECUTION_RULES) stats.execPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of DATA_EGRESS_RULES.filter(r => r.expression)) stats.dataEgressPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of PERSISTENCE_RULES) stats.persistencePatterns += runRegexRule(rule, text, display, findings)
       for (const rule of OBFUSCATION_RULES.filter(r => r.expression)) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of ANTI_ANALYSIS_RULES) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of FILESYSTEM_RULES.filter(r => r.expression)) stats.filesystemPatterns += runRegexRule(rule, text, display, findings)
+      for (const rule of CI_INTEGRITY_RULES.filter(r => r.expression)) stats.ciIntegrityPatterns += runRegexRule(rule, text, display, findings)
     }
 
-    if (isSkill) {
+    if (isSkill || isCode) {
       for (const rule of SKILL_HIJACK_RULES.filter(r => r.expression)) stats.skillHijackPatterns += runRegexRule(rule, text, display, findings)
     }
   }
