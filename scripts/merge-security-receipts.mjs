@@ -18,7 +18,7 @@ const RISK_VALUES = new Set(['low', 'medium', 'high'])
  * Source excerpts (evidence field) are intentionally NOT published. */
 function publicFindings(receipt) {
   if (!Array.isArray(receipt.findings)) return []
-  return receipt.findings.slice(0, 200).flatMap((finding) => {
+  return receipt.findings.slice(0, 300).flatMap((finding) => {
     if (!finding || typeof finding !== 'object') return []
     if (typeof finding.rule !== 'string' || !RULE_PATTERN.test(finding.rule)) return []
     if (typeof finding.risk !== 'string' || !RISK_VALUES.has(finding.risk)) return []

@@ -30,9 +30,10 @@ Every public finding is bound to `repository + commit + scannerVersion + ruleset
 - Risk level, confidence, and suggested disposition
 - Relative source path and line number, linked to the exact public commit
 - Short scanner explanation, remediation guidance, and public-basis name
-The raw scanner receipt additionally records `impact`, `attack_vector`, `cwe`, `evidence_risk`, `evidence_confidence`, `risk_adjustment`, and an internal `evidence` field. These richer fields are not yet part of the public-index projection.
+- Bounded impact, attack-vector, CWE, evidence-confidence, and risk-adjustment metadata
+- Protection-aware `baselineRisk`, `protections`, and `downgrade` metadata where applicable
 
-The index never publishes source excerpts, raw evidence, local paths, logs, credentials, or execution output. It projects only schema-validated, bounded rule metadata and the protection-aware `baselineRisk`, `protections`, and `downgrade` fields.
+The raw receipt may also carry internal `evidence` text. The index never publishes source excerpts, raw evidence, local paths, logs, credentials, or execution output. It schema-validates and bounds every field, and publishes up to the scanner's 300 findings so displayed risk always has corresponding public evidence.
 
 ## Outcome model
 
@@ -215,7 +216,7 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 - Credential-shaped value detection no longer scans workflow or skill text; those files use their dedicated structural rules.
 - Suspicious destination detection now applies only to production code.
 
-**Added raw-receipt fields:**
+**Added evidence fields:**
 - `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)
 - `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence confidence and rationale)
 - `evidence` (internal source excerpt, stripped from the public index)
