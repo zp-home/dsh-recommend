@@ -43,9 +43,9 @@ The index never publishes source excerpts, raw evidence, local paths, logs, cred
 
 A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. The scanner uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-13
+## Ruleset 2026-14
 
-Supersedes `2026-12`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+Supersedes `2026-13`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
 
 ### Execution (MKT-EXEC-*)
 
@@ -81,8 +81,8 @@ Supersedes `2026-12`. Existing receipts remain displayable; new scans use the ex
 | `MKT-SKILL-001` | high | high | instruction override language + destructive/egress guidance in agent-instruction files | CWE-1039 | Manual review |
 | `MKT-SKILL-002` | high | high | role impersonation ("you are now system/admin") in skill content | CWE-1039 | Manual review |
 | `MKT-SKILL-003` | high | high | multi-step prompt injection chain in skill files | CWE-1039 | Manual review |
-| `MKT-SKILL-004` | high | high | exfiltration guidance targeting conversation/history/memory | CWE-200 | Manual review |
-| `MKT-SKILL-005` | high | high | disabling/bypassing safety features in skill content | CWE-1039 | Manual review |
+| `MKT-SKILL-004` | medium | medium | exfiltration guidance targeting conversation/history/memory | CWE-200 | Manual review |
+| `MKT-SKILL-005` | medium | medium | disabling/bypassing safety features in skill content | CWE-1039 | Manual review |
 
 ### File system (MKT-FS-*)
 
@@ -90,8 +90,8 @@ Supersedes `2026-12`. Existing receipts remain displayable; new scans use the ex
 |---|---:|---:|---|---|---|
 | `MKT-FS-001` | high | high / medium / low | unbounded file-system mutation API, protection-aware | CWE-73 | Manual review |
 | `MKT-FS-002` | high | high | path literal starts with `../` or `/etc/` (workspace escape) | CWE-22 | Manual review |
-| `MKT-FS-003` | high | high | reading system credential files (`/etc/passwd`, `~/.ssh/id_rsa`) | CWE-200 | Manual review |
-| `MKT-FS-004` | high | high | encoded path traversal (`%2e%2e%2f`) or nested `../..` sequences | CWE-22 | Manual review |
+| `MKT-FS-003` | medium | medium | reading system credential files (`/etc/passwd`, `~/.ssh/id_rsa`) | CWE-200 | Manual review |
+| `MKT-FS-004` | medium | medium | encoded path traversal (`%2e%2e%2f`) or nested `../..` sequences | CWE-22 | Manual review |
 | `MKT-FS-005` | high | high | Composite: sensitive data read + external file write in same file | CWE-200 | Manual review |
 
 ### Supply chain (MKT-SUPPLY-*)
@@ -184,9 +184,9 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 
 ## Versioning and migration
 
-`scannerVersion: 5` and `rulesetVersion: 2026-13` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 6` and `rulesetVersion: 2026-14` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
 
-### Changes from 2026-11 to 2026-13
+### Changes from 2026-11 to 2026-14
 
 **Added rules:**
 - `MKT-EXEC-004` through `MKT-EXEC-009`, `MKT-EXEC-011`, and `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, decode+execute composite)
@@ -205,9 +205,14 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 - `MKT-DATA-005` now requires both sensitive environment access and a network sink in the same production file.
 - Excluded test, fixture, contract, mock, spec, and example paths from production code rules.
 
+**2026-14 corrections:**
+- Sensitive environment access now requires a recognizable secret-bearing variable name; ordinary `process.env` use is not a secret source.
+- CI rules run only against workflow files. A checkout without `persist-credentials: false` is medium risk, while broad permissions are high risk only for workflow or secrets write access.
+- Reclassified standalone skill exfiltration and safety-bypass wording as medium risk; the high-risk composite override rule remains unchanged.
+
 **Added raw-receipt fields:**
 - `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)
 - `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence confidence and rationale)
 - `evidence` (internal source excerpt, stripped from the public index)
 
-The corrections above are version-bound to `scannerVersion: 5` / `rulesetVersion: 2026-13`; v4 receipts are retained only as historical evidence.
+The corrections above are version-bound to `scannerVersion: 6` / `rulesetVersion: 2026-14`; earlier receipts are retained only as historical evidence.

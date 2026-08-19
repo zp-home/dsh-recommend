@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 5
-export const RULESET_VERSION = '2026-13'
+export const SCANNER_VERSION = 6
+export const RULESET_VERSION = '2026-14'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
@@ -84,13 +84,8 @@ const SECRET_KEY_PATTERNS = [
 ]
 
 const ENV_SENSITIVE_PATTERNS = [
-  re("\\bprocess\\.env\\.(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)\\b", 'i'),
-  re("\\bprocess\\.env\\[\"\\'](?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)[\"\\']\\]", 'i'),
-  re("\\b(?:dotenv|DotEnv)\\b", ''),
-  re("\\.env(?:\\b|$|\\.|\\/)", ''),
-  re("\\.npmrc\\b", ''),
-  re("\\.pypirc\\b", ''),
-  re("\\.netrc\\b", ''),
+  re("\\bprocess\\.env\\.[A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)\\b", 'i'),
+  re("\\bprocess\\.env\\[\"\\'][A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)[\"\\']\\]", 'i'),
 ]
 
 const EXECUTION_RULES = [
@@ -232,7 +227,7 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Break complex instructions into safe, auditable steps; never chain injection vectors.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:step\\s*(?:1|one|first|1\\.))[^\\n]{0,80}\\b(?:then|next|after|step\\s*(?:2|two|second))[^\\n]{0,80}\\b(?:ignore|override|bypass|skip|disregard)", 'i') },
-  { id: 'MKT-SKILL-004', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-SKILL-004', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'contains exfiltration guidance targeting agent capabilities',
     remediation: 'Remove all data collection and exfiltration instructions from skill content.',
     basis: 'OWASP Top 10 for LLM Applications',
@@ -270,7 +265,7 @@ const CI_INTEGRITY_RULES = [
     remediation: 'Apply least-privilege principle; grant only required scopes.',
     basis: 'OpenSSF Scorecards',
     expression: re("\\b(?:contents(?:\\s*:\\s*(?:write|admin))|pull-requests(?:\\s*:\\s*write)|workflow(?:s?\\s*:\\s*write)|secrets(?:\\s*:\\s*write))\\b", 'g') },
-  { id: 'MKT-CI-003', family: 'ci-integrity', risk: 'high', confidence: 'medium',
+  { id: 'MKT-CI-003', family: 'ci-integrity', risk: 'medium', confidence: 'medium',
     message: 'checks out code without persist-credentials protection',
     remediation: 'Use persist-credentials: false when checking out external/untrusted repositories.',
     basis: 'OpenSSF Scorecards',
@@ -399,7 +394,7 @@ const FIXED_COMMAND = re("\\b(?:execFile(?:Sync)?|spawn(?:Sync)?|fork|execv|posi
 const EXECUTION_CALL = re("\\b(?:exec(?:File)?(?:Sync)?|spawn(?:Sync)?|fork|execv|posix_spawn)\\s*\\(", 'g')
 const FILE_MUTATION_CALL = re("\\b(?:writeFile|appendFile|copyFile|rename|mkdir|chmod|truncate|unlink|rm|rmdir|fs\\.promises\\.|fs\\.writeFile|fs\\.appendFile)\\s*\\(|\\b(?:Set-Content|Add-Content|Remove-Item|New-Item|Copy-Item|Move-Item)\\b", 'g')
 
-const SECRET_SOURCE = re("\\b(?:process\\.env|DEEPSEEK_API_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY|GITHUB_TOKEN|DOCKER_REGISTRY|AWS_SECRET|GCP_KEY|AZURE_.*KEY)\\b|fs\\.read(?:File|FileSync)?\\s*\\([^)]*(?:passwd|shadow|\\.ssh|\\.aws|\\.docker|credentials|secret|token)", 'i')
+const SECRET_SOURCE = re("\\b(?:process\\.env\\.[A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)|DEEPSEEK_API_KEY|OPENAI_API_KEY|ANTHROPIC_API_KEY|GOOGLE_API_KEY|GITHUB_TOKEN|AWS_SECRET|GCP_KEY|AZURE_.*KEY)\\b|fs\\.read(?:File|FileSync)?\\s*\\([^)]*(?:passwd|shadow|\\.ssh|\\.aws|\\.docker|credentials|secret|token)", 'i')
 const NETWORK_SINK = re("\\b(?:fetch|https?\\.request|WebSocket|axios|got|superagent|node-fetch|require\\s*\\(\\s*[\"\\'](?:https?|ws)[\"\\']|http\\.get)\\s*\\(", 'i')
 const INSTRUCTION_OVERRIDE = re("\\b(?:ignore|override|disregard|forget|disobey|bypass|defeat)\\b[^\\n]{0,200}\\b(?:previous|system|developer|approval|sandbox|guardrail|instruction|safety|restriction|rule|policy|instructions?|prompt)\\b", 'i')
 const DESTRUCTIVE_OR_EGRESS_GUIDANCE = re("\\b(?:rm\\s+-rf|git\\s+reset\\s+--hard|curl|wget|upload|webhook|pastebin|transfer\\.sh|do not ask|auto-approve|transmit|exfiltrat|leak)\\b", 'i')
@@ -1023,9 +1018,6 @@ function checkWorkflowIntegrity(text, file, findings) {
     const dangerousPerms = []
     if (/workflows?\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('workflows:write')
     if (/secrets\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('secrets:write')
-    if (/packages?\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('packages:write')
-    if (/contents\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('contents:write')
-    if (/pull.requests?\s*:\s*write/i.test(permText)) dangerousPerms.push('pull-requests:write')
     if (dangerousPerms.length > 0) {
       findings.push(makeFinding(CI_INTEGRITY_RULES[1], file, 1,
         `excessive GitHub token permissions: ${dangerousPerms.join(', ')}`,
@@ -1232,7 +1224,6 @@ export async function scanPluginSource(root, { commit = null, repository = null 
       for (const rule of OBFUSCATION_RULES.filter(r => r.expression)) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of ANTI_ANALYSIS_RULES) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of FILESYSTEM_RULES.filter(r => r.expression)) stats.filesystemPatterns += runRegexRule(rule, text, display, findings)
-      for (const rule of CI_INTEGRITY_RULES.filter(r => r.expression)) stats.ciIntegrityPatterns += runRegexRule(rule, text, display, findings)
     }
 
     if (isSkill) {
