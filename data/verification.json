@@ -1,0 +1,84 @@
+{
+  "format": "dsh-plugin-verification-index/v1",
+  "updatedAt": "2026-08-19T01:14:35.406Z",
+  "plugins": {
+    "Q00/ouroboros": {
+      "staticSecurity": {
+        "commit": "80333ae86a4d849356a61fc355c1f4dcbc6315ad",
+        "status": "warnings",
+        "risk": "high",
+        "checkedAt": "2026-08-19T01:14:23.338Z",
+        "scannedFiles": 108,
+        "findingCount": 47,
+        "truncated": false,
+        "scannerVersion": 1,
+        "rulesetVersion": "2026-09"
+      }
+    },
+    "alvinunreal/openpets": {
+      "staticSecurity": {
+        "commit": "042844d8e3cd43d8984a2742865d100c3a7be4a4",
+        "status": "incomplete",
+        "risk": "high",
+        "checkedAt": "2026-08-19T01:14:21.066Z",
+        "scannedFiles": 456,
+        "findingCount": 200,
+        "truncated": true,
+        "scannerVersion": 1,
+        "rulesetVersion": "2026-09"
+      }
+    },
+    "anywhere-labs/deepseek-harness-desktop": {
+      "staticSecurity": {
+        "commit": "930ea92f551df4e5588e8584a0e6249d46c89830",
+        "status": "incomplete",
+        "risk": "high",
+        "checkedAt": "2026-08-19T01:14:17.309Z",
+        "scannedFiles": 281,
+        "findingCount": 200,
+        "truncated": true,
+        "scannerVersion": 1,
+        "rulesetVersion": "2026-09"
+      }
+    },
+    "ccch1mneyyy/dsh-TUI": {
+      "staticSecurity": {
+        "commit": "add9076db875076820a4de81d58db9b1bc4dcb5e",
+        "status": "incomplete",
+        "risk": "high",
+        "checkedAt": "2026-08-19T01:14:19.716Z",
+        "scannedFiles": 466,
+        "findingCount": 200,
+        "truncated": true,
+        "scannerVersion": 1,
+        "rulesetVersion": "2026-09"
+      }
+    },
+    "dsh-market/dsh-market": {
+      "staticSecurity": {
+        "commit": "165e55ed72d97dac41faef1be555a69743d15750",
+        "status": "warnings",
+        "risk": "high",
+        "checkedAt": "2026-08-19T01:14:21.041Z",
+        "scannedFiles": 124,
+        "findingCount": 197,
+        "truncated": false,
+        "scannerVersion": 1,
+        "rulesetVersion": "2026-09"
+      }
+    },
+    "strukto-ai/mirage": {
+      "staticSecurity": {
+        "commit": "a7cb96de56212d3c93b22b9d9d6fc7d25638d77a",
+        "status": "incomplete",
+        "risk": "high",
+        "checkedAt": "2026-08-19T01:14:24.635Z",
+        "scannedFiles": 4578,
+        "findingCount": 200,
+        "truncated": true,
+        "scannerVersion": 1,
+        "rulesetVersion": "2026-09"
+      }
+    }
+  }
+}
