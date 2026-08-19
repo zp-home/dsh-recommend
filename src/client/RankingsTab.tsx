@@ -339,6 +339,7 @@ body[data-ds-dark-theme] .dshr-wrap {
 .dshr-security-pill.dshr-security-low { color: #846100; border-color: #c9a32e; background: #fff8dc; }
 .dshr-security-pill.dshr-security-medium { color: #9a5b00; border-color: #dc8a2c; background: #fff0dc; }
 .dshr-security-pill.dshr-security-high { color: #a32626; border-color: #cf5c5c; background: #fff0f0; }
+.dshr-security-pill.dshr-security-unavailable { color: var(--dshr-text-tertiary); border-color: var(--dshr-border); background: var(--dshr-surface-muted); }
 .dshr-security-pill:hover { border-color: var(--dshr-accent); }
 .dshr-trend { display: flex; align-items: center; gap: 5px; color: var(--dshr-text-tertiary); }
 .dshr-spark { color: var(--dshr-accent); flex: 0 0 auto; }

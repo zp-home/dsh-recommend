@@ -205,7 +205,7 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
 .security-pill.security-pill-low { background: #fff1ae !important; border-color: #b18400; color: #6f5300; }
 .security-pill.security-pill-medium { background: #ffd9a0 !important; border-color: #bf7100; color: #7d4700; }
 .security-pill.security-pill-high { background: #ffd6d6 !important; border-color: #bc4343; color: #8d2020; }
-.security-pill.security-pill-unavailable { background: var(--orange) !important; }
+.security-pill.security-pill-unavailable { background: #e9edf1 !important; border-color: #b9c2cc; color: #5f6b76; }
 .security-pill:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
 .compatibility-pill { background: var(--mint) !important; }
 .security-dialog { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 20px; background: rgb(0 0 0 / .42); }

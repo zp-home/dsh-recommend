@@ -63,7 +63,7 @@ function securityPill(p) {
   const label = status === 'passed'
     ? '&#128737; 未命中静态规则'
     : status === 'incomplete' ? `${riskLabel}（扫描不完整）`
-      : status === 'warnings' ? riskLabel : '无静态安全提示'
+      : status === 'warnings' ? riskLabel : '未检测'
   const state = status === 'passed' ? 'security-pill-clear'
     : status ? `security-pill-${esc(risk)}` : 'security-pill-unavailable'
   return status
