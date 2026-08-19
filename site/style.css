@@ -199,8 +199,13 @@ input:focus-visible, select:focus-visible, a:focus-visible, button:focus-visible
 .pill:nth-child(2n) { background: var(--mint); }
 .pill:nth-child(3n) { background: var(--blue); }
 .pill b { font-weight: 900; }
-.security-pill { background: var(--orange) !important; color: var(--ink); text-decoration: none; }
-.security-pill:hover { background: var(--yellow) !important; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
+.security-pill { color: var(--ink); text-decoration: none; }
+.security-pill.security-pill-clear { background: #d8f3df !important; border-color: #4b9d68; color: #176438; }
+.security-pill.security-pill-low { background: #fff1ae !important; border-color: #b18400; color: #6f5300; }
+.security-pill.security-pill-medium { background: #ffd9a0 !important; border-color: #bf7100; color: #7d4700; }
+.security-pill.security-pill-high { background: #ffd6d6 !important; border-color: #bc4343; color: #8d2020; }
+.security-pill.security-pill-unavailable { background: var(--orange) !important; }
+.security-pill:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 2px; }
 .compatibility-pill { background: var(--mint) !important; }
 .reason { display: block; color: #a02020; font-size: 12px; font-weight: 800; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }

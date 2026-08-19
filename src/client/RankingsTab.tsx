@@ -310,7 +310,11 @@ body[data-ds-dark-theme] .dshr-wrap {
 }
 .dshr-pill b { font-weight: 600; color: var(--dshr-text); }
 .dshr-security-pill { text-decoration: none; }
-.dshr-security-pill:hover { color: var(--dshr-accent); border-color: var(--dshr-accent); }
+.dshr-security-pill.dshr-security-clear { color: #237a45; border-color: #53ad75; background: #e8f7ed; }
+.dshr-security-pill.dshr-security-low { color: #846100; border-color: #c9a32e; background: #fff8dc; }
+.dshr-security-pill.dshr-security-medium { color: #9a5b00; border-color: #dc8a2c; background: #fff0dc; }
+.dshr-security-pill.dshr-security-high { color: #a32626; border-color: #cf5c5c; background: #fff0f0; }
+.dshr-security-pill:hover { border-color: var(--dshr-accent); }
 .dshr-trend { display: flex; align-items: center; gap: 5px; color: var(--dshr-text-tertiary); }
 .dshr-spark { color: var(--dshr-accent); flex: 0 0 auto; }
 .dshr-actions { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -766,11 +770,17 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
             ? t('scanSkipped')
             : p.scanStatus === 'verified' ? t('scanVerified')
             : p.scanStatus === 'unverified' ? t('scanUnverified') : t('scanError')
-          const securityLabel = p.verification?.staticSecurity?.status === 'passed'
+          const security = p.verification?.staticSecurity
+          const securityLabel = security?.status === 'passed'
             ? t('securityPassed')
-            : p.verification?.staticSecurity?.status === 'warnings'
-              ? t('securityWarnings', { risk: p.verification.staticSecurity.risk })
+            : security?.status === 'warnings'
+              ? security.risk === 'high' ? t('securityWarningsHigh')
+                : security.risk === 'medium' ? t('securityWarningsMedium')
+                  : t('securityWarningsLow')
               : t('securityUnavailable')
+          const securityClass = security?.status === 'passed'
+            ? 'dshr-security-clear'
+            : security?.status === 'warnings' ? `dshr-security-${security.risk}` : 'dshr-security-unavailable'
           const compatibilityLabel = p.verification?.publisherCompatibility?.status === 'passed'
             ? t('publisherCompatibilityPassed')
             : null
@@ -804,7 +814,7 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                       </span>
                     )
                   })}
-                  <a className="dshr-pill dshr-security-pill" href="https://github.com/zp-home/dsh-recommend/blob/main/docs/security-scanning.md" target="_blank" rel="noreferrer" title={t('securityTitle')}>{securityLabel}</a>
+                  <a className={`dshr-pill dshr-security-pill ${securityClass}`} href="https://github.com/zp-home/dsh-recommend/blob/main/docs/security-scanning.md" target="_blank" rel="noreferrer" title={t('securityTitle')}>{securityLabel}</a>
                   {compatibilityLabel ? <span className="dshr-pill" title={t('publisherCompatibilityTitle')}>{compatibilityLabel}</span> : null}
                 </span>
                 {series && series.length >= 2 ? (

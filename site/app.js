@@ -51,13 +51,15 @@ function installCmd(p) {
 /** Public, advisory-only marketplace static-security pill. */
 function securityPill(p) {
   const status = p.verification?.staticSecurity?.status
-  const risk = esc(p.verification?.staticSecurity?.risk ?? 'unknown')
+  const risk = p.verification?.staticSecurity?.risk ?? 'unknown'
   const label = status === 'passed'
-    ? '静态提示：未匹配规则'
+    ? '&#128737; 未命中静态规则'
     : status === 'warnings'
-      ? `静态提示（${risk}）`
+      ? ({ low: '低风险规则命中', medium: '中风险规则命中', high: '高风险规则命中' }[risk] ?? '静态规则命中')
       : '无静态安全提示'
-  return `<a class="pill security-pill" href="../docs/security-scanning.md" target="_blank" rel="noopener" title="公开规则的只读静态提示；仅供参考，不构成安全认证">${label}</a>`
+  const state = status === 'passed' ? 'security-pill-clear'
+    : status === 'warnings' ? `security-pill-${esc(risk)}` : 'security-pill-unavailable'
+  return `<a class="pill security-pill ${state}" href="../docs/security-scanning.md" target="_blank" rel="noopener" title="公开规则的只读静态提示；未命中规则不代表安全，仅供参考，不构成安全认证">${label}</a>`
 }
 
 /** Publisher clean receipt verified by the marketplace source-only queue. */
