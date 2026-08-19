@@ -13,7 +13,7 @@
  *   - data/trends.json 结构合法（M3）
  * 任何一项失败都以非零码退出（GitHub Actions 会红）。
  *
- * 用法：node scripts/validate.mjs
+ * 用法：node scripts/validate.mjs [--skip-badges]
  */
 import { readFile, readdir } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
@@ -24,6 +24,7 @@ const DATA_DIR = join(ROOT, 'data')
 
 const errors = []
 const infos = []
+const skipBadges = process.argv.includes('--skip-badges')
 function check(ok, message) {
   if (!ok) errors.push(message)
 }
@@ -102,20 +103,24 @@ for (const r of rankings.rankings ?? []) {
 }
 
 // 分数徽章是 rankings 的完整投影。缺一个文件就会使 Shields 端点返回 resource not found。
-try {
-  const badgeDir = join(DATA_DIR, 'badges')
-  const badgeIndex = JSON.parse(await readFile(join(badgeDir, 'index.json'), 'utf8'))
-  const badgeFiles = new Set(await readdir(badgeDir))
-  const missing = (rankings.rankings ?? []).filter((r) => {
-    const file = `${r.fullName.replace(/\//g, '__')}.json`
-    return badgeIndex.entries?.[r.fullName]?.file !== file || !badgeFiles.has(file)
-  })
-  check(
-    missing.length === 0,
-    `分数徽章不完整：缺少 ${missing.length}/${rankings.rankings.length} 个（如 ${missing.slice(0, 5).map((r) => r.fullName).join(', ')}）`,
-  )
-} catch (err) {
-  check(false, `分数徽章读取失败：${err.message}`)
+if (skipBadges) {
+  console.warn('[warn] --skip-badges：跳过限量冒烟运行的徽章完整性门禁')
+} else {
+  try {
+    const badgeDir = join(DATA_DIR, 'badges')
+    const badgeIndex = JSON.parse(await readFile(join(badgeDir, 'index.json'), 'utf8'))
+    const badgeFiles = new Set(await readdir(badgeDir))
+    const missing = (rankings.rankings ?? []).filter((r) => {
+      const file = `${r.fullName.replace(/\//g, '__')}.json`
+      return badgeIndex.entries?.[r.fullName]?.file !== file || !badgeFiles.has(file)
+    })
+    check(
+      missing.length === 0,
+      `分数徽章不完整：缺少 ${missing.length}/${rankings.rankings.length} 个（如 ${missing.slice(0, 5).map((r) => r.fullName).join(', ')}）`,
+    )
+  } catch (err) {
+    check(false, `分数徽章读取失败：${err.message}`)
+  }
 }
 
 // M3：curated.json 认证列表与 registry 的一致性。

@@ -10,7 +10,7 @@
  * --no-awesome   跳过 awesome 列表抓取（离线调试）
  * --skip-topic   复用现有 raw 的 topic 数据，只刷新目录/awesome（本地快速重建）
  * --no-scan      跳过深扫（默认：有 GITHUB_TOKEN 才跑，无 token 时自动跳过）
- * --no-badge     跳过徽章生成（本地调试提速）
+ * --no-badge     跳过徽章生成，并跳过仅依赖徽章的完整性门禁（本地调试提速）
  *
  * 退出码：管道任意一步失败即非零（GitHub Actions 红）。
  */
@@ -56,6 +56,6 @@ await step('score.mjs', []) // 第二阶段：合并深扫结果（unverified �
 await step('history.mjs', [])
 await step('trends.mjs', [])
 if (!noBadge) await step('badge.mjs', [])
-await step('validate.mjs', [])
+await step('validate.mjs', noBadge ? ['--skip-badges'] : [])
 
 console.log('✓ 数据管道完成')
