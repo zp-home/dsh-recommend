@@ -96,6 +96,11 @@ interface StaticSecurityFinding {
   file: string
   line: number
   message: string
+  family?: string
+  confidence?: string
+  disposition?: string
+  basis?: string
+  remediation?: string
 }
 
 interface StaticSecurityEvidence {
@@ -986,6 +991,11 @@ export function RankingsTab({ t, loadRankings, loadHistory, refreshRankings, lis
                   return <li key={`${finding.rule}-${finding.file}-${finding.line}-${index}`}>
                     <strong>{finding.rule}</strong> <span className={`dshr-risk ${finding.risk}`}>{riskLabel}</span>
                     <p>{finding.message}</p>
+                    {finding.family ? <p>{t('securityFamily')}: {finding.family}</p> : null}
+                    {finding.confidence ? <p>{t('securityConfidence')}: {finding.confidence}</p> : null}
+                    {finding.disposition ? <p>{t('securityDisposition')}: {finding.disposition}</p> : null}
+                    {finding.basis ? <p>{t('securityBasis')}: {finding.basis}</p> : null}
+                    {finding.remediation ? <p>{t('securityRemediation')}: {finding.remediation}</p> : null}
                     <p>{t('securityLocation')}: <a href={source} target="_blank" rel="noreferrer">{finding.file}:{finding.line}</a></p>
                   </li>
                 })}

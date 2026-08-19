@@ -1,48 +1,78 @@
 # Static Security Scanning Algorithm
 
-## Status and scope
+> Status: advisory-only, source-only, and version-bound. This is not a code audit, malware verdict, safety guarantee, or security certification.
 
-This document specifies the marketplace's open, source-only heuristic algorithm. The executable implementation is [`scripts/static-security.mjs`](../scripts/static-security.mjs). Its receipt contains `scannerVersion` and `rulesetVersion`, so a result can be interpreted against the exact published rules.
+## Purpose and boundary
 
-The scan is advisory evidence only. A `passed` result means that the current rules emitted no finding in the files read; it does not prove that a plugin, its dependencies, its releases, or its future revisions are safe. A warning is not a finding of malicious behavior.
+The marketplace scans a shallow, credential-free checkout of a public plugin revision. It reads text files only. It never installs dependencies, runs lifecycle scripts, builds, tests, imports, or executes target code. The scanner is zero-dependency Node code so the complete implementation and its exact rule set remain auditable.
 
-## Inputs and execution boundary
+A source-only scanner can establish that a pattern was observed at a specific location. It cannot establish exploitability, author intent, runtime data flow, endpoint ownership, or whether a permission is necessary. Findings are review prompts, never automatic installation blocks or ranking inputs.
 
-The market GitHub Actions worker shallow-checks out one public repository revision with no persistent target credentials, Git submodules, or Git LFS. It reads candidate text files and never installs packages, imports target modules, runs package lifecycle scripts, builds, tests, or executes plugin code.
+## Public design basis
 
-The scanner recursively reads these file types: JavaScript and TypeScript variants, JSON, YAML, shell scripts, Windows command scripts, and every file named `package.json`. It intentionally includes `lib/` and `dist/`, because installed plugin bundles are part of the execution surface. It excludes `.git`, `node_modules`, `coverage`, `.next`, and `.turbo`.
+The rules are derived from public guidance, adapted to DSH plugins and agent skills:
 
-## Bounds and result state
+- [OWASP npm Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/NPM_Security_Cheat_Sheet.html)
+- [OWASP Node.js Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Nodejs_Security_Cheat_Sheet.html)
+- [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+- [OWASP MCP Security Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/MCP_Security_Cheat_Sheet.html)
+- [OpenSSF npm supply-chain practices](https://openssf.org/blog/2022/09/01/npm-best-practices-for-the-supply-chain/)
+- [OpenSSF Scorecards](https://openssf.org/blog/2022/01/19/reducing-security-risks-in-open-source-software-at-scale-scorecards-launches-v4/)
+- [MCP authorization security considerations](https://modelcontextprotocol.io/specification/draft/basic/authorization/security-considerations)
 
-The worker reads at most 5,000 candidate files, at most 1 MiB per file, and emits at most 200 findings. Exceeding any bound produces `status: incomplete`; it must not be displayed as a completed static check.
+360 Browser extension platform material is useful for platform compatibility and CSP reference, but no public modern 360 plugin-market review policy was found. The marketplace therefore does not claim or imply 360 certification.
 
-For complete scans, the maximum matched severity determines the result:
+## Evidence contract
 
-| Condition | Receipt status | Risk |
-|---|---|---|
-| No rule matches | `passed` | `low` |
-| One or more rule matches | `warnings` | highest matched severity |
-| File, finding, or byte bound reached | `incomplete` | highest matched severity so far |
+Every public finding is bound to `repository + commit + scannerVersion + rulesetVersion`. It contains:
 
-The receipt is bound to the selected `repository` and immutable Git `commit`. The marketplace does not reuse a receipt for a later revision. A repository with a newer `pushedAt` value is eligible for a new queued scan.
+- Stable rule ID and family
+- Risk level, confidence, and suggested disposition
+- Relative source path and line number, linked to the exact public commit
+- Short scanner explanation, remediation guidance, and public-basis name
 
-## Ruleset `2026-09`
+The index never publishes source excerpts, local paths, logs, credentials, or execution output. Findings are length-bounded and schema-validated before publication.
 
-All matching expressions are public in the implementation. The table below describes their intent; it is not a complete security policy.
+## Outcome model
 
-| Rule ID | Severity | Signal |
-|---|---:|---|
-| `process-execution` | high | Node process-launch APIs such as `exec`, `spawn`, `fork`, or `child_process` |
-| `dynamic-code` | medium | `eval()` or `Function()` dynamic evaluation |
-| `credential-access` | medium | environment-variable or credential-source access, including `process.env` |
-| `network-access` | medium | direct `fetch`, HTTP request, or WebSocket calls |
-| `persistence` | high | operating-system persistence references such as `schtasks`, `crontab`, `RunOnce`, or `LaunchAgents` |
-| `obfuscation` | medium | common base64 or character-code obfuscation primitives |
-| `install-lifecycle` | high | non-empty `preinstall`, `install`, `postinstall`, or `prepare` package scripts |
-| `invalid-manifest` | medium | a root `package.json` that cannot be parsed as JSON |
+- **No static rule match**: no v2 risk rule matched in the files read. This is not proof of safety.
+- **Low / medium / high risk rule match**: one or more source-only review rules matched. The label is the highest observed risk, not a malware verdict.
+- **Scan incomplete**: a file, file-count, or finding limit was reached. The highest observed risk remains visible, but undisplayed matches may remain.
+- **No static advisory**: no valid receipt exists for the displayed revision.
 
-## Known limitations
+A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. V2 uses narrow direct rules and correlated patterns instead.
 
-The algorithm does not resolve dependencies, inspect binary code, trace runtime data flow, establish author identity, detect every obfuscation technique, or emulate operating-system behavior. Benign plugins can match rules, and harmful plugins can avoid them. It also does not replace code review, dependency review, release integrity checks, or local compatibility testing.
+## Ruleset 2026-10
 
-Users should review the source and requested permissions before installation. Plugin authors should treat findings as actionable review prompts and may explain intentional matches in their documentation. The marketplace keeps unscanned, incomplete, and warning-bearing plugins installable; these signals do not affect ranking score or form a security certification.
+| ID | Family | Level | Confidence | Trigger | Suggested handling |
+|---|---|---:|---:|---|---|
+| `MKT-EXEC-001` | execution | high | high | OS process launch API | Manual review |
+| `MKT-EXEC-002` | execution | high | high | `eval()` or `Function()` | Manual review |
+| `MKT-EXEC-003` | execution | high | high | download-and-execute shell or PowerShell pattern | Manual review |
+| `MKT-DATA-001` | data-egress | high | high | value shaped like a private key or provider token | Rotate and review |
+| `MKT-DATA-002` | transport | medium | high | plaintext HTTP or disabled TLS verification | Manual review |
+| `MKT-DATA-003` | data-egress | high | medium | likely secret source and network sink in one code file | Manual review |
+| `MKT-PERSIST-001` | persistence | high | medium | OS persistence/autostart mechanism | Manual review |
+| `MKT-SUPPLY-001` | supply-chain | high | high | non-empty npm install lifecycle script | Manual review |
+| `MKT-MAN-001` | manifest | medium | high | invalid root `package.json` | Fix before review |
+| `MKT-REVIEW-001` | reviewability | medium | low | decode-then-dynamic-execution chain | Manual review |
+| `MKT-SKILL-001` | agent-skill | high | medium | skill instruction override language combined with destructive or external-action guidance | Manual review |
+| `MKT-CI-001` | ci-integrity | high | high | `pull_request_target` plus pull-request head checkout | Manual review |
+
+### Agent and skill safeguards
+
+`MKT-SKILL-001` applies only to conventional agent-instruction filenames such as `SKILL.md`, `AGENTS.md`, and `CLAUDE.md`. It requires both instruction-override language and destructive or external-action guidance. This prevents ordinary security documentation, tests, examples, or a single phrase from being labeled as an agent attack.
+
+### Correlation safeguards
+
+`MKT-DATA-003` requires both a likely secret source and a network API in the same code file. It is a review lead, not proof that a secret leaves the device. The scanner intentionally does not emit a finding for an environment lookup or a network API alone.
+
+## Bounds and coverage
+
+The scanner reads eligible code, manifest, workflow, and conventional agent-instruction files. It skips dependency/cache directories, reads at most 5,000 files, reads at most 1 MiB per file, emits at most 200 findings, and emits at most three occurrences of the same rule in one file. Any bound hit produces `incomplete` status.
+
+Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputation checks, runtime network capture, permission necessity, authorization correctness, and human intent are outside this source-only scanner. Those concerns require separate dynamic analysis, repository metadata, or manual review.
+
+## Versioning and migration
+
+`scannerVersion: 2` and `rulesetVersion: 2026-10` mark this redesign. Existing receipts remain displayable, but new scans use stable `MKT-*` IDs and the richer evidence contract. A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.

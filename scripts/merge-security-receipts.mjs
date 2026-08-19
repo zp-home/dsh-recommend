@@ -11,7 +11,7 @@ const FORMAT = 'dsh-plugin-verification/v1'
 const INDEX_FORMAT = 'dsh-plugin-verification-index/v1'
 const NAME_PATTERN = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/
 const SHA_PATTERN = /^[0-9a-f]{7,64}$/i
-const RULE_PATTERN = /^[a-z][a-z0-9-]{0,63}$/
+const RULE_PATTERN = /^(?:MKT-[A-Z]+-\d{3}|[a-z][a-z0-9-]{0,63})$/
 const RISK_VALUES = new Set(['low', 'medium', 'high'])
 
 /** Preserve only bounded, source-location evidence safe for the public index. */
@@ -24,7 +24,21 @@ function publicFindings(receipt) {
     if (typeof finding.file !== 'string' || finding.file.length === 0 || finding.file.length > 512 || finding.file.includes('\u0000')) return []
     if (!Number.isInteger(finding.line) || finding.line < 1 || finding.line > 1_000_000) return []
     if (typeof finding.message !== 'string' || finding.message.length === 0 || finding.message.length > 300) return []
-    return [{ rule: finding.rule, risk: finding.risk, file: finding.file, line: finding.line, message: finding.message }]
+    const detail = (name, limit = 120) => typeof finding[name] === 'string' && finding[name].length > 0 && finding[name].length <= limit
+      ? { [name]: finding[name] }
+      : {}
+    return [{
+      rule: finding.rule,
+      risk: finding.risk,
+      file: finding.file,
+      line: finding.line,
+      message: finding.message,
+      ...detail('family', 64),
+      ...detail('confidence', 16),
+      ...detail('disposition', 32),
+      ...detail('basis', 160),
+      ...detail('remediation', 300),
+    }]
   })
 }
 

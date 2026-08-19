@@ -79,7 +79,14 @@ function securityEvidenceDialog(p) {
   const findingRows = findings.length
     ? `<ul class="security-evidence">${findings.map((finding) => {
       const source = `${p.url}/blob/${security.commit}/${finding.file}#L${finding.line}`
-      return `<li><strong>${esc(finding.rule)}</strong> <span class="risk ${esc(finding.risk)}">${riskLabels[finding.risk] ?? '风险规则'}</span><p>${esc(finding.message)}</p><p>位置：<a href="${esc(source)}" target="_blank" rel="noopener">${esc(finding.file)}:${esc(finding.line)}</a></p></li>`
+      const details = [
+        finding.family ? `规则家族：${esc(finding.family)}` : '',
+        finding.confidence ? `置信度：${esc(finding.confidence)}` : '',
+        finding.disposition ? `建议处置：${esc(finding.disposition)}` : '',
+        finding.basis ? `公开依据：${esc(finding.basis)}` : '',
+        finding.remediation ? `修复建议：${esc(finding.remediation)}` : '',
+      ].filter(Boolean).map((detail) => `<p>${detail}</p>`).join('')
+      return `<li><strong>${esc(finding.rule)}</strong> <span class="risk ${esc(finding.risk)}">${riskLabels[finding.risk] ?? '风险规则'}</span><p>${esc(finding.message)}</p>${details}<p>位置：<a href="${esc(source)}" target="_blank" rel="noopener">${esc(finding.file)}:${esc(finding.line)}</a></p></li>`
     }).join('')}</ul>`
     : '<p>该扫描记录尚未包含逐条依据；下次扫描后会补充。</p>'
   const overlay = document.createElement('div')
