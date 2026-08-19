@@ -30,7 +30,7 @@ Every public finding is bound to `repository + commit + scannerVersion + ruleset
 - Risk level, confidence, and suggested disposition
 - Relative source path and line number, linked to the exact public commit
 - Short scanner explanation, remediation guidance, and public-basis name
-- Evidence-oriented fields (added in ruleset 2026-12):
+- Evidence-oriented fields (current ruleset 2026-17):
   - `impact`: concrete harm description (what an attacker could achieve)
   - `attack_vector`: how the pattern could be exploited
   - `cwe`: MITRE CWE identifier (e.g. CWE-78, CWE-95)
@@ -47,11 +47,11 @@ The index never publishes source excerpts (the `evidence` field containing match
 - **Scan incomplete**: a file, file-count, or finding limit was reached. The highest observed risk remains visible, but undisplayed matches may remain.
 - **No static advisory**: no valid receipt exists for the displayed revision.
 
-A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. V2 uses narrow direct rules and correlated patterns instead.
+A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. The scanner uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-12
+## Ruleset 2026-17
 
-Supersedes `2026-11`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+Supersedes `2026-16`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
 
 ### Execution (MKT-EXEC-*)
 
@@ -189,15 +189,15 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 ## Bounds and coverage
 
-The scanner reads eligible code, manifest, workflow, and conventional agent-instruction files. It skips dependency/cache directories, reads at most 5,000 files, reads at most 1 MiB per file, emits at most 200 findings, and emits at most three occurrences of the same rule in one file. Any bound hit produces `incomplete` status.
+The scanner reads eligible production code, manifest, workflow, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. Test, fixture, contract, mock, spec, example, and integration paths are excluded from production code rules. It skips dependency/cache directories, reads at most 8,000 files, reads at most 1 MiB per file, emits at most 300 findings, and emits at most one occurrence of the same rule in one file. Any bound hit produces `incomplete` status.
 
 Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputation checks, runtime network capture, permission necessity, authorization correctness, and human intent are outside this source-only scanner. Those concerns require separate dynamic analysis, repository metadata, or manual review.
 
 ## Versioning and migration
 
-`scannerVersion: 4` and `rulesetVersion: 2026-12` mark the evidence-oriented expansion. Existing `2026-11` receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 9` and `rulesetVersion: 2026-17` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
 
-### Changes from 2026-11 to 2026-12
+### Changes from 2026-11 to 2026-17
 
 **Added rules:**
 - `MKT-EXEC-004` through `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, setTimeout eval, decode+execute composite)
@@ -210,6 +210,12 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 - `MKT-PERSIST-002` (startup file persistence)
 - `MKT-ANALYZE-001` through `MKT-ANALYZE-002` (anti-debugging, stack inspection)
 - `MKT-REVIEW-005` (long line obfuscation)
+
+**2026-17 corrections:**
+- Production rules exclude documentation, test, fixture, contract, mock, spec, example, and integration paths.
+- Sensitive environment access requires a recognizable secret-bearing variable and a network sink in the same production file.
+- CI rules inspect workflow files only; Skill rules inspect conventional instruction files only.
+- Public evidence retains up to 300 schema-validated findings, matching the scanner bound.
 
 **Added finding fields:**
 - `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)

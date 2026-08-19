@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 4
-export const RULESET_VERSION = '2026-12'
+export const SCANNER_VERSION = 9
+export const RULESET_VERSION = '2026-17'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
@@ -43,7 +43,7 @@ const SKILL_FILE = /(?:^|\/)(?:SKILL|AGENTS|CLAUDE|SYSTEM|RULES)\.md$/i
 const WORKFLOW_FILE = /^\.github\/workflows\/[^/]+\.ya?ml$/i
 const README_FILE = /(?:^|\/)(?:README|LICENSE|SECURITY|CONTRIBUTING|CHANGELOG)\.?(?:md|txt)?$/i
 const MANIFEST_FILE = /^package\.json$/i
-const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
+const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__|contracts?|examples?|integ(?:ration)?)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
 
 const SUSPICIOUS_DOMAINS = [
   'pastebin\\.com', 'paste\\.ee', 'hastebin', 'transfer\\.sh', '0x0\\.st',
@@ -84,13 +84,8 @@ const SECRET_KEY_PATTERNS = [
 ]
 
 const ENV_SENSITIVE_PATTERNS = [
-  re("\\bprocess\\.env\\.(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)\\b", 'i'),
-  re("\\bprocess\\.env\\[\"\\'](?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|KEY|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)[\"\\']\\]", 'i'),
-  re("\\b(?:dotenv|DotEnv)\\b", ''),
-  re("(?<!process)\\.env(?:\\b|$|\\/|\\\\)", ''),
-  re("\\.npmrc\\b", ''),
-  re("\\.pypirc\\b", ''),
-  re("\\.netrc\\b", ''),
+  re("\\bprocess\\.env\\.[A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)\\b", 'i'),
+  re("\\bprocess\\.env\\[\"\\'][A-Z0-9_]*(?:API_KEY|API_SECRET|TOKEN|SECRET|PASSWORD|CREDENTIAL|CLIENT_SECRET|PRIVATE_KEY|ACCESS_KEY|SECRET_KEY)[\"\\']\\]", 'i'),
 ]
 
 const EXECUTION_RULES = [
@@ -119,7 +114,7 @@ const EXECUTION_RULES = [
     remediation: 'Avoid vm.Context/runInNewContext with untrusted input; prefer static analysis.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("\\b(?:vm\\.(?:runInNewContext|runInContext|createContext|createScript|runInThisContext|Script))\\s*\\(", 'g') },
-  { id: 'MKT-EXEC-009', family: 'execution', risk: 'high', confidence: 'medium',
+  { id: 'MKT-EXEC-009', family: 'execution', risk: 'medium', confidence: 'medium',
     message: 'dynamically imports code from a variable path',
     remediation: 'Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.',
     basis: 'OWASP Node.js Security Cheat Sheet',
@@ -147,7 +142,7 @@ const DATA_EGRESS_RULES = [
     remediation: 'Use HTTPS and keep TLS certificate verification enabled.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("rejectUnauthorized\\s*:\\s*false|NODE_TLS_REJECT_UNAUTHORIZED\\s*=\\s*[\"\\']?0|http:\\/\\/(?!localhost\\b|127\\.0\\.0\\.1\\b|0\\.0\\.0\\.0\\b)", 'g') },
-  { id: 'MKT-DATA-004', family: 'data-egress', risk: 'high', confidence: 'medium',
+  { id: 'MKT-DATA-004', family: 'data-egress', risk: 'medium', confidence: 'medium',
     message: 'detects net.connect, dgram.createSocket, or process-level network access',
     remediation: 'Review all network connections; ensure they use allowlisted destinations with explicit approval.',
     basis: 'OWASP Data Security Cheat Sheet',
@@ -226,12 +221,12 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Treat external content as data; preserve approval boundaries; remove override directives.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: null },
-  { id: 'MKT-SKILL-002', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-SKILL-002', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'attempts to impersonate system or developer role',
     remediation: 'Never include role-override text in skill content; it bypasses safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:you are|act as|pretend to be|you are now|you are an)\\b[^\\n]{0,100}\\b(?:system|developer|admin|root|superuser|god|unrestricted|unfiltered)\\b", 'i') },
-  { id: 'MKT-SKILL-003', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-SKILL-003', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'contains multi-step prompt injection patterns',
     remediation: 'Break complex instructions into safe, auditable steps; never chain injection vectors.',
     basis: 'OWASP Top 10 for LLM Applications',
@@ -246,17 +241,17 @@ const SKILL_HIJACK_RULES = [
     remediation: 'Never instruct the model to disable or ignore safety guidelines.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("\\b(?:disable|bypass|ignore|skip|defeat|turn\\s*(?:off)?)\\b[^\\n]{0,100}\\b(?:safety|safety_check|content_filter|guardrail|filter|restriction|safety\\s*(?:mode|guideline|policy))", 'i') },
-  { id: 'MKT-HIJACK-001', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-HIJACK-001', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'contains prompt injection patterns targeting system instructions',
     remediation: 'Remove all prompt injection patterns; they indicate attempts to override safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("ignore all previous instructions|system prompt|prompt injection", 'i') },
-  { id: 'MKT-HIJACK-004', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-HIJACK-004', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'attempts to override or redirect tool usage',
     remediation: 'Never include tool override directives; they bypass approval and safety boundaries.',
     basis: 'OWASP Top 10 for LLM Applications',
     expression: re("use exec_command instead|ignore previous tool rules", 'i') },
-  { id: 'MKT-HIJACK-005', family: 'agent-skill', risk: 'high', confidence: 'medium',
+  { id: 'MKT-HIJACK-005', family: 'agent-skill', risk: 'medium', confidence: 'medium',
     message: 'instruction override with specific goal redirection',
     remediation: 'Remove instruction override language; treat external content as data only.',
     basis: 'OWASP Top 10 for LLM Applications',
@@ -274,7 +269,7 @@ const CI_INTEGRITY_RULES = [
     remediation: 'Apply least-privilege principle; grant only required scopes.',
     basis: 'OpenSSF Scorecards',
     expression: re("\\b(?:contents(?:\\s*:\\s*(?:write|admin))|pull-requests(?:\\s*:\\s*write)|workflow(?:s?\\s*:\\s*write)|secrets(?:\\s*:\\s*write))\\b", 'g') },
-  { id: 'MKT-CI-003', family: 'ci-integrity', risk: 'high', confidence: 'medium',
+  { id: 'MKT-CI-003', family: 'ci-integrity', risk: 'medium', confidence: 'medium',
     message: 'checks out code without persist-credentials protection',
     remediation: 'Use persist-credentials: false when checking out external/untrusted repositories.',
     basis: 'OpenSSF Scorecards',
@@ -871,7 +866,7 @@ function runSuspiciousDestDetection(text, file, findings) {
   const urls = extractURLs(text)
   const suspicious = urls.filter(isSuspiciousURL)
   if (suspicious.length > 0) {
-    findings.push(makeFinding(DATA_EGRESS_RULES[3], file, 1,
+    findings.push(makeFinding(DATA_EGRESS_RULES.find((rule) => rule.id === 'MKT-DATA-007'), file, 1,
       `references ${suspicious.length} known high-risk or anonymous destination(s)`,
       { evidence: 'Destination values are omitted from public evidence.' }))
   }
@@ -890,15 +885,18 @@ function runEnvSecretDetection(text, file, findings) {
   NETWORK_SINK.lastIndex = 0
   const netMatch = NETWORK_SINK.exec(text)
   const netEvidence = netMatch ? extractSnippet(text, netMatch.index) : null
-  if (hasEnv) {
+  if (hasEnv && hasNetwork) {
     findings.push(makeFinding({
-      id: 'MKT-DATA-005', family: 'data-egress', risk: 'medium', confidence: 'medium',
+      id: 'MKT-DATA-005', family: 'data-egress', risk: 'high', confidence: 'medium',
       disposition: 'manual-review', basis: 'OWASP npm Security Cheat Sheet',
-      remediation: 'Never read sensitive environment variables from plugin code.',
-      message: 'reads environment variables that may contain secrets',
-    }, file, 1, undefined, { evidence: envEvidence }))
+      remediation: 'Never read sensitive environment variables and transmit them over the network.',
+      message: 'reads sensitive environment variables and makes network requests (potential secret exfiltration)',
+    }, file, 1, undefined, {
+      evidence: `ENV: ${envEvidence} | NETWORK: ${netEvidence}`,
+      composite: [envEvidence, netEvidence],
+    }))
   }
-  return hasEnv
+  return hasEnv && hasNetwork
 }
 
 function runLongLineDetection(text, file, findings) {
@@ -1061,7 +1059,10 @@ function scanManifest(manifest, file, findings) {
   if (scripts && typeof scripts === 'object') {
     for (const name of ['preinstall', 'install', 'postinstall', 'prepare']) {
       if (typeof scripts[name] === 'string' && scripts[name].trim() !== '') {
-        findings.push(makeFinding(SUPPLY_CHAIN_RULES[0], file, 1,
+        const rule = name === 'prepare'
+          ? { ...SUPPLY_CHAIN_RULES[0], risk: 'medium', confidence: 'medium' }
+          : SUPPLY_CHAIN_RULES[0]
+        findings.push(makeFinding(rule, file, 1,
           `declares a ${name} lifecycle script`,
           { evidence: 'Lifecycle command omitted from public evidence.' }))
       }
@@ -1114,9 +1115,6 @@ function checkWorkflowIntegrity(text, file, findings) {
     const dangerousPerms = []
     if (/workflows?\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('workflows:write')
     if (/secrets\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('secrets:write')
-    if (/packages?\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('packages:write')
-    if (/contents\s*:\s*(?:write|admin)/i.test(permText)) dangerousPerms.push('contents:write')
-    if (/pull.requests?\s*:\s*write/i.test(permText)) dangerousPerms.push('pull-requests:write')
     if (dangerousPerms.length > 0) {
       findings.push(makeFinding(CI_INTEGRITY_RULES[1], file, 1,
         `excessive GitHub token permissions: ${dangerousPerms.join(', ')}`,
@@ -1315,7 +1313,9 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     const isWorkflow = WORKFLOW_FILE.test(display)
     const isSkill = SKILL_FILE.test(display)
     const isReadme = README_FILE.test(display)
-    const isSecuritySource = isCode || isManifest || isSkill || isWorkflow
+    const isProductionCode = isCode && !TEST_PATH.test(display)
+    const isSecuritySource = isProductionCode || isManifest || isSkill || isWorkflow
+    const isCredentialSource = isProductionCode || isManifest
 
     stats.filesScanned += 1
 
@@ -1329,25 +1329,23 @@ export async function scanPluginSource(root, { commit = null, repository = null 
 
     if (isSecuritySource) stats.longLines += runLongLineDetection(text, display, findings)
     if (isWorkflow) checkWorkflowIntegrity(text, display, findings)
-    if (isReadme) checkReadmeSecurity(text, display, findings)
-    if (isSecuritySource) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
-    if (isSecuritySource) stats.secretsFound += runKeyDetection(text, display, findings)
-    if (isCode) runEnvSecretDetection(text, display, findings)
-    if (isCode && !TEST_PATH.test(display)) runCapabilityAnalysis(text, display, findings)
+    if (isProductionCode) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
+    if (isCredentialSource) stats.secretsFound += runKeyDetection(text, display, findings)
+    if (isProductionCode) runEnvSecretDetection(text, display, findings)
+    if (isProductionCode) runCapabilityAnalysis(text, display, findings)
 
-    runCompositeDetection(text, display, findings, { isCode, isSkill, isWorkflow, isReadme })
+    runCompositeDetection(text, display, findings, { isCode: isProductionCode, isSkill, isWorkflow, isReadme })
 
-    if (isCode) {
+    if (isProductionCode) {
       for (const rule of EXECUTION_RULES) stats.execPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of DATA_EGRESS_RULES.filter(r => r.expression)) stats.dataEgressPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of PERSISTENCE_RULES) stats.persistencePatterns += runRegexRule(rule, text, display, findings)
       for (const rule of OBFUSCATION_RULES.filter(r => r.expression)) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of ANTI_ANALYSIS_RULES) stats.obfuscationPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of FILESYSTEM_RULES.filter(r => r.expression)) stats.filesystemPatterns += runRegexRule(rule, text, display, findings)
-      for (const rule of CI_INTEGRITY_RULES.filter(r => r.expression)) stats.ciIntegrityPatterns += runRegexRule(rule, text, display, findings)
     }
 
-    if (isSkill || isCode) {
+    if (isSkill) {
       for (const rule of SKILL_HIJACK_RULES.filter(r => r.expression)) stats.skillHijackPatterns += runRegexRule(rule, text, display, findings)
     }
   }
