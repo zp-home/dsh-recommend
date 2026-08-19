@@ -41,11 +41,11 @@ The index never publishes source excerpts, raw evidence, local paths, logs, cred
 - **Scan incomplete**: a file, file-count, or finding limit was reached. The highest observed risk remains visible, but undisplayed matches may remain.
 - **No static advisory**: no valid receipt exists for the displayed revision.
 
-A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. V2 uses narrow direct rules and correlated patterns instead.
+A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. The scanner uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-12
+## Ruleset 2026-13
 
-Supersedes `2026-11`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+Supersedes `2026-12`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
 
 ### Execution (MKT-EXEC-*)
 
@@ -184,9 +184,9 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 
 ## Versioning and migration
 
-`scannerVersion: 4` and `rulesetVersion: 2026-12` mark the evidence-oriented expansion. Existing `2026-11` receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 5` and `rulesetVersion: 2026-13` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
 
-### Changes from 2026-11 to 2026-12
+### Changes from 2026-11 to 2026-13
 
 **Added rules:**
 - `MKT-EXEC-004` through `MKT-EXEC-009`, `MKT-EXEC-011`, and `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, decode+execute composite)
@@ -199,9 +199,15 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 - `MKT-ANALYZE-001` through `MKT-ANALYZE-002` (anti-debugging, stack inspection)
 - `MKT-REVIEW-005` (long line obfuscation)
 
+**2026-13 corrections:**
+- Removed `MKT-EXEC-010`; ordinary timer callbacks are not dynamic code execution.
+- Reclassified `MKT-EXEC-009` (variable dynamic import) from high to medium.
+- `MKT-DATA-005` now requires both sensitive environment access and a network sink in the same production file.
+- Excluded test, fixture, contract, mock, spec, and example paths from production code rules.
+
 **Added raw-receipt fields:**
 - `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)
 - `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence confidence and rationale)
 - `evidence` (internal source excerpt, stripped from the public index)
 
-**No rules removed or reclassified.**
+The corrections above are version-bound to `scannerVersion: 5` / `rulesetVersion: 2026-13`; v4 receipts are retained only as historical evidence.

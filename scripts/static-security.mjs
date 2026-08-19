@@ -14,8 +14,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 // Constants & Limits
 // ═══════════════════════════════════════════════════════════════
 const FORMAT = 'dsh-plugin-verification/v1'
-export const SCANNER_VERSION = 4
-export const RULESET_VERSION = '2026-12'
+export const SCANNER_VERSION = 5
+export const RULESET_VERSION = '2026-13'
 const MAX_FILE_BYTES = 1024 * 1024
 const MAX_FILES = 8000
 const MAX_FINDINGS = 300
@@ -119,7 +119,7 @@ const EXECUTION_RULES = [
     remediation: 'Avoid vm.Context/runInNewContext with untrusted input; prefer static analysis.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("\\b(?:vm\\.(?:runInNewContext|runInContext|createContext|createScript|runInThisContext|Script))\\s*\\(", 'g') },
-  { id: 'MKT-EXEC-009', family: 'execution', risk: 'high', confidence: 'medium',
+  { id: 'MKT-EXEC-009', family: 'execution', risk: 'medium', confidence: 'medium',
     message: 'dynamically imports code from a variable path',
     remediation: 'Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.',
     basis: 'OWASP Node.js Security Cheat Sheet',
