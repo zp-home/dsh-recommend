@@ -171,6 +171,13 @@ t('徽章颜色分档', () => {
   equal(targets.length, 2)
   equal(targets[0].fullName, 'owner/new')
   equal(targets[1].fullName, 'owner/old')
+  const campaignTargets = selectSecurityTargets(
+    Array.from({ length: 1201 }, (_, index) => ({ fullName: `owner/repo-${index}`, score: 0, pushedAt: '2026-09-01', excluded: null })),
+    { plugins: {} },
+    1201,
+    now,
+  )
+  equal(campaignTargets.length, 1200)
   n += 1
   console.log('  ✓ 安全队列：优先选择新 revision、过期或缺失的未排除插件')
 }

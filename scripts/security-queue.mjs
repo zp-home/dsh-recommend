@@ -48,7 +48,7 @@ export function selectSecurityTargets(plugins, index, limit, now = Date.now(), i
       if (right.plugin.score !== left.plugin.score) return (right.plugin.score ?? 0) - (left.plugin.score ?? 0)
       return (right.plugin.pushedAt ?? '').localeCompare(left.plugin.pushedAt ?? '')
     })
-    .slice(0, Math.max(0, Math.min(20, Number(limit) || 0)))
+    .slice(0, Math.max(0, Math.min(1200, Number(limit) || 0)))
 
   return candidates.map(({ plugin }) => ({
     fullName: plugin.fullName,

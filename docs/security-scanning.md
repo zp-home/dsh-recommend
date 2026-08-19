@@ -203,7 +203,7 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 The scanner reads eligible production code, manifest, workflow, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. Test, fixture, contract, mock, spec, example, and integration paths are excluded from production code rules. It skips dependency/cache directories, reads at most 8,000 files, reads at most 1 MiB per file, emits at most 300 findings, and emits at most one occurrence of the same rule in one file. Any bound hit produces `incomplete` status.
 
-The marketplace security queue treats receipts older than 24 hours as stale and increases the default batch size to 12. Receipt merging is monotonic by `checkedAt`; an older receipt cannot replace a newer commit, and missing compatibility evidence clears an older compatibility label.
+The marketplace security queue treats receipts older than 24 hours as stale and uses batches of at most 12. The controlled cloud campaign can process up to 100 sequential batches (1,200 repositories) with 12 source-only workers, then merges once after all completed receipts are validated. Receipt merging is monotonic by `checkedAt`; an older receipt cannot replace a newer commit, and missing compatibility evidence clears an older compatibility label.
 
 Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputation checks, runtime network capture, permission necessity, authorization correctness, and human intent are outside this source-only scanner. Those concerns require separate dynamic analysis, repository metadata, or manual review.
 

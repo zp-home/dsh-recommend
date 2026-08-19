@@ -1,0 +1,43 @@
+# Large, source-only marketplace refresh. Target repositories are cloned without
+# credentials and only read by the trusted static scanner; no target code runs.
+name: marketplace-security-campaign
+
+on:
+  workflow_dispatch:
+    inputs:
+      batches:
+        description: 'Sequential scan batches (1-100), 12 repositories per batch'
+        required: false
+        default: '100'
+      force:
+        description: 'Rescan selected entries even when their receipt is fresh'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: dsh-recommend-data-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  campaign:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - name: Scan source-only campaign with twelve workers
+        env:
+          BATCHES: ${{ inputs.batches || '100' }}
+        run: node scripts/security-campaign.mjs --batches "$BATCHES" --concurrency 12 --receipts "$RUNNER_TEMP/receipts" --out data/verification.json ${{ inputs.force && '--force' || '' }}
+      - name: Commit verification index
+        run: |
+          git config user.name "dsh-recommend bot"
+          git config user.email "actions@github.com"
+          git add data/verification.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: refresh static security campaign"
+          git pull --rebase origin main
+          git push
