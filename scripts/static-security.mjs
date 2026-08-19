@@ -1095,7 +1095,7 @@ function checkReadmeSecurity(text, file, findings) {
 // Core Scanner
 // ═══════════════════════════════════════════════════════════════
 function rank(risk) {
-  return risk === 'critical' ? 4 : risk === 'high' ? 3 : risk === 'medium' ? 2 : risk === 'low' ? 1 : 0
+  return risk === 'high' ? 3 : risk === 'medium' ? 2 : risk === 'low' ? 1 : 0
 }
 
 function riskFrom(findings) {
@@ -1108,14 +1108,13 @@ function riskFrom(findings) {
 
 function statusFrom(risk) {
   if (risk === 'low') return 'passed'
-  if (risk === 'medium') return 'warnings'
-  return 'failing'
+  return 'warnings'
 }
 
 function computeRiskScore(findings, stats) {
   let score = 0
   const weights = {
-    critical: 25, high: 12, medium: 5, low: 1,
+    critical: 25, high: 12, medium: 5, low: 1,  // critical kept for score calc only, not emitted in findings
   }
   const familyBoost = {
     'execution': 8, 'data-egress': 6, 'agent-skill': 7,
@@ -1133,7 +1132,7 @@ function computeRiskScore(findings, stats) {
 }
 
 function riskGrade(score) {
-  if (score >= 70) return { grade: 'F', label: 'critical', color: '#dc2626' }
+  if (score >= 70) return { grade: 'F', label: 'high', color: '#dc2626' }
   if (score >= 55) return { grade: 'D', label: 'high', color: '#ea580c' }
   if (score >= 35) return { grade: 'C', label: 'medium', color: '#ca8a04' }
   if (score >= 15) return { grade: 'B', label: 'low', color: '#16a34a' }

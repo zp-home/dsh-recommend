@@ -30,8 +30,15 @@ Every public finding is bound to `repository + commit + scannerVersion + ruleset
 - Risk level, confidence, and suggested disposition
 - Relative source path and line number, linked to the exact public commit
 - Short scanner explanation, remediation guidance, and public-basis name
+- Evidence-oriented fields (added in ruleset 2026-12):
+  - `impact`: concrete harm description (what an attacker could achieve)
+  - `attack_vector`: how the pattern could be exploited
+  - `cwe`: MITRE CWE identifier (e.g. CWE-78, CWE-95)
+  - `evidence_risk`: the rule's baseline risk before evidence-based adjustment
+  - `evidence_confidence`: strength of the matched evidence (high / medium / low)
+  - `risk_adjustment`: explanation of any risk-level adjustment applied
 
-The index never publishes source excerpts, local paths, logs, credentials, or execution output. Findings are length-bounded and schema-validated before publication.
+The index never publishes source excerpts (the `evidence` field containing matched code snippets is internal-only and stripped by `publicFindings`), local paths, logs, credentials, or execution output. Findings are length-bounded and schema-validated before publication.
 
 ## Outcome model
 
@@ -42,23 +49,123 @@ The index never publishes source excerpts, local paths, logs, credentials, or ex
 
 A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. V2 uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-11
+## Ruleset 2026-12
 
-| ID | Family | Baseline | Final level | Trigger | Suggested handling |
-|---|---|---:|---:|---|---|
-| `MKT-EXEC-001` | execution | high | high / medium / low | OS process launch API, protection-aware | Manual review |
-| `MKT-FS-001` | file-system | high | high / medium / low | File-system mutation API, protection-aware | Manual review |
-| `MKT-EXEC-002` | execution | high | high | `eval()` or `Function()` | Manual review |
-| `MKT-EXEC-003` | execution | high | high | download-and-execute shell or PowerShell pattern | Manual review |
-| `MKT-DATA-001` | data-egress | high | high | value shaped like a private key or provider token | Rotate and review |
-| `MKT-DATA-002` | transport | medium | medium | plaintext HTTP or disabled TLS verification | Manual review |
-| `MKT-DATA-003` | data-egress | high | high | likely secret source and network sink in one code file | Manual review |
-| `MKT-PERSIST-001` | persistence | high | high | OS persistence/autostart mechanism | Manual review |
-| `MKT-SUPPLY-001` | supply-chain | high | high | non-empty npm install lifecycle script | Manual review |
-| `MKT-MAN-001` | manifest | medium | medium | invalid root `package.json` | Fix before review |
-| `MKT-REVIEW-001` | reviewability | medium | medium | decode-then-dynamic-execution chain | Manual review |
-| `MKT-SKILL-001` | agent-skill | high | high | skill instruction override language combined with destructive or external-action guidance | Manual review |
-| `MKT-CI-001` | ci-integrity | high | high | `pull_request_target` plus pull-request head checkout | Manual review |
+Supersedes `2026-11`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+
+### Execution (MKT-EXEC-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-EXEC-001` | high | high / medium / low | OS process launch API, protection-aware | CWE-78 | Manual review |
+| `MKT-EXEC-002` | high | high | `eval()` or `Function()` constructor | CWE-95 | Manual review |
+| `MKT-EXEC-003` | high | high | download-and-execute shell or PowerShell pattern | CWE-494 | Manual review |
+| `MKT-EXEC-004` | high | high | `vm` module sandbox escape (`runInNewContext`, `runInThisContext`) | CWE-94 | Manual review |
+| `MKT-EXEC-005` | high | high | `execSync` or `spawnSync` blocking process call | CWE-78 | Manual review |
+| `MKT-EXEC-006` | high | high | WebAssembly compilation or instantiation | CWE-94 | Manual review |
+| `MKT-EXEC-007` | high | high | Native `.node` addon via `process.dlopen` or `require("*.node")` | CWE-912 | Manual review |
+| `MKT-EXEC-008` | high | high | `vm.runInNewContext()` with untrusted data | CWE-94 | Manual review |
+| `MKT-EXEC-009` | medium | medium | Dynamic `import()` with variable path | CWE-94 | Manual review |
+| `MKT-EXEC-010` | medium | medium | `setTimeout`/`setInterval` with non-literal arguments | CWE-95 | Manual review |
+| `MKT-EXEC-012` | high | high | Composite: decode (`atob`/`Buffer.from`) + execute (`eval`/`Function`) in same file | CWE-94 | Manual review |
+
+### Data egress (MKT-DATA-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-DATA-001` | high | high | value shaped like a private key or provider token | CWE-798 | Rotate and review |
+| `MKT-DATA-002` | medium | medium | plaintext HTTP or disabled TLS verification | CWE-295 | Manual review |
+| `MKT-DATA-003` | high | high | likely secret source and network sink in one code file | CWE-200 | Manual review |
+| `MKT-DATA-004` | medium | medium | raw TCP/UDP socket (`net.connect`, `dgram.createSocket`) | CWE-923 | Manual review |
+| `MKT-DATA-005` | medium / high | medium / high | reads environment variables (high if combined with network sink) | CWE-532 | Manual review |
+| `MKT-DATA-006` | high | high | access to system credential stores (`~/.ssh/id_rsa`, `~/.aws/credentials`) | CWE-200 | Manual review |
+| `MKT-DATA-008` | high | high | Composite: environment secrets + network request in same file | CWE-200 | Manual review |
+| `MKT-DATA-009` | high | high | executable code patterns (`eval`, `Function`) in README/documentation | CWE-94 | Manual review |
+
+### Agent and skill (MKT-SKILL-* / MKT-HIJACK-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-SKILL-001` | high | high | instruction override language + destructive/egress guidance in agent-instruction files | CWE-1039 | Manual review |
+| `MKT-SKILL-002` | high | high | role impersonation ("you are now system/admin") in skill content | CWE-1039 | Manual review |
+| `MKT-SKILL-003` | high | high | multi-step prompt injection chain in skill files | CWE-1039 | Manual review |
+| `MKT-SKILL-004` | high | high | exfiltration guidance targeting conversation/history/memory | CWE-200 | Manual review |
+| `MKT-SKILL-005` | high | high | disabling/bypassing safety features in skill content | CWE-1039 | Manual review |
+| `MKT-HIJACK-001` | high | high | prompt injection patterns ("ignore all previous instructions") in code files | CWE-1039 | Manual review |
+| `MKT-HIJACK-004` | high | high | tool override directives ("use exec_command instead") in code files | CWE-1039 | Manual review |
+| `MKT-HIJACK-005` | high | high | instruction override with specific goal redirection in code files | CWE-1039 | Manual review |
+
+### File system (MKT-FS-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-FS-001` | high | high / medium / low | unbounded file-system mutation API, protection-aware | CWE-73 | Manual review |
+| `MKT-FS-002` | high | high | path literal starts with `../` or `/etc/` (workspace escape) | CWE-22 | Manual review |
+| `MKT-FS-003` | high | high | reading system credential files (`/etc/passwd`, `~/.ssh/id_rsa`) | CWE-200 | Manual review |
+| `MKT-FS-004` | high | high | encoded path traversal (`%2e%2e%2f`) or nested `../..` sequences | CWE-22 | Manual review |
+| `MKT-FS-005` | high | high | Composite: sensitive data read + external file write in same file | CWE-200 | Manual review |
+
+### Supply chain (MKT-SUPPLY-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-SUPPLY-001` | high | high | non-empty npm install lifecycle script (`preinstall`/`install`/`postinstall`/`prepare`) | CWE-506 | Manual review |
+| `MKT-SUPPLY-002` | high | high | unpinned git/URL dependency (`git+https://`, `github:`) | CWE-494 | Manual review |
+
+### CI integrity (MKT-CI-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-CI-001` | high | high | `pull_request_target` plus pull-request head checkout | CWE-250 | Manual review |
+| `MKT-CI-002` | high | high | excessive GitHub token permissions (`workflows:write`, `secrets:write`) | CWE-250 | Manual review |
+| `MKT-CI-003` | medium | medium | checkout without `persist-credentials: false` | CWE-200 | Manual review |
+| `MKT-CI-005` | high | high | `curl`/`wget` piped to interpreter in workflow | CWE-494 | Manual review |
+| `MKT-CI-006` | medium | medium | `pull_request_target` without head checkout (still risky) | CWE-250 | Manual review |
+| `MKT-CI-007` | high | high | wildcard (`*`) GitHub token permission | CWE-250 | Manual review |
+| `MKT-CI-008` | medium | medium | workflow downloads remote scripts without integrity verification | CWE-494 | Manual review |
+
+### Persistence (MKT-PERSIST-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-PERSIST-001` | high | high | plugin lifecycle hooks (`install`/`uninstall`/`activate`) | CWE-506 | Manual review |
+| `MKT-PERSIST-002` | high | high | writing to startup files (`~/.bashrc`, `~/.zshrc`) | CWE-506 | Manual review |
+
+### Anti-analysis (MKT-ANALYZE-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-ANALYZE-001` | medium | medium | anti-debugging patterns (`debugger` statement, `--inspect` detection) | CWE-506 | Manual review |
+| `MKT-ANALYZE-002` | medium | medium | `Error().stack` inspection for debugger detection | CWE-506 | Manual review |
+
+### Manifest and reviewability
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-MAN-001` | medium | medium | invalid root `package.json` | — | Fix before review |
+| `MKT-REVIEW-001` | medium | medium | decode-then-dynamic-execution chain (alias of `MKT-EXEC-012`) | CWE-94 | Manual review |
+| `MKT-REVIEW-005` | medium | medium | lines longer than 500 characters (possible obfuscation) | CWE-506 | Manual review |
+
+### Composite rules (cross-pattern correlation)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-DATA-003` | high | high | secret source + network sink in one file | CWE-200 | Manual review |
+| `MKT-SKILL-001` | high | high | instruction override + destructive/egress guidance | CWE-1039 | Manual review |
+| `MKT-CI-001` | high | high | `pull_request_target` + head SHA/ref checkout | CWE-250 | Manual review |
+| `MKT-DATA-008` | high | high | env secrets + network request in one file | CWE-200 | Manual review |
+| `MKT-EXEC-012` | high | high | decode + execute in same file | CWE-94 | Manual review |
+| `MKT-FS-005` | high | high | sensitive read + file write in same file | CWE-200 | Manual review |
+
+### Evidence-based risk adjustment
+
+Each finding carries an `evidence_confidence` field (high / medium / low) computed from the matched pattern:
+
+- **High confidence**: explicit dangerous function calls (`eval(`, `spawn(`, `rm -rf`, `/etc/passwd`, `pull_request_target`, etc.) — risk level is confirmed.
+- **Low confidence**: patterns that may appear in benign contexts (`require('./...`, `console.`, `test`, `mock`) — risk level is downgraded by one step (high → medium, medium → low).
+- **Composite findings**: when both sides of a composite rule match, evidence confidence is automatically high.
+
+The `risk_adjustment` field documents the reasoning. The rule's original risk is preserved in `evidence_risk`.
 
 ### Protection-aware downgrade conditions
 
@@ -74,11 +181,11 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 ### Agent and skill safeguards
 
-`MKT-SKILL-001` applies only to conventional agent-instruction filenames such as `SKILL.md`, `AGENTS.md`, and `CLAUDE.md`. It requires both instruction-override language and destructive or external-action guidance. This prevents ordinary security documentation, tests, examples, or a single phrase from being labeled as an agent attack.
+`MKT-SKILL-001` applies only to conventional agent-instruction filenames such as `SKILL.md`, `AGENTS.md`, and `CLAUDE.md`. It requires both instruction-override language and destructive or external-action guidance. `MKT-HIJACK-*` rules apply to code files and detect prompt injection patterns in source code. Both prevent ordinary security documentation, tests, examples, or a single phrase from being labeled as an agent attack.
 
 ### Correlation safeguards
 
-`MKT-DATA-003` requires both a likely secret source and a network API in the same code file. It is a review lead, not proof that a secret leaves the device. The scanner intentionally does not emit a finding for an environment lookup or a network API alone.
+`MKT-DATA-003` requires both a likely secret source and a network API in the same code file. It is a review lead, not proof that a secret leaves the device. The scanner intentionally does not emit a finding for an environment lookup or a network API alone. The same principle applies to all composite rules: both sides must match in the same file.
 
 ## Bounds and coverage
 
@@ -88,4 +195,25 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 
 ## Versioning and migration
 
-`scannerVersion: 3` and `rulesetVersion: 2026-11` mark the protection-aware redesign. Existing receipts remain displayable, but new scans use stable `MKT-*` IDs and the richer evidence contract. A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 4` and `rulesetVersion: 2026-12` mark the evidence-oriented expansion. Existing `2026-11` receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+
+### Changes from 2026-11 to 2026-12
+
+**Added rules:**
+- `MKT-EXEC-004` through `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, setTimeout eval, decode+execute composite)
+- `MKT-DATA-004` through `MKT-DATA-009` (raw sockets, env secrets, credential stores, env+network composite, README code execution)
+- `MKT-HIJACK-001`, `MKT-HIJACK-004`, `MKT-HIJACK-005` (prompt injection in code files)
+- `MKT-SKILL-002` through `MKT-SKILL-005` (role impersonation, multi-step injection, exfiltration guidance, safety bypass)
+- `MKT-FS-002` through `MKT-FS-005` (path escape, credential file read, encoded traversal, sensitive read+write composite)
+- `MKT-SUPPLY-002` (unpinned git/URL dependencies)
+- `MKT-CI-002` through `MKT-CI-008` (token permissions, checkout credentials, curl-pipe, pull_request_target without head, wildcard permissions, unverified downloads)
+- `MKT-PERSIST-002` (startup file persistence)
+- `MKT-ANALYZE-001` through `MKT-ANALYZE-002` (anti-debugging, stack inspection)
+- `MKT-REVIEW-005` (long line obfuscation)
+
+**Added finding fields:**
+- `impact`, `attack_vector`, `cwe` (evidence-oriented harm description)
+- `evidence_risk`, `evidence_confidence`, `risk_adjustment` (evidence-based risk adjustment)
+- `evidence` (source excerpt — internal only, stripped from public index)
+
+**No rules removed or reclassified.**
