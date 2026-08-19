@@ -43,7 +43,7 @@ const SKILL_FILE = /(?:^|\/)(?:SKILL|AGENTS|CLAUDE|SYSTEM|RULES)\.md$/i
 const WORKFLOW_FILE = /^\.github\/workflows\/[^/]+\.ya?ml$/i
 const README_FILE = /(?:^|\/)(?:README|LICENSE|SECURITY|CONTRIBUTING|CHANGELOG)\.?(?:md|txt)?$/i
 const MANIFEST_FILE = /^package\.json$/i
-const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
+const TEST_PATH = /(?:^|\/)(?:test|tests|__tests__|fixtures|spec|__mocks__|contracts?|examples?)(?:\/|$)|\.(?:test|spec)\.[^/]+$/i
 
 const SUSPICIOUS_DOMAINS = [
   'pastebin\\.com', 'paste\\.ee', 'hastebin', 'transfer\\.sh', '0x0\\.st',
@@ -124,11 +124,7 @@ const EXECUTION_RULES = [
     remediation: 'Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.',
     basis: 'OWASP Node.js Security Cheat Sheet',
     expression: re("\\bimport\\s*\\(\\s*(?![\"\\'`])", 'g') },
-  { id: 'MKT-EXEC-010', family: 'execution', risk: 'high', confidence: 'medium',
-    message: 'schedules dynamic code execution via setTimeout/setInterval with non-literal argument',
-    remediation: 'Use function references instead of string code; avoid setTimeout(string) patterns.',
-    basis: 'OWASP Node.js Security Cheat Sheet',
-    expression: re("\\b(?:setTimeout|setInterval|setImmediate)\\s*\\(\\s*(?![\"\\'`])(?:[A-Za-z_$]|\\[)", 'g') },
+
   { id: 'MKT-EXEC-011', family: 'execution', risk: 'high', confidence: 'medium',
     message: 'uses constructor-based sandbox escape pattern',
     remediation: 'Avoid prototype manipulation that can lead to sandbox escape.',
@@ -815,15 +811,8 @@ function runEnvSecretDetection(text, file, findings) {
       evidence: `ENV: ${envEvidence} | NETWORK: ${netEvidence}`,
       composite: [envEvidence, netEvidence],
     }))
-  } else if (hasEnv) {
-    findings.push(makeFinding({
-      id: 'MKT-DATA-005', family: 'data-egress', risk: 'medium', confidence: 'medium',
-      disposition: 'manual-review', basis: 'OWASP npm Security Cheat Sheet',
-      remediation: 'Never read sensitive environment variables from plugin code.',
-      message: 'reads environment variables that may contain secrets',
-    }, file, 1, undefined, { evidence: envEvidence }))
   }
-  return hasEnv
+  return hasEnv && hasNetwork
 }
 
 function runLongLineDetection(text, file, findings) {
@@ -1214,7 +1203,8 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     const isWorkflow = WORKFLOW_FILE.test(display)
     const isSkill = SKILL_FILE.test(display)
     const isReadme = README_FILE.test(display)
-    const isSecuritySource = isCode || isManifest || isSkill || isWorkflow
+    const isProductionCode = isCode && !TEST_PATH.test(display)
+    const isSecuritySource = isProductionCode || isManifest || isSkill || isWorkflow
 
     stats.filesScanned += 1
 
@@ -1230,12 +1220,12 @@ export async function scanPluginSource(root, { commit = null, repository = null 
     if (isWorkflow) checkWorkflowIntegrity(text, display, findings)
     if (isSecuritySource) stats.suspiciousURLs += runSuspiciousDestDetection(text, display, findings)
     if (isSecuritySource) stats.secretsFound += runKeyDetection(text, display, findings)
-    if (isCode) runEnvSecretDetection(text, display, findings)
-    if (isCode && !TEST_PATH.test(display)) runCapabilityAnalysis(text, display, findings)
+    if (isProductionCode) runEnvSecretDetection(text, display, findings)
+    if (isProductionCode) runCapabilityAnalysis(text, display, findings)
 
-    runCompositeDetection(text, display, findings, { isCode, isSkill, isWorkflow, isReadme })
+    runCompositeDetection(text, display, findings, { isCode: isProductionCode, isSkill, isWorkflow, isReadme })
 
-    if (isCode) {
+    if (isProductionCode) {
       for (const rule of EXECUTION_RULES) stats.execPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of DATA_EGRESS_RULES.filter(r => r.expression)) stats.dataEgressPatterns += runRegexRule(rule, text, display, findings)
       for (const rule of PERSISTENCE_RULES) stats.persistencePatterns += runRegexRule(rule, text, display, findings)

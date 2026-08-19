@@ -60,7 +60,6 @@ Supersedes `2026-11`. Existing receipts remain displayable; new scans use the ex
 | `MKT-EXEC-007` | high | high | Native `.node` addon via `process.dlopen` or `require("*.node")` | CWE-912 | Manual review |
 | `MKT-EXEC-008` | high | high | `vm.runInNewContext()` with untrusted data | CWE-94 | Manual review |
 | `MKT-EXEC-009` | medium | medium | Dynamic `import()` with variable path | CWE-94 | Manual review |
-| `MKT-EXEC-010` | medium | medium | `setTimeout`/`setInterval` with non-literal arguments | CWE-95 | Manual review |
 | `MKT-EXEC-012` | high | high | Composite: decode (`atob`/`Buffer.from`) + execute (`eval`/`Function`) in same file | CWE-94 | Manual review |
 
 ### Data egress (MKT-DATA-*)
@@ -71,7 +70,7 @@ Supersedes `2026-11`. Existing receipts remain displayable; new scans use the ex
 | `MKT-DATA-002` | medium | medium | plaintext HTTP or disabled TLS verification | CWE-295 | Manual review |
 | `MKT-DATA-003` | high | high | likely secret source and network sink in one code file | CWE-200 | Manual review |
 | `MKT-DATA-004` | medium | medium | raw TCP/UDP socket (`net.connect`, `dgram.createSocket`) | CWE-923 | Manual review |
-| `MKT-DATA-005` | medium / high | medium / high | reads environment variables (high if combined with network sink) | CWE-532 | Manual review |
+| `MKT-DATA-005` | high | high | sensitive environment access and a network sink in the same production file | CWE-200 | Manual review |
 | `MKT-DATA-006` | high | high | access to system credential stores (`~/.ssh/id_rsa`, `~/.aws/credentials`) | CWE-200 | Manual review |
 | `MKT-DATA-008` | high | high | Composite: environment secrets + network request in same file | CWE-200 | Manual review |
 
@@ -179,7 +178,7 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 ## Bounds and coverage
 
-The scanner reads eligible code, manifest, workflow, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. It skips dependency/cache directories, reads at most 8,000 files, reads at most 1 MiB per file, emits at most 300 findings, and emits at most five occurrences of the same rule in one file. Any bound hit produces `incomplete` status.
+The scanner reads eligible production code, manifest, workflow, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. It excludes test, fixture, contract, mock, spec, and example paths from production code rules; skips dependency/cache directories; reads at most 8,000 files; reads at most 1 MiB per file; emits at most 300 findings; and emits at most five occurrences of the same rule in one file. Any bound hit produces `incomplete` status.
 
 Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputation checks, runtime network capture, permission necessity, authorization correctness, and human intent are outside this source-only scanner. Those concerns require separate dynamic analysis, repository metadata, or manual review.
 
@@ -190,7 +189,7 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 ### Changes from 2026-11 to 2026-12
 
 **Added rules:**
-- `MKT-EXEC-004` through `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, setTimeout eval, decode+execute composite)
+- `MKT-EXEC-004` through `MKT-EXEC-009`, `MKT-EXEC-011`, and `MKT-EXEC-012` (vm, execSync, WebAssembly, native addons, dynamic import, decode+execute composite)
 - `MKT-DATA-004` through `MKT-DATA-008` (raw sockets, env secrets, credential stores, env+network composite)
 - `MKT-SKILL-002` through `MKT-SKILL-005` (role impersonation, multi-step injection, exfiltration guidance, safety bypass)
 - `MKT-FS-002` through `MKT-FS-005` (path escape, credential file read, encoded traversal, sensitive read+write composite)
