@@ -1,13 +1,13 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-08-19T06:25:58.556Z",
+  "updatedAt": "2026-08-19T06:31:59.591Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
         "commit": "9e24652e184d2ef8fd6ea96745031993afc3b9cd",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:33.145Z",
+        "checkedAt": "2026-08-19T06:31:36.243Z",
         "scannedFiles": 459,
         "findingCount": 300,
         "findings": [
@@ -5545,8 +5545,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "alvinunreal/openpets": {
@@ -5554,7 +5554,7 @@
         "commit": "042844d8e3cd43d8984a2742865d100c3a7be4a4",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:44.726Z",
+        "checkedAt": "2026-08-19T06:31:44.766Z",
         "scannedFiles": 540,
         "findingCount": 206,
         "findings": [
@@ -8206,7 +8206,7 @@
           },
           {
             "rule": "MKT-DATA-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "packages/client/src/index.ts",
             "line": 241,
             "message": "detects net.connect, dgram.createSocket, or process-level network access",
@@ -8218,13 +8218,13 @@
             "impact": "Raw TCP/UDP sockets bypass HTTP-level monitoring and allow covert data channels.",
             "attack_vector": "net.connect() or dgram.createSocket() — traffic is invisible to HTTP-based DLP.",
             "cwe": "CWE-923",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-DATA-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "packages/client/src/index.ts",
             "line": 312,
             "message": "detects net.connect, dgram.createSocket, or process-level network access",
@@ -8236,13 +8236,13 @@
             "impact": "Raw TCP/UDP sockets bypass HTTP-level monitoring and allow covert data channels.",
             "attack_vector": "net.connect() or dgram.createSocket() — traffic is invisible to HTTP-based DLP.",
             "cwe": "CWE-923",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-DATA-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "packages/client/src/index.ts",
             "line": 312,
             "message": "detects net.connect, dgram.createSocket, or process-level network access",
@@ -8254,7 +8254,7 @@
             "impact": "Raw TCP/UDP sockets bypass HTTP-level monitoring and allow covert data channels.",
             "attack_vector": "net.connect() or dgram.createSocket() — traffic is invisible to HTTP-based DLP.",
             "cwe": "CWE-923",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -9415,8 +9415,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "anywhere-labs/deepseek-harness-desktop": {
@@ -9424,7 +9424,7 @@
         "commit": "6074088f5b660206e404b3591fab51fb99c69add",
         "status": "warnings",
         "risk": "medium",
-        "checkedAt": "2026-08-19T06:25:38.862Z",
+        "checkedAt": "2026-08-19T06:31:43.309Z",
         "scannedFiles": 367,
         "findingCount": 101,
         "findings": [
@@ -11298,8 +11298,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "ccch1mneyyy/dsh-TUI": {
@@ -11307,7 +11307,7 @@
         "commit": "0f2c9da9b44cf2963b5e19824665d3382cad3f87",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:33.197Z",
+        "checkedAt": "2026-08-19T06:31:31.758Z",
         "scannedFiles": 357,
         "findingCount": 300,
         "findings": [
@@ -11447,20 +11447,20 @@
           },
           {
             "rule": "MKT-SUPPLY-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "package.json",
             "line": 1,
             "message": "declares a prepare lifecycle script",
             "family": "supply-chain",
-            "confidence": "high",
+            "confidence": "medium",
             "disposition": "manual-review",
             "basis": "OWASP npm Security Cheat Sheet",
             "remediation": "Remove install-time side effects or document and review each lifecycle script.",
             "impact": "Install-time lifecycle scripts execute with full npm privileges — preinstall RCE is a classic attack.",
             "attack_vector": "package.json scripts.preinstall/install/postinstall/prepare — runs arbitrary code during npm install.",
             "cwe": "CWE-506",
-            "evidence_risk": "high",
-            "evidence_confidence": "high",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
@@ -16727,16 +16727,16 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "dsh-market/dsh-market": {
       "staticSecurity": {
         "commit": "6084104eb079973f7ad64403e974bdb88fa6713d",
         "status": "warnings",
-        "risk": "high",
-        "checkedAt": "2026-08-19T06:25:28.833Z",
+        "risk": "medium",
+        "checkedAt": "2026-08-19T06:31:33.377Z",
         "scannedFiles": 134,
         "findingCount": 114,
         "findings": [
@@ -17078,20 +17078,20 @@
           },
           {
             "rule": "MKT-SUPPLY-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "package.json",
             "line": 1,
             "message": "declares a prepare lifecycle script",
             "family": "supply-chain",
-            "confidence": "high",
+            "confidence": "medium",
             "disposition": "manual-review",
             "basis": "OWASP npm Security Cheat Sheet",
             "remediation": "Remove install-time side effects or document and review each lifecycle script.",
             "impact": "Install-time lifecycle scripts execute with full npm privileges — preinstall RCE is a classic attack.",
             "attack_vector": "package.json scripts.preinstall/install/postinstall/prepare — runs arbitrary code during npm install.",
             "cwe": "CWE-506",
-            "evidence_risk": "high",
-            "evidence_confidence": "high",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
@@ -18528,7 +18528,7 @@
           },
           {
             "rule": "MKT-DATA-004",
-            "risk": "high",
+            "risk": "medium",
             "file": "src/restart.ts",
             "line": 182,
             "message": "detects net.connect, dgram.createSocket, or process-level network access",
@@ -18540,7 +18540,7 @@
             "impact": "Raw TCP/UDP sockets bypass HTTP-level monitoring and allow covert data channels.",
             "attack_vector": "net.connect() or dgram.createSocket() — traffic is invisible to HTTP-based DLP.",
             "cwe": "CWE-923",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -18903,16 +18903,16 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "strukto-ai/mirage": {
       "staticSecurity": {
-        "commit": "6594de90b79f6f484fdf8944fa218a1afcb66680",
+        "commit": "8e18c5687b57eaaba089a7d2286a9e302e980ced",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:33.872Z",
+        "checkedAt": "2026-08-19T06:31:38.399Z",
         "scannedFiles": 1821,
         "findingCount": 300,
         "findings": [
@@ -24397,16 +24397,16 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "GanyuanRan/Aegis": {
       "staticSecurity": {
         "commit": "75fe591f77766b5e1e601ea00cd4770dc8b2e74f",
         "status": "warnings",
-        "risk": "high",
-        "checkedAt": "2026-08-19T06:25:47.821Z",
+        "risk": "medium",
+        "checkedAt": "2026-08-19T06:31:49.102Z",
         "scannedFiles": 483,
         "findingCount": 38,
         "findings": [
@@ -24963,7 +24963,7 @@
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/writing-skills/SKILL.md",
             "line": 194,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -24975,13 +24975,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/writing-skills/SKILL.md",
             "line": 194,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -24993,13 +24993,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/writing-skills/SKILL.md",
             "line": 194,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25011,13 +25011,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/writing-skills/SKILL.md",
             "line": 194,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25029,13 +25029,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/writing-skills/SKILL.md",
             "line": 194,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25047,7 +25047,7 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -25113,8 +25113,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "liustack/modlens": {
@@ -25122,7 +25122,7 @@
         "commit": "6e1fb0666a11c8c6c04b0895b0fc3f0d10ba0c96",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:43.515Z",
+        "checkedAt": "2026-08-19T06:31:44.929Z",
         "scannedFiles": 134,
         "findingCount": 81,
         "findings": [
@@ -25182,7 +25182,7 @@
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "AGENTS.md",
             "line": 73,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25194,13 +25194,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "AGENTS.md",
             "line": 73,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25212,13 +25212,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "AGENTS.md",
             "line": 73,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25230,13 +25230,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "AGENTS.md",
             "line": 73,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25248,13 +25248,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "AGENTS.md",
             "line": 73,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25266,7 +25266,7 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -25605,7 +25605,7 @@
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/modlens/SKILL.md",
             "line": 47,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25617,13 +25617,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/modlens/SKILL.md",
             "line": 47,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25635,13 +25635,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/modlens/SKILL.md",
             "line": 47,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25653,13 +25653,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/modlens/SKILL.md",
             "line": 47,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25671,13 +25671,13 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
             "rule": "MKT-HIJACK-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "skills/modlens/SKILL.md",
             "line": 47,
             "message": "contains prompt injection patterns targeting system instructions",
@@ -25689,7 +25689,7 @@
             "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
             "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
             "cwe": "CWE-1039",
-            "evidence_risk": "high",
+            "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
@@ -26676,16 +26676,16 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "omdsh-dev/DSH-better-sidebar": {
       "staticSecurity": {
         "commit": "4a407d78b8a9ffda6bde1c4bf699ac6846ffd1d9",
         "status": "warnings",
-        "risk": "high",
-        "checkedAt": "2026-08-19T06:25:45.058Z",
+        "risk": "medium",
+        "checkedAt": "2026-08-19T06:31:47.129Z",
         "scannedFiles": 192,
         "findingCount": 69,
         "findings": [
@@ -26745,20 +26745,20 @@
           },
           {
             "rule": "MKT-SUPPLY-001",
-            "risk": "high",
+            "risk": "medium",
             "file": "package.json",
             "line": 1,
             "message": "declares a prepare lifecycle script",
             "family": "supply-chain",
-            "confidence": "high",
+            "confidence": "medium",
             "disposition": "manual-review",
             "basis": "OWASP npm Security Cheat Sheet",
             "remediation": "Remove install-time side effects or document and review each lifecycle script.",
             "impact": "Install-time lifecycle scripts execute with full npm privileges — preinstall RCE is a classic attack.",
             "attack_vector": "package.json scripts.preinstall/install/postinstall/prepare — runs arbitrary code during npm install.",
             "cwe": "CWE-506",
-            "evidence_risk": "high",
-            "evidence_confidence": "high",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           },
           {
@@ -27984,8 +27984,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "tt-a1i/archify": {
@@ -27993,7 +27993,7 @@
         "commit": "e1ac748f19cf805e44bf74fb93c796662152e273",
         "status": "warnings",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:47.333Z",
+        "checkedAt": "2026-08-19T06:31:48.546Z",
         "scannedFiles": 297,
         "findingCount": 54,
         "findings": [
@@ -28981,8 +28981,8 @@
           }
         ],
         "truncated": false,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "volcengine/OpenViking": {
@@ -28990,7 +28990,7 @@
         "commit": "d88967aaeb969106ed3e77249bb3ef8248a03ebb",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:33.445Z",
+        "checkedAt": "2026-08-19T06:31:37.017Z",
         "scannedFiles": 369,
         "findingCount": 300,
         "findings": [
@@ -34745,8 +34745,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "zhu1090093659/dsh-web-ui": {
@@ -34754,7 +34754,7 @@
         "commit": "0e5b5a642a8f15681e9da901f1da3e524a8621bc",
         "status": "incomplete",
         "risk": "high",
-        "checkedAt": "2026-08-19T06:25:32.291Z",
+        "checkedAt": "2026-08-19T06:31:34.426Z",
         "scannedFiles": 803,
         "findingCount": 300,
         "findings": [
@@ -40348,8 +40348,8 @@
           }
         ],
         "truncated": true,
-        "scannerVersion": 7,
-        "rulesetVersion": "2026-15"
+        "scannerVersion": 8,
+        "rulesetVersion": "2026-16"
       }
     },
     "Anionex/dsh-vision-toolkit": {
