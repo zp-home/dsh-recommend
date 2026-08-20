@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"dragonbaba/dsh-routing-suite","verification":{"staticSecurity":{"commit":"436bab5ff0a2346602591dbc67a43f723f6b67a8","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:42.877Z","scannedFiles":15,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

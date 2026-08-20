@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"akira399/dsh-stall-guard","verification":{"staticSecurity":{"commit":"db5b2147ccd60c0a0f9305f12402fb84491e919d","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:44.192Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

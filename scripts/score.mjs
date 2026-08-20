@@ -196,7 +196,10 @@ export async function runScore(rawDir = join(ROOT(), 'data', 'raw'), outDir = jo
     const scanStatus = scanInfo?.status ?? 'skipped'
     const scanSignals = scanInfo?.signals ?? null
     const verificationRecord = verificationByRepo.get(repo.fullName.toLowerCase()) ?? null
-    const staticSecurity = verificationRecord?.staticSecurity ?? null
+    const staticSecurityRecord = verificationRecord?.staticSecurity ?? null
+    const staticSecurity = staticSecurityRecord
+      ? { ...staticSecurityRecord, findings: undefined }
+      : null
     const publisherCompatibility = verificationRecord?.publisherCompatibility ?? scanInfo?.verification?.compatibility ?? null
     if (staticSecurity?.status === 'passed') verificationCounts.securityPassed += 1
     else if (staticSecurity?.status === 'warnings') verificationCounts.securityWarnings += 1

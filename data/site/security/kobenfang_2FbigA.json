@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kobenfang/bigA","verification":{"staticSecurity":{"commit":"55577e1b5f4a65cbfcbfe7eac0afa744ab42f3e3","status":"passed","risk":"low","checkedAt":"2026-08-19T21:53:43.927Z","scannedFiles":15,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

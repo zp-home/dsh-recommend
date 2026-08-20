@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"omdsh-dev/dsh-inspect","verification":{"staticSecurity":{"commit":"a99192eda30115dd3d4d3c5991572f5a37175996","status":"passed","risk":"low","checkedAt":"2026-08-19T12:39:51.907Z","scannedFiles":10,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kobenfang/Eyes","verification":{"staticSecurity":{"commit":"c49495ab98dec4380185c6b705fb11170282f1de","status":"passed","risk":"low","checkedAt":"2026-08-19T22:53:57.426Z","scannedFiles":13,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

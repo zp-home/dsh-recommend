@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Letter2025/dsh-approval-llm","verification":{"staticSecurity":{"commit":"cd84622eb9308c295e6c5073bfae7792704c9194","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:55.969Z","scannedFiles":18,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

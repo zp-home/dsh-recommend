@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"omdsh-dev/dsh-deep-research","verification":{"staticSecurity":{"commit":"c0b329e02cd0195f810a7c3608cb58701a7fe0f1","status":"passed","risk":"low","checkedAt":"2026-08-19T12:39:34.256Z","scannedFiles":10,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

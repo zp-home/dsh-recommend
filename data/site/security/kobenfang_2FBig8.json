@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kobenfang/Big8","verification":{"staticSecurity":{"commit":"19d8b3d1a40580040369ad7bf72d946b887e8c83","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:26.334Z","scannedFiles":8,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

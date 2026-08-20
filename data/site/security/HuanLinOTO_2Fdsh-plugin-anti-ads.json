@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"HuanLinOTO/dsh-plugin-anti-ads","verification":{"staticSecurity":{"commit":"4c812d2f78f8f54f68f4d826a21b22155ca04c54","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:51.715Z","scannedFiles":20,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

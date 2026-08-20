@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"plur-ai/dsh-plugin","verification":{"staticSecurity":{"commit":"2c526f12fdb237ed3c303af96cbe2cdc93533d19","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:35.191Z","scannedFiles":3,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

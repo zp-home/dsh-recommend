@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Vulcan626/dsh-pet","verification":{"staticSecurity":{"commit":"c3ad56719ba8acd6bd0ba6166745dd10b981b452","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:14.093Z","scannedFiles":26,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

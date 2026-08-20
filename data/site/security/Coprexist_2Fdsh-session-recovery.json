@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Coprexist/dsh-session-recovery","verification":{"staticSecurity":{"commit":"4f8b877fdc23e982c4e0d452e447b44bdd78b36e","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:34.640Z","scannedFiles":15,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

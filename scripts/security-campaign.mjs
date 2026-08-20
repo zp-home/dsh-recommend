@@ -9,6 +9,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { promisify } from 'node:util'
 import { mergeSecurityReceipts } from './merge-security-receipts.mjs'
+import { buildSiteData } from './build-site-data.mjs'
 import { selectSecurityTargets } from './security-queue.mjs'
 import { scanPluginSource, validateCompatibilityAttestationForSource } from './static-security.mjs'
 
@@ -107,6 +108,7 @@ async function main() {
 
   const merged = mergeSecurityReceipts(await readJson(out, {}), receipts)
   await writeFile(out, `${JSON.stringify({ format: merged.format, updatedAt: merged.updatedAt, plugins: merged.plugins }, null, 2)}\n`, 'utf8')
+  await buildSiteData({ dataDir: dirname(out) })
   console.log(`campaign batches=${batches} requested=${limit} selected=${targets.length} completed=${receipts.length} failed=${failures} concurrency=${concurrency} merged=${merged.merged}`)
 }
 

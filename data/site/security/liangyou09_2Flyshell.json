@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"liangyou09/lyshell","verification":{"staticSecurity":{"commit":"ea34c3deeef8276d6175740a102f067d5cecf761","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:29.825Z","scannedFiles":32,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

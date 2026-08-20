@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"czzzlq/deepseek-harness-desktop","verification":{"staticSecurity":{"commit":"7abe629f6cb3d1ac0aadf515223d3d8ee299921e","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:06.141Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

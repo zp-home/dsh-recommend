@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"ChangedenCZD/dsh-minimal-turbo","verification":{"staticSecurity":{"commit":"cdbf96a0f2e4c886c9f9e8d0cb21a45f5122355a","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:25.907Z","scannedFiles":12,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

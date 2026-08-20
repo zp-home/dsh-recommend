@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"ali-meoo/meoo-cli","verification":{"staticSecurity":{"commit":"69acb78a6d3c40c93f7b5a93042fc6a584782afc","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:43.261Z","scannedFiles":2,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

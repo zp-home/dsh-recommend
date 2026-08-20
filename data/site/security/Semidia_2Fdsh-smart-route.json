@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Semidia/dsh-smart-route","verification":{"staticSecurity":{"commit":"27b0e4925301ba13e98065808e4a33aa92e455db","status":"passed","risk":"low","checkedAt":"2026-08-19T23:29:49.633Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

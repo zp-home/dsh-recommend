@@ -5,6 +5,7 @@
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { buildSiteData } from './build-site-data.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const FORMAT = 'dsh-plugin-verification/v1'
@@ -166,5 +167,6 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const next = mergeSecurityReceipts(await readJson(out, {}), receipts)
   await mkdir(dirname(out), { recursive: true })
   await writeFile(out, JSON.stringify({ format: next.format, updatedAt: next.updatedAt, plugins: next.plugins }, null, 2) + '\n', 'utf8')
+  await buildSiteData({ dataDir: dirname(out) })
   console.log(`merged ${next.merged}/${receipts.length} security receipts into ${out}`)
 }

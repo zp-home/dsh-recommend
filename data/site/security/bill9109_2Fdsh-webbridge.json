@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"bill9109/dsh-webbridge","verification":{"staticSecurity":{"commit":"fb6fa96fed4b78f68ab0464c360dc4036105d0d8","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:39.267Z","scannedFiles":25,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

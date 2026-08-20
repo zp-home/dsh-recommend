@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"MicroHEROX/dsh-exa-mcp","verification":{"staticSecurity":{"commit":"c40cd778c025516b1aee0ef3a72a1aac381ced34","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:08.648Z","scannedFiles":8,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

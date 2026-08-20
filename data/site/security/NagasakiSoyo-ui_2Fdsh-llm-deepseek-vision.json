@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"NagasakiSoyo-ui/dsh-llm-deepseek-vision","verification":{"staticSecurity":{"commit":"4347929795042b665b6ddccd6806f22b92689f32","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:27.181Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"alaliqing/claude-paper","verification":{"staticSecurity":{"commit":"0af55d0daeae8e86571700fd1839feb6be9440a6","status":"passed","risk":"low","checkedAt":"2026-08-19T12:39:30.606Z","scannedFiles":52,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

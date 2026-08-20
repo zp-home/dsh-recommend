@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"simon300000/dsh-auto","verification":{"staticSecurity":{"commit":"eb409400843e195886edb45d9a75d2188120a2b6","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:56.771Z","scannedFiles":9,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

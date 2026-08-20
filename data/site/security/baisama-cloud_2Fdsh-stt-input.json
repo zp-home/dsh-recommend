@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"baisama-cloud/dsh-stt-input","verification":{"staticSecurity":{"commit":"d2cc4790becb5a40521e17e1eaf3d24a1fb314ad","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:39.818Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

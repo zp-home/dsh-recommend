@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Einskyle/dsh-llm-vision-bridge","verification":{"staticSecurity":{"commit":"5a8e31788f4b2b11c4d2122ed5f138235d9ae55e","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:05.393Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

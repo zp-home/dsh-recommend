@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"r600a-code/dsh-swarm-router","verification":{"staticSecurity":{"commit":"fc051ea2ad05fc27ad7271630b7e0bd7ebb24bb9","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:43.341Z","scannedFiles":22,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

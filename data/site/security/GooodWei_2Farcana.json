@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"GooodWei/arcana","verification":{"staticSecurity":{"commit":"82f910c0b5e645c65c2a34be0b0e47035d0489a7","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:26.989Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

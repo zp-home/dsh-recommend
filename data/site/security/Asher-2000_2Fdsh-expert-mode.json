@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Asher-2000/dsh-expert-mode","verification":{"staticSecurity":{"commit":"2d13cc4e5a522652c7eaac92721f95c86327c54c","status":"passed","risk":"low","checkedAt":"2026-08-19T12:39:53.846Z","scannedFiles":17,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

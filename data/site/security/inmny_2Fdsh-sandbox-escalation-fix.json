@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"inmny/dsh-sandbox-escalation-fix","verification":{"staticSecurity":{"commit":"d3fe7065eef56f85b0c08d89799d4f5d5b08f584","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:22.237Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"vibeinging/dsh-agent-budget","verification":{"staticSecurity":{"commit":"2702e6d4846d478c01ff09ccbb54fc9f6313daba","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:10.017Z","scannedFiles":31,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

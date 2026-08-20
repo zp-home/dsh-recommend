@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kaotusi/dsh-task-notify","verification":{"staticSecurity":{"commit":"d4e6029ba72d7fc0752e52b373d1325f3f9a8842","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:40.052Z","scannedFiles":9,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Leawind/dsh-minecraft-dev","verification":{"staticSecurity":{"commit":"665769e8490f470a3758f7ca2c943f9f16d89523","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:45.372Z","scannedFiles":9,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

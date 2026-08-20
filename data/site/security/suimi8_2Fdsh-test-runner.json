@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"suimi8/dsh-test-runner","verification":{"staticSecurity":{"commit":"89f89ed8d50c94c73adb7d818988cdab74c5acde","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:28.647Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

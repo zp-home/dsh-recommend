@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"AcidGr/dsh-web-lan-access","verification":{"staticSecurity":{"commit":"e27e909f2f079d2213c13823f56fe9ade4726f80","status":"passed","risk":"low","checkedAt":"2026-08-19T12:39:58.492Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

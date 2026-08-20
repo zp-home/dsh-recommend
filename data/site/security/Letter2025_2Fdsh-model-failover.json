@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Letter2025/dsh-model-failover","verification":{"staticSecurity":{"commit":"13b1601fc6f54408398318d34b5280309964464e","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:50.556Z","scannedFiles":12,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

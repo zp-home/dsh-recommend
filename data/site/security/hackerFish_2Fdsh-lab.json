@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"hackerFish/dsh-lab","verification":{"staticSecurity":{"commit":"fee16bd4db652301f6e313500effe0f00d28db09","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:24.267Z","scannedFiles":414,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

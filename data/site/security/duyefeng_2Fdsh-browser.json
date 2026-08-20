@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"duyefeng/dsh-browser","verification":{"staticSecurity":{"commit":"a87301955413f533cc606bcc76b65ccde5f0bf57","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:49.199Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

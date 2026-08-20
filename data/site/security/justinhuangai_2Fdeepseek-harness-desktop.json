@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"justinhuangai/deepseek-harness-desktop","verification":{"staticSecurity":{"commit":"bace1c5fdbdfae8825568b6dce0f7edcd758c6ab","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:31.703Z","scannedFiles":1,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

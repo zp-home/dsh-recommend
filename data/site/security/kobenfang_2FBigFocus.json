@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kobenfang/BigFocus","verification":{"staticSecurity":{"commit":"c9532d03dceb3c6605b29a4f123670825ef5b12d","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:26.328Z","scannedFiles":9,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

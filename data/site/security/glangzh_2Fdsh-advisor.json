@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"glangzh/dsh-advisor","verification":{"staticSecurity":{"commit":"9f1728ba2ab7a1b91e2dac88ea584a00994b2ebf","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:20.848Z","scannedFiles":4,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

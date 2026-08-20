@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"AcidGr/dsh-web-mobile-fix","verification":{"staticSecurity":{"commit":"015d905b5f9196b5d442878e5682d8aaa598aa3f","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:52.139Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

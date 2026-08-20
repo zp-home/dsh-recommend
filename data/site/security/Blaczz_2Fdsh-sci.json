@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Blaczz/dsh-sci","verification":{"staticSecurity":{"commit":"e89bc36f65005a2a458324ac5a8f280635922fae","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:45.320Z","scannedFiles":25,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"xxiaoxiong/dsh-ci","verification":{"staticSecurity":{"commit":"c041a73c19dc224b1967d8100d33cdededd85d45","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:59.920Z","scannedFiles":35,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

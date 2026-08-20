@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"wjy9902/dsh-web-default-session","verification":{"staticSecurity":{"commit":"c35dd04209a24f95a7a761a7acee1900e5e482a6","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:53.725Z","scannedFiles":4,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

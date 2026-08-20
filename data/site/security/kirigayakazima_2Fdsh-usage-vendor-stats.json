@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kirigayakazima/dsh-usage-vendor-stats","verification":{"staticSecurity":{"commit":"ac22bed8af20c8059c5f4d86bf21dc88d3870888","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:45.544Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

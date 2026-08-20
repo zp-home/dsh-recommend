@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"baihejiangnan/dsh-plugin-dev","verification":{"staticSecurity":{"commit":"ab6524875506efcd4fcf3c04e576402d0b99332c","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:29.149Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Moeblack/dsh-payload-capture","verification":{"staticSecurity":{"commit":"75cd434c6b854323f0f6bdb75ea8694480082d03","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:32.080Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

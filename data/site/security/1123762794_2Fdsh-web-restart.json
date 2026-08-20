@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"1123762794/dsh-web-restart","verification":{"staticSecurity":{"commit":"5de8214051b3245a8cfc825e7e907cf5e57f51d8","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:01.480Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

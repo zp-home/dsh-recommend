@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"cnctem/dsh-acp","verification":{"staticSecurity":{"commit":"4a251fc833b705bb6061f4f06972951aaac9652e","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:13.783Z","scannedFiles":4,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

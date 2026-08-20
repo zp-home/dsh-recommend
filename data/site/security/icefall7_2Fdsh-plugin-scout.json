@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"icefall7/dsh-plugin-scout","verification":{"staticSecurity":{"commit":"cccc690850c986570a2d51980818644716344df0","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:38.536Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"green-dalii/dsh-plugin-dev-skill","verification":{"staticSecurity":{"commit":"cd5132b5b023060acb5e12ff304bb98156f634da","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:43.221Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

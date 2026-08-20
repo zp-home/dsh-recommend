@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"M-24rjgc/dsh-memory","verification":{"staticSecurity":{"commit":"e90c6a333c7fc5d0cf884da787304491eb7a9720","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:13.245Z","scannedFiles":68,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

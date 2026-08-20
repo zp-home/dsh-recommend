@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"ringoage/dsh-subagent-model-picker","verification":{"staticSecurity":{"commit":"771082e64f3a1a8a1ab8b2f4e44d073b3d27ea2b","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:31.757Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

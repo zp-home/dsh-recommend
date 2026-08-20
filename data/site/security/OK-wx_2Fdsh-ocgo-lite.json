@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"OK-wx/dsh-ocgo-lite","verification":{"staticSecurity":{"commit":"34423a70f2ac345f99305a21c72f61f5fb6a12fa","status":"passed","risk":"low","checkedAt":"2026-08-19T12:39:40.041Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

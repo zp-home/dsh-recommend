@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"aerince/dsh-active-context-pruning","verification":{"staticSecurity":{"commit":"d52b5f2acb44be9ee71e2a68e0178dd227a2f2ef","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:46.889Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

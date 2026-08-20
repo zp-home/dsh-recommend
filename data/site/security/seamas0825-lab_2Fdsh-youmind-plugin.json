@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"seamas0825-lab/dsh-youmind-plugin","verification":{"staticSecurity":{"commit":"d70df4302679c595482011f23b739883fa2e5742","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:27.740Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

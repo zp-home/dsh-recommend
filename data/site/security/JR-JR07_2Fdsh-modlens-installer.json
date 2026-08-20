@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"JR-JR07/dsh-modlens-installer","verification":{"staticSecurity":{"commit":"7ed5f92e4164a0901b3cae2ee861352295640cf1","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:12.815Z","scannedFiles":3,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

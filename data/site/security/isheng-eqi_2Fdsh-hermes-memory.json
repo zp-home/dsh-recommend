@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"isheng-eqi/dsh-hermes-memory","verification":{"staticSecurity":{"commit":"fd1a1f4852daa6edb4bfbe4b6953645b5deebef3","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:23.263Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

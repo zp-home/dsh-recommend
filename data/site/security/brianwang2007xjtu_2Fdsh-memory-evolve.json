@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"brianwang2007xjtu/dsh-memory-evolve","verification":{"staticSecurity":{"commit":"50427c9c01112cbf0adcdf61197de82db65e9280","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:31.740Z","scannedFiles":3,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

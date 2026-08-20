@@ -53,6 +53,7 @@ if (scanEnabled) {
   console.log(`[skip] scan.mjs（${noScan ? '--no-scan 指定' : '未设置 GITHUB_TOKEN'}，深扫留待 CI）`)
 }
 await step('score.mjs', []) // 第二阶段：合并深扫结果（unverified → 排除出榜）
+await step('build-site-data.mjs', [])
 await step('history.mjs', [])
 await step('trends.mjs', [])
 if (!noBadge) await step('badge.mjs', [])

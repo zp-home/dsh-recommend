@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"hairyf/deepseek-harness-desktop","verification":{"staticSecurity":{"commit":"16f45999095663ce3e8340ca88bcf8fa4546794d","status":"passed","risk":"low","checkedAt":"2026-08-19T03:26:27.017Z","scannedFiles":60,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":3,"rulesetVersion":"2026-11"}}}

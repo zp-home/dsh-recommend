@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"feicaiclub/deepseek-harness-whitepaper","verification":{"staticSecurity":{"commit":"d1d741ca96c223df3086d9ebcf38a2c27b6ab59c","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:08.490Z","scannedFiles":2,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

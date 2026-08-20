@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kobenfang/BigFood","verification":{"staticSecurity":{"commit":"1280119bdba75cb6431428994ba0d475c160b3c0","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:26.151Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

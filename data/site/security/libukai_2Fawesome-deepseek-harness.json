@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"libukai/awesome-deepseek-harness","verification":{"staticSecurity":{"commit":"2b4b1b41eb78fa93b10f772fc25295db5dbafecc","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:50.806Z","scannedFiles":3,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

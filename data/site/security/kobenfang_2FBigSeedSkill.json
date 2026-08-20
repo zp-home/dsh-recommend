@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kobenfang/BigSeedSkill","verification":{"staticSecurity":{"commit":"cfdf43e8cda02b0301d5975532eb5d7707449047","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:25.990Z","scannedFiles":8,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Amengclass/dsh-memory","verification":{"staticSecurity":{"commit":"138979eb0b45937b3a157b652623d0f571d519f2","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:40.727Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

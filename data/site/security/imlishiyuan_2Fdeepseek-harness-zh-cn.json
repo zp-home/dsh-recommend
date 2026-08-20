@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"imlishiyuan/deepseek-harness-zh-cn","verification":{"staticSecurity":{"commit":"fbf4f5965bb11cdb17953abe299292bb66bffc9b","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:46.117Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

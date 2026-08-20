@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"mervyn-teo/dsh-plugin-terminal","verification":{"staticSecurity":{"commit":"b542655664c236a7d28582d79c5a5f0e5258318c","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:40.804Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

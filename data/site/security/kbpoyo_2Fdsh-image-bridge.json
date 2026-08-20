@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kbpoyo/dsh-image-bridge","verification":{"staticSecurity":{"commit":"6c4d6e2dbda40ff2b5dee956b8cdc442017af3ca","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:15.095Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

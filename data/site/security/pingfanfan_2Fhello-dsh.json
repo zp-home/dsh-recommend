@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"pingfanfan/hello-dsh","verification":{"staticSecurity":{"commit":"0ee1f4ce1136077c2f6d08a09c21b7b092395e1d","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:06.819Z","scannedFiles":37,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"kobenfang/BigLead","verification":{"staticSecurity":{"commit":"535447f78dd7234cc1b79148fd61e1a5ef160d4d","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:26.061Z","scannedFiles":8,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

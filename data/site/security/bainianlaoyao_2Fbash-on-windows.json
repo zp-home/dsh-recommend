@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"bainianlaoyao/bash-on-windows","verification":{"staticSecurity":{"commit":"c6d1ce19cae7ae5aff15aea640228f6a3c952a0d","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:32.392Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

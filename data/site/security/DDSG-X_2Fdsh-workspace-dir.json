@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"DDSG-X/dsh-workspace-dir","verification":{"staticSecurity":{"commit":"0a05dbb6562677eeb7b478883abe04631e970b6e","status":"passed","risk":"low","checkedAt":"2026-08-19T20:01:42.785Z","scannedFiles":12,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

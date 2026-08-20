@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"AKS1st/dsh-sysmon","verification":{"staticSecurity":{"commit":"59d08c303d4575a28e9d35f701cbd3e4f9483724","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:08.492Z","scannedFiles":28,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

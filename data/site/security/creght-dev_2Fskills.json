@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"creght-dev/skills","verification":{"staticSecurity":{"commit":"2830b86b76d824dacdbc83c50a6922673958203e","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:29.283Z","scannedFiles":33,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

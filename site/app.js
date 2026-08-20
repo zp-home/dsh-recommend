@@ -71,7 +71,14 @@ function securityPill(p) {
     : `<a class="pill security-pill ${state}" href="../docs/security-scanning.md" target="_blank" rel="noopener" title="公开规则的只读静态提示；未命中规则不代表安全，仅供参考，不构成安全认证">${label}</a>`
 }
 
-function securityEvidenceDialog(p) {
+async function securityEvidenceDialog(p) {
+  if (!p.verification?.staticSecurity) return
+  if (!Array.isArray(p.verification.staticSecurity.findings) && p.securityDetail) {
+    try {
+      const detail = await fetch(`../data/site/${p.securityDetail}`).then((r) => r.ok ? r.json() : null)
+      if (detail?.verification) p.verification = detail.verification
+    } catch {}
+  }
   const security = p.verification?.staticSecurity
   if (!security) return
   const findings = Array.isArray(security.findings) ? security.findings : []
@@ -139,22 +146,11 @@ function sparkline(series) {
 
 async function load() {
   try {
-    const [reg, verificationIndex] = await Promise.all([
-      fetch('../data/registry.json').then((r) => r.json()),
-      fetch('../data/verification.json')
-        .then((r) => r.ok ? r.json() : null)
-        .catch(() => null),
-    ])
-    verification = verificationIndex
-    const evidenceByRepo = verification?.plugins && typeof verification.plugins === 'object' ? verification.plugins : {}
-    doc = {
-      ...reg,
-      plugins: reg.plugins.map((plugin) => {
-        const evidence = evidenceByRepo[plugin.fullName]
-        if (!evidence || typeof evidence !== 'object') return plugin
-        return { ...plugin, verification: { ...plugin.verification, ...evidence } }
-      }),
-    }
+    const reg = await fetch('../data/site/index.json').then((r) => {
+      if (!r.ok) throw new Error(`site index HTTP ${r.status}`)
+      return r.json()
+    })
+    doc = reg
     const cats = new Set(doc.plugins.map((p) => p.category).filter(Boolean))
     const sel = document.getElementById('category')
     for (const c of [...cats].sort()) {

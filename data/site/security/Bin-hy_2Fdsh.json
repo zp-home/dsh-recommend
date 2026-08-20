@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Bin-hy/dsh","verification":{"staticSecurity":{"commit":"185c657aa2b0e5903d27c2c9e400047c0e46664e","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:46.739Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

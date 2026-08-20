@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"a903067276-rgb/dsh-plan-switch","verification":{"staticSecurity":{"commit":"dc22a7885b66d2e5ffc283b15ec9f70a75817e69","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:07.212Z","scannedFiles":8,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

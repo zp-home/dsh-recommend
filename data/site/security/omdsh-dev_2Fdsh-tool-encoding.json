@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"omdsh-dev/dsh-tool-encoding","verification":{"staticSecurity":{"commit":"6cddc3716f8198edcbe0798ed28385e7fb20f511","status":"passed","risk":"low","checkedAt":"2026-08-19T12:40:08.252Z","scannedFiles":19,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

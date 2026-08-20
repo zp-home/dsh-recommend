@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"mikeyoubeach/dsh-minimal-v3","verification":{"staticSecurity":{"commit":"d8715c51da03c52099a6feeb79aed009903d7fd7","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:14.217Z","scannedFiles":2,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

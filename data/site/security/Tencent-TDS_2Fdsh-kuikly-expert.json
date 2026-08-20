@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Tencent-TDS/dsh-kuikly-expert","verification":{"staticSecurity":{"commit":"e4969568984a20ce7af0be53ef6c3002e9fdfb27","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:14.815Z","scannedFiles":89,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

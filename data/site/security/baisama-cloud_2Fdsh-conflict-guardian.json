@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"baisama-cloud/dsh-conflict-guardian","verification":{"staticSecurity":{"commit":"a40d98904be6b16034ec43b3b159a94f8449b806","status":"passed","risk":"low","checkedAt":"2026-08-19T22:32:46.507Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":13,"rulesetVersion":"2026-21"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"walkinglabs/awesome-deepseek-harness-plugins","verification":{"staticSecurity":{"commit":"da0c40e4547581bf90a8eb257a88cf73c7d7ad3b","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:52.159Z","scannedFiles":3,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

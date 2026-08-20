@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"wingoo/codex-plugin-dsh","verification":{"staticSecurity":{"commit":"79fe7503390d641680bad8efade52782a3c31ced","status":"passed","risk":"low","checkedAt":"2026-08-20T06:06:58.126Z","scannedFiles":19,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

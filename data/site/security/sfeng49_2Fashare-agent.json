@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"sfeng49/ashare-agent","verification":{"staticSecurity":{"commit":"1595605797bf90eaaf9d449222859057b60f0edd","status":"passed","risk":"low","checkedAt":"2026-08-20T06:07:36.143Z","scannedFiles":9,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
