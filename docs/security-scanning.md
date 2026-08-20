@@ -30,7 +30,7 @@ Every public finding is bound to `repository + commit + scannerVersion + ruleset
 - Risk level, confidence, and suggested disposition
 - Relative source path and line number, linked to the exact public commit
 - Short scanner explanation, remediation guidance, and public-basis name
-- Evidence-oriented fields (current ruleset 2026-21):
+- Evidence-oriented fields (current ruleset 2026-22):
   - `impact`: concrete harm description (what an attacker could achieve)
   - `attack_vector`: how the pattern could be exploited
   - `cwe`: MITRE CWE identifier (e.g. CWE-78, CWE-95)
@@ -38,7 +38,7 @@ Every public finding is bound to `repository + commit + scannerVersion + ruleset
   - `evidence_confidence`: strength of the matched evidence (high / medium / low)
   - `risk_adjustment`: explanation of any risk-level adjustment applied
 
-The index never publishes source excerpts (the `evidence` field containing matched code snippets is internal-only and stripped by `publicFindings`), local paths, logs, credentials, or execution output. Findings are length-bounded and schema-validated before publication.
+The index never publishes source excerpts (the `evidence` field containing matched code snippets is internal-only and stripped by `publicFindings`), local paths, logs, credentials, or execution output. Findings are length-bounded and schema-validated before publication; absolute paths, traversal segments, and control characters are rejected.
 
 ## Outcome model
 
@@ -49,25 +49,30 @@ The index never publishes source excerpts (the `evidence` field containing match
 
 A normal capability such as `fetch()`, `process.env`, base64 decoding, or a process API import is not by itself treated as a risk verdict. The scanner uses narrow direct rules and correlated patterns instead.
 
-## Ruleset 2026-21
+## Ruleset 2026-22
 
-Supersedes `2026-20`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
+Supersedes `2026-21`. Existing receipts remain displayable; new scans use the expanded ruleset with evidence-oriented fields. The rules below are grouped by family.
 
 ### Execution (MKT-EXEC-*)
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
 | `MKT-EXEC-001` | high | high / medium / low | OS process launch API, protection-aware | CWE-78 | Manual review |
-| `MKT-EXEC-002` | high | high | `eval()` or `Function()` constructor | CWE-95 | Manual review |
+| `MKT-EXEC-002` | medium | medium | `eval()` or `Function()` constructor without a proven external input | CWE-95 | Manual review |
 | `MKT-EXEC-003` | high | high | download-and-execute shell or PowerShell pattern | CWE-494 | Manual review |
-| `MKT-EXEC-006` | high | high | WebAssembly compilation or instantiation | CWE-94 | Manual review |
-| `MKT-EXEC-007` | high | high | Native `.node` addon via `process.dlopen` or `require("*.node")` | CWE-912 | Manual review |
-| `MKT-EXEC-008` | high | high | `vm.runInNewContext()` with untrusted data | CWE-94 | Manual review |
+| `MKT-EXEC-006` | medium | medium | WebAssembly compilation or instantiation | CWE-94 | Manual review |
+| `MKT-EXEC-007` | medium | medium | Native `.node` addon via `process.dlopen` or `require("*.node")` | CWE-912 | Manual review |
+| `MKT-EXEC-008` | medium | medium | Node.js `vm` code-execution API | CWE-94 | Manual review |
 | `MKT-EXEC-009` | medium | medium | Dynamic `import()` with variable path | CWE-94 | Manual review |
 | `MKT-EXEC-010` | medium | medium | `setTimeout`/`setInterval` with non-literal arguments | CWE-95 | Manual review |
 | `MKT-EXEC-011` | high | high | constructor-chain sandbox escape pattern | CWE-94 | Manual review |
 | `MKT-EXEC-012` | high | high | Composite: decode (`atob`/`Buffer.from`) + execute (`eval`/`Function`) in same file | CWE-94 | Manual review |
 | `MKT-EXEC-013` | medium | medium | shell-enabled process API or command-template helper | CWE-78 | Manual review |
+| `MKT-EXEC-014` | medium | medium | Python/.NET shell-enabled process API | CWE-78 | Manual review |
+| `MKT-EXEC-015` | medium | medium | unsafe pickle/dill/marshal/YAML/object deserialization | CWE-502 | Manual review |
+| `MKT-EXEC-016` | high | high | reverse-shell command sequence | CWE-78 | Manual review |
+| `MKT-EXEC-017` | high | high | request-controlled input reaches an OS command API in the same call-site window | CWE-78 | Manual review |
+| `MKT-EXEC-018` | high | high | request-controlled input reaches `eval()`/`Function()` | CWE-95 | Manual review |
 
 ### Data egress (MKT-DATA-*)
 
@@ -75,7 +80,7 @@ Supersedes `2026-20`. Existing receipts remain displayable; new scans use the ex
 |---|---:|---:|---|---|---|
 | `MKT-DATA-001` | high | high | value shaped like a private key or provider token | CWE-798 | Rotate and review |
 | `MKT-DATA-002` | medium | medium | plaintext HTTP or disabled TLS verification | CWE-295 | Manual review |
-| `MKT-DATA-003` | high | high | likely non-environment secret source and nearby network sink | CWE-200 | Manual review |
+| `MKT-DATA-003` | medium | medium | likely non-environment secret source and nearby network sink | CWE-200 | Manual review |
 | `MKT-DATA-004` | medium | medium | raw TCP/UDP socket (`net.connect`, `dgram.createSocket`) | CWE-923 | Manual review |
 | `MKT-DATA-005` | medium | not emitted | legacy identifier retained for receipt compatibility; environment access is reported by `MKT-DATA-008` only when correlated | CWE-532 | Manual review |
 | `MKT-DATA-006` | medium | medium | access to system credential stores (`~/.ssh/id_rsa`, `~/.aws/credentials`) | CWE-200 | Manual review |
@@ -83,6 +88,8 @@ Supersedes `2026-20`. Existing receipts remain displayable; new scans use the ex
 | `MKT-DATA-008` | medium | medium | Composite review lead: environment secrets + nearby network request | CWE-200 | Manual review |
 | `MKT-DATA-009` | medium | medium | executable code patterns (`eval`, `Function`) in README/documentation | CWE-94 | Manual review |
 | `MKT-DATA-010` | medium | medium | cloud metadata address or non-HTTP SSRF-capable scheme passed to a network API | CWE-918 | Manual review |
+| `MKT-DATA-011` | medium | medium | literal private, loopback, or link-local destination passed to a network API | CWE-918 | Manual review |
+| `MKT-DATA-012` | medium | medium | request-controlled dynamic URL reaches a network API without an evident allowlist guard | CWE-918 | Manual review |
 
 ### Agent and skill (MKT-SKILL-* / MKT-HIJACK-*)
 
@@ -105,15 +112,19 @@ Supersedes `2026-20`. Existing receipts remain displayable; new scans use the ex
 | `MKT-FS-002` | high | high | path literal starts with `../` or `/etc/` (workspace escape) | CWE-22 | Manual review |
 | `MKT-FS-003` | medium | medium | reading system credential files (`/etc/passwd`, `~/.ssh/id_rsa`) | CWE-200 | Manual review |
 | `MKT-FS-004` | medium | medium | encoded path traversal (`%2e%2e%2f`) or nested `../..` sequences | CWE-22 | Manual review |
-| `MKT-FS-005` | high | high | Composite: sensitive data read + external file write in same file | CWE-200 | Manual review |
+| `MKT-FS-005` | medium | medium | Composite review lead: sensitive data path + nearby file write | CWE-200 | Manual review |
+| `MKT-FS-006` | medium | medium | archive entry path reaches extraction without an evident destination-boundary guard | CWE-22 | Manual review |
+| `MKT-FS-007` | high | high | destructive root/home deletion, disk formatting/write, or shutdown command | CWE-732 | Manual review |
+| `MKT-FS-008` | medium | medium | request-controlled input reaches a file mutation API without an evident boundary guard | CWE-73 | Manual review |
 
 ### Supply chain (MKT-SUPPLY-*)
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
-| `MKT-SUPPLY-001` | high | high | non-empty npm install lifecycle script (`preinstall`/`install`/`postinstall`/`prepare`) | CWE-506 | Manual review |
-| `MKT-SUPPLY-002` | high | high | unpinned git/URL dependency (`git+https://`, `github:`) | CWE-494 | Manual review |
+| `MKT-SUPPLY-001` | medium | medium | non-empty npm install lifecycle script (`preinstall`/`install`/`postinstall`/`prepare`) | CWE-506 | Manual review |
+| `MKT-SUPPLY-002` | medium | medium | unpinned git/URL dependency (`git+https://`, `github:`) | CWE-494 | Manual review |
 | `MKT-SUPPLY-004` | medium | medium | mutable remote archive dependency (`.tgz`, `.tar.gz`, `.zip`) | CWE-494 | Manual review |
+| `MKT-SUPPLY-006` | high | high | lifecycle script containing download-and-execute, dynamic evaluation, persistence, or destructive system command | CWE-506 | Manual review |
 
 ### CI integrity (MKT-CI-*)
 
@@ -121,29 +132,31 @@ Supersedes `2026-20`. Existing receipts remain displayable; new scans use the ex
 |---|---:|---:|---|---|---|
 | `MKT-CI-001` | high | high | `pull_request_target` plus pull-request head checkout | CWE-250 | Manual review |
 | `MKT-CI-002` | high | high | excessive GitHub token permissions (`workflows:write`, `secrets:write`) | CWE-250 | Manual review |
-| `MKT-CI-003` | medium | medium | checkout without `persist-credentials: false` | CWE-200 | Manual review |
+| `MKT-CI-003` | medium | medium | event-controlled/external checkout without `persist-credentials: false` | CWE-200 | Manual review |
 | `MKT-CI-005` | high | high | `curl`/`wget` piped to interpreter in workflow | CWE-494 | Manual review |
 | `MKT-CI-006` | medium | medium | `pull_request_target` without head checkout (still risky) | CWE-250 | Manual review |
-| `MKT-CI-007` | high | high | wildcard (`*`) GitHub token permission | CWE-250 | Manual review |
+| `MKT-CI-007` | medium | medium | wildcard (`*`) GitHub token permission | CWE-250 | Manual review |
 | `MKT-CI-008` | medium | medium | workflow downloads remote scripts without integrity verification | CWE-494 | Manual review |
-| `MKT-CI-009` | medium | medium | sensitive GitHub token scope granted write access | CWE-250 | Manual review |
+| `MKT-CI-009` | low | low | named sensitive GitHub token scope granted write access without a second untrusted-code signal | CWE-250 | Manual review |
 | `MKT-CI-010` | medium | medium | untrusted PR/issue text interpolated directly into `run` | CWE-78 | Manual review |
+| `MKT-CI-011` | low | low | action/reusable workflow ref is not pinned to a full 40-character commit SHA | CWE-494 | Pin dependency |
+| `MKT-CI-012` | medium | medium | reusable workflow receives all caller secrets via `secrets: inherit` | CWE-522 | Manual review |
 
 ### Persistence (MKT-PERSIST-*)
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
-| `MKT-PERSIST-001` | high | high | operating-system persistence mechanisms (`schtasks`, `crontab`, services, Run keys) | CWE-506 | Manual review |
-| `MKT-PERSIST-002` | medium | medium | writing to startup files (`~/.bashrc`, `~/.zshrc`) | CWE-506 | Manual review |
-| `MKT-PERSIST-003` | medium | medium | system directory or boot-location reference | CWE-506 | Manual review |
+| `MKT-PERSIST-001` | medium | medium | operating-system persistence mechanism reference (`schtasks`, `crontab`, services, Run keys) | CWE-506 | Manual review |
+| `MKT-PERSIST-002` | low | low | shell startup-file reference (`~/.bashrc`, `~/.zshrc`) | CWE-506 | Manual review |
+| `MKT-PERSIST-003` | low | low | system directory or boot-location reference | CWE-506 | Manual review |
 | `MKT-PERSIST-004` | high | high | system service or driver installation command | CWE-506 | Manual review |
 
 ### Anti-analysis (MKT-ANALYZE-*)
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
-| `MKT-ANALYZE-001` | medium | medium | anti-debugging patterns (`debugger` statement, `--inspect` detection) | CWE-506 | Manual review |
-| `MKT-ANALYZE-002` | medium | medium | `Error().stack` inspection for debugger detection | CWE-506 | Manual review |
+| `MKT-ANALYZE-001` | low | low | explicit debugger-presence API/TracerPid/inspect detection | CWE-506 | Manual review |
+| `MKT-ANALYZE-002` | low | low | `Error().stack` inspection review lead | CWE-506 | Manual review |
 
 ### Manifest and reviewability
 
@@ -153,21 +166,28 @@ Supersedes `2026-20`. Existing receipts remain displayable; new scans use the ex
 | `MKT-REVIEW-001` | medium | medium | decode-then-dynamic-execution chain (alias of `MKT-EXEC-012`) | CWE-94 | Manual review |
 | `MKT-REVIEW-002` | medium | medium | character-code or hexadecimal string construction | CWE-506 | Manual review |
 | `MKT-REVIEW-003` | medium | medium | repeated encoded escape layers | CWE-506 | Manual review |
-| `MKT-REVIEW-004` | medium | medium | obfuscation/minification tooling reference | CWE-506 | Manual review |
-| `MKT-REVIEW-005` | medium | medium | lines longer than 500 characters (possible obfuscation) | CWE-506 | Manual review |
+| `MKT-REVIEW-004` | low | low | obfuscation/minification tooling reference | CWE-506 | Manual review |
+| `MKT-REVIEW-005` | low | low | lines longer than 500 characters (possible obfuscation) | CWE-506 | Manual review |
 | `MKT-REVIEW-006` | medium | medium | assignment to `__proto__` or `constructor.prototype` | CWE-1321 | Manual review |
 | `MKT-REVIEW-007` | low | low | dynamic regular expression from a non-literal value | CWE-1333 | Manual review |
+| `MKT-REVIEW-008` | medium | medium | Unicode bidirectional or zero-width control characters in source | CWE-451 | Manual review |
+
+### Injection (MKT-INJECT-*)
+
+| ID | Baseline | Final level | Trigger | CWE | Suggested handling |
+|---|---:|---:|---|---|---|
+| `MKT-INJECT-001` | high | high | request-controlled input is concatenated/interpolated into a SQL query call | CWE-89 | Manual review |
 
 ### Composite rules (cross-pattern correlation)
 
 | ID | Baseline | Final level | Trigger | CWE | Suggested handling |
 |---|---:|---:|---|---|---|
-| `MKT-DATA-003` | high | high | secret source + nearby network sink | CWE-200 | Manual review |
+| `MKT-DATA-003` | medium | medium | secret source + nearby network sink | CWE-200 | Manual review |
 | `MKT-SKILL-001` | high | high | instruction override + destructive/egress guidance | CWE-1039 | Manual review |
 | `MKT-CI-001` | high | high | `pull_request_target` + head SHA/ref checkout | CWE-250 | Manual review |
 | `MKT-DATA-008` | medium | medium | env secrets + nearby network request | CWE-200 | Manual review |
 | `MKT-EXEC-012` | high | high | decode + execute in same file | CWE-94 | Manual review |
-| `MKT-FS-005` | high | high | sensitive read + file write in same file | CWE-200 | Manual review |
+| `MKT-FS-005` | medium | medium | sensitive read + nearby file write | CWE-200 | Manual review |
 
 ### Evidence-based risk adjustment
 
@@ -201,7 +221,7 @@ The scanner ignores test and fixture paths for these protection-aware capability
 
 ## Bounds and coverage
 
-The scanner reads eligible production code, manifest, workflow, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. Test, fixture, contract, mock, spec, example, and integration paths are excluded from production code rules. It skips dependency/cache directories, reads at most 8,000 files, reads at most 1 MiB per file, emits at most 300 findings, and emits at most one occurrence of the same rule in one file. Any bound hit produces `incomplete` status.
+The scanner reads eligible production code, security-relevant JSON manifests/configuration, workflow files, and conventional agent-instruction files, including generated `dist/` and `build/` install artifacts. Bulk marketplace/ranking JSON is intentionally excluded: scanning generated data can consume the file limit without adding executable evidence. Test, fixture, contract, mock, spec, example, and integration paths are excluded from production code rules. It skips dependency/cache directories, reads at most 8,000 files, reads at most 1 MiB per file, emits at most 300 findings, and emits at most one occurrence of the same rule in one file. Any bound hit produces `incomplete` status.
 
 The marketplace security queue treats receipts older than 24 hours as stale and uses batches of at most 12. The controlled cloud campaign can process up to 100 sequential batches (1,200 repositories) with 12 source-only workers, then merges once after all completed receipts are validated. Receipt merging is monotonic by `checkedAt`; an older receipt cannot replace a newer commit, and missing compatibility evidence clears an older compatibility label.
 
@@ -209,7 +229,27 @@ Binary analysis, AST/data-flow analysis, SBOM vulnerability resolution, reputati
 
 ## Versioning and migration
 
-`scannerVersion: 13` and `rulesetVersion: 2026-21` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+`scannerVersion: 14` and `rulesetVersion: 2026-22` mark the current evidence-oriented ruleset. Existing receipts remain displayable, but new scans use the expanded `MKT-*` ruleset with evidence-oriented fields (`impact`, `attack_vector`, `cwe`, `evidence_confidence`, `risk_adjustment`). A later scanner/ruleset revision must document added, removed, or reclassified rules here before it is published.
+
+### Changes from 2026-21 to 2026-22
+
+**Added rules:**
+- `MKT-EXEC-014` through `MKT-EXEC-017`: cross-language shell APIs, unsafe deserialization, reverse shells, and request-to-command injection.
+- `MKT-DATA-011` and `MKT-DATA-012`: private-address and request-controlled dynamic SSRF destinations at network call sites.
+- `MKT-FS-006` through `MKT-FS-008`: archive path traversal, direct destructive system commands, and request-to-file mutation.
+- `MKT-SUPPLY-006`: high-risk lifecycle scripts supported by dangerous command evidence.
+- `MKT-CI-011` and `MKT-CI-012`: mutable action references and inherited reusable-workflow secrets.
+- `MKT-REVIEW-008`: Trojan Source bidirectional and zero-width controls.
+- `MKT-INJECT-001`: request input concatenated or interpolated into SQL execution.
+
+**Accuracy corrections:**
+- Ordinary lifecycle scripts are medium review leads; high risk now requires dangerous command evidence.
+- WebAssembly, Node.js `vm`, native addons, and unpinned git dependencies are medium capability/supply-chain leads; they are not automatic proof of host compromise.
+- Named GitHub write permissions and mutable action refs are low hardening leads unless a separate rule proves an untrusted execution path.
+- `MKT-CI-003` is emitted only for external or event-controlled checkouts that persist credentials, not every default checkout.
+- Credential placeholders in example/template configuration are excluded, publishable `pk_*` identifiers are not treated as secrets, and duplicate key patterns count once.
+- Bulk generated JSON is not traversed as source, preventing daily leaderboard data from exhausting the file limit.
+- SSRF, secret/write, archive, download-integrity, and workflow-expression findings remain bounded to the relevant call site or workflow step.
 
 ### Changes from 2026-20 to 2026-21
 
