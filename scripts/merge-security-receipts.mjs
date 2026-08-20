@@ -14,6 +14,15 @@ const SHA_PATTERN = /^[0-9a-f]{7,64}$/i
 const RULE_PATTERN = /^(?:MKT-[A-Z]+-\d{3}|[a-z][a-z0-9-]{0,63})$/
 const RISK_VALUES = new Set(['low', 'medium', 'high'])
 
+function safeRelativePath(value) {
+  return typeof value === 'string'
+    && value.length > 0
+    && value.length <= 512
+    && !/[\u0000-\u001f\u007f]/.test(value)
+    && !/^(?:[A-Za-z]:|[\\/])/.test(value)
+    && !/(?:^|[\\/])\.\.(?:[\\/]|$)/.test(value)
+}
+
 /** Preserve only bounded, source-location evidence safe for the public index.
  * Source excerpts (evidence field) are intentionally NOT published. */
 function publicFindings(receipt) {
@@ -22,9 +31,9 @@ function publicFindings(receipt) {
     if (!finding || typeof finding !== 'object') return []
     if (typeof finding.rule !== 'string' || !RULE_PATTERN.test(finding.rule)) return []
     if (typeof finding.risk !== 'string' || !RISK_VALUES.has(finding.risk)) return []
-    if (typeof finding.file !== 'string' || finding.file.length === 0 || finding.file.length > 512 || finding.file.includes('\u0000')) return []
+    if (!safeRelativePath(finding.file)) return []
     if (!Number.isInteger(finding.line) || finding.line < 1 || finding.line > 1_000_000) return []
-    if (typeof finding.message !== 'string' || finding.message.length === 0 || finding.message.length > 300) return []
+    if (typeof finding.message !== 'string' || finding.message.length === 0 || finding.message.length > 300 || /[\u0000-\u001f\u007f]/.test(finding.message)) return []
     const detail = (name, limit = 120) => typeof finding[name] === 'string' && finding[name].length > 0 && finding[name].length <= limit
       ? { [name]: finding[name] }
       : {}
@@ -65,7 +74,9 @@ function validReceipt(value) {
     && typeof value.checkedAt === 'string'
     && Number.isFinite(Date.parse(value.checkedAt))
     && Number.isInteger(value.scannerVersion)
+    && value.scannerVersion > 0
     && typeof value.rulesetVersion === 'string'
+    && /^[0-9]{4}-[0-9]{2}$/.test(value.rulesetVersion)
 }
 
 /** Validate portable publisher evidence attached by the central source worker. */
