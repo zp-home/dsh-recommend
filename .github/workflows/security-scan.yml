@@ -5,7 +5,9 @@ name: marketplace-security-scan
 
 on:
   schedule:
-    - cron: '7,22,37,52 * * * *'
+    # One six-target batch per hour keeps the 14-day receipt window covered without
+    # creating a noisy stream of routine runs and failure notifications.
+    - cron: '23 * * * *'
   workflow_dispatch:
     inputs:
       limit:
@@ -88,6 +90,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Rebase onto the latest verification index
+        run: git pull --rebase origin main
       - name: Download completed scan receipts
         uses: actions/download-artifact@v4
         with:
@@ -103,5 +110,4 @@ jobs:
           git add data/verification.json
           git diff --cached --quiet && exit 0
           git commit -m "data: update static security receipts"
-          git pull --rebase origin main
           git push
