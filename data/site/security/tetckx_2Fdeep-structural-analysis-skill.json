@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"tetckx/deep-structural-analysis-skill","verification":{"staticSecurity":{"commit":"07b5ad8564cbbb352ad93e8a733ca835e43a448e","status":"passed","risk":"low","checkedAt":"2026-08-22T15:55:50.428Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
