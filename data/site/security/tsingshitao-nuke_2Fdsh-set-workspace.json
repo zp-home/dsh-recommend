@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"tsingshitao-nuke/dsh-set-workspace","verification":{"staticSecurity":{"commit":"50b40c28e75053c1bbfa8c3f7bf22770b09335f0","status":"passed","risk":"low","checkedAt":"2026-08-22T20:58:16.183Z","scannedFiles":15,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

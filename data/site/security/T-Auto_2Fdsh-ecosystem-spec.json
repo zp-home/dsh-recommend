@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"T-Auto/dsh-ecosystem-spec","verification":{"staticSecurity":{"commit":"d406de4c7a5344d1d5a504ac16251effe6a4e939","status":"passed","risk":"low","checkedAt":"2026-08-23T03:26:31.435Z","scannedFiles":25,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

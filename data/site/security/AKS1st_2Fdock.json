@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"AKS1st/dock","verification":{"staticSecurity":{"commit":"3b381abef94df14dd13f733f545b503b27552156","status":"passed","risk":"low","checkedAt":"2026-08-22T23:40:43.262Z","scannedFiles":23,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
