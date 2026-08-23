@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"WODE25500/dsh-terraform","verification":{"staticSecurity":{"commit":"fe4999ab36b81d8c4eaf6bc2566f3de7fabb5c10","status":"passed","risk":"low","checkedAt":"2026-08-23T15:46:05.417Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

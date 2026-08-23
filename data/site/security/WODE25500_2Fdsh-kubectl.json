@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"WODE25500/dsh-kubectl","verification":{"staticSecurity":{"commit":"7bb8623b7a55a997c418235b78cfae1443a23a73","status":"passed","risk":"low","checkedAt":"2026-08-23T15:46:04.507Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
