@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"a903067276-rgb/dsh-simple-memory","verification":{"staticSecurity":{"commit":"ffdcd5828599f01f451dab877c56992d6f21e846","status":"passed","risk":"low","checkedAt":"2026-08-23T09:48:08.527Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

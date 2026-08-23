@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"bpc-oss/dsh-fork-to-preset","verification":{"staticSecurity":{"commit":"1cb7b9f60e52adf5702d37668c81792d748a0aa6","status":"passed","risk":"low","checkedAt":"2026-08-23T09:48:08.081Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
