@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"drscrewdriver/dsh-thinking-levels","verification":{"staticSecurity":{"commit":"0ff856a77ca64e0715ffa259dd37569e283b18a1","status":"passed","risk":"low","checkedAt":"2026-08-24T07:33:14.386Z","scannedFiles":17,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

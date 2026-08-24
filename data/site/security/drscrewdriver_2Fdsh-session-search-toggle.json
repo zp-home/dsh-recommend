@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"drscrewdriver/dsh-session-search-toggle","verification":{"staticSecurity":{"commit":"5b2b2d9f00019f8bda8fbce852a2365dfb44c640","status":"passed","risk":"low","checkedAt":"2026-08-24T10:08:16.974Z","scannedFiles":15,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

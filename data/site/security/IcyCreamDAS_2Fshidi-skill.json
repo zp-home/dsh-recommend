@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"IcyCreamDAS/shidi-skill","verification":{"staticSecurity":{"commit":"003509b684b59d8be1caa325db03c4626cf39b6e","status":"passed","risk":"low","checkedAt":"2026-08-24T06:13:12.148Z","scannedFiles":9,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
