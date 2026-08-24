@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"dff652/deepseek-harness-community-plugins","verification":{"staticSecurity":{"commit":"a846540ba57d1ca8c67eedc7b8b15e6202a25b27","status":"passed","risk":"low","checkedAt":"2026-08-24T16:16:15.426Z","scannedFiles":43,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
