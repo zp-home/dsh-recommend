@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"CJL-1995/dsh-session-health","verification":{"staticSecurity":{"commit":"34694eeb8fba5b91509c881574e05e3a6b2df9ac","status":"passed","risk":"low","checkedAt":"2026-08-24T03:27:52.651Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
