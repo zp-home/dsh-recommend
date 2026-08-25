@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Machine-126/dsh-alert-sound","verification":{"staticSecurity":{"commit":"e0f20a1b81356756dbc0c05b7050e9876110c14b","status":"passed","risk":"low","checkedAt":"2026-08-25T04:59:22.869Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
