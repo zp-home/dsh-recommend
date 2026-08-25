@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"stevysmith/stacktree-dsh","verification":{"staticSecurity":{"commit":"fe309a9a9c8abf917b2712a6cfec433f96712494","status":"passed","risk":"low","checkedAt":"2026-08-25T17:50:45.606Z","scannedFiles":2,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
