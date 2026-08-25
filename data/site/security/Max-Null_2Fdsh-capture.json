@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Max-Null/dsh-capture","verification":{"staticSecurity":{"commit":"6f24e77ee2e8ab5af3fffbda0f4bcca644678643","status":"passed","risk":"low","checkedAt":"2026-08-25T15:10:25.795Z","scannedFiles":14,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
