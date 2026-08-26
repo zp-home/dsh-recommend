@@ -59,6 +59,16 @@
       "issue": 22,
       "approvedAt": "2026-08-18",
       "npmPackage": "dsh-native-launcher"
+    },
+    {
+      "fullName": "zp-home/dsh-weixin-clawbot",
+      "issue": 33,
+      "approvedAt": "2026-08-26"
+    },
+    {
+      "fullName": "guo6x/dsh-shipcheck",
+      "issue": 34,
+      "approvedAt": "2026-08-26"
     }
   ]
 }
