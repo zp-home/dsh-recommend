@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Minglink/DeepSeek-Harness-Hub","verification":{"staticSecurity":{"commit":"62e40d0fa6618652372754fa70681f1b9b097c00","status":"passed","risk":"low","checkedAt":"2026-08-25T22:50:06.905Z","scannedFiles":2,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
