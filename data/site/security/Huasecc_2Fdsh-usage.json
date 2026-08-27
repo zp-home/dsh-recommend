@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Huasecc/dsh-usage","verification":{"staticSecurity":{"commit":"62a8bb5df65516a74f51713780706670bc3cbac5","status":"passed","risk":"low","checkedAt":"2026-08-26T23:51:16.603Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
