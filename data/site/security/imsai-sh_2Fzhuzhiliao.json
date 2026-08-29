@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"imsai-sh/zhuzhiliao","verification":{"staticSecurity":{"commit":"199e203b038ffb515f3a21189a29da4b4fb8518f","status":"passed","risk":"low","checkedAt":"2026-08-29T21:49:20.913Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
