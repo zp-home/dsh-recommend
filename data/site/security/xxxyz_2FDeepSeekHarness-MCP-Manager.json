@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"xxxyz/DeepSeekHarness-MCP-Manager","verification":{"staticSecurity":{"commit":"2f27cb2cb5648a17a19e696a8c5177c65fa50a67","status":"passed","risk":"low","checkedAt":"2026-08-28T18:50:39.268Z","scannedFiles":10,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
