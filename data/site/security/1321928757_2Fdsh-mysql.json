@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"1321928757/dsh-mysql","verification":{"staticSecurity":{"commit":"d6851af75e04d6dc37fe02b99cc171a05d5a89b0","status":"passed","risk":"low","checkedAt":"2026-08-30T17:37:47.101Z","scannedFiles":10,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
