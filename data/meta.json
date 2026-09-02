@@ -6,26 +6,26 @@
     "quality": 0.2,
     "ecosystem": 0.15
   },
-  "generatedAt": "2026-09-01T18:51:59.165Z",
-  "rawFetchedAt": "2026-09-01T18:41:21.963Z",
+  "generatedAt": "2026-09-02T14:51:25.567Z",
+  "rawFetchedAt": "2026-09-02T14:40:36.989Z",
   "counts": {
-    "topicRepos": 13143,
-    "excluded": 1649,
-    "ranked": 11494
+    "topicRepos": 13275,
+    "excluded": 1499,
+    "ranked": 11776
   },
   "signals": {
     "hubCatalog": {
-      "fetchedAt": "2026-09-01T18:41:19.958Z",
+      "fetchedAt": "2026-09-02T14:40:34.820Z",
       "entries": 271,
       "categories": 9,
       "error": null
     },
     "fetchOverflow": [],
     "awesome": {
-      "hitRepos": 3220
+      "hitRepos": 3239
     },
     "deepScan": {
-      "at": "2026-09-01T18:51:58.693Z",
+      "at": "2026-09-02T14:51:25.113Z",
       "top": 200,
       "scanned": 200,
       "verified": 147,
@@ -37,13 +37,13 @@
       "verified": 147,
       "unverified": 53,
       "error": 0,
-      "skipped": 12943
+      "skipped": 13075
     },
     "verification": {
-      "securityPassed": 630,
-      "securityWarnings": 2580,
+      "securityPassed": 633,
+      "securityWarnings": 2603,
       "compatibilityPassed": 0,
-      "unavailable": 9933
+      "unavailable": 10039
     }
   },
   "formula": {
