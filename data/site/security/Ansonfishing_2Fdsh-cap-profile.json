@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Ansonfishing/dsh-cap-profile","verification":{"staticSecurity":{"commit":"ef1675acaf48e41297f94f24bd8f4ca13626827c","status":"passed","risk":"low","checkedAt":"2026-09-03T14:46:54.027Z","scannedFiles":13,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

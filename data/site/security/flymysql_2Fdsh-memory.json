@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"flymysql/dsh-memory","verification":{"staticSecurity":{"commit":"d6afee4bb594164193b7e262d6539d0c55b54a8b","status":"passed","risk":"low","checkedAt":"2026-09-03T09:59:58.205Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
