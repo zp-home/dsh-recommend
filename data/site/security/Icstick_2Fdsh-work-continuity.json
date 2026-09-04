@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Icstick/dsh-work-continuity","verification":{"staticSecurity":{"commit":"e4398f81fb841e1f719423ac4e17082a31e8edf5","status":"passed","risk":"low","checkedAt":"2026-09-04T09:50:38.080Z","scannedFiles":12,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
