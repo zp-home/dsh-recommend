@@ -11,9 +11,12 @@
  * 已装检测经官方 pluginInventory Remote（ctx.remote.pluginInventory.list()）。
  */
 import type {} from '@deepseek-ai/dsh-client-locale/client'
-import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
+import type { Context as ClientContext } from '@deepseek-ai/cordis'
+import type {} from '@deepseek-ai/dsh-client-ui-renderer/client'
 import type {} from '@deepseek-ai/dsh-client-ui-settings/client'
 import type {} from '@deepseek-ai/dsh-api-remotes/client'
+import type { PluginInventoryEntry } from '@deepseek-ai/dsh-host-plugin-inventory'
+import type {} from '@deepseek-ai/dsh-host-plugin-inventory/remote'
 import { RankingsTab, type HistoryDoc, type InstallResult, type LocalCompatibilityResult, type RankingsTabInjected, type RegistryDoc, type UpdatePolicy, type UpdateResult, type UpdateStatus } from './RankingsTab.tsx'
 import { en, zh, type RankingsLocaleKey } from './locales.ts'
 
@@ -91,7 +94,7 @@ export function apply(ctx: ClientContext): void {
         throw new Error(`pluginInventory.list failed: ${result.error.code}: ${result.error.message}`)
       }
       // moduleName 形如 dsh-better-sidebar 或 @scope/pkg；返回裸名供模糊匹配
-      return result.value.entries.map((e) => e.moduleName)
+      return result.value.entries.map((e: PluginInventoryEntry) => e.moduleName)
     },
     installPlugin: async (fullName: string): Promise<InstallResult> => {
       const res = await fetch('/dsh-recommend/install', {
