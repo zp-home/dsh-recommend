@@ -50,19 +50,25 @@ jobs:
       matrix:
         target: ${{ fromJSON(needs.select.outputs.targets) }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
         with:
           path: market
       - name: Checkout target source without credentials
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ matrix.target.fullName }}
-          path: target
-          fetch-depth: 1
-          submodules: false
-          lfs: false
-          persist-credentials: false
+        shell: bash
+        env:
+          TARGET_REPOSITORY: ${{ matrix.target.fullName }}
+          GIT_TERMINAL_PROMPT: '0'
+          GIT_LFS_SKIP_SMUDGE: '1'
+        run: |
+          # Do not use actions/checkout for untrusted targets: its cleanup runs
+          # `git submodule foreach`, which fails on repositories with malformed
+          # or missing .gitmodules entries before the scanner can run.
+          git init --quiet target
+          git -C target remote add origin "https://github.com/${TARGET_REPOSITORY}.git"
+          git -C target -c protocol.version=2 fetch --depth=1 --no-tags origin HEAD
+          git -C target checkout --quiet --detach FETCH_HEAD
       - name: Scan source without executing it
         working-directory: market
         shell: bash

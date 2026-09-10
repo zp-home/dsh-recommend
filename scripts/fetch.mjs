@@ -30,6 +30,7 @@ const MANUAL_FILE = join(ROOT, 'scripts', 'manual-repos.json')
 const CURATED_FILE = join(ROOT, 'scripts', 'curated.json')
 
 const GITHUB_API = 'https://api.github.com'
+const REQUEST_TIMEOUT_MS = 30_000
 const token = process.env.GITHUB_TOKEN ?? ''
 const headers = {
   Accept: 'application/vnd.github+json',
@@ -37,13 +38,35 @@ const headers = {
   ...(token ? { Authorization: `Bearer ${token}` } : {}),
 }
 
+/** 所有外部请求都设置边界，避免单个无响应连接拖死整条定时同步。 */
+function fetchWithTimeout(url, options = {}) {
+  return fetch(url, { ...options, signal: options.signal ?? AbortSignal.timeout(REQUEST_TIMEOUT_MS) })
+}
+
 /** GitHub Search API 硬上限：单个查询最多返回 1000 条（10 页 × 100）。 */
 const SEARCH_RESULTS_CAP = 1000
 const SEARCH_PER_PAGE = 100
 /** 单个叶子查询因索引翻页漂移不完整时，最多从第一页重试一次。 */
 const MAX_LEAF_ATTEMPTS = 2
-/** 一次运行的总页数安全阀。自适应分片会额外消耗父节点探测页，全量请配 token。 */
-const MAX_PAGES_DEFAULT = 200
+/** 页预算下限/上限。自适应分片会额外消耗父节点探测页，全量请配 token。 */
+const MIN_PAGES_DEFAULT = 200
+const MAX_PAGES_CEILING = 1000
+/** 叶子结果页之外，为父节点探测和翻页漂移预留一倍空间，另加固定余量。 */
+const PAGE_BUDGET_FACTOR = 2
+const PAGE_BUDGET_SLACK = 50
+
+/**
+ * 根据 GitHub 根查询 total_count 动态计算页预算。至少保留 200 页，避免生态
+ * 增长后再次被固定安全阀截断；最多 1000 页，仍然防止异常查询无限翻页。
+ */
+export function pageBudgetForTotal(totalCount) {
+  if (!Number.isSafeInteger(totalCount) || totalCount <= 0) return MIN_PAGES_DEFAULT
+  const expectedLeafPages = Math.ceil(totalCount / SEARCH_PER_PAGE)
+  return Math.min(
+    MAX_PAGES_CEILING,
+    Math.max(MIN_PAGES_DEFAULT, expectedLeafPages * PAGE_BUDGET_FACTOR + PAGE_BUDGET_SLACK),
+  )
+}
 /** created 分桶下界：dsh-plugin 话题不可能早于 2008。 */
 const CREATED_FLOOR = '2008-01-01'
 const NUMERIC_DIMENSIONS = ['size', 'stars']
@@ -76,7 +99,7 @@ export function githubRetryDelayMs(response, retries) {
 async function gh(url, retries = 3) {
   let res
   try {
-    res = await fetch(url, { headers })
+    res = await fetchWithTimeout(url, { headers })
   } catch (err) {
     // 网络层错误（ECONNRESET / ETIMEDOUT / ENOTFOUND 等）：指数退避重试
     if (retries <= 0) throw err
@@ -104,7 +127,7 @@ async function text(url) {
   for (let attempt = 0; ; attempt += 1) {
     let res
     try {
-      res = await fetch(url, { headers: { 'User-Agent': 'dsh-recommend' } })
+      res = await fetchWithTimeout(url, { headers: { 'User-Agent': 'dsh-recommend' } })
     } catch (err) {
       if (attempt >= 2) throw err
       console.warn(`网络错误（${err.message}），3s 后重试（第 ${attempt + 1} 次）: ${url}`)
@@ -224,7 +247,7 @@ function addUnique(target, items) {
  * 返回的 audit 是「相对于该次 GitHub Search 响应」的完整性证明；GitHub 索引在运行中
  * 变化时会造成叶子计数不一致，届时明确报不完整而不静默发布部分 registry。
  */
-export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
+export async function fetchTopicRepos(maxPages = null) {
   const completeItems = new Map()
   const partialItems = new Map()
   const queue = []
@@ -237,11 +260,24 @@ export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
 
   let pagesUsed = 0
   let lastRequestAt = 0
+  let pageLimit = maxPages
+  let rootTotalCount = null
+  if (pageLimit === null) {
+    const rootUrl = `${GITHUB_API}/search/repositories?q=${encodeURIComponent('topic:dsh-plugin')}&per_page=1`
+    const root = await gh(rootUrl)
+    pagesUsed += 1
+    lastRequestAt = Date.now()
+    rootTotalCount = Number(root.total_count)
+    pageLimit = pageBudgetForTotal(rootTotalCount)
+  }
+  if (!Number.isSafeInteger(pageLimit) || pageLimit < 1) pageLimit = MIN_PAGES_DEFAULT
   const audit = {
     generatedAt: new Date().toISOString(),
     rootQuery: 'topic:dsh-plugin',
     searchResultCap: SEARCH_RESULTS_CAP,
-    maxPages,
+    maxPages: pageLimit,
+    budgetSource: maxPages === null ? 'auto' : 'explicit',
+    rootTotalCount,
     pagesUsed: 0,
     branches: [],
     leaves: [],
@@ -255,7 +291,7 @@ export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
   }
 
   async function requestPage(shard, page) {
-    if (pagesUsed >= maxPages) return null
+    if (pagesUsed >= pageLimit) return null
     const delay = token ? 2000 : 6500
     const wait = lastRequestAt + delay - Date.now()
     if (lastRequestAt > 0 && wait > 0) await new Promise((resolve) => setTimeout(resolve, wait))
@@ -343,7 +379,7 @@ export async function fetchTopicRepos(maxPages = MAX_PAGES_DEFAULT) {
     addUnique(completeItems, leaf.items)
   }
 
-  if (queue.length > 0 && pagesUsed >= maxPages) audit.incomplete.push({ reason: 'page-budget-exhausted', pendingShards: queue.length })
+  if (queue.length > 0 && pagesUsed >= pageLimit) audit.incomplete.push({ reason: 'page-budget-exhausted', pendingShards: queue.length })
   audit.pagesUsed = pagesUsed
   audit.uniqueItems = completeItems.size
   audit.duplicateItems = audit.fetchedLeafResults - completeItems.size
@@ -529,7 +565,7 @@ export async function fetchNpmDownloads() {
 
 /** npm 下载量点查询（公开 JSON 端点）。 */
 async function npmPoint(url) {
-  const res = await fetch(url)
+  const res = await fetchWithTimeout(url)
   if (!res.ok) throw new Error(`npm API ${res.status}: ${url}`)
   return res.json()
 }
@@ -537,7 +573,7 @@ async function npmPoint(url) {
 const argv = process.argv.slice(2)
 const out = argv.includes('--dry') ? null : RAW_DIR
 const limitIndex = argv.indexOf('--limit')
-const maxPages = limitIndex >= 0 ? Number(argv[limitIndex + 1]) || MAX_PAGES_DEFAULT : MAX_PAGES_DEFAULT
+const maxPages = limitIndex >= 0 ? Number(argv[limitIndex + 1]) || MIN_PAGES_DEFAULT : null
 const limitedRun = limitIndex >= 0
 /** --skip-topic：复用现有 data/raw/repos.json 的 topicRepos，只刷新 hub 目录/awesome/手动清单（本地快速重建，省掉百级 Search 请求）。 */
 const skipTopic = argv.includes('--skip-topic')
