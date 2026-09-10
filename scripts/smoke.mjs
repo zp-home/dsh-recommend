@@ -10,7 +10,7 @@ import { mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promis
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { exclusionReason, scoreRepo } from './score.mjs'
-import { extractRepoRefs, splitTopicShard, topicQueryForShard } from './fetch.mjs'
+import { extractRepoRefs, pageBudgetForTotal, splitTopicShard, topicQueryForShard } from './fetch.mjs'
 import { badgeColor, runBadge } from './badge.mjs'
 import { scanPluginSource, readCompatibilityAttestation, validateCompatibilityAttestationForSource } from './static-security.mjs'
 import { selectSecurityTargets } from './security-queue.mjs'
@@ -90,6 +90,13 @@ t('Topic 分片：size 闭区间完整覆盖且查询稳定', () => {
   ok(upper.numeric.size.min === 11 && upper.numeric.size.max === null)
   ok(topicQueryForShard(lower) === 'topic:dsh-plugin created:2026-08-14..2026-08-14 size:0..10')
   ok(topicQueryForShard(upper) === 'topic:dsh-plugin created:2026-08-14..2026-08-14 size:>=11')
+})
+
+t('Topic 采集：页预算随结果规模扩展并保留硬上限', () => {
+  ok(pageBudgetForTotal(0) === 200)
+  ok(pageBudgetForTotal(50) === 200)
+  ok(pageBudgetForTotal(14174) >= 300)
+  ok(pageBudgetForTotal(1_000_000) === 1000)
 })
 
 t('Topic 分片：1474 条同日簇可按 size 打散', () => {

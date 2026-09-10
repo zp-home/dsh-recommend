@@ -41,7 +41,7 @@ GITHUB_TOKEN=xxx node scripts/sync.mjs # 带 token：30 次/分，快很多（�
 - **主入口检测**：`import.meta.url === pathToFileURL(process.argv[1]).href`（Windows 路径安全）
 - **改评分 = 三处同步**：`docs/scoring.md` → `score.mjs`（`SCORING_VERSION`/`WEIGHTS`）→ 重新生成 `data/`
 - **数据源白名单**：见 `fetch.mjs` 头部注释；新增源先走 ADR
-- **topic 完整性审计**：`fetch.mjs` 把超 1000 条的查询先按 `created` 日期、再按 `size`/`stars` 的无重叠闭区间递归拆分；每轮写 `data/raw/topic-coverage.json`。全量运行只要存在不可拆分溢出、Search `incomplete_results`、分页漂移或页预算耗尽就失败，不发布部分数据
+- **topic 完整性审计**：`fetch.mjs` 把超 1000 条的查询先按 `created` 日期、再按 `size`/`stars` 的无重叠闭区间递归拆分；每轮写 `data/raw/topic-coverage.json`。页预算按根查询 `total_count` 动态计算（下限 200、上限 1000），给父节点探测和翻页漂移留出余量；全量运行只要存在不可拆分溢出、Search `incomplete_results`、分页漂移或页预算耗尽就失败，不发布部分数据
 - **手动收录清单**：`scripts/manual-repos.json` 仅兜底已知的极端不可分溢出叶子；按 `owner/repo` 填写，fetch 用 `/repos` 接口抓取合并，不改变 registry 结构
 - **排除清单**：`scripts/exclude-list.json` 登记官方本体/非插件仓库（denylist），score 排除出榜、registry 保留原因；深扫未检出的仓库自动排除，无需手动登记
 - **失败策略**：主数据源（GitHub Search）失败即红；辅助源（目录镜像/awesome/手动清单单仓）降级警告——**hub 目录降级会写进 meta 并被 validate 拦红**（不再无声）
@@ -57,7 +57,7 @@ GITHUB_TOKEN=xxx node scripts/sync.mjs # 带 token：30 次/分，快很多（�
    搜索不支持按 created 排序，sort=created 会被静默忽略）——`fetchTopicRepos` 先按 `created`
    日期区间拆分；单日仍超过 1000 时，再以 `size`、`stars` 的闭区间分片，范围无重叠且无缺口。
    每个叶子都要求 `uniqueCount === total_count` 且 `incomplete_results=false`；无法安全继续切分时
-   写入 `topic-coverage.json` 并让全量同步失败，而不是静默截断。拆桶后请求数会增长，建议配
+   写入 `topic-coverage.json` 并让全量同步失败，而不是静默截断。页预算根据根查询 `total_count` 自动扩展（200-1000 页），不再依赖固定 200 页阈值。拆桶后请求数会增长，建议配
    `GITHUB_TOKEN`（30 次/分）。
 6. **hub 目录镜像可能失败且曾被静默降级**：0 分类/0 curated 但 CI 全绿——v2 起 `meta.signals.hubCatalog`
    记录 `fetchedAt/error`，validate 对空目录直接红。
