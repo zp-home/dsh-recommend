@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"iqingyoung/429-throttle-mcp","verification":{"staticSecurity":{"commit":"220e8cf15f690ba7e1fde243a16a54b1e5c34c07","status":"passed","risk":"low","checkedAt":"2026-09-07T10:29:50.622Z","scannedFiles":14,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

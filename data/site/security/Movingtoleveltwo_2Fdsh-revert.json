@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Movingtoleveltwo/dsh-revert","verification":{"staticSecurity":{"commit":"c8ffb81b2c77b81f9dd047643f9cc4a9d78b6223","status":"passed","risk":"low","checkedAt":"2026-09-08T18:53:30.383Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

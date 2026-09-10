@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"pricklywiggles/dsh-circuit-breaker","verification":{"staticSecurity":{"commit":"8aa4ffeb0e3df25e186291be8ef8e1f9478a494a","status":"passed","risk":"low","checkedAt":"2026-09-09T18:48:22.358Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"gbeta/dsh-token-speed","verification":{"staticSecurity":{"commit":"b470daceacd3eb661ec4f622b3f2597e691bf2cf","status":"passed","risk":"low","checkedAt":"2026-09-08T21:56:02.965Z","scannedFiles":5,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
