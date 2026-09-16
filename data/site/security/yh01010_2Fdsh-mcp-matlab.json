@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"yh01010/dsh-mcp-matlab","verification":{"staticSecurity":{"commit":"3d2f8d29e0dd016480adfaedc5c249265c597b89","status":"passed","risk":"low","checkedAt":"2026-09-16T17:08:51.225Z","scannedFiles":4,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
