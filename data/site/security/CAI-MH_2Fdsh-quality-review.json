@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"CAI-MH/dsh-quality-review","verification":{"staticSecurity":{"commit":"7c5a67ddc76e91d2a87725fabb23a04b80370f3b","status":"passed","risk":"low","checkedAt":"2026-09-17T01:31:55.272Z","scannedFiles":17,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
