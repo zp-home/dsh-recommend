@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"tr1v3r/dsh-proxy","verification":{"staticSecurity":{"commit":"2af1491bb54b29d0948f0c645dc5c4f58441a805","status":"passed","risk":"low","checkedAt":"2026-09-17T21:33:00.246Z","scannedFiles":8,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
