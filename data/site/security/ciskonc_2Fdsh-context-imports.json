@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"ciskonc/dsh-context-imports","verification":{"staticSecurity":{"commit":"75a1f845a8b6dd057d9c9d2b37b5c8bfbe8ca6b1","status":"passed","risk":"low","checkedAt":"2026-09-19T20:50:39.617Z","scannedFiles":12,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

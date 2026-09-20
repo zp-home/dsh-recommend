@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"yoursc/dsh-siyuan","verification":{"staticSecurity":{"commit":"19f9106b8559f61d6912a0bc46e470b8bcc66e8b","status":"passed","risk":"low","checkedAt":"2026-09-20T01:18:34.517Z","scannedFiles":13,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

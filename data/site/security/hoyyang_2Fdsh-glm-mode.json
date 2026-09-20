@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"hoyyang/dsh-glm-mode","verification":{"staticSecurity":{"commit":"81d0cfc857ead5863d1f2ed55f4fe97277db6f01","status":"passed","risk":"low","checkedAt":"2026-09-19T23:15:49.724Z","scannedFiles":16,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
