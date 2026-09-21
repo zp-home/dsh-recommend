@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"GooDAnDReaDY/dsh-dsml-artifact-guard","verification":{"staticSecurity":{"commit":"ca35b0c7c0b0397e34c6d469e2ae9b5ea2e5671a","status":"passed","risk":"low","checkedAt":"2026-09-21T19:36:58.338Z","scannedFiles":4,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
