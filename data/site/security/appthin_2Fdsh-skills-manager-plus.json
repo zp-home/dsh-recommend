@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"appthin/dsh-skills-manager-plus","verification":{"staticSecurity":{"commit":"a61b1e4be23c67961cd6d15557de8d19c8df0de9","status":"passed","risk":"low","checkedAt":"2026-09-20T19:33:10.016Z","scannedFiles":12,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
