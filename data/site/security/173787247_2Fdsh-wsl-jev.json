@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"173787247/dsh-wsl-jev","verification":{"staticSecurity":{"commit":"5c6cebaa223ed229acceae19756062e6de60ae96","status":"passed","risk":"low","checkedAt":"2026-09-23T23:47:40.020Z","scannedFiles":15,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
