@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"173787247/dsh-wsl-vecmem","verification":{"staticSecurity":{"commit":"3d8d30b078e6b1a6545f569f140262b5f9b8f6fb","status":"passed","risk":"low","checkedAt":"2026-09-24T10:13:09.544Z","scannedFiles":8,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
