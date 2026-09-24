@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"zenglihunter/dsh-petdex-pet","verification":{"staticSecurity":{"commit":"e07c675d493b09f15a1bea18ec6421fdd646f3b9","status":"passed","risk":"low","checkedAt":"2026-09-24T15:16:26.469Z","scannedFiles":6,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
