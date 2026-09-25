@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"Devin-AXIS/jev-dsh-decision","verification":{"staticSecurity":{"commit":"adc88caa9bf174d367e79a5f254c7936bcef088e","status":"passed","risk":"low","checkedAt":"2026-09-25T01:38:18.468Z","scannedFiles":10,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
