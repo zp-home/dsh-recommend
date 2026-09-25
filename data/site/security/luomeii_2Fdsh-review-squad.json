@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"luomeii/dsh-review-squad","verification":{"staticSecurity":{"commit":"0dbae773dfcd6aa106b410d4ab19306e97219859","status":"passed","risk":"low","checkedAt":"2026-09-25T14:10:19.286Z","scannedFiles":16,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
