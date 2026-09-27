@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"173787247/dsh-wsl-llamacpp","verification":{"staticSecurity":{"commit":"174753ead9b5e93355c515fccea3445df0a8a1de","status":"passed","risk":"low","checkedAt":"2026-09-27T08:21:42.355Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}

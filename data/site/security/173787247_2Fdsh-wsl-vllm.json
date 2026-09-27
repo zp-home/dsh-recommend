@@ -1,0 +1,1 @@
+{"format":"dsh-site-security/v1","fullName":"173787247/dsh-wsl-vllm","verification":{"staticSecurity":{"commit":"257bbe121eeb0a5ef532d6f6c8c0e95cf847a346","status":"passed","risk":"low","checkedAt":"2026-09-27T08:21:41.510Z","scannedFiles":7,"findingCount":0,"findings":[],"truncated":false,"scannerVersion":14,"rulesetVersion":"2026-22"}}}
