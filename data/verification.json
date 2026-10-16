@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-16T12:35:18.192Z",
+  "updatedAt": "2026-10-16T17:32:52.903Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1252918,6 +1252918,155 @@
             "evidence_risk": "high",
             "evidence_confidence": "high",
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "123dbl/dsh-side-session": {
+      "staticSecurity": {
+        "commit": "39443eb1ea15fb080121a3a6474426980f346a6c",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-16T17:32:00.728Z",
+        "scannedFiles": 11,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-003",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 5,
+            "message": "contains multiple layers of encoding (hex/base64/unicode escapes) (5 occurrences in this file)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid multi-layer encoding; it hindles review and may indicate malicious intent.",
+            "impact": "Multi-layer encoding (hex/base64/unicode) significantly hinders security review.",
+            "attack_vector": "Chained decoding layers — attacker increases analysis cost and may hide malicious payloads.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Meteor-system/dsh-codegraph": {
+      "staticSecurity": {
+        "commit": "79ac4eda3003c0b6c82c7f74306dac7116ae6006",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-16T17:32:03.562Z",
+        "scannedFiles": 52,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 12,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "lw-storm/dsh-plugin-masterprompt": {
+      "staticSecurity": {
+        "commit": "89ce0e512b494ce5152e11631a9d50828ef4fc27",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-16T17:31:59.985Z",
+        "scannedFiles": 4,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "yushenghai1106/dsh-memory-plugin": {
+      "staticSecurity": {
+        "commit": "cffbf61f05a2f6ef97f1f4c396cff2af5e1bf4e2",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-16T17:32:00.311Z",
+        "scannedFiles": 12,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/verify.yml",
+            "line": 11,
+            "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-SUPPLY-001",
+            "risk": "medium",
+            "file": "package.json",
+            "line": 23,
+            "message": "declares a prepare lifecycle script",
+            "family": "supply-chain",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Remove install-time side effects or document and review each lifecycle script.",
+            "impact": "Install-time lifecycle scripts run before the package is reviewed at runtime and inherit installer privileges.",
+            "attack_vector": "package.json declares preinstall/install/postinstall/prepare code that npm may execute during installation.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "src/tool-memory.ts",
+            "line": 211,
+            "message": "contains 4 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": false,
