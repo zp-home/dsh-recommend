@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-16T17:32:52.903Z",
+  "updatedAt": "2026-10-16T21:25:04.339Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1253056,6 +1253056,118 @@
             "file": "src/tool-memory.ts",
             "line": 211,
             "message": "contains 4 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "RrcoVer0/dsh-webnovel-writer": {
+      "staticSecurity": {
+        "commit": "ade53fd9eecd68d257a43628ad4998d9a7ebe59a",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-16T21:24:25.077Z",
+        "scannedFiles": 6,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 11,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "gezi-wen/dsh-skill-authoring": {
+      "staticSecurity": {
+        "commit": "9ad56782d0a6959d47b30c61458942a70d4b7984",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-16T21:24:21.115Z",
+        "scannedFiles": 6,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "gezi-wen/dsh-subagent-delegation": {
+      "staticSecurity": {
+        "commit": "4b935e3ee3c80adbf99d1f8444745de39c740151",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-16T21:24:23.515Z",
+        "scannedFiles": 4,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "sduwall/dsh-wall-mcp-manager": {
+      "staticSecurity": {
+        "commit": "d4c54ad7add800b73a9ab061fc3be991e2aa1657",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-16T21:24:21.962Z",
+        "scannedFiles": 13,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 21,
+            "message": "references 6 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "package.json",
+            "line": 64,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
             "family": "obfuscation",
             "confidence": "low",
             "disposition": "manual-review",
