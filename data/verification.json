@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-17T05:43:09.607Z",
+  "updatedAt": "2026-10-17T10:58:56.732Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1253391,6 +1253391,103 @@
         "scannedFiles": 8,
         "findingCount": 0,
         "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Hugo16/dsh-session-rotate-on-compact": {
+      "staticSecurity": {
+        "commit": "5c893b50889f23ae04dcad3c5e58766a1be2fe61",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T10:58:06.692Z",
+        "scannedFiles": 4,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "luxi233/dsh-settings-nav-scroll": {
+      "staticSecurity": {
+        "commit": "39316def6f943c2a2091a3ed4908f7918ecf155e",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T10:58:07.115Z",
+        "scannedFiles": 9,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "qingmomo233/dsh-thinking-language": {
+      "staticSecurity": {
+        "commit": "002ff6c1e4d03ad0f3b79fd7515d65199beb658d",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-17T10:58:06.758Z",
+        "scannedFiles": 13,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-DATA-002",
+            "risk": "medium",
+            "file": ".tmp-probe.cjs",
+            "line": 29,
+            "message": "passes a plaintext HTTP destination to a network API",
+            "family": "data-egress",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use HTTPS and keep TLS certificate verification enabled.",
+            "impact": "Disabling TLS verification or using plaintext HTTP allows MITM interception of all traffic.",
+            "attack_vector": "rejectUnauthorized: false or http:// URL — attacker can intercept/modify all requests.",
+            "cwe": "CWE-295",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-009",
+            "risk": "medium",
+            "file": "cordis-check.mjs",
+            "line": 159,
+            "message": "dynamically imports code from a variable path",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.",
+            "impact": "Dynamic import() with variable paths allows loading arbitrary modules at runtime.",
+            "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
+            "cwe": "CWE-94",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client.js",
+            "line": 74,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
