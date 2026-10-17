@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-16T21:25:04.339Z",
+  "updatedAt": "2026-10-17T00:36:25.699Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1253167,6 +1253167,155 @@
             "risk": "low",
             "file": "package.json",
             "line": 64,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "LoveIrishCoffee/dsh-effort-ultra-skin": {
+      "staticSecurity": {
+        "commit": "203cd9078bd7be5af6fa1fad497ef512e7eb7b52",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T00:35:50.343Z",
+        "scannedFiles": 11,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 12,
+            "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-CI-009",
+            "risk": "low",
+            "file": ".github/workflows/publish.yml",
+            "line": 18,
+            "message": "sensitive GitHub token permissions: id-token:write",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards",
+            "remediation": "Grant write scopes only to the job that needs them and keep all other scopes read-only or none.",
+            "impact": "A compromised workflow step can modify repository content, packages, deployments, checks, or security records within the granted scope.",
+            "attack_vector": "A permissions block grants a named write scope; exploitability depends on whether untrusted code reaches that job.",
+            "cwe": "CWE-250",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/publish.yml",
+            "line": 27,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "MYCF711/dsh-plugin-forge": {
+      "staticSecurity": {
+        "commit": "4e523b821381a93edcb521afd66525b1197f99d3",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T00:35:49.128Z",
+        "scannedFiles": 14,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "dataizu/dsh-whale-aqua-theme": {
+      "staticSecurity": {
+        "commit": "8f4abbbde43710b26755e192e4b935cfba4fc37a",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T00:35:47.626Z",
+        "scannedFiles": 5,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "client.js",
+            "line": 16,
+            "message": "contains 3 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "gezi-wen/dsh-plugin-development": {
+      "staticSecurity": {
+        "commit": "43dd8780a7cc3676389f0526a6a80e9a10cffeee",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T00:35:50.112Z",
+        "scannedFiles": 4,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "skills/dsh-plugin-development/SKILL.md",
+            "line": 3,
             "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
             "family": "obfuscation",
             "confidence": "low",
