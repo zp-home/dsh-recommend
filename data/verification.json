@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-17T19:33:21.950Z",
+  "updatedAt": "2026-10-17T22:28:05.365Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1254833,6 +1254833,86 @@
             "cwe": "CWE-506",
             "evidence_risk": "low",
             "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "ShenpingDD/wooden-fish-dsh": {
+      "staticSecurity": {
+        "commit": "9b4514098e91cdff880f439a18abd3c18efafbf4",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T22:27:23.738Z",
+        "scannedFiles": 9,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "TheGoodMorty/chat-pace": {
+      "staticSecurity": {
+        "commit": "1da6cc484db6a4eb75e23841b3b54d625ffdc084",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-17T22:27:25.419Z",
+        "scannedFiles": 5,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-003",
+            "risk": "medium",
+            "file": "src/client.js",
+            "line": 1549,
+            "message": "contains multiple layers of encoding (hex/base64/unicode escapes) (2 occurrences in this file)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid multi-layer encoding; it hindles review and may indicate malicious intent.",
+            "impact": "Multi-layer encoding (hex/base64/unicode) significantly hinders security review.",
+            "attack_vector": "Chained decoding layers — attacker increases analysis cost and may hide malicious payloads.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "niuhuoshan/launch-wechat-miniprogram": {
+      "staticSecurity": {
+        "commit": "36d931ddc01b95f72a6c0eb2ea7d2bedf1990205",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T22:27:26.672Z",
+        "scannedFiles": 9,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/validate.yml",
+            "line": 15,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
