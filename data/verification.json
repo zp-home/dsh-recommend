@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-17T14:17:58.463Z",
+  "updatedAt": "2026-10-17T17:21:00.135Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1253720,6 +1253720,123 @@
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "KasenRi/dsh-browser": {
+      "staticSecurity": {
+        "commit": "67f73036602cb0e14b8e5a775140cb742524a9e5",
+        "status": "warnings",
+        "risk": "high",
+        "checkedAt": "2026-10-17T17:20:06.719Z",
+        "scannedFiles": 22,
+        "findingCount": 4,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/cli.js",
+            "line": 73,
+            "message": "invokes an operating-system process API",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          },
+          {
+            "rule": "MKT-DATA-001",
+            "risk": "high",
+            "file": "lib/lookups.js",
+            "line": 118,
+            "message": "contains 1 potential credential/key pattern(s)",
+            "family": "data-egress",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Remove embedded credentials, rotate exposed secrets, and load them only from a protected secret store.",
+            "impact": "Hardcoded API keys/tokens can be exfiltrated by anyone with read access to the plugin source.",
+            "attack_vector": "Secret key pattern matched in source — key is shipped in plaintext to all consumers.",
+            "cwe": "CWE-798",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-006",
+            "risk": "medium",
+            "file": "lib/lookups.js",
+            "line": 121,
+            "message": "accesses system or user credential stores",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Avoid direct access to credential files; use authenticated API flows instead.",
+            "impact": "Direct access to system credential stores allows theft of SSH keys, AWS creds, and Docker tokens.",
+            "attack_vector": "File path matches ~/.ssh/id_rsa, ~/.aws/credentials, or ~/.docker/config.json.",
+            "cwe": "CWE-200",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-006",
+            "risk": "medium",
+            "file": "lib/security.js",
+            "line": 7,
+            "message": "accesses system or user credential stores (2 occurrences in this file)",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Avoid direct access to credential files; use authenticated API flows instead.",
+            "impact": "Direct access to system credential stores allows theft of SSH keys, AWS creds, and Docker tokens.",
+            "attack_vector": "File path matches ~/.ssh/id_rsa, ~/.aws/credentials, or ~/.docker/config.json.",
+            "cwe": "CWE-200",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "ZZJQ678/dsh-model-picker": {
+      "staticSecurity": {
+        "commit": "f7d1160b317dfabcccf5a7de5de581066a34cad4",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T17:20:08.127Z",
+        "scannedFiles": 22,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "john-walks-slow/dsh-wait-subagent": {
+      "staticSecurity": {
+        "commit": "58e7f9b0e53697fb0e1c2b96c8de8588d14de292",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-17T17:20:06.248Z",
+        "scannedFiles": 4,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
