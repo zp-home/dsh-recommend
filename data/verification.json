@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-18T18:57:20.680Z",
+  "updatedAt": "2026-10-18T21:36:53.880Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1261339,6 +1261339,123 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "HaydenSmith1121/dsh-memory": {
+      "staticSecurity": {
+        "commit": "a0c093b8d2ea65bed5b54e8fb07a7e9932e84a3c",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-18T21:35:58.706Z",
+        "scannedFiles": 5,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "SkyblueeeLabs/dsh-iconic-launcher": {
+      "staticSecurity": {
+        "commit": "ed704072726b46e3ba2919b007671ca5aa7329a9",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-18T21:36:01.075Z",
+        "scannedFiles": 21,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "deploy.ps1",
+            "line": 39,
+            "message": "invokes a file-system mutation API (2 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          },
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "index.js",
+            "line": 182,
+            "message": "invokes a file-system mutation API (5 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          },
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "install.ps1",
+            "line": 36,
+            "message": "invokes a file-system mutation API (5 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "cccc12138/dsh-read-aloud": {
+      "staticSecurity": {
+        "commit": "0a8ff66d4a43817477b9ac6a765f6fcc0fd78cef",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-18T21:36:02.039Z",
+        "scannedFiles": 6,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "yueyexiayu/dsh-edu": {
+      "staticSecurity": {
+        "commit": "2b50433be983f296e39641c4abce9fda4bc42d3e",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-18T21:35:59.178Z",
+        "scannedFiles": 10,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
