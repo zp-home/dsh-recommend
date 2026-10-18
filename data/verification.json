@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-18T06:05:30.604Z",
+  "updatedAt": "2026-10-18T11:24:51.383Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1259783,6 +1259783,121 @@
             "evidence_risk": "high",
             "evidence_confidence": "high",
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Mlte0907/dsh-brake": {
+      "staticSecurity": {
+        "commit": "0f87e7ecf13fe8e5f090c05cff71e648cf332111",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-18T11:24:03.508Z",
+        "scannedFiles": 7,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "ZZJQ678/dsh-global-context": {
+      "staticSecurity": {
+        "commit": "9e9875b5836c1f68910bf9551a55f4cac7f418d8",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-18T11:24:04.313Z",
+        "scannedFiles": 9,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "nguyenduclong-ict/dsh-session-progress": {
+      "staticSecurity": {
+        "commit": "0a9a63d62b4bb508f8ec3d1aee30dab4ed6db8b9",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-18T11:24:05.004Z",
+        "scannedFiles": 12,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "index.js",
+            "line": 1463,
+            "message": "contains 4 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "index.js",
+            "line": 1594,
+            "message": "invokes an operating-system process API (3 calls in this file)",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "protections": "fixed command target",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "rasyidmmz/dsh-ai-memory": {
+      "staticSecurity": {
+        "commit": "f7e07c45772c7241910a27830e2bd78e1b8302a0",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-18T11:24:05.732Z",
+        "scannedFiles": 6,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-PERSIST-002",
+            "risk": "low",
+            "file": "index.mjs",
+            "line": 573,
+            "message": "modifies shell initialization files",
+            "family": "persistence",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Require explicit user approval for any shell profile modification.",
+            "impact": "Shell startup files can execute added commands in future terminal sessions.",
+            "attack_vector": "Source references a shell rc file; this low lead does not by itself prove a write occurs.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": false,
