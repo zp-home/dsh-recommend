@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-21T14:07:13.910Z",
+  "updatedAt": "2026-10-21T18:46:42.302Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1280292,6 +1280292,195 @@
         "scannedFiles": 4,
         "findingCount": 0,
         "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Lunatic029/dsh-clash-proxy": {
+      "staticSecurity": {
+        "commit": "7c6b673c15a6059e0b3966b9e5847d2d461f57a1",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-21T18:45:48.676Z",
+        "scannedFiles": 24,
+        "findingCount": 4,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 12,
+            "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-004",
+            "risk": "medium",
+            "file": "lib/probe.js",
+            "line": 18,
+            "message": "detects net.connect, dgram.createSocket, or process-level network access",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Review all network connections; ensure they use allowlisted destinations with explicit approval.",
+            "impact": "Raw TCP/UDP sockets bypass HTTP-level monitoring and allow covert data channels.",
+            "attack_vector": "net.connect() or dgram.createSocket() — traffic is invisible to HTTP-based DLP.",
+            "cwe": "CWE-923",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-SUPPLY-001",
+            "risk": "medium",
+            "file": "package.json",
+            "line": 35,
+            "message": "declares a prepare lifecycle script",
+            "family": "supply-chain",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Remove install-time side effects or document and review each lifecycle script.",
+            "impact": "Install-time lifecycle scripts run before the package is reviewed at runtime and inherit installer privileges.",
+            "attack_vector": "package.json declares preinstall/install/postinstall/prepare code that npm may execute during installation.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-004",
+            "risk": "medium",
+            "file": "src/probe.ts",
+            "line": 18,
+            "message": "detects net.connect, dgram.createSocket, or process-level network access",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Review all network connections; ensure they use allowlisted destinations with explicit approval.",
+            "impact": "Raw TCP/UDP sockets bypass HTTP-level monitoring and allow covert data channels.",
+            "attack_vector": "net.connect() or dgram.createSocket() — traffic is invisible to HTTP-based DLP.",
+            "cwe": "CWE-923",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "WuJiaoJue/dsh-herdr-site": {
+      "staticSecurity": {
+        "commit": "b5a5d927413ab42da749a5fc0aa01ecc1163fbbd",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-21T18:45:47.051Z",
+        "scannedFiles": 8,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 54,
+            "message": "invokes an operating-system process API",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "src/index.ts",
+            "line": 74,
+            "message": "invokes an operating-system process API",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "wenyixiaoqingnian/screenshot-review": {
+      "staticSecurity": {
+        "commit": "74305811d367ffc5af4986394f9c2140e49d4661",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-21T18:45:46.810Z",
+        "scannedFiles": 5,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "zhangyqjiaoshou-oss/dsh-model-sync": {
+      "staticSecurity": {
+        "commit": "f57261fd77fed2964d1df64443d66586fc43c607",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-21T18:45:46.194Z",
+        "scannedFiles": 13,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 15,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
