@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-21T18:46:42.302Z",
+  "updatedAt": "2026-10-21T22:29:23.448Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1280481,6 +1280481,83 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "BakaCirno233/dsh-session-delete": {
+      "staticSecurity": {
+        "commit": "6f1ca60220783a2130943c9efd6457c907b21297",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-21T22:28:34.866Z",
+        "scannedFiles": 5,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 69,
+            "message": "invokes a file-system mutation API (2 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Z-Asset/ZA_analysis": {
+      "staticSecurity": {
+        "commit": "209b4debfc88894996b6fd0863e6fda01d2c5484",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-21T22:28:34.416Z",
+        "scannedFiles": 9,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Z-Asset/ZA_ppt": {
+      "staticSecurity": {
+        "commit": "31dab0f68c1ba0723d8ebe987f523ab7410d51c0",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-21T22:28:34.531Z",
+        "scannedFiles": 6,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Z-Asset/ZA_report": {
+      "staticSecurity": {
+        "commit": "2505488deb6b2011be3d316d70face7a1e05456e",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-21T22:28:34.987Z",
+        "scannedFiles": 6,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
