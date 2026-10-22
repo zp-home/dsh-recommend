@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-21T22:29:23.448Z",
+  "updatedAt": "2026-10-22T01:38:22.967Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1280558,6 +1280558,102 @@
         "scannedFiles": 6,
         "findingCount": 0,
         "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Ansonfishing/dsh-ca-ref": {
+      "staticSecurity": {
+        "commit": "a773ae460e90a0d4711c85b5e81b1c641ff3094b",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-22T01:37:41.729Z",
+        "scannedFiles": 11,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/client.js",
+            "line": 365,
+            "message": "invokes an operating-system process API (3 calls in this file)",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Z-Asset/ZA_data": {
+      "staticSecurity": {
+        "commit": "8f1ffc4d1e4379a1634570a225a64bcbf933ad1f",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-22T01:37:41.999Z",
+        "scannedFiles": 6,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Z-Asset/ZA_literature": {
+      "staticSecurity": {
+        "commit": "60969184f67c40e62cc39898a5412a40b4144882",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-22T01:37:44.583Z",
+        "scannedFiles": 6,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "nickkkkkk123123/dsh-resume-on-restart": {
+      "staticSecurity": {
+        "commit": "63281f8bf23dbcc48663fd7bea2c09e3796598b9",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-22T01:37:41.849Z",
+        "scannedFiles": 8,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/test.yml",
+            "line": 11,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
