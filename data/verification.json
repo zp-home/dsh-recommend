@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-22T18:40:01.569Z",
+  "updatedAt": "2026-10-22T22:30:33.790Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1283050,6 +1283050,136 @@
         "risk": "low",
         "checkedAt": "2026-10-22T18:39:00.070Z",
         "scannedFiles": 5,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Zenjibad/dsh-mcp-toggle": {
+      "staticSecurity": {
+        "commit": "e9a7ed6a0adceb039f6ea0540af117130c9fa6c4",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-22T22:29:18.276Z",
+        "scannedFiles": 15,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 7,
+            "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "AGENTS.md",
+            "line": 7,
+            "message": "contains 2 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Zenjibad/dsh-plugin-toggle": {
+      "staticSecurity": {
+        "commit": "f05e2f0cf7791b31cd2d1e7c87bcd278322d0c59",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-22T22:29:21.855Z",
+        "scannedFiles": 15,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 7,
+            "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "AGENTS.md",
+            "line": 7,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "openllmsh/dsh": {
+      "staticSecurity": {
+        "commit": "7d20e9d7c7213a5beb69ffe770c007de55ffb93c",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-22T22:29:19.259Z",
+        "scannedFiles": 9,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "shengyvself/narrative-prompt-polish": {
+      "staticSecurity": {
+        "commit": "26763ce7e458a658058af21e72d2e1789b9e2154",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-22T22:29:32.006Z",
+        "scannedFiles": 33,
         "findingCount": 0,
         "findings": [],
         "truncated": false,
