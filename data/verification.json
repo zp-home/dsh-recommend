@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-23T13:47:18.935Z",
+  "updatedAt": "2026-10-23T18:30:50.273Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1284508,6 +1284508,210 @@
             "cwe": "CWE-506",
             "evidence_risk": "low",
             "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Raphaelutumn/dsh-mood": {
+      "staticSecurity": {
+        "commit": "9dba2d4b2e9e7d02c829bd86d92a724c2b13507a",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-23T18:29:53.085Z",
+        "scannedFiles": 30,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 19,
+            "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client.js",
+            "line": 10,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "he-yufeng/dsh-tool-radar": {
+      "staticSecurity": {
+        "commit": "c116c11fa3d2c7ba5b003a649c1e0803a46107c5",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-23T18:29:52.525Z",
+        "scannedFiles": 11,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 12,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-008",
+            "risk": "medium",
+            "file": "src/github.ts",
+            "line": 43,
+            "message": "reads environment secrets and makes network requests in the same file",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Separate secret handling from network requests; never combine in the same code flow.",
+            "impact": "Environment secrets combined with network requests create a direct exfiltration channel.",
+            "attack_vector": "process.env.* + fetch/http.request in same file — secrets flow to external endpoints.",
+            "cwe": "CWE-200",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "he-yufeng/dsh-tool-reading-map": {
+      "staticSecurity": {
+        "commit": "fad5988a9371eb580a88f4ae7be2975eedcd9f51",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-23T18:29:55.475Z",
+        "scannedFiles": 9,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 12,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "ivanearisty/dsh-session-search": {
+      "staticSecurity": {
+        "commit": "3a4d5dbdbf68539cf03879d854563515954c4572",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-23T18:29:52.985Z",
+        "scannedFiles": 33,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client/SearchPalette.js",
+            "line": 130,
+            "message": "contains 3 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client/SettingsCard.js",
+            "line": 26,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-SUPPLY-001",
+            "risk": "medium",
+            "file": "package.json",
+            "line": 45,
+            "message": "declares a prepare lifecycle script",
+            "family": "supply-chain",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Remove install-time side effects or document and review each lifecycle script.",
+            "impact": "Install-time lifecycle scripts run before the package is reviewed at runtime and inherit installer privileges.",
+            "attack_vector": "package.json declares preinstall/install/postinstall/prepare code that npm may execute during installation.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
