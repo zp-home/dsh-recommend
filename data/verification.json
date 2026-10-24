@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-24T21:00:30.174Z",
+  "updatedAt": "2026-10-24T23:26:00.691Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1288162,6 +1288162,161 @@
             "cwe": "CWE-506",
             "evidence_risk": "low",
             "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "173787247/dsh-remote-ssh": {
+      "staticSecurity": {
+        "commit": "d294fe0e1a8617900f1f3d7b83fa0f8809c29ddd",
+        "status": "warnings",
+        "risk": "high",
+        "checkedAt": "2026-10-24T23:24:52.546Z",
+        "scannedFiles": 13,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-FS-007",
+            "risk": "high",
+            "file": "lib/ssh.js",
+            "line": 41,
+            "message": "contains a command that can destructively alter the host system (2 occurrences in this file)",
+            "family": "file-system",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "CWE destructive file or directory permissions",
+            "remediation": "Remove destructive system commands and restrict any cleanup to a validated workspace subdirectory.",
+            "impact": "A destructive system command can erase broad file trees, overwrite disks, or make the host unavailable.",
+            "attack_vector": "The source directly invokes recursive root/home deletion, filesystem formatting, raw disk writes, or shutdown.",
+            "cwe": "CWE-732",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-PERSIST-001",
+            "risk": "medium",
+            "file": "lib/ssh.js",
+            "line": 41,
+            "message": "references an operating-system persistence mechanism",
+            "family": "persistence",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Document and require explicit user approval for persistent operating-system changes.",
+            "impact": "Operating-system scheduler, service, or Run-key mechanisms can make plugin behavior persist across sessions.",
+            "attack_vector": "Source references a conventional persistence mechanism; a separate direct command or write may be required to activate it.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/ssh.js",
+            "line": 84,
+            "message": "invokes an operating-system process API",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "protections": "fixed command target",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "jerryqx/dsh-xiaoyuzhou": {
+      "staticSecurity": {
+        "commit": "ac6a2defc85d4379a38f6b0406b2d4d171cc3627",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-24T23:24:53.224Z",
+        "scannedFiles": 8,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "qimen039-code/dsh-consumer-audit": {
+      "staticSecurity": {
+        "commit": "f9910aeb840b2d6cd09b778106201fd89cf6b55c",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-24T23:24:54.820Z",
+        "scannedFiles": 19,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-PERSIST-002",
+            "risk": "low",
+            "file": "lib/collect.js",
+            "line": 193,
+            "message": "modifies shell initialization files",
+            "family": "persistence",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Require explicit user approval for any shell profile modification.",
+            "impact": "Shell startup files can execute added commands in future terminal sessions.",
+            "attack_vector": "Source references a shell rc file; this low lead does not by itself prove a write occurs.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-PERSIST-002",
+            "risk": "low",
+            "file": "lib/index.js",
+            "line": 53,
+            "message": "modifies shell initialization files",
+            "family": "persistence",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Require explicit user approval for any shell profile modification.",
+            "impact": "Shell startup files can execute added commands in future terminal sessions.",
+            "attack_vector": "Source references a shell rc file; this low lead does not by itself prove a write occurs.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/index.js",
+            "line": 59,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
