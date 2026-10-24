@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-24T06:01:42.871Z",
+  "updatedAt": "2026-10-24T11:18:38.440Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1286499,6 +1286499,86 @@
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Missher12/dsh-missher-brain": {
+      "staticSecurity": {
+        "commit": "dda4cdb04b19d574fff8deeed6f7fd6dae29fa08",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-24T11:17:35.373Z",
+        "scannedFiles": 27,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-FS-004",
+            "risk": "medium",
+            "file": "src/client/index.ts",
+            "line": 5,
+            "message": "attempts path traversal with encoded or nested patterns",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use path.resolve() and verify the result stays within the workspace root.",
+            "impact": "Path traversal with encoded patterns (%2e%2e%2f) or nested ../.. can escape any path-based sandbox.",
+            "attack_vector": "URL-encoded or nested traversal sequences — bypass naive path validation that only checks single ../.",
+            "cwe": "CWE-22",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "huaxiren6/DSH-EmailReader": {
+      "staticSecurity": {
+        "commit": "c96afef4427bf7dc359f5375e92ad6ac334a26b9",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-24T11:17:35.204Z",
+        "scannedFiles": 6,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-002",
+            "risk": "medium",
+            "file": "src/index.js",
+            "line": 225,
+            "message": "uses string concatenation or char-code construction to hide keywords",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Use readable, explicit code patterns; avoid character-code obfuscation.",
+            "impact": "Character-code construction hides string literals from grep-based detection.",
+            "attack_vector": "String.fromCharCode() builds dangerous strings at runtime — evades static patterns.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "huaxiren6/DSH-SmsWebhook": {
+      "staticSecurity": {
+        "commit": "f5ff3615788fac553812913178a710a7ebf56901",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-24T11:17:41.266Z",
+        "scannedFiles": 6,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
