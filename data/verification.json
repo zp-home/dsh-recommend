@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-25T18:28:31.558Z",
+  "updatedAt": "2026-10-25T21:55:45.212Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1291209,6 +1291209,147 @@
             "evidence_risk": "low",
             "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "ArimaKana-Akane/dsh-sakurafrp": {
+      "staticSecurity": {
+        "commit": "1c68de7b79afa2b08734a28aa696a42d1bc0e250",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-25T21:55:02.091Z",
+        "scannedFiles": 11,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-DATA-002",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 234,
+            "message": "disables TLS verification or references plaintext HTTP transport",
+            "family": "data-egress",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use HTTPS and keep TLS certificate verification enabled.",
+            "impact": "Disabling TLS verification or using plaintext HTTP allows MITM interception of all traffic.",
+            "attack_vector": "rejectUnauthorized: false or http:// URL — attacker can intercept/modify all requests.",
+            "cwe": "CWE-295",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 330,
+            "message": "invokes an operating-system process API",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "ArimaKana-Akane/dsh-whale-tools": {
+      "staticSecurity": {
+        "commit": "5abe0398129ad52ecb48d66f9b241c0a8241383d",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-25T21:55:02.126Z",
+        "scannedFiles": 10,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 203,
+            "message": "invokes an operating-system process API (3 calls in this file)",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "fenglin-ai/dsh-funasr-voice": {
+      "staticSecurity": {
+        "commit": "8128391a6796a28859383df5a56768f623c5be1a",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-25T21:55:03.123Z",
+        "scannedFiles": 7,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-FS-008",
+            "risk": "medium",
+            "file": "asr_server.py",
+            "line": 91,
+            "message": "passes request-controlled input directly to a file mutation API",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Path Traversal Prevention",
+            "remediation": "Map external identifiers to server-owned paths and enforce a resolved workspace boundary before mutation.",
+            "impact": "Request-controlled paths can overwrite, rename, chmod, or delete files outside the intended workspace.",
+            "attack_vector": "A request body/query/parameter value reaches a file mutation call without an evident resolved-path boundary.",
+            "cwe": "CWE-73",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 108,
+            "message": "invokes an operating-system process API (5 calls in this file)",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
           }
         ],
         "truncated": false,
