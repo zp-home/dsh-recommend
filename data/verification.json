@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-26T06:27:16.585Z",
+  "updatedAt": "2026-10-26T14:25:39.102Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1292317,6 +1292317,163 @@
             "evidence_risk": "low",
             "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "9Ashwin/dsh-session-rename": {
+      "staticSecurity": {
+        "commit": "f073bfa1fa7e59832df5efacb5b94ee44749326c",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-26T14:24:38.873Z",
+        "scannedFiles": 6,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 11,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-009",
+            "risk": "medium",
+            "file": "test.mjs",
+            "line": 21,
+            "message": "dynamically imports code from a variable path",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.",
+            "impact": "Dynamic import() with variable paths allows loading arbitrary modules at runtime.",
+            "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
+            "cwe": "CWE-94",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "test.mjs",
+            "line": 49,
+            "message": "invokes a file-system mutation API",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Volta-ln/dsh-quick-ask": {
+      "staticSecurity": {
+        "commit": "fd0bbe4671574d875d42af6f7dacbedd66ce45b8",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-26T14:24:38.577Z",
+        "scannedFiles": 9,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client.js",
+            "line": 8,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "fireworksss/LeisureTimeQueue": {
+      "staticSecurity": {
+        "commit": "2aab3ecaf27f82308729ef091d4c3760811bb7fe",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-26T14:24:39.256Z",
+        "scannedFiles": 28,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "src/client/styles.ts",
+            "line": 13,
+            "message": "contains 8 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "src/store.ts",
+            "line": 69,
+            "message": "invokes a file-system mutation API (3 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
           }
         ],
         "truncated": false,
