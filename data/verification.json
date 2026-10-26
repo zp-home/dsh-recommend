@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-26T00:29:51.341Z",
+  "updatedAt": "2026-10-26T06:27:16.585Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1292178,6 +1292178,144 @@
             "cwe": "CWE-494",
             "evidence_risk": "low",
             "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Aztech-Lab/dsh-3301": {
+      "staticSecurity": {
+        "commit": "09856b2fa4150546aa32d7508891ebbafe2923fd",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-26T06:26:19.371Z",
+        "scannedFiles": 19,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/gate-auth.js",
+            "line": 65,
+            "message": "invokes an operating-system process API (3 calls in this file)",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "protections": "fixed command target",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "icanfinish11/dsh_superpowers": {
+      "staticSecurity": {
+        "commit": "04265fcf4cec8ca806212d7d52aafb58273e66c4",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-26T06:26:19.181Z",
+        "scannedFiles": 28,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-HIJACK-001",
+            "risk": "medium",
+            "file": "skills/writing-skills/SKILL.md",
+            "line": 179,
+            "message": "contains prompt injection patterns targeting system instructions",
+            "family": "agent-skill",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Top 10 for LLM Applications",
+            "remediation": "Remove all prompt injection patterns; they indicate attempts to override safety boundaries.",
+            "impact": "Prompt injection can override system instructions, causing the agent to perform unauthorized actions.",
+            "attack_vector": "\"Ignore all previous instructions\" pattern detected — targets LLM instruction hierarchy.",
+            "cwe": "CWE-1039",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "skills/writing-skills/SKILL.md",
+            "line": 470,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "sharewiner/dsh-model-management": {
+      "staticSecurity": {
+        "commit": "09db30228b428c3a2cb5e1cf40b9037f0e991ccb",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-26T06:26:18.874Z",
+        "scannedFiles": 15,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 15,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client.js",
+            "line": 77,
+            "message": "contains 3 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
