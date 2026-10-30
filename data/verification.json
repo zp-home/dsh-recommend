@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-29T21:32:40.850Z",
+  "updatedAt": "2026-10-30T01:10:51.596Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1299438,6 +1299438,86 @@
             "cwe": "CWE-506",
             "evidence_risk": "medium",
             "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "FitBBC/dsh-plugin-tokenmarket": {
+      "staticSecurity": {
+        "commit": "01c7f9787691471eb23ba1ff1b05ab0f8864cfe1",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-30T01:09:46.021Z",
+        "scannedFiles": 7,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 19,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "RempleXI/word-docx-writer": {
+      "staticSecurity": {
+        "commit": "d9a24c9bed53b14e760e9ab736caaf44dca4342b",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-30T01:09:44.938Z",
+        "scannedFiles": 12,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "hutao562/dsh-remote-dsh": {
+      "staticSecurity": {
+        "commit": "f074c7e6c53d8a96fb534dd481409fc5b85d5e9a",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-10-30T01:09:44.581Z",
+        "scannedFiles": 7,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-009",
+            "risk": "medium",
+            "file": ".verify/client-smoke.mjs",
+            "line": 91,
+            "message": "dynamically imports code from a variable path",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.",
+            "impact": "Dynamic import() with variable paths allows loading arbitrary modules at runtime.",
+            "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
+            "cwe": "CWE-94",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
