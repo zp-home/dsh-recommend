@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-10-30T01:10:51.596Z",
+  "updatedAt": "2026-10-30T07:18:53.477Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1299517,6 +1299517,157 @@
             "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
             "cwe": "CWE-94",
             "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "B-TQ/dsh-wallpaper": {
+      "staticSecurity": {
+        "commit": "3a70868a203464c4e6281816f452b4faa6730a01",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-30T07:17:48.596Z",
+        "scannedFiles": 7,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "sojo-negai/dsh-prompt-refine": {
+      "staticSecurity": {
+        "commit": "614aef0bdab20ac5229fedcf3fdc0a9e674ff461",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-10-30T07:17:49.652Z",
+        "scannedFiles": 12,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "zhqowo/dsh-whale-tray": {
+      "staticSecurity": {
+        "commit": "75895d5f22b819758aa745a43fc834b54cbefcf7",
+        "status": "warnings",
+        "risk": "high",
+        "checkedAt": "2026-10-30T07:17:49.708Z",
+        "scannedFiles": 18,
+        "findingCount": 6,
+        "findings": [
+          {
+            "rule": "MKT-DATA-011",
+            "risk": "medium",
+            "file": "extension/bg.js",
+            "line": 5,
+            "message": "passes a private, loopback, or link-local address to a network API",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP SSRF Prevention Cheat Sheet",
+            "remediation": "Allowlist public destinations and reject loopback, RFC1918, and link-local targets before making requests.",
+            "impact": "Requests to private or loopback addresses can reach internal services that are not publicly exposed.",
+            "attack_vector": "A network API receives a literal RFC1918, loopback, or link-local URL without an allowlist check.",
+            "cwe": "CWE-918",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-001",
+            "risk": "high",
+            "file": "macos/dsh-ctl.sh",
+            "line": 85,
+            "message": "contains 1 potential credential/key pattern(s)",
+            "family": "data-egress",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Remove embedded credentials, rotate exposed secrets, and load them only from a protected secret store.",
+            "impact": "Hardcoded API keys/tokens can be exfiltrated by anyone with read access to the plugin source.",
+            "attack_vector": "Secret key pattern matched in source — key is shipped in plaintext to all consumers.",
+            "cwe": "CWE-798",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-DATA-007",
+            "risk": "medium",
+            "file": "macos/install.sh",
+            "line": 4,
+            "message": "references 2 known high-risk or anonymous destination(s)",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Route all network traffic through allowlisted, authenticated endpoints only.",
+            "impact": "Requests to anonymous or high-risk destinations can disclose plugin data to an untrusted operator.",
+            "attack_vector": "Network URL matches a known paste, tunnel, webhook, or anonymous file-hosting service.",
+            "cwe": "CWE-200",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-FS-004",
+            "risk": "medium",
+            "file": "macos/install.sh",
+            "line": 82,
+            "message": "attempts path traversal with encoded or nested patterns",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use path.resolve() and verify the result stays within the workspace root.",
+            "impact": "Path traversal with encoded patterns (%2e%2e%2f) or nested ../.. can escape any path-based sandbox.",
+            "attack_vector": "URL-encoded or nested traversal sequences — bypass naive path validation that only checks single ../.",
+            "cwe": "CWE-22",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "WhaleTray.cs",
+            "line": 30,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-PERSIST-003",
+            "risk": "low",
+            "file": "WhaleTray.cs",
+            "line": 285,
+            "message": "writes to system directories or boot locations",
+            "family": "persistence",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Restrict file writes to user-owned directories with explicit approval.",
+            "impact": "System startup and installation directories are sensitive destinations for persistent modification.",
+            "attack_vector": "Source references a boot or system directory; this low lead does not by itself prove mutation or privilege.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
