@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-01T07:41:31.624Z",
+  "updatedAt": "2026-11-01T15:30:51.749Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1307517,6 +1307517,67 @@
             "cwe": "CWE-22",
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "2021Heei/dsh-tts-flash": {
+      "staticSecurity": {
+        "commit": "a23020b72a5c403e3dc50527b3ef43c6e55c739a",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-01T15:29:45.920Z",
+        "scannedFiles": 18,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "siruignaw-sys/dsh-tool-bandit-search": {
+      "staticSecurity": {
+        "commit": "089dd0d3e5b2b1686e66363905b8a393caa1d387",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-01T15:29:47.790Z",
+        "scannedFiles": 4,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "teethyachi/dsh-usage-mini": {
+      "staticSecurity": {
+        "commit": "006de8a115ca886268fab39651bb789ba6147ea6",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-01T15:29:45.235Z",
+        "scannedFiles": 10,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client.js",
+            "line": 481,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
