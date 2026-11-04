@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-04T01:30:33.710Z",
+  "updatedAt": "2026-11-04T09:30:54.766Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1313938,6 +1313938,196 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "oxlyn/dsh-plugin-mgr": {
+      "staticSecurity": {
+        "commit": "c4b70ecffbc04930dc9089b306c41942765d5399",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-04T09:29:50.307Z",
+        "scannedFiles": 35,
+        "findingCount": 7,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 15,
+            "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-SUPPLY-001",
+            "risk": "medium",
+            "file": "package.json",
+            "line": 39,
+            "message": "declares a prepare lifecycle script",
+            "family": "supply-chain",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Remove install-time side effects or document and review each lifecycle script.",
+            "impact": "Install-time lifecycle scripts run before the package is reviewed at runtime and inherit installer privileges.",
+            "attack_vector": "package.json declares preinstall/install/postinstall/prepare code that npm may execute during installation.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-FS-004",
+            "risk": "medium",
+            "file": "src/client/components/ConfirmModal.tsx",
+            "line": 6,
+            "message": "attempts path traversal with encoded or nested patterns",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use path.resolve() and verify the result stays within the workspace root.",
+            "impact": "Path traversal with encoded patterns (%2e%2e%2f) or nested ../.. can escape any path-based sandbox.",
+            "attack_vector": "URL-encoded or nested traversal sequences — bypass naive path validation that only checks single ../.",
+            "cwe": "CWE-22",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-FS-004",
+            "risk": "medium",
+            "file": "src/client/components/PluginCard.tsx",
+            "line": 6,
+            "message": "attempts path traversal with encoded or nested patterns",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use path.resolve() and verify the result stays within the workspace root.",
+            "impact": "Path traversal with encoded patterns (%2e%2e%2f) or nested ../.. can escape any path-based sandbox.",
+            "attack_vector": "URL-encoded or nested traversal sequences — bypass naive path validation that only checks single ../.",
+            "cwe": "CWE-22",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-PERSIST-002",
+            "risk": "low",
+            "file": "src/client/PluginManagerTab.tsx",
+            "line": 271,
+            "message": "modifies shell initialization files",
+            "family": "persistence",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Require explicit user approval for any shell profile modification.",
+            "impact": "Shell startup files can execute added commands in future terminal sessions.",
+            "attack_vector": "Source references a shell rc file; this low lead does not by itself prove a write occurs.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "src/server/lifecycle.ts",
+            "line": 27,
+            "message": "invokes an operating-system process API",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          },
+          {
+            "rule": "MKT-REVIEW-004",
+            "risk": "low",
+            "file": "tsdown.config.ts",
+            "line": 24,
+            "message": "uses obfuscation libraries or eval-like patterns with code generation",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid obfuscation at install time; keep runtime code inspectable.",
+            "impact": "Obfuscation or minification tooling can conceal generated behavior from source review.",
+            "attack_vector": "Runtime or install-time code generation uses an obfuscation/minification package.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "vritser/dsh-emacs": {
+      "staticSecurity": {
+        "commit": "7b03e8904cc17b14582b217d0b4fca4318426e2a",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-04T09:29:50.368Z",
+        "scannedFiles": 8,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 38,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "yefeng7531/dsh-whale-maid-mascot": {
+      "staticSecurity": {
+        "commit": "100675a4d93c46be791cd4707b57d616c567689d",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-04T09:29:49.978Z",
+        "scannedFiles": 9,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
