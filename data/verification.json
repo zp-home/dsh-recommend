@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-05T07:08:11.008Z",
+  "updatedAt": "2026-11-05T15:39:14.433Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1316628,6 +1316628,34 @@
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "zampie/request-frame-preview": {
+      "staticSecurity": {
+        "commit": "8ad3eb416701fe6a3af3c936bb5e94c328184c99",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-05T15:38:19.499Z",
+        "scannedFiles": 5,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "zampie/sakura-afternoon-skin": {
+      "staticSecurity": {
+        "commit": "eb134ba54642c7b0a29d5900a4875d44a77fa3f0",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-05T15:38:21.778Z",
+        "scannedFiles": 5,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
