@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-10T23:34:49.278Z",
+  "updatedAt": "2026-11-11T06:48:55.629Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1337658,6 +1337658,92 @@
           }
         ],
         "truncated": true,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "NattoCB/dsh-web-search-session-follow": {
+      "staticSecurity": {
+        "commit": "1d1bad27c577f5303238942049a28c36d324740b",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-11T06:48:00.178Z",
+        "scannedFiles": 9,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "client/client.js",
+            "line": 11,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "kagurazakayashi/dsh-startup-command": {
+      "staticSecurity": {
+        "commit": "9b0d3fb4723d55036a4dcbc216beea5c865c5e03",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-11T06:48:02.926Z",
+        "scannedFiles": 5,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "client.js",
+            "line": 963,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "index.js",
+            "line": 363,
+            "message": "invokes an operating-system process API",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
       }
