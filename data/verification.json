@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-11T06:48:55.629Z",
+  "updatedAt": "2026-11-11T15:28:23.046Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1337741,6 +1337741,90 @@
             "evidence_risk": "high",
             "evidence_confidence": "high",
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "JularDepick/AGENTS.md-Best-Practices": {
+      "staticSecurity": {
+        "commit": "92981b8c2a9a1749815064c8858689c8e3ea1157",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-11T15:27:27.248Z",
+        "scannedFiles": 5,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-CI-009",
+            "risk": "low",
+            "file": ".github/workflows/release-skill.yml",
+            "line": 5,
+            "message": "sensitive GitHub token permissions: contents:write",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards",
+            "remediation": "Grant write scopes only to the job that needs them and keep all other scopes read-only or none.",
+            "impact": "A compromised workflow step can modify repository content, packages, deployments, checks, or security records within the granted scope.",
+            "attack_vector": "A permissions block grants a named write scope; exploitability depends on whether untrusted code reaches that job.",
+            "cwe": "CWE-250",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/release-skill.yml",
+            "line": 20,
+            "message": "references 1 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Mengshang-spec/dsh-third-party-api-balance-wallet": {
+      "staticSecurity": {
+        "commit": "aaf6df7dac9e80d3f104bcfcbba34d34b5fc4249",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-11T15:27:24.748Z",
+        "scannedFiles": 18,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/check.yml",
+            "line": 11,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": false,
