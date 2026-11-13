@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-13T17:54:39.562Z",
+  "updatedAt": "2026-11-13T23:43:55.735Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1340063,6 +1340063,34 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Como44/dsh-zh-more": {
+      "staticSecurity": {
+        "commit": "c8f37b7c99315b70b307b6d3f3416ed8d2d290c7",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-13T23:42:44.732Z",
+        "scannedFiles": 5,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "JonyChan1350/dsh-llm-balance": {
+      "staticSecurity": {
+        "commit": "189050c72e758f4ca62190e13dcfde99d52bce86",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-13T23:42:38.501Z",
+        "scannedFiles": 7,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
