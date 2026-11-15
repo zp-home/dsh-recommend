@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-15T11:15:50.329Z",
+  "updatedAt": "2026-11-15T17:52:28.796Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1341391,6 +1341391,39 @@
             "cwe": "CWE-506",
             "evidence_risk": "low",
             "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Amengclass/dsh-settings-hub": {
+      "staticSecurity": {
+        "commit": "72910cca0f425f2de7cfd00d2d4423b8678bafd6",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-15T17:51:43.197Z",
+        "scannedFiles": 8,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/release.yml",
+            "line": 15,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
