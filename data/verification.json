@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-15T23:00:04.057Z",
+  "updatedAt": "2026-11-16T02:53:41.992Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1341608,6 +1341608,57 @@
             "evidence_risk": "high",
             "evidence_confidence": "medium",
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Fnckerpoi/dsh-plugin-sirchmunk": {
+      "staticSecurity": {
+        "commit": "a0c5e61d3b3405ecdd11a20988fd29fb32efe05f",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-16T02:52:30.988Z",
+        "scannedFiles": 23,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-015",
+            "risk": "medium",
+            "file": "docs/design/ontology-models/validate_models.py",
+            "line": 17,
+            "message": "uses an unsafe deserialization API",
+            "family": "execution",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP Deserialization Cheat Sheet",
+            "remediation": "Use a safe, schema-validating format and never deserialize attacker-controlled bytes with executable loaders.",
+            "impact": "Unsafe deserialization can instantiate attacker-controlled objects and trigger arbitrary code execution.",
+            "attack_vector": "pickle, dill, marshal, node-serialize, or unsafe YAML loaders consume untrusted bytes.",
+            "cwe": "CWE-502",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-004",
+            "risk": "low",
+            "file": "vite.config.ts",
+            "line": 13,
+            "message": "uses obfuscation libraries or eval-like patterns with code generation",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid obfuscation at install time; keep runtime code inspectable.",
+            "impact": "Obfuscation or minification tooling can conceal generated behavior from source review.",
+            "attack_vector": "Runtime or install-time code generation uses an obfuscation/minification package.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": false,
