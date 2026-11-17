@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-17T04:40:23.038Z",
+  "updatedAt": "2026-11-17T14:42:32.799Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1342705,6 +1342705,39 @@
             "cwe": "CWE-506",
             "evidence_risk": "low",
             "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "tianyaojiudi-prog/dsh-djy-xttsc": {
+      "staticSecurity": {
+        "commit": "0b94db01b8edfd73b71a279f45bd25d80ab0e06a",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-17T14:41:28.258Z",
+        "scannedFiles": 7,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-EXEC-009",
+            "risk": "medium",
+            "file": "index.js",
+            "line": 65,
+            "message": "dynamically imports code from a variable path",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Use static imports with allowlisted modules; avoid dynamic import() with variable arguments.",
+            "impact": "Dynamic import() with variable paths allows loading arbitrary modules at runtime.",
+            "attack_vector": "import(variablePath) — attacker controls the path to inject malicious modules.",
+            "cwe": "CWE-94",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
