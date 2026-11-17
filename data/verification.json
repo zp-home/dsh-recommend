@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-16T22:22:06.573Z",
+  "updatedAt": "2026-11-17T04:40:23.038Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1342654,6 +1342654,57 @@
             "cwe": "CWE-94",
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "lcthe/dsh-hermes-memory": {
+      "staticSecurity": {
+        "commit": "ca2cbd2d83ea69e3c784234f7841e6ca592caef9",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-17T04:39:16.884Z",
+        "scannedFiles": 74,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-003",
+            "risk": "medium",
+            "file": "src/core/content-scanner.ts",
+            "line": 14,
+            "message": "contains multiple layers of encoding (hex/base64/unicode escapes)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid multi-layer encoding; it hindles review and may indicate malicious intent.",
+            "impact": "Multi-layer encoding (hex/base64/unicode) significantly hinders security review.",
+            "attack_vector": "Chained decoding layers — attacker increases analysis cost and may hide malicious payloads.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-004",
+            "risk": "low",
+            "file": "tsdown.config.ts",
+            "line": 73,
+            "message": "uses obfuscation libraries or eval-like patterns with code generation",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid obfuscation at install time; keep runtime code inspectable.",
+            "impact": "Obfuscation or minification tooling can conceal generated behavior from source review.",
+            "attack_vector": "Runtime or install-time code generation uses an obfuscation/minification package.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
