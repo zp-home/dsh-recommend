@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-19T13:34:10.251Z",
+  "updatedAt": "2026-11-19T22:19:18.722Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1343233,6 +1343233,111 @@
             "evidence_risk": "high",
             "evidence_confidence": "medium",
             "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "Chinesezjc/dsh-tool-todo-tree": {
+      "staticSecurity": {
+        "commit": "86fb8e086d20a1cef0f674e4beec904bfee4b109",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-19T22:18:07.521Z",
+        "scannedFiles": 31,
+        "findingCount": 5,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 14,
+            "message": "references 7 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-CI-008",
+            "risk": "medium",
+            "file": ".github/workflows/ci.yml",
+            "line": 127,
+            "message": "workflow downloads remote scripts without integrity verification",
+            "family": "ci-integrity",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards",
+            "remediation": "Add checksum/GPG verification for all downloaded artifacts.",
+            "impact": "Downloading scripts without integrity verification allows MITM substitution of malicious code.",
+            "attack_vector": "curl/wget in workflow without checksum/sha256 verification — attacker intercepts and replaces.",
+            "cwe": "CWE-494",
+            "evidence_risk": "medium",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-CI-003",
+            "risk": "medium",
+            "file": ".github/workflows/ci.yml",
+            "line": 150,
+            "message": "untrusted checkout persists credentials (1 step)",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards",
+            "remediation": "Use persist-credentials: false when checking out external/untrusted repositories.",
+            "impact": "An untrusted checkout can read a persisted GITHUB_TOKEN from Git configuration and reuse its repository privileges.",
+            "attack_vector": "actions/checkout selects an external or event-controlled revision while persist-credentials remains enabled.",
+            "cwe": "CWE-200",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-SUPPLY-001",
+            "risk": "medium",
+            "file": "package.json",
+            "line": 40,
+            "message": "declares a prepare lifecycle script",
+            "family": "supply-chain",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OWASP npm Security Cheat Sheet",
+            "remediation": "Remove install-time side effects or document and review each lifecycle script.",
+            "impact": "Install-time lifecycle scripts run before the package is reviewed at runtime and inherit installer privileges.",
+            "attack_vector": "package.json declares preinstall/install/postinstall/prepare code that npm may execute during installation.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-004",
+            "risk": "low",
+            "file": "tsdown.config.ts",
+            "line": 63,
+            "message": "uses obfuscation libraries or eval-like patterns with code generation",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid obfuscation at install time; keep runtime code inspectable.",
+            "impact": "Obfuscation or minification tooling can conceal generated behavior from source review.",
+            "attack_vector": "Runtime or install-time code generation uses an obfuscation/minification package.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
         "truncated": false,
