@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-19T03:42:00.746Z",
+  "updatedAt": "2026-11-19T13:34:10.251Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1343198,6 +1343198,41 @@
             "evidence_risk": "low",
             "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "ShaineDemo/dsh-vision-pro-bridge": {
+      "staticSecurity": {
+        "commit": "c78369f59b269720fc4b412b53d6621952f5486a",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-19T13:32:51.988Z",
+        "scannedFiles": 4,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 81,
+            "message": "invokes a file-system mutation API (2 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
           }
         ],
         "truncated": false,
