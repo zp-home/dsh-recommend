@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-18T22:10:15.273Z",
+  "updatedAt": "2026-11-19T03:42:00.746Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1343128,6 +1343128,75 @@
             "cwe": "CWE-732",
             "evidence_risk": "high",
             "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "sunyuhuirong/fsviewer": {
+      "staticSecurity": {
+        "commit": "54fc3c52e007ec71b263b886284641a369abf5a1",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-19T03:40:56.644Z",
+        "scannedFiles": 8,
+        "findingCount": 3,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-003",
+            "risk": "medium",
+            "file": "lib/client.js",
+            "line": 160,
+            "message": "contains multiple layers of encoding (hex/base64/unicode escapes) (5 occurrences in this file)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Avoid multi-layer encoding; it hindles review and may indicate malicious intent.",
+            "impact": "Multi-layer encoding (hex/base64/unicode) significantly hinders security review.",
+            "attack_vector": "Chained decoding layers — attacker increases analysis cost and may hide malicious payloads.",
+            "cwe": "CWE-506",
+            "evidence_risk": "medium",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "lib/client.js",
+            "line": 632,
+            "message": "contains 20 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "src/client.js",
+            "line": 834,
+            "message": "contains 2 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
