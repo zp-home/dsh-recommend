@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-20T03:34:24.155Z",
+  "updatedAt": "2026-11-20T13:14:38.627Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1343762,6 +1343762,20 @@
           }
         ],
         "truncated": true,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "NattoCB/dsh-safe-delete": {
+      "staticSecurity": {
+        "commit": "149190d58104e8b09497967babaa69de2252d309",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-20T13:13:38.167Z",
+        "scannedFiles": 10,
+        "findingCount": 0,
+        "findings": [],
+        "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
       }
