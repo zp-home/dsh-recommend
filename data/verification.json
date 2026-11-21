@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-21T11:27:50.853Z",
+  "updatedAt": "2026-11-21T19:31:26.148Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1343948,6 +1343948,20 @@
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "WangPaoPaoLab/dsh-font": {
+      "staticSecurity": {
+        "commit": "d299f56bde1e10e7fef152848e74cff2eecd7917",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-21T19:30:37.090Z",
+        "scannedFiles": 4,
+        "findingCount": 0,
+        "findings": [],
         "truncated": false,
         "scannerVersion": 14,
         "rulesetVersion": "2026-22"
