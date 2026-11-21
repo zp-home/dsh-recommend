@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-20T21:20:07.382Z",
+  "updatedAt": "2026-11-21T02:34:26.639Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1343879,6 +1343879,39 @@
             "cwe": "CWE-22",
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "WMXS-A/dsh-utility-plugins": {
+      "staticSecurity": {
+        "commit": "5eb622a48bfcb5ee00255dfd8afbb0cb132784c6",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-21T02:33:19.570Z",
+        "scannedFiles": 9,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-005",
+            "risk": "low",
+            "file": "packages/dsh-skill-cheatsheet/lib/client.js",
+            "line": 44,
+            "message": "contains 1 line(s) longer than 500 characters (possible minified/obfuscated code)",
+            "family": "obfuscation",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OpenSSF npm supply-chain practices",
+            "remediation": "Review extremely long lines; they may contain hidden logic.",
+            "impact": "Extremely long lines hide obfuscated or minified code from human review.",
+            "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
+            "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
           }
         ],
