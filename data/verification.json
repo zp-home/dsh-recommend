@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-21T02:34:26.639Z",
+  "updatedAt": "2026-11-21T11:27:50.853Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1343910,6 +1343910,39 @@
             "impact": "Extremely long lines hide obfuscated or minified code from human review.",
             "attack_vector": "Lines > 500 chars — code is structured to evade visual inspection.",
             "cwe": "CWE-506",
+            "evidence_risk": "low",
+            "evidence_confidence": "low",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "wbycloud/dsh-composer-tokens": {
+      "staticSecurity": {
+        "commit": "2b54bddd16fab98b6b89392261177abaf4bbfa61",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-21T11:26:49.759Z",
+        "scannedFiles": 27,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-REVIEW-007",
+            "risk": "low",
+            "file": "src/client/family.ts",
+            "line": 51,
+            "message": "constructs a regular expression from a non-literal value (possible ReDoS)",
+            "family": "reviewability",
+            "confidence": "low",
+            "disposition": "manual-review",
+            "basis": "OWASP Regular Expression Denial of Service Prevention",
+            "remediation": "Use bounded, allowlisted patterns and enforce input and execution limits for dynamic regular expressions.",
+            "impact": "An attacker-controlled regular expression can consume excessive CPU and deny service.",
+            "attack_vector": "A non-literal value is passed to RegExp without pattern or execution bounds.",
+            "cwe": "CWE-1333",
             "evidence_risk": "low",
             "evidence_confidence": "low",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
