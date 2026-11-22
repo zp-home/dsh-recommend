@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-22T08:13:42.130Z",
+  "updatedAt": "2026-11-22T16:48:59.625Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1349489,6 +1349489,39 @@
             "file": ".github/workflows/ci.yml",
             "line": 33,
             "message": "references 3 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
+            "family": "ci-integrity",
+            "confidence": "high",
+            "disposition": "manual-review",
+            "basis": "OpenSSF Scorecards pinned dependencies",
+            "remediation": "Pin third-party actions and reusable workflows to a full 40-character commit SHA.",
+            "impact": "Mutable action refs can change without a workflow diff if the upstream tag or branch is moved.",
+            "attack_vector": "A workflow uses @main, @master, a version tag, or another ref instead of a full commit SHA.",
+            "cwe": "CWE-494",
+            "evidence_risk": "low",
+            "evidence_confidence": "high",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "phungthien269/dsh-token-stats": {
+      "staticSecurity": {
+        "commit": "d19bd6cac0593ca644b1fe1c0611b973e57f3d3c",
+        "status": "passed",
+        "risk": "low",
+        "checkedAt": "2026-11-22T16:48:02.815Z",
+        "scannedFiles": 9,
+        "findingCount": 1,
+        "findings": [
+          {
+            "rule": "MKT-CI-011",
+            "risk": "low",
+            "file": ".github/workflows/ci.yml",
+            "line": 15,
+            "message": "references 2 action or reusable workflow ref(s) that are not pinned to a full commit SHA",
             "family": "ci-integrity",
             "confidence": "high",
             "disposition": "manual-review",
