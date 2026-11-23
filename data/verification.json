@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-22T22:36:08.875Z",
+  "updatedAt": "2026-11-23T03:49:40.705Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1349771,6 +1349771,95 @@
             "impact": "Path traversal with encoded patterns (%2e%2e%2f) or nested ../.. can escape any path-based sandbox.",
             "attack_vector": "URL-encoded or nested traversal sequences — bypass naive path validation that only checks single ../.",
             "cwe": "CWE-22",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "runcat-tommy/dsh-theme-manager": {
+      "staticSecurity": {
+        "commit": "e77b02298f116d0d2c1393cb07d387d2dfd78d0c",
+        "status": "warnings",
+        "risk": "high",
+        "checkedAt": "2026-11-23T03:48:29.575Z",
+        "scannedFiles": 9,
+        "findingCount": 4,
+        "findings": [
+          {
+            "rule": "MKT-DATA-007",
+            "risk": "medium",
+            "file": "lib/client.js",
+            "line": 2040,
+            "message": "references 1 known high-risk or anonymous destination(s)",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Route all network traffic through allowlisted, authenticated endpoints only.",
+            "impact": "Requests to anonymous or high-risk destinations can disclose plugin data to an untrusted operator.",
+            "attack_vector": "Network URL matches a known paste, tunnel, webhook, or anonymous file-hosting service.",
+            "cwe": "CWE-200",
+            "evidence_risk": "medium",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-012",
+            "risk": "high",
+            "file": "lib/client.js",
+            "line": 2116,
+            "message": "decodes obfuscated payload and executes it in the same file",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Remove all decode-and-execute patterns; they are strongly correlated with malicious behavior.",
+            "impact": "Decoded payload executed in same file — classic obfuscation-to-RCE pattern.",
+            "attack_vector": "Buffer.from(base64).toString() → eval() chain; the base64 payload is invisible to static review.",
+            "cwe": "CWE-94",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          },
+          {
+            "rule": "MKT-EXEC-001",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 107,
+            "message": "invokes an operating-system process API (4 calls in this file)",
+            "family": "execution",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and use a fixed allowlisted command with bounded arguments.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Attackers can execute arbitrary OS commands on the host, leading to full system compromise.",
+            "attack_vector": "Plugin spawns a child process with attacker-controlled arguments; no user approval gate.",
+            "cwe": "CWE-78",
+            "evidence_risk": "high",
+            "evidence_confidence": "high",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          },
+          {
+            "rule": "MKT-DATA-004",
+            "risk": "medium",
+            "file": "lib/index.js",
+            "line": 246,
+            "message": "detects net.connect, dgram.createSocket, or process-level network access",
+            "family": "data-egress",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Data Security Cheat Sheet",
+            "remediation": "Review all network connections; ensure they use allowlisted destinations with explicit approval.",
+            "impact": "Raw TCP/UDP sockets bypass HTTP-level monitoring and allow covert data channels.",
+            "attack_vector": "net.connect() or dgram.createSocket() — traffic is invisible to HTTP-based DLP.",
+            "cwe": "CWE-923",
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
