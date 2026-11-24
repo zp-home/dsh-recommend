@@ -1,6 +1,6 @@
 {
   "format": "dsh-plugin-verification-index/v1",
-  "updatedAt": "2026-11-24T12:46:17.383Z",
+  "updatedAt": "2026-11-24T23:08:20.882Z",
   "plugins": {
     "Q00/ouroboros": {
       "staticSecurity": {
@@ -1350468,6 +1350468,61 @@
             "evidence_risk": "medium",
             "evidence_confidence": "medium",
             "risk_adjustment": "No automatic downgrade: risk changes require explicit protective controls."
+          }
+        ],
+        "truncated": false,
+        "scannerVersion": 14,
+        "rulesetVersion": "2026-22"
+      }
+    },
+    "xiaoxiaohai/dsh-remote": {
+      "staticSecurity": {
+        "commit": "34128c2159808c8209d4711bc004995ee28f9bc8",
+        "status": "warnings",
+        "risk": "medium",
+        "checkedAt": "2026-11-24T23:07:15.244Z",
+        "scannedFiles": 22,
+        "findingCount": 2,
+        "findings": [
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "lib/frpc.js",
+            "line": 55,
+            "message": "invokes a file-system mutation API (3 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
+          },
+          {
+            "rule": "MKT-FS-001",
+            "risk": "medium",
+            "file": "lib/installation.js",
+            "line": 25,
+            "message": "invokes a file-system mutation API (5 calls in this file)",
+            "family": "file-system",
+            "confidence": "medium",
+            "disposition": "manual-review",
+            "basis": "OWASP Node.js Security Cheat Sheet",
+            "remediation": "Require explicit user approval and restrict mutations to an allowlisted workspace path.",
+            "baselineRisk": "high",
+            "downgrade": "Downgraded from high: no system-impact pattern matched near the call site.",
+            "impact": "Unbounded file-system mutations can overwrite critical files, install backdoors, or corrupt data.",
+            "attack_vector": "writeFile/mkdir/chmod without workspace boundary check — path is not validated against workspace root.",
+            "cwe": "CWE-73",
+            "evidence_risk": "high",
+            "evidence_confidence": "medium",
+            "risk_adjustment": "Explicit risk (medium) set by caller; evidence-based risk adjustment skipped."
           }
         ],
         "truncated": false,
